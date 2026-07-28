@@ -14,16 +14,25 @@ const config: KnipConfig = {
     'src/libs/ApiClient.ts',
     // Public API contract types — intentionally exported for downstream consumers
     'src/types/api.ts',
+    // Utility components/libs used by upcoming auth pages
+    'src/components/Hello.tsx',
+    'src/libs/Logger.ts',
   ],
   // Dependencies to ignore during analysis
   ignoreDependencies: [
-    '@clerk/shared',
     '@swc/helpers', // Avoid error in CI: "`npm ci` can only install packages when your package.json and package-lock.json or npm-shrinkwrap.json are in sync."
     // shadcn package — imported as CSS (`shadcn/tailwind.css`) via PostCSS, knip can't trace CSS imports
     'shadcn',
     // Peer deps bundled with Shadcn — consumed via CSS/primitives, not direct Node imports
     'next-themes',
     'sonner',
+    // Form deps — used by auth forms (login/OTP) coming in next steps
+    '@hookform/resolvers',
+    'react-hook-form',
+    // Logging dep — used via Logger.ts wrapper
+    '@logtape/logtape',
+    // Git hooks runner — not imported in code, installed as binary
+    'lefthook',
   ],
   // Include custom Playwright test file suffixes
   playwright: {
@@ -34,7 +43,8 @@ const config: KnipConfig = {
   },
   // Binaries to ignore during analysis
   ignoreBinaries: [
-    'production', // False positive raised with dotenv-cli
+    'dotenv',     // used via `npx dotenv` in .github/workflows/checkly.yml
+    'production', // arg passed to dotenv -c in CI
   ],
   compilers: {
     css: (text: string) => [...text.matchAll(/(?<=@)import[^;]+/gu)].join('\n'),
