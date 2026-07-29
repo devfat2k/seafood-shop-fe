@@ -9,7 +9,7 @@ test.describe('I18n', () => {
 
       await expect(
         page.getByRole('heading', {
-          name: 'Boilerplate Code for Your Next.js Project with Tailwind CSS',
+          name: 'Hải Sản Phan Thiết — Tươi từ biển, ngon tận nhà',
         }),
       ).toBeVisible();
 
@@ -17,21 +17,21 @@ test.describe('I18n', () => {
 
       await expect(
         page.getByRole('heading', {
-          name: 'Code de démarrage pour Next.js avec Tailwind CSS',
+          name: 'Hải Sản Phan Thiết — Tươi từ biển, ngon tận nhà',
         }),
       ).toBeVisible();
     });
 
-    test('should switch language from English to French using URL and verify text on the sign-in page', async ({
+    test('should switch language from English to French using URL and verify text on the about page', async ({
       page,
     }) => {
-      await page.goto('/sign-in');
+      await page.goto('/about');
 
-      await expect(page.getByText('Email address')).toBeVisible();
+      await expect(page.getByRole('link', { name: 'About' })).toBeVisible();
 
-      await page.goto('/fr/sign-in');
+      await page.goto('/fr/about');
 
-      await expect(page.getByText('Adresse e-mail')).toBeVisible();
+      await expect(page.getByRole('link', { name: 'À propos' })).toBeVisible();
     });
   });
 });
