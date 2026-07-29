@@ -7,7 +7,7 @@ export const Env = createEnv({
   },
   client: {
     NEXT_PUBLIC_APP_URL: z.string().optional(),
-    NEXT_PUBLIC_API_BASE_URL: z.string().url().optional(),
+    NEXT_PUBLIC_API_BASE_URL: z.url().optional(),
     NEXT_PUBLIC_LOGGING_LEVEL: z
       .enum(['error', 'info', 'debug', 'warning', 'trace', 'fatal'])
       .default('info'),

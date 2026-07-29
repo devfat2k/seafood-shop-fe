@@ -43,7 +43,7 @@ const config: KnipConfig = {
   },
   // Binaries to ignore during analysis
   ignoreBinaries: [
-    'dotenv',     // used via `npx dotenv` in .github/workflows/checkly.yml
+    'dotenv', // used via `npx dotenv` in .github/workflows/checkly.yml
     'production', // arg passed to dotenv -c in CI
   ],
   compilers: {
