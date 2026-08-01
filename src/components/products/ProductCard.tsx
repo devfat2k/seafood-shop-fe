@@ -1,12 +1,22 @@
 'use client';
 
 import { Icon } from '@/components/common/Icon';
-import type { CatalogProduct } from '@/data/products-catalog-mock';
 import { Link } from '@/libs/I18nNavigation';
 
-type ProductCardProps = {
-  product: CatalogProduct;
-  onAddToCart?: (product: CatalogProduct) => void;
+export type ProductCardItem = {
+  id: string;
+  name: string;
+  category: string;
+  badges: string[];
+  spec: string;
+  price: number;
+  unit: string;
+  image: string;
+};
+
+type ProductCardProps<T extends ProductCardItem = ProductCardItem> = {
+  product: T;
+  onAddToCart?: (product: T) => void;
 };
 
 function getBadgeClassName(badge: string): string {
@@ -19,7 +29,7 @@ function getBadgeClassName(badge: string): string {
   return 'bg-[#F5F1E8] text-[#5B6B63]';
 }
 
-export function ProductCard(props: ProductCardProps) {
+export function ProductCard<T extends ProductCardItem>(props: ProductCardProps<T>) {
   const { product, onAddToCart } = props;
 
   return (
