@@ -1,7 +1,5 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import Image from 'next/image';
-import crowdinLogo from '@/public/assets/images/crowdin-dark.png';
 
 type AboutPageProps = {
   params: Promise<{ locale: string }>;
@@ -23,33 +21,18 @@ export async function generateMetadata(props: AboutPageProps): Promise<Metadata>
 export default async function About(props: AboutPageProps) {
   const { locale } = await props.params;
   setRequestLocale(locale);
-  const t = await getTranslations({
-    locale,
-    namespace: 'About',
-  });
+  // const t = await getTranslations({
+  //   locale,
+  //   namespace: "About",
+  // });
 
   return (
-    <>
-      <p>{t('about_paragraph')}</p>
-
-      <div className="mt-2 text-center text-sm">
-        {`${t('translation_powered_by')} `}
-        <a
-          className="text-blue-700 hover:border-b-2 hover:border-blue-700"
-          href="https://l.crowdin.com/next-js"
-        >
-          Crowdin
-        </a>
-      </div>
-
-      <a href="https://l.crowdin.com/next-js">
-        <Image
-          className="mx-auto mt-2"
-          src={crowdinLogo}
-          alt="Crowdin Translation Management System"
-          width={130}
-        />
-      </a>
-    </>
+    <div className="py-8">
+      <h1 className="py-4 text-center text-3xl font-bold">Giới thiệu hải sản Phan Thiết</h1>
+      <p className="mt-4 text-neutral-600">
+        Chúng tôi cung cấp hải sản tươi sống được đánh bắt và giao trong ngày, trực tiếp từ vùng
+        biển Phan Thiết đến bàn ăn của bạn.
+      </p>
+    </div>
   );
 }

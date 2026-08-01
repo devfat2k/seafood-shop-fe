@@ -1,5 +1,9 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { BentoCategories } from '@/components/home/BentoCategories';
+import { FeaturedProducts } from '@/components/home/FeaturedProducts';
+import { HeroSection } from '@/components/home/HeroSection';
+import { UspSection } from '@/components/home/UspSection';
 
 type IndexPageProps = {
   params: Promise<{ locale: string }>;
@@ -23,8 +27,11 @@ export default async function Index(props: IndexPageProps) {
   setRequestLocale(locale);
 
   return (
-    <div>
-      <h1 className="text-3xl font-bold">Hải Sản Phan Thiết — Tươi từ biển, ngon tận nhà</h1>
+    <div className="flex min-h-screen flex-col">
+      <HeroSection />
+      <UspSection />
+      <BentoCategories />
+      <FeaturedProducts />
     </div>
   );
 }
