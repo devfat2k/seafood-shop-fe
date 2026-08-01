@@ -1,7 +1,6 @@
-import { getTranslations, setRequestLocale } from 'next-intl/server';
-import { LocaleSwitcher } from '@/components/LocaleSwitcher';
-import { Link } from '@/libs/I18nNavigation';
-import { BaseTemplate } from '@/templates/BaseTemplate';
+import { setRequestLocale } from 'next-intl/server';
+import { Footer } from '@/components/layout/Footer';
+import { Header } from '@/components/layout/Header';
 
 export default async function Layout(props: {
   children: React.ReactNode;
@@ -9,39 +8,12 @@ export default async function Layout(props: {
 }) {
   const { locale } = await props.params;
   setRequestLocale(locale);
-  const t = await getTranslations({
-    locale,
-    namespace: 'RootLayout',
-  });
 
   return (
-    <BaseTemplate
-      leftNav={
-        <>
-          <li>
-            <Link href="/" className="border-none text-gray-700 hover:text-gray-900">
-              {t('home_link')}
-            </Link>
-          </li>
-          <li>
-            <Link href="/products/" className="border-none text-gray-700 hover:text-gray-900">
-              {t('products_link')}
-            </Link>
-          </li>
-          <li>
-            <Link href="/about/" className="border-none text-gray-700 hover:text-gray-900">
-              {t('about_link')}
-            </Link>
-          </li>
-        </>
-      }
-      rightNav={
-        <li>
-          <LocaleSwitcher />
-        </li>
-      }
-    >
-      <div className="py-5 text-xl [&_p]:my-6">{props.children}</div>
-    </BaseTemplate>
+    <>
+      <Header />
+      <main className="mx-auto max-w-350 px-6 py-8">{props.children}</main>
+      <Footer />
+    </>
   );
 }
