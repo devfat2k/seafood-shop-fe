@@ -9,6 +9,9 @@
 @theme inline {
   --font-heading: var(--font-sans);
   --font-sans: var(--font-sans);
+
+  /* === BẢNG MÀU CŨ (Deep Ocean Green & Sandy Gold) === */
+  /*
   --color-bg-base: #fbf8f3;
   --color-bg-subtle: #f5f1e8;
   --color-brand-900: #0b2f28;
@@ -20,6 +23,20 @@
   --color-text-primary: #26312d;
   --color-text-secondary: #5b6b63;
   --color-seafood-border: #e4e0d8;
+  */
+
+  /* === BẢNG MÀU MỚI: Option 3 (Pacific Blue & Fiery Shrimp) === */
+  --color-bg-base: #f8fafc;
+  --color-bg-subtle: #edf2f7;
+  --color-brand-900: #172554;
+  --color-brand-700: #1e3a8a;
+  --color-brand-100: #dbeafe;
+  --color-accent-600: #ea580c;
+  --color-accent-500: #f97316;
+  --color-accent-100: #ffedd5;
+  --color-text-primary: #0f172a;
+  --color-text-secondary: #475569;
+  --color-seafood-border: #e2e8f0;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);

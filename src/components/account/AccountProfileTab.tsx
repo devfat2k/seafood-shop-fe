@@ -17,10 +17,10 @@ export function AccountProfileTab() {
   };
 
   return (
-    <div className="rounded-3xl border border-[#E4E0D8] bg-white p-6 shadow-sm sm:p-8">
-      <div className="border-b border-[#E4E0D8] pb-4">
-        <h1 className="text-2xl font-extrabold text-[#26312D]">Thông Tin Cá Nhân</h1>
-        <p className="mt-1 text-xs text-[#5B6B63]">
+    <div className="rounded-3xl border border-[#E2E8F0] bg-white p-6 shadow-sm sm:p-8">
+      <div className="border-b border-[#E2E8F0] pb-4">
+        <h1 className="text-2xl font-extrabold text-[#0F172A]">Thông Tin Cá Nhân</h1>
+        <p className="mt-1 text-xs text-[#475569]">
           Cập nhật thông tin tài khoản cá nhân để trải nghiệm dịch vụ mua sắm tốt nhất.
         </p>
       </div>
@@ -38,7 +38,7 @@ export function AccountProfileTab() {
           <img
             src={profile.avatar}
             alt={profile.name}
-            className="h-20 w-20 rounded-full border-2 border-[#0E3D34] object-cover"
+            className="h-20 w-20 rounded-full border-2 border-[#1E3A8A] object-cover"
           />
           <div>
             <button
@@ -46,11 +46,11 @@ export function AccountProfileTab() {
               onClick={() => {
                 console.log('Tải ảnh đại diện mới');
               }}
-              className="rounded-full border border-[#E4E0D8] bg-[#F5F1E8] px-4 py-2 text-xs font-bold text-[#26312D] transition-colors hover:bg-[#E4EEEA]"
+              className="rounded-full border border-[#E2E8F0] bg-[#EDF2F7] px-4 py-2 text-xs font-bold text-[#0F172A] transition-colors hover:bg-[#DBEAFE]"
             >
               📷 Tải ảnh mới
             </button>
-            <p className="mt-1 text-[11px] text-[#5B6B63]">Dung lượng tối đa 2MB (JPG, PNG)</p>
+            <p className="mt-1 text-[11px] text-[#475569]">Dung lượng tối đa 2MB (JPG, PNG)</p>
           </div>
         </div>
 
@@ -58,7 +58,7 @@ export function AccountProfileTab() {
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
           {/* Họ và tên */}
           <div>
-            <label htmlFor="user-name-input" className="block text-xs font-bold text-[#26312D]">
+            <label htmlFor="user-name-input" className="block text-xs font-bold text-[#0F172A]">
               Họ và tên
             </label>
             <input
@@ -69,13 +69,13 @@ export function AccountProfileTab() {
               onChange={(e) => {
                 setProfile({ ...profile, name: e.target.value });
               }}
-              className="mt-2 w-full rounded-2xl border border-[#E4E0D8] bg-[#FBF8F3] px-4 py-3 text-xs text-[#26312D] focus:border-[#0E3D34] focus:outline-none"
+              className="mt-2 w-full rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 text-xs text-[#0F172A] focus:border-[#1E3A8A] focus:outline-none"
             />
           </div>
 
           {/* Số điện thoại */}
           <div>
-            <label htmlFor="user-phone-input" className="block text-xs font-bold text-[#26312D]">
+            <label htmlFor="user-phone-input" className="block text-xs font-bold text-[#0F172A]">
               Số điện thoại
             </label>
             <input
@@ -86,13 +86,13 @@ export function AccountProfileTab() {
               onChange={(e) => {
                 setProfile({ ...profile, phone: e.target.value });
               }}
-              className="mt-2 w-full rounded-2xl border border-[#E4E0D8] bg-[#FBF8F3] px-4 py-3 text-xs text-[#26312D] focus:border-[#0E3D34] focus:outline-none"
+              className="mt-2 w-full rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 text-xs text-[#0F172A] focus:border-[#1E3A8A] focus:outline-none"
             />
           </div>
 
           {/* Email */}
           <div>
-            <label htmlFor="user-email-input" className="block text-xs font-bold text-[#26312D]">
+            <label htmlFor="user-email-input" className="block text-xs font-bold text-[#0F172A]">
               Email
             </label>
             <input
@@ -103,7 +103,7 @@ export function AccountProfileTab() {
               onChange={(e) => {
                 setProfile({ ...profile, email: e.target.value });
               }}
-              className="mt-2 w-full rounded-2xl border border-[#E4E0D8] bg-[#FBF8F3] px-4 py-3 text-xs text-[#26312D] focus:border-[#0E3D34] focus:outline-none"
+              className="mt-2 w-full rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 text-xs text-[#0F172A] focus:border-[#1E3A8A] focus:outline-none"
             />
           </div>
 
@@ -111,7 +111,7 @@ export function AccountProfileTab() {
           <div>
             <label
               htmlFor="user-birthdate-input"
-              className="block text-xs font-bold text-[#26312D]"
+              className="block text-xs font-bold text-[#0F172A]"
             >
               Ngày sinh
             </label>
@@ -123,16 +123,16 @@ export function AccountProfileTab() {
               onChange={(e) => {
                 setProfile({ ...profile, birthDate: e.target.value });
               }}
-              className="mt-2 w-full rounded-2xl border border-[#E4E0D8] bg-[#FBF8F3] px-4 py-3 text-xs text-[#26312D] focus:border-[#0E3D34] focus:outline-none"
+              className="mt-2 w-full rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 text-xs text-[#0F172A] focus:border-[#1E3A8A] focus:outline-none"
             />
           </div>
         </div>
 
         {/* Giới tính */}
         <div>
-          <span className="block text-xs font-bold text-[#26312D]">Giới tính</span>
+          <span className="block text-xs font-bold text-[#0F172A]">Giới tính</span>
           <div className="mt-2 flex items-center gap-6">
-            <label className="flex items-center gap-2 text-xs text-[#26312D]">
+            <label className="flex items-center gap-2 text-xs text-[#0F172A]">
               <input
                 type="radio"
                 name="gender"
@@ -141,11 +141,11 @@ export function AccountProfileTab() {
                 onChange={() => {
                   setProfile({ ...profile, gender: 'Nam' });
                 }}
-                className="text-[#0E3D34] focus:ring-[#0E3D34]"
+                className="text-[#1E3A8A] focus:ring-[#1E3A8A]"
               />
               <span>Nam</span>
             </label>
-            <label className="flex items-center gap-2 text-xs text-[#26312D]">
+            <label className="flex items-center gap-2 text-xs text-[#0F172A]">
               <input
                 type="radio"
                 name="gender"
@@ -154,7 +154,7 @@ export function AccountProfileTab() {
                 onChange={() => {
                   setProfile({ ...profile, gender: 'Nữ' });
                 }}
-                className="text-[#0E3D34] focus:ring-[#0E3D34]"
+                className="text-[#1E3A8A] focus:ring-[#1E3A8A]"
               />
               <span>Nữ</span>
             </label>
@@ -165,7 +165,7 @@ export function AccountProfileTab() {
         <div className="pt-4">
           <button
             type="submit"
-            className="rounded-full bg-[#0E3D34] px-8 py-3.5 text-xs font-bold text-white shadow transition-transform hover:scale-105 hover:bg-[#0B2F28]"
+            className="rounded-full bg-[#1E3A8A] px-8 py-3.5 text-xs font-bold text-white shadow transition-transform hover:scale-105 hover:bg-[#172554]"
           >
             Lưu thay đổi
           </button>

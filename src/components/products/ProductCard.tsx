@@ -21,23 +21,23 @@ type ProductCardProps<T extends ProductCardItem = ProductCardItem> = {
 
 function getBadgeClassName(badge: string): string {
   if (badge.includes('🟢')) {
-    return 'bg-[#0E3D34] text-white';
+    return 'bg-[#1E3A8A] text-white';
   }
   if (badge.includes('Phan Thiết') || badge.includes('Bán chạy')) {
-    return 'bg-[#D9A441] text-[#26312D]';
+    return 'bg-[#F97316] text-white';
   }
-  return 'bg-[#F5F1E8] text-[#5B6B63]';
+  return 'bg-[#EDF2F7] text-[#475569]';
 }
 
 export function ProductCard<T extends ProductCardItem>(props: ProductCardProps<T>) {
   const { product, onAddToCart } = props;
 
   return (
-    <div className="group flex flex-col justify-between rounded-3xl border border-[#E4E0D8] bg-[#FBF8F3] p-5 shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg">
+    <div className="group flex flex-col justify-between rounded-3xl border border-[#E2E8F0] bg-[#F8FAFC] p-5 shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg">
       <div>
         {/* Product Image & Badges */}
         <Link href={`/products/${product.id}`} className="block">
-          <div className="relative h-52 w-full overflow-hidden rounded-2xl bg-[#F5F1E8]">
+          <div className="relative h-52 w-full overflow-hidden rounded-2xl bg-[#EDF2F7]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={product.image}
@@ -59,21 +59,21 @@ export function ProductCard<T extends ProductCardItem>(props: ProductCardProps<T
 
         {/* Content Info */}
         <div className="mt-4">
-          <span className="text-[10px] font-extrabold tracking-wider text-[#5B6B63] uppercase">
+          <span className="text-[10px] font-extrabold tracking-wider text-[#475569] uppercase">
             {product.category}
           </span>
-          <h3 className="mt-1 line-clamp-2 text-base leading-snug font-bold text-[#26312D] transition-colors hover:text-[#0E3D34]">
+          <h3 className="mt-1 line-clamp-2 text-base leading-snug font-bold text-[#0F172A] transition-colors hover:text-[#1E3A8A]">
             <Link href={`/products/${product.id}`}>{product.name}</Link>
           </h3>
-          <p className="mt-2 text-xs text-[#5B6B63]">{product.spec}</p>
+          <p className="mt-2 text-xs text-[#475569]">{product.spec}</p>
         </div>
       </div>
 
       {/* Price & Action */}
-      <div className="mt-6 flex items-center justify-between border-t border-[#E4E0D8] pt-4">
+      <div className="mt-6 flex items-center justify-between border-t border-[#E2E8F0] pt-4">
         <div>
-          <span className="text-[11px] text-[#5B6B63]">Đơn giá / {product.unit}</span>
-          <p className="text-xl font-extrabold text-[#D9A441]">
+          <span className="text-[11px] text-[#475569]">Đơn giá / {product.unit}</span>
+          <p className="text-xl font-extrabold text-[#F97316]">
             {product.price.toLocaleString('vi-VN')}đ
           </p>
         </div>
@@ -85,7 +85,7 @@ export function ProductCard<T extends ProductCardItem>(props: ProductCardProps<T
               onAddToCart(product);
             }
           }}
-          className="flex h-10 w-10 items-center justify-center rounded-full bg-[#0E3D34] text-white shadow transition-transform hover:scale-110 hover:bg-[#0B2F28]"
+          className="flex h-10 w-10 items-center justify-center rounded-full bg-[#1E3A8A] text-white shadow transition-transform hover:scale-110 hover:bg-[#172554]"
         >
           <Icon name="plus" size="sm" />
         </button>

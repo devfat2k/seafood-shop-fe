@@ -38,38 +38,38 @@ export function ProductPurchasePanel(props: ProductPurchasePanelProps) {
       <div>
         {/* Category Pill & Rating Badge */}
         <div className="flex items-center gap-3">
-          <span className="rounded-full bg-[#E4EEEA] px-3.5 py-1 text-xs font-extrabold text-[#0E3D34]">
+          <span className="rounded-full bg-[#DBEAFE] px-3.5 py-1 text-xs font-extrabold text-[#1E3A8A]">
             {product.category}
           </span>
-          <div className="flex items-center gap-1.5 rounded-full bg-[#F6E8CC] px-3.5 py-1 text-xs font-extrabold text-[#C4922F]">
-            <Icon name="star" size="xs" className="fill-current text-[#C4922F]" />
+          <div className="flex items-center gap-1.5 rounded-full bg-[#FFEDD5] px-3.5 py-1 text-xs font-extrabold text-[#EA580C]">
+            <Icon name="star" size="xs" className="fill-current text-[#EA580C]" />
             <span>{product.rating}</span>
             <span>({product.reviewCount} Đánh giá)</span>
           </div>
         </div>
 
         {/* Product Title */}
-        <h1 className="mt-3 text-3xl font-extrabold text-[#26312D] sm:text-4xl">{product.name}</h1>
+        <h1 className="mt-3 text-3xl font-extrabold text-[#0F172A] sm:text-4xl">{product.name}</h1>
 
         {/* Origin & Availability */}
-        <div className="mt-2.5 flex flex-wrap items-center gap-2 text-xs text-[#5B6B63]">
+        <div className="mt-2.5 flex flex-wrap items-center gap-2 text-xs text-[#475569]">
           <span className="flex items-center gap-1">
             <Icon name="map-pin" size="xs" />
             <span>Xuất xứ:</span>
-            <strong className="text-[#26312D]">{product.origin}</strong>
+            <strong className="text-[#0F172A]">{product.origin}</strong>
           </span>
           <span>•</span>
-          <span className="font-bold text-[#3F8F5F]">
+          <span className="font-bold text-[#16A34A]">
             🟢 {product.stockStatus} ({product.inStockCount} con đang bơi)
           </span>
         </div>
 
         {/* Khung Giá (Cream Box) */}
-        <div className="mt-5 flex items-center gap-4 rounded-2xl bg-[#F5F1E8] p-4">
-          <span className="text-3xl font-extrabold text-[#D9A441]">
+        <div className="mt-5 flex items-center gap-4 rounded-2xl bg-[#EDF2F7] p-4">
+          <span className="text-3xl font-extrabold text-[#F97316]">
             {product.price.toLocaleString('vi-VN')}đ
           </span>
-          <span className="text-sm text-[#5B6B63] line-through">
+          <span className="text-sm text-[#475569] line-through">
             {product.originalPrice.toLocaleString('vi-VN')}đ
           </span>
           <span className="rounded-md bg-red-100 px-2.5 py-1 text-xs font-bold text-red-600">
@@ -78,12 +78,12 @@ export function ProductPurchasePanel(props: ProductPurchasePanelProps) {
         </div>
 
         {/* Description & Specs List */}
-        <p className="mt-5 text-sm leading-relaxed text-[#5B6B63]">{product.shortDescription}</p>
+        <p className="mt-5 text-sm leading-relaxed text-[#475569]">{product.shortDescription}</p>
 
-        <ul className="mt-3 space-y-1.5 text-xs text-[#5B6B63]">
+        <ul className="mt-3 space-y-1.5 text-xs text-[#475569]">
           {product.specs.map((item, idx) => (
             <li key={idx} className="flex items-center gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#0E3D34]" />
+              <span className="h-1.5 w-1.5 rounded-full bg-[#1E3A8A]" />
               <span>{item}</span>
             </li>
           ))}
@@ -94,45 +94,45 @@ export function ProductPurchasePanel(props: ProductPurchasePanelProps) {
           {product.trustItems.map((trust, idx) => (
             <div
               key={idx}
-              className="flex items-start gap-3 rounded-2xl border border-[#E4E0D8] bg-[#FBF8F3] p-3.5"
+              className="flex items-start gap-3 rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] p-3.5"
             >
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#E4EEEA] text-[#0E3D34]">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#DBEAFE] text-[#1E3A8A]">
                 <Icon name={trust.icon === 'truck' ? 'truck' : 'shield-check'} size="md" />
               </div>
               <div>
-                <h4 className="text-xs font-bold text-[#26312D]">{trust.title}</h4>
-                <p className="mt-0.5 text-[11px] leading-snug text-[#5B6B63]">{trust.desc}</p>
+                <h4 className="text-xs font-bold text-[#0F172A]">{trust.title}</h4>
+                <p className="mt-0.5 text-[11px] leading-snug text-[#475569]">{trust.desc}</p>
               </div>
             </div>
           ))}
         </div>
 
         {/* Quantity Stepper & Subtotal */}
-        <div className="mt-6 flex items-center justify-between border-t border-[#E4E0D8] pt-5">
-          <span className="text-xs font-bold text-[#26312D]">Chọn số lượng:</span>
+        <div className="mt-6 flex items-center justify-between border-t border-[#E2E8F0] pt-5">
+          <span className="text-xs font-bold text-[#0F172A]">Chọn số lượng:</span>
           <div className="flex items-center gap-4">
-            <div className="flex items-center rounded-full border border-[#E4E0D8] bg-[#F5F1E8] px-2 py-1">
+            <div className="flex items-center rounded-full border border-[#E2E8F0] bg-[#EDF2F7] px-2 py-1">
               <button
                 type="button"
                 aria-label="Giảm số lượng"
                 onClick={handleDecrease}
-                className="flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold text-[#26312D] hover:bg-[#E4EEEA]"
+                className="flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold text-[#0F172A] hover:bg-[#DBEAFE]"
               >
                 <Icon name="minus" size="xs" />
               </button>
-              <span className="w-8 text-center text-xs font-bold text-[#26312D]">{quantity}</span>
+              <span className="w-8 text-center text-xs font-bold text-[#0F172A]">{quantity}</span>
               <button
                 type="button"
                 aria-label="Tăng số lượng"
                 onClick={handleIncrease}
-                className="flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold text-[#26312D] hover:bg-[#E4EEEA]"
+                className="flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold text-[#0F172A] hover:bg-[#DBEAFE]"
               >
                 <Icon name="plus" size="xs" />
               </button>
             </div>
-            <span className="text-xs text-[#5B6B63]">
+            <span className="text-xs text-[#475569]">
               (Tạm tính:{' '}
-              <strong className="text-[#0E3D34]">{subtotal.toLocaleString('vi-VN')}đ</strong>)
+              <strong className="text-[#1E3A8A]">{subtotal.toLocaleString('vi-VN')}đ</strong>)
             </span>
           </div>
         </div>
@@ -142,14 +142,14 @@ export function ProductPurchasePanel(props: ProductPurchasePanelProps) {
           <button
             type="button"
             onClick={handleAddToCart}
-            className="flex flex-1 items-center justify-center gap-2 rounded-full bg-[#0E3D34] px-6 py-3.5 text-xs font-bold text-white shadow-lg transition-transform hover:scale-105 hover:bg-[#0B2F28]"
+            className="flex flex-1 items-center justify-center gap-2 rounded-full bg-[#1E3A8A] px-6 py-3.5 text-xs font-bold text-white shadow-lg transition-transform hover:scale-105 hover:bg-[#172554]"
           >
             <Icon name="shopping-bag" size="sm" />
             <span>Thêm Vào Giỏ Hàng</span>
           </button>
           <Link
             href="/checkout"
-            className="flex items-center justify-center gap-1.5 rounded-full bg-[#D9A441] px-6 py-3.5 text-xs font-bold text-[#26312D] shadow transition-transform hover:scale-105"
+            className="flex items-center justify-center gap-1.5 rounded-full bg-[#F97316] px-6 py-3.5 text-xs font-bold text-white shadow transition-transform hover:scale-105 hover:bg-[#EA580C]"
           >
             <Icon name="shopping-cart" size="xs" />
             <span>Mua Ngay</span>
@@ -159,7 +159,7 @@ export function ProductPurchasePanel(props: ProductPurchasePanelProps) {
 
       {/* Floating Toast Notification Overlay (Popover góc phải) */}
       {showToast && (
-        <div className="fixed right-6 bottom-6 z-50 flex w-80 animate-in items-center gap-3 rounded-2xl border border-[#E4E0D8] bg-white p-4 shadow-2xl transition-all fade-in slide-in-from-bottom-4">
+        <div className="fixed right-6 bottom-6 z-50 flex w-80 animate-in items-center gap-3 rounded-2xl border border-[#E2E8F0] bg-white p-4 shadow-2xl transition-all fade-in slide-in-from-bottom-4">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={product.images[0]}
@@ -168,26 +168,26 @@ export function ProductPurchasePanel(props: ProductPurchasePanelProps) {
           />
           <div className="flex-1">
             <div className="flex items-center justify-between">
-              <span className="text-[11px] font-bold text-[#3F8F5F]">✅ Đã thêm thành công!</span>
+              <span className="text-[11px] font-bold text-[#16A34A]">✅ Đã thêm thành công!</span>
               <button
                 type="button"
                 aria-label="Đóng thông báo"
                 onClick={() => {
                   setShowToast(false);
                 }}
-                className="text-xs text-[#5B6B63] hover:text-[#26312D]"
+                className="text-xs text-[#475569] hover:text-[#0F172A]"
               >
                 <Icon name="x" size="xs" />
               </button>
             </div>
-            <p className="mt-0.5 line-clamp-1 text-xs font-bold text-[#26312D]">{product.name}</p>
-            <p className="text-[10px] text-[#5B6B63]">
+            <p className="mt-0.5 line-clamp-1 text-xs font-bold text-[#0F172A]">{product.name}</p>
+            <p className="text-[10px] text-[#475569]">
               Số lượng: {quantity} con • {subtotal.toLocaleString('vi-VN')}đ
             </p>
             <div className="mt-2 flex items-center gap-2">
               <Link
                 href="/cart"
-                className="rounded-full bg-[#D9A441] px-3 py-1 text-[10px] font-bold text-[#26312D]"
+                className="rounded-full bg-[#F97316] px-3 py-1 text-[10px] font-bold text-white"
               >
                 Xem giỏ hàng
               </Link>

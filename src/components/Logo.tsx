@@ -7,10 +7,10 @@ export function Logo() {
         <Image src="/assets/images/logoseafood.png" alt="Logo" width={64} height={64} priority />
       </div>
       <div className="flex flex-col leading-tight">
-        <span className="text-md font-extrabold tracking-wide text-[#0E3D34] uppercase">
+        <span className="text-md font-extrabold tracking-wide text-[#1E3A8A] uppercase">
           Hải Sản Phan Thiết
         </span>
-        <span className="text-xs font-semibold tracking-wider text-[#D9A441] uppercase">
+        <span className="text-xs font-semibold tracking-wider text-[#F97316] uppercase">
           Tươi ngon mỗi ngày
         </span>
       </div>

@@ -19,16 +19,16 @@ export function FeaturedProducts() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <span className="text-xs font-bold tracking-wider text-[#D9A441] uppercase">
+            <span className="text-xs font-bold tracking-wider text-[#F97316] uppercase">
               ĐƯỢC MUA NHIỀU NHẤT
             </span>
-            <h2 className="mt-2 text-3xl font-extrabold text-[#26312D] sm:text-4xl">
+            <h2 className="mt-2 text-3xl font-extrabold text-[#0F172A] sm:text-4xl">
               Hải Sản Tươi Sống Hôm Nay
             </h2>
           </div>
 
           {/* Filter Tabs */}
-          <div className="flex flex-wrap items-center gap-2 rounded-full border border-[#E4E0D8] bg-[#FBF8F3] p-1.5">
+          <div className="flex flex-wrap items-center gap-2 rounded-full border border-[#E2E8F0] bg-[#F8FAFC] p-1.5">
             <button
               type="button"
               onClick={() => {
@@ -36,8 +36,8 @@ export function FeaturedProducts() {
               }}
               className={`rounded-full px-4 py-2 text-xs font-bold transition-colors ${
                 activeTab === 'all'
-                  ? 'bg-[#0E3D34] text-white'
-                  : 'text-[#5B6B63] hover:text-[#26312D]'
+                  ? 'bg-[#1E3A8A] text-white'
+                  : 'text-[#475569] hover:text-[#0F172A]'
               }`}
             >
               Tất cả
@@ -49,8 +49,8 @@ export function FeaturedProducts() {
               }}
               className={`rounded-full px-4 py-2 text-xs font-bold transition-colors ${
                 activeTab === 'tom-cua'
-                  ? 'bg-[#0E3D34] text-white'
-                  : 'text-[#5B6B63] hover:text-[#26312D]'
+                  ? 'bg-[#1E3A8A] text-white'
+                  : 'text-[#475569] hover:text-[#0F172A]'
               }`}
             >
               Tôm &amp; Cua
@@ -62,8 +62,8 @@ export function FeaturedProducts() {
               }}
               className={`rounded-full px-4 py-2 text-xs font-bold transition-colors ${
                 activeTab === 'muc-bach-tuoc'
-                  ? 'bg-[#0E3D34] text-white'
-                  : 'text-[#5B6B63] hover:text-[#26312D]'
+                  ? 'bg-[#1E3A8A] text-white'
+                  : 'text-[#475569] hover:text-[#0F172A]'
               }`}
             >
               Mực &amp; Bạch tuộc
@@ -75,8 +75,8 @@ export function FeaturedProducts() {
               }}
               className={`rounded-full px-4 py-2 text-xs font-bold transition-colors ${
                 activeTab === 'sot-tiec'
-                  ? 'bg-[#0E3D34] text-white'
-                  : 'text-[#5B6B63] hover:text-[#26312D]'
+                  ? 'bg-[#1E3A8A] text-white'
+                  : 'text-[#475569] hover:text-[#0F172A]'
               }`}
             >
               Sốt Tiệc
@@ -95,7 +95,7 @@ export function FeaturedProducts() {
         <div className="mt-12 text-center">
           <Link
             href="/products"
-            className="inline-flex items-center gap-2 rounded-full border border-[#E4E0D8] bg-[#F5F1E8] px-8 py-3.5 text-xs font-bold text-[#26312D] shadow-sm transition-all hover:-translate-y-0.5 hover:bg-[#E4EEEA] hover:text-[#0E3D34]"
+            className="inline-flex items-center gap-2 rounded-full border border-[#E2E8F0] bg-[#EDF2F7] px-8 py-3.5 text-xs font-bold text-[#0F172A] shadow-sm transition-all hover:-translate-y-0.5 hover:bg-[#DBEAFE] hover:text-[#1E3A8A]"
           >
             <span>Xem Tất Cả 120+ Sản Phẩm</span>
             <Icon name="chevron-right" size="sm" />

@@ -23,19 +23,19 @@ export function AccountSidebar(props: AccountSidebarProps) {
   ];
 
   return (
-    <div className="w-full rounded-3xl border border-[#E4E0D8] bg-white p-6 shadow-sm">
+    <div className="w-full rounded-3xl border border-[#E2E8F0] bg-white p-6 shadow-sm">
       {/* Header Profile Box */}
-      <div className="flex items-center gap-4 border-b border-[#E4E0D8] pb-6">
+      <div className="flex items-center gap-4 border-b border-[#E2E8F0] pb-6">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={profile.avatar}
           alt={profile.name}
-          className="h-16 w-16 rounded-full border-2 border-[#0E3D34] object-cover"
+          className="h-16 w-16 rounded-full border-2 border-[#1E3A8A] object-cover"
         />
         <div>
-          <h2 className="text-base font-extrabold text-[#26312D]">{profile.name}</h2>
-          <p className="mt-1 text-xs font-semibold text-[#5B6B63]">
-            {profile.rank} • <span className="text-[#D9A441]">{profile.rewardPoints} Điểm</span>
+          <h2 className="text-base font-extrabold text-[#0F172A]">{profile.name}</h2>
+          <p className="mt-1 text-xs font-semibold text-[#475569]">
+            {profile.rank} • <span className="text-[#F97316]">{profile.rewardPoints} Điểm</span>
           </p>
         </div>
       </div>
@@ -53,8 +53,8 @@ export function AccountSidebar(props: AccountSidebarProps) {
               }}
               className={`flex w-full items-center gap-3 rounded-2xl px-4 py-3.5 text-xs font-bold transition-all ${
                 isActive
-                  ? 'bg-[#F5F1E8] text-[#0E3D34] shadow-sm ring-1 ring-[#0E3D34]/10'
-                  : 'text-[#5B6B63] hover:bg-[#FBF8F3] hover:text-[#26312D]'
+                  ? 'bg-[#EDF2F7] text-[#1E3A8A] shadow-sm ring-1 ring-[#1E3A8A]/10'
+                  : 'text-[#475569] hover:bg-[#F8FAFC] hover:text-[#0F172A]'
               }`}
             >
               <Icon name={item.icon} size="sm" />
@@ -65,7 +65,7 @@ export function AccountSidebar(props: AccountSidebarProps) {
       </nav>
 
       {/* Logout Link */}
-      <div className="mt-8 border-t border-[#E4E0D8] pt-4">
+      <div className="mt-8 border-t border-[#E2E8F0] pt-4">
         <button
           type="button"
           onClick={() => {

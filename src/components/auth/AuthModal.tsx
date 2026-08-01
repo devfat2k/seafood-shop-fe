@@ -37,34 +37,34 @@ export function AuthModal(props: AuthModalProps) {
       />
 
       {/* Khung Popup Content */}
-      <div className="relative w-full max-w-md animate-in rounded-3xl border border-[#E4E0D8] bg-white p-6 shadow-2xl transition-all zoom-in-95 fade-in sm:p-8">
+      <div className="relative w-full max-w-md animate-in rounded-3xl border border-[#E2E8F0] bg-white p-6 shadow-2xl transition-all zoom-in-95 fade-in sm:p-8">
         {/* Nút đóng ✕ */}
         <button
           type="button"
           aria-label="Đóng popup đăng nhập"
           onClick={onClose}
-          className="absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-full bg-[#F5F1E8] text-xs font-bold text-[#5B6B63] transition-colors hover:bg-[#E4EEEA] hover:text-[#26312D]"
+          className="absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-full bg-[#EDF2F7] text-xs font-bold text-[#475569] transition-colors hover:bg-[#DBEAFE] hover:text-[#0F172A]"
         >
           <Icon name="x" size="sm" />
         </button>
 
         {/* Header Icon & Title */}
         <div className="text-center">
-          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#E4EEEA] text-[#0E3D34]">
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#DBEAFE] text-[#1E3A8A]">
             <Icon name="lock" size="lg" />
           </div>
 
-          <h2 className="mt-4 text-2xl font-extrabold text-[#26312D]">
+          <h2 className="mt-4 text-2xl font-extrabold text-[#0F172A]">
             {activeTab === 'login' ? 'Đăng Nhập Thành Viên' : 'Đăng Ký Tài Khoản'}
           </h2>
-          <p className="mt-1.5 text-xs text-[#5B6B63]">
+          <p className="mt-1.5 text-xs text-[#475569]">
             Đăng nhập hoặc tạo tài khoản nhanh để lưu thông tin giao hàng &amp; tích lũy điểm
             thưởng.
           </p>
         </div>
 
         {/* Tab Switcher Segmented Control */}
-        <div className="mt-6 flex rounded-full border border-[#E4E0D8] bg-[#F5F1E8] p-1">
+        <div className="mt-6 flex rounded-full border border-[#E2E8F0] bg-[#EDF2F7] p-1">
           <button
             type="button"
             onClick={() => {
@@ -72,8 +72,8 @@ export function AuthModal(props: AuthModalProps) {
             }}
             className={`flex flex-1 items-center justify-center gap-1.5 rounded-full py-2 text-xs font-bold transition-all ${
               activeTab === 'login'
-                ? 'bg-white text-[#0E3D34] shadow-sm'
-                : 'text-[#5B6B63] hover:text-[#26312D]'
+                ? 'bg-white text-[#1E3A8A] shadow-sm'
+                : 'text-[#475569] hover:text-[#0F172A]'
             }`}
           >
             <Icon name="lock" size="xs" />
@@ -86,8 +86,8 @@ export function AuthModal(props: AuthModalProps) {
             }}
             className={`flex flex-1 items-center justify-center gap-1.5 rounded-full py-2 text-xs font-bold transition-all ${
               activeTab === 'register'
-                ? 'bg-white text-[#0E3D34] shadow-sm'
-                : 'text-[#5B6B63] hover:text-[#26312D]'
+                ? 'bg-white text-[#1E3A8A] shadow-sm'
+                : 'text-[#475569] hover:text-[#0F172A]'
             }`}
           >
             <Icon name="user" size="xs" />
@@ -99,7 +99,7 @@ export function AuthModal(props: AuthModalProps) {
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">
           {/* Số điện thoại hoặc Email */}
           <div>
-            <label htmlFor="auth-account-input" className="block text-xs font-bold text-[#26312D]">
+            <label htmlFor="auth-account-input" className="block text-xs font-bold text-[#0F172A]">
               Số điện thoại hoặc Email
             </label>
             <div className="relative mt-1.5">
@@ -112,9 +112,9 @@ export function AuthModal(props: AuthModalProps) {
                 onChange={(e) => {
                   setAccountInput(e.target.value);
                 }}
-                className="w-full rounded-2xl border border-[#E4E0D8] bg-[#FBF8F3] py-3 pr-4 pl-10 text-xs font-bold text-[#26312D] focus:border-[#0E3D34] focus:outline-none"
+                className="w-full rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] py-3 pr-4 pl-10 text-xs font-bold text-[#0F172A] focus:border-[#1E3A8A] focus:outline-none"
               />
-              <Icon name="phone" size="sm" className="absolute top-3.5 left-3.5 text-[#5B6B63]" />
+              <Icon name="phone" size="sm" className="absolute top-3.5 left-3.5 text-[#475569]" />
             </div>
           </div>
 
@@ -123,7 +123,7 @@ export function AuthModal(props: AuthModalProps) {
             <div className="flex items-center justify-between">
               <label
                 htmlFor="auth-password-input"
-                className="block text-xs font-bold text-[#26312D]"
+                className="block text-xs font-bold text-[#0F172A]"
               >
                 Mật khẩu
               </label>
@@ -133,7 +133,7 @@ export function AuthModal(props: AuthModalProps) {
                   onClick={() => {
                     console.log('Quên mật khẩu');
                   }}
-                  className="text-xs font-bold text-[#C4922F] hover:underline"
+                  className="text-xs font-bold text-[#F97316] hover:underline"
                 >
                   Quên mật khẩu?
                 </button>
@@ -149,16 +149,16 @@ export function AuthModal(props: AuthModalProps) {
                 onChange={(e) => {
                   setPasswordInput(e.target.value);
                 }}
-                className="w-full rounded-2xl border border-[#E4E0D8] bg-[#FBF8F3] py-3 pr-10 pl-10 text-xs font-bold text-[#26312D] focus:border-[#0E3D34] focus:outline-none"
+                className="w-full rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] py-3 pr-10 pl-10 text-xs font-bold text-[#0F172A] focus:border-[#1E3A8A] focus:outline-none"
               />
-              <Icon name="lock" size="sm" className="absolute top-3.5 left-3.5 text-[#5B6B63]" />
+              <Icon name="lock" size="sm" className="absolute top-3.5 left-3.5 text-[#475569]" />
               <button
                 type="button"
                 aria-label="Ẩn hiện mật khẩu"
                 onClick={() => {
                   setShowPassword(!showPassword);
                 }}
-                className="absolute top-3.5 right-3.5 text-xs text-[#5B6B63] hover:text-[#26312D]"
+                className="absolute top-3.5 right-3.5 text-xs text-[#475569] hover:text-[#0F172A]"
               >
                 <Icon name={showPassword ? 'eye-off' : 'eye'} size="sm" />
               </button>
@@ -169,7 +169,7 @@ export function AuthModal(props: AuthModalProps) {
           <div className="pt-2">
             <button
               type="submit"
-              className="flex w-full items-center justify-center gap-2 rounded-full bg-[#0E3D34] py-3.5 text-xs font-bold text-white shadow-lg transition-transform hover:scale-[1.02] hover:bg-[#0B2F28]"
+              className="flex w-full items-center justify-center gap-2 rounded-full bg-[#1E3A8A] py-3.5 text-xs font-bold text-white shadow-lg transition-transform hover:scale-[1.02] hover:bg-[#172554]"
             >
               <span>{activeTab === 'login' ? 'Đăng Nhập Ngay' : 'Tạo Tài Khoản Mới'}</span>
               <Icon name="arrow-right" size="sm" />
@@ -179,8 +179,8 @@ export function AuthModal(props: AuthModalProps) {
 
         {/* Phần Tiếp Tục Nhanh */}
         <div className="mt-6 text-center">
-          <div className="relative flex items-center justify-center border-t border-[#E4E0D8] pt-4">
-            <span className="bg-white px-3 text-[10px] font-bold tracking-wider text-[#5B6B63] uppercase">
+          <div className="relative flex items-center justify-center border-t border-[#E2E8F0] pt-4">
+            <span className="bg-white px-3 text-[10px] font-bold tracking-wider text-[#475569] uppercase">
               HOẶC TIẾP TỤC NHANH
             </span>
           </div>
@@ -191,19 +191,19 @@ export function AuthModal(props: AuthModalProps) {
               onLoginSuccess();
               onClose();
             }}
-            className="mt-4 flex w-full items-center justify-center gap-2 rounded-full border border-[#E4E0D8] bg-white py-3 text-xs font-bold text-[#26312D] shadow-sm transition-all hover:bg-[#F5F1E8]"
+            className="mt-4 flex w-full items-center justify-center gap-2 rounded-full border border-[#E2E8F0] bg-white py-3 text-xs font-bold text-[#0F172A] shadow-sm transition-all hover:bg-[#EDF2F7]"
           >
             <span>👤 Mua hàng không cần tài khoản</span>
           </button>
 
-          <p className="mt-4 text-xs text-[#5B6B63]">
+          <p className="mt-4 text-xs text-[#475569]">
             Bạn là khách hàng mới?{' '}
             <button
               type="button"
               onClick={() => {
                 setActiveTab('register');
               }}
-              className="font-bold text-[#C4922F] hover:underline"
+              className="font-bold text-[#F97316] hover:underline"
             >
               Tạo tài khoản nhanh chỉ 5 giây
             </button>

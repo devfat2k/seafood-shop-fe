@@ -32,10 +32,10 @@ export function AccountSecurityTab() {
   };
 
   return (
-    <div className="rounded-3xl border border-[#E4E0D8] bg-white p-6 shadow-sm sm:p-8">
-      <div className="border-b border-[#E4E0D8] pb-4">
-        <h1 className="text-2xl font-extrabold text-[#26312D]">Đổi Mật Khẩu</h1>
-        <p className="mt-1 text-xs text-[#5B6B63]">
+    <div className="rounded-3xl border border-[#E2E8F0] bg-white p-6 shadow-sm sm:p-8">
+      <div className="border-b border-[#E2E8F0] pb-4">
+        <h1 className="text-2xl font-extrabold text-[#0F172A]">Đổi Mật Khẩu</h1>
+        <p className="mt-1 text-xs text-[#475569]">
           Cập nhật mật khẩu để bảo vệ an toàn cho tài khoản cá nhân của bạn.
         </p>
       </div>
@@ -54,7 +54,7 @@ export function AccountSecurityTab() {
 
       <form onSubmit={handleSubmit} className="mt-6 max-w-md space-y-5">
         <div>
-          <label htmlFor="current-pass-input" className="block text-xs font-bold text-[#26312D]">
+          <label htmlFor="current-pass-input" className="block text-xs font-bold text-[#0F172A]">
             Mật khẩu hiện tại
           </label>
           <input
@@ -66,12 +66,12 @@ export function AccountSecurityTab() {
             onChange={(e) => {
               setCurrentPassword(e.target.value);
             }}
-            className="mt-2 w-full rounded-2xl border border-[#E4E0D8] bg-[#FBF8F3] px-4 py-3 text-xs text-[#26312D] focus:border-[#0E3D34] focus:outline-none"
+            className="mt-2 w-full rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 text-xs text-[#0F172A] focus:border-[#1E3A8A] focus:outline-none"
           />
         </div>
 
         <div>
-          <label htmlFor="new-pass-input" className="block text-xs font-bold text-[#26312D]">
+          <label htmlFor="new-pass-input" className="block text-xs font-bold text-[#0F172A]">
             Mật khẩu mới
           </label>
           <input
@@ -83,12 +83,12 @@ export function AccountSecurityTab() {
             onChange={(e) => {
               setNewPassword(e.target.value);
             }}
-            className="mt-2 w-full rounded-2xl border border-[#E4E0D8] bg-[#FBF8F3] px-4 py-3 text-xs text-[#26312D] focus:border-[#0E3D34] focus:outline-none"
+            className="mt-2 w-full rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 text-xs text-[#0F172A] focus:border-[#1E3A8A] focus:outline-none"
           />
         </div>
 
         <div>
-          <label htmlFor="confirm-pass-input" className="block text-xs font-bold text-[#26312D]">
+          <label htmlFor="confirm-pass-input" className="block text-xs font-bold text-[#0F172A]">
             Xác nhận mật khẩu mới
           </label>
           <input
@@ -100,14 +100,14 @@ export function AccountSecurityTab() {
             onChange={(e) => {
               setConfirmPassword(e.target.value);
             }}
-            className="mt-2 w-full rounded-2xl border border-[#E4E0D8] bg-[#FBF8F3] px-4 py-3 text-xs text-[#26312D] focus:border-[#0E3D34] focus:outline-none"
+            className="mt-2 w-full rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 text-xs text-[#0F172A] focus:border-[#1E3A8A] focus:outline-none"
           />
         </div>
 
         <div className="pt-2">
           <button
             type="submit"
-            className="rounded-full bg-[#0E3D34] px-8 py-3.5 text-xs font-bold text-white shadow transition-transform hover:scale-105 hover:bg-[#0B2F28]"
+            className="rounded-full bg-[#1E3A8A] px-8 py-3.5 text-xs font-bold text-white shadow transition-transform hover:scale-105 hover:bg-[#172554]"
           >
             Cập nhật mật khẩu
           </button>

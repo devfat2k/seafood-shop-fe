@@ -22,11 +22,11 @@ export function AccountAddressesTab() {
   };
 
   return (
-    <div className="rounded-3xl border border-[#E4E0D8] bg-white p-6 shadow-sm sm:p-8">
-      <div className="flex flex-col gap-4 border-b border-[#E4E0D8] pb-4 sm:flex-row sm:items-center sm:justify-between">
+    <div className="rounded-3xl border border-[#E2E8F0] bg-white p-6 shadow-sm sm:p-8">
+      <div className="flex flex-col gap-4 border-b border-[#E2E8F0] pb-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-extrabold text-[#26312D]">Địa Chỉ Giao Hàng</h1>
-          <p className="mt-1 text-xs text-[#5B6B63]">
+          <h1 className="text-2xl font-extrabold text-[#0F172A]">Địa Chỉ Giao Hàng</h1>
+          <p className="mt-1 text-xs text-[#475569]">
             Quản lý danh sách địa chỉ nhận hải sản tươi giao tận nhà.
           </p>
         </div>
@@ -38,7 +38,7 @@ export function AccountAddressesTab() {
               setNotificationMsg(null);
             }, 3000);
           }}
-          className="inline-flex items-center justify-center gap-2 rounded-full bg-[#0E3D34] px-5 py-2.5 text-xs font-bold text-white shadow hover:bg-[#0B2F28]"
+          className="inline-flex items-center justify-center gap-2 rounded-full bg-[#1E3A8A] px-5 py-2.5 text-xs font-bold text-white shadow hover:bg-[#172554]"
         >
           <span>+ Thêm địa chỉ mới</span>
         </button>
@@ -55,24 +55,24 @@ export function AccountAddressesTab() {
         {addresses.map((addr) => (
           <div
             key={addr.id}
-            className="flex flex-col justify-between gap-4 rounded-2xl border border-[#E4E0D8] bg-[#FBF8F3] p-5 sm:flex-row sm:items-center"
+            className="flex flex-col justify-between gap-4 rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] p-5 sm:flex-row sm:items-center"
           >
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="text-sm font-extrabold text-[#26312D]">{addr.name}</h3>
-                <span className="text-xs text-[#5B6B63]">({addr.phone})</span>
+                <h3 className="text-sm font-extrabold text-[#0F172A]">{addr.name}</h3>
+                <span className="text-xs text-[#475569]">({addr.phone})</span>
                 {addr.tag && (
-                  <span className="rounded-full bg-[#E4EEEA] px-2.5 py-0.5 text-[10px] font-bold text-[#0E3D34]">
+                  <span className="rounded-full bg-[#DBEAFE] px-2.5 py-0.5 text-[10px] font-bold text-[#1E3A8A]">
                     {addr.tag}
                   </span>
                 )}
                 {addr.isDefault && (
-                  <span className="rounded-full bg-[#D9A441] px-2.5 py-0.5 text-[10px] font-bold text-[#26312D]">
+                  <span className="rounded-full bg-[#F97316] px-2.5 py-0.5 text-[10px] font-bold text-white">
                     Mặc định
                   </span>
                 )}
               </div>
-              <p className="mt-2 text-xs leading-relaxed text-[#5B6B63]">{addr.addressDetail}</p>
+              <p className="mt-2 text-xs leading-relaxed text-[#475569]">{addr.addressDetail}</p>
             </div>
 
             <div className="flex items-center gap-3">
@@ -82,7 +82,7 @@ export function AccountAddressesTab() {
                   onClick={() => {
                     handleSetDefault(addr.id);
                   }}
-                  className="rounded-full border border-[#E4E0D8] bg-white px-3.5 py-1.5 text-xs font-bold text-[#5B6B63] hover:text-[#0E3D34]"
+                  className="rounded-full border border-[#E2E8F0] bg-white px-3.5 py-1.5 text-xs font-bold text-[#475569] hover:text-[#1E3A8A]"
                 >
                   Thiết lập mặc định
                 </button>
@@ -95,7 +95,7 @@ export function AccountAddressesTab() {
                     setNotificationMsg(null);
                   }, 3000);
                 }}
-                className="text-xs font-bold text-[#0E3D34] hover:underline"
+                className="text-xs font-bold text-[#1E3A8A] hover:underline"
               >
                 Sửa
               </button>

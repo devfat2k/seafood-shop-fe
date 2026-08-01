@@ -23,15 +23,15 @@ export function ProductCatalogGrid(props: ProductCatalogGridProps) {
         {Array.from({ length: 6 }).map((_, idx) => (
           <div
             key={idx}
-            className="flex flex-col gap-4 rounded-3xl border border-[#E4E0D8] bg-[#FBF8F3] p-5"
+            className="flex flex-col gap-4 rounded-3xl border border-[#E2E8F0] bg-[#F8FAFC] p-5"
           >
-            <Skeleton className="h-52 w-full rounded-2xl bg-[#E4E0D8]" />
-            <Skeleton className="h-4 w-1/3 rounded bg-[#E4E0D8]" />
-            <Skeleton className="h-6 w-full rounded bg-[#E4E0D8]" />
-            <Skeleton className="h-4 w-2/3 rounded bg-[#E4E0D8]" />
-            <div className="mt-4 flex items-center justify-between border-t border-[#E4E0D8] pt-4">
-              <Skeleton className="h-8 w-24 rounded bg-[#E4E0D8]" />
-              <Skeleton className="h-10 w-10 rounded-full bg-[#E4E0D8]" />
+            <Skeleton className="h-52 w-full rounded-2xl bg-[#E2E8F0]" />
+            <Skeleton className="h-4 w-1/3 rounded bg-[#E2E8F0]" />
+            <Skeleton className="h-6 w-full rounded bg-[#E2E8F0]" />
+            <Skeleton className="h-4 w-2/3 rounded bg-[#E2E8F0]" />
+            <div className="mt-4 flex items-center justify-between border-t border-[#E2E8F0] pt-4">
+              <Skeleton className="h-8 w-24 rounded bg-[#E2E8F0]" />
+              <Skeleton className="h-10 w-10 rounded-full bg-[#E2E8F0]" />
             </div>
           </div>
         ))}
@@ -66,12 +66,12 @@ export function ProductCatalogGrid(props: ProductCatalogGridProps) {
   /* 3. Trạng thái Empty */
   if (products.length === 0) {
     return (
-      <div className="rounded-3xl border border-[#E4E0D8] bg-[#FBF8F3] p-12 text-center">
-        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[#E4EEEA] text-[#0E3D34]">
+      <div className="rounded-3xl border border-[#E2E8F0] bg-[#F8FAFC] p-12 text-center">
+        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[#DBEAFE] text-[#1E3A8A]">
           <Icon name="search" size="xl" />
         </div>
-        <h3 className="mt-4 text-lg font-bold text-[#26312D]">Không tìm thấy hải sản phù hợp</h3>
-        <p className="mt-2 text-xs text-[#5B6B63]">
+        <h3 className="mt-4 text-lg font-bold text-[#0F172A]">Không tìm thấy hải sản phù hợp</h3>
+        <p className="mt-2 text-xs text-[#475569]">
           Vui lòng thử bỏ chọn một số tiêu chí lọc hoặc xóa tất cả bộ lọc để xem đầy đủ sản phẩm.
         </p>
         {onResetFilters && (
@@ -80,7 +80,7 @@ export function ProductCatalogGrid(props: ProductCatalogGridProps) {
             onClick={() => {
               onResetFilters();
             }}
-            className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#0E3D34] px-6 py-2.5 text-xs font-bold text-white shadow transition-transform hover:scale-105"
+            className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#1E3A8A] px-6 py-2.5 text-xs font-bold text-white shadow transition-transform hover:scale-105"
           >
             ⟲ Xoá bộ lọc
           </button>
