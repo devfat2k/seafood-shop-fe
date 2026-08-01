@@ -92,36 +92,38 @@ export function FeaturedProducts() {
             >
               <div>
                 {/* Product Image & Badges Container */}
-                <div className="relative h-48 w-full overflow-hidden rounded-2xl bg-[#F5F1E8]">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute top-2.5 left-2.5 flex flex-wrap gap-1.5">
-                    {product.badges.map((badge, idx) => (
-                      <span
-                        key={idx}
-                        className={`rounded-full px-2.5 py-0.5 text-[10px] font-bold ${
-                          badge.includes('Bán chạy')
-                            ? 'bg-[#0E3D34] text-white'
-                            : 'bg-[#D9A441] text-[#26312D]'
-                        }`}
-                      >
-                        {badge}
-                      </span>
-                    ))}
+                <Link href={`/products/${product.id}`} className="block">
+                  <div className="relative h-48 w-full overflow-hidden rounded-2xl bg-[#F5F1E8]">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                    <div className="absolute top-2.5 left-2.5 flex flex-wrap gap-1.5">
+                      {product.badges.map((badge, idx) => (
+                        <span
+                          key={idx}
+                          className={`rounded-full px-2.5 py-0.5 text-[10px] font-bold ${
+                            badge.includes('Bán chạy')
+                              ? 'bg-[#0E3D34] text-white'
+                              : 'bg-[#D9A441] text-[#26312D]'
+                          }`}
+                        >
+                          {badge}
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                </div>
+                </Link>
 
                 {/* Category & Name */}
                 <div className="mt-4">
                   <span className="text-[10px] font-extrabold tracking-wider text-[#5B6B63] uppercase">
                     {product.category}
                   </span>
-                  <h3 className="mt-1 line-clamp-2 text-base leading-snug font-bold text-[#26312D]">
-                    {product.name}
+                  <h3 className="mt-1 line-clamp-2 text-base leading-snug font-bold text-[#26312D] transition-colors hover:text-[#0E3D34]">
+                    <Link href={`/products/${product.id}`}>{product.name}</Link>
                   </h3>
                   <p className="mt-2 text-xs text-[#5B6B63]">{product.spec}</p>
                 </div>
