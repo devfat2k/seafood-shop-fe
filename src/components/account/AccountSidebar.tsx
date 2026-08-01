@@ -1,5 +1,7 @@
 'use client';
 
+import { Icon } from '@/components/common/Icon';
+import type { IconName } from '@/components/common/Icon';
 import type { UserProfile } from '@/data/account-mock';
 
 type AccountTab = 'profile' | 'orders' | 'addresses' | 'security';
@@ -13,11 +15,11 @@ type AccountSidebarProps = {
 export function AccountSidebar(props: AccountSidebarProps) {
   const { profile, activeTab, onSelectTab } = props;
 
-  const menuItems: { id: AccountTab; label: string; icon: string }[] = [
-    { id: 'profile', label: 'Thông tin cá nhân', icon: '👤' },
-    { id: 'orders', label: 'Đơn hàng của tôi', icon: '🛍️' },
-    { id: 'addresses', label: 'Địa chỉ giao hàng', icon: '📍' },
-    { id: 'security', label: 'Đổi mật khẩu', icon: '🔑' },
+  const menuItems: { id: AccountTab; label: string; icon: IconName }[] = [
+    { id: 'profile', label: 'Thông tin cá nhân', icon: 'user' },
+    { id: 'orders', label: 'Đơn hàng của tôi', icon: 'shopping-bag' },
+    { id: 'addresses', label: 'Địa chỉ giao hàng', icon: 'map-pin' },
+    { id: 'security', label: 'Đổi mật khẩu', icon: 'lock' },
   ];
 
   return (
@@ -55,7 +57,7 @@ export function AccountSidebar(props: AccountSidebarProps) {
                   : 'text-[#5B6B63] hover:bg-[#FBF8F3] hover:text-[#26312D]'
               }`}
             >
-              <span className="text-base">{item.icon}</span>
+              <Icon name={item.icon} size="sm" />
               <span>{item.label}</span>
             </button>
           );
@@ -71,7 +73,7 @@ export function AccountSidebar(props: AccountSidebarProps) {
           }}
           className="flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-xs font-bold text-red-600 transition-colors hover:bg-red-50"
         >
-          <span className="text-base">🚪</span>
+          <Icon name="log-out" size="sm" />
           <span>Đăng xuất tài khoản</span>
         </button>
       </div>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { Icon } from '@/components/common/Icon';
 
 type AuthModalProps = {
   isOpen: boolean;
@@ -15,7 +16,9 @@ export function AuthModal(props: AuthModalProps) {
   const [passwordInput, setPasswordInput] = useState('123456789');
   const [showPassword, setShowPassword] = useState(false);
 
-  if (!isOpen) {return null;}
+  if (!isOpen) {
+    return null;
+  }
 
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -42,20 +45,13 @@ export function AuthModal(props: AuthModalProps) {
           onClick={onClose}
           className="absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-full bg-[#F5F1E8] text-xs font-bold text-[#5B6B63] transition-colors hover:bg-[#E4EEEA] hover:text-[#26312D]"
         >
-          ✕
+          <Icon name="x" size="sm" />
         </button>
 
         {/* Header Icon & Title */}
         <div className="text-center">
           <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#E4EEEA] text-[#0E3D34]">
-            <svg className="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-              />
-            </svg>
+            <Icon name="lock" size="lg" />
           </div>
 
           <h2 className="mt-4 text-2xl font-extrabold text-[#26312D]">
@@ -74,26 +70,28 @@ export function AuthModal(props: AuthModalProps) {
             onClick={() => {
               setActiveTab('login');
             }}
-            className={`flex-1 rounded-full py-2 text-xs font-bold transition-all ${
+            className={`flex flex-1 items-center justify-center gap-1.5 rounded-full py-2 text-xs font-bold transition-all ${
               activeTab === 'login'
                 ? 'bg-white text-[#0E3D34] shadow-sm'
                 : 'text-[#5B6B63] hover:text-[#26312D]'
             }`}
           >
-            🔑 Đăng Nhập
+            <Icon name="lock" size="xs" />
+            <span>Đăng Nhập</span>
           </button>
           <button
             type="button"
             onClick={() => {
               setActiveTab('register');
             }}
-            className={`flex-1 rounded-full py-2 text-xs font-bold transition-all ${
+            className={`flex flex-1 items-center justify-center gap-1.5 rounded-full py-2 text-xs font-bold transition-all ${
               activeTab === 'register'
                 ? 'bg-white text-[#0E3D34] shadow-sm'
                 : 'text-[#5B6B63] hover:text-[#26312D]'
             }`}
           >
-            👤 Đăng Ký Mới
+            <Icon name="user" size="xs" />
+            <span>Đăng Ký Mới</span>
           </button>
         </div>
 
@@ -116,19 +114,7 @@ export function AuthModal(props: AuthModalProps) {
                 }}
                 className="w-full rounded-2xl border border-[#E4E0D8] bg-[#FBF8F3] py-3 pr-4 pl-10 text-xs font-bold text-[#26312D] focus:border-[#0E3D34] focus:outline-none"
               />
-              <svg
-                className="absolute top-3.5 left-3.5 h-4 w-4 text-[#5B6B63]"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"
-                />
-              </svg>
+              <Icon name="phone" size="sm" className="absolute top-3.5 left-3.5 text-[#5B6B63]" />
             </div>
           </div>
 
@@ -165,19 +151,7 @@ export function AuthModal(props: AuthModalProps) {
                 }}
                 className="w-full rounded-2xl border border-[#E4E0D8] bg-[#FBF8F3] py-3 pr-10 pl-10 text-xs font-bold text-[#26312D] focus:border-[#0E3D34] focus:outline-none"
               />
-              <svg
-                className="absolute top-3.5 left-3.5 h-4 w-4 text-[#5B6B63]"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"
-                />
-              </svg>
+              <Icon name="lock" size="sm" className="absolute top-3.5 left-3.5 text-[#5B6B63]" />
               <button
                 type="button"
                 aria-label="Ẩn hiện mật khẩu"
@@ -186,7 +160,7 @@ export function AuthModal(props: AuthModalProps) {
                 }}
                 className="absolute top-3.5 right-3.5 text-xs text-[#5B6B63] hover:text-[#26312D]"
               >
-                {showPassword ? '🙈' : '👁️'}
+                <Icon name={showPassword ? 'eye-off' : 'eye'} size="sm" />
               </button>
             </div>
           </div>
@@ -198,14 +172,7 @@ export function AuthModal(props: AuthModalProps) {
               className="flex w-full items-center justify-center gap-2 rounded-full bg-[#0E3D34] py-3.5 text-xs font-bold text-white shadow-lg transition-transform hover:scale-[1.02] hover:bg-[#0B2F28]"
             >
               <span>{activeTab === 'login' ? 'Đăng Nhập Ngay' : 'Tạo Tài Khoản Mới'}</span>
-              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M14 5l7 7m0 0l-7 7m7-7H3"
-                />
-              </svg>
+              <Icon name="arrow-right" size="sm" />
             </button>
           </div>
         </form>

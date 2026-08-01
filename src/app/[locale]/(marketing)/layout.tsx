@@ -1,6 +1,6 @@
-import { setRequestLocale } from 'next-intl/server';
-import { Footer } from '@/components/layout/Footer';
-import { Header } from '@/components/layout/Header';
+import { setRequestLocale } from "next-intl/server";
+import { Footer } from "@/components/layout/Footer";
+import { Header } from "@/components/layout/Header";
 
 export default async function Layout(props: {
   children: React.ReactNode;
@@ -12,7 +12,7 @@ export default async function Layout(props: {
   return (
     <>
       <Header />
-      <main className="mx-auto max-w-350 px-6 py-8">{props.children}</main>
+      <main className="mx-auto max-w-full py-6">{props.children}</main>
       <Footer />
     </>
   );

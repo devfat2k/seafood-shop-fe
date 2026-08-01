@@ -1,5 +1,6 @@
 'use client';
 
+import { Icon } from '@/components/common/Icon';
 import { ProductCard } from '@/components/products/ProductCard';
 import { Skeleton } from '@/components/ui/skeleton';
 import type { CatalogProduct } from '@/data/products-catalog-mock';
@@ -43,14 +44,7 @@ export function ProductCatalogGrid(props: ProductCatalogGridProps) {
     return (
       <div className="rounded-3xl border border-red-200 bg-red-50 p-8 text-center">
         <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-100 text-red-600">
-          <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
+          <Icon name="x" size="lg" />
         </div>
         <h3 className="mt-4 text-base font-bold text-red-900">Có lỗi xảy ra khi tải hải sản</h3>
         <p className="mt-1 text-xs text-red-700">
@@ -74,14 +68,7 @@ export function ProductCatalogGrid(props: ProductCatalogGridProps) {
     return (
       <div className="rounded-3xl border border-[#E4E0D8] bg-[#FBF8F3] p-12 text-center">
         <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[#E4EEEA] text-[#0E3D34]">
-          <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={1.8}
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-            />
-          </svg>
+          <Icon name="search" size="xl" />
         </div>
         <h3 className="mt-4 text-lg font-bold text-[#26312D]">Không tìm thấy hải sản phù hợp</h3>
         <p className="mt-2 text-xs text-[#5B6B63]">

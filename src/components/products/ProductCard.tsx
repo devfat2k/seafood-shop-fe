@@ -1,5 +1,6 @@
 'use client';
 
+import { Icon } from '@/components/common/Icon';
 import type { CatalogProduct } from '@/data/products-catalog-mock';
 import { Link } from '@/libs/I18nNavigation';
 
@@ -76,9 +77,7 @@ export function ProductCard(props: ProductCardProps) {
           }}
           className="flex h-10 w-10 items-center justify-center rounded-full bg-[#0E3D34] text-white shadow transition-transform hover:scale-110 hover:bg-[#0B2F28]"
         >
-          <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-          </svg>
+          <Icon name="plus" size="sm" />
         </button>
       </div>
     </div>

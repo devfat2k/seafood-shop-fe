@@ -11,10 +11,10 @@ import { CATALOG_PRODUCTS } from '@/data/products-catalog-mock';
 import type { CatalogProduct } from '@/data/products-catalog-mock';
 
 const INITIAL_FILTERS = {
-  categories: ['tom-cua'] as CatalogProduct['categorySlug'][],
-  minPrice: 200_000,
-  maxPrice: 1_500_000,
-  onlyInStock: true,
+  categories: [] as CatalogProduct['categorySlug'][],
+  minPrice: 0,
+  maxPrice: 2_500_000,
+  onlyInStock: false,
   includeUpcoming: false,
   fastShippingOnly: false,
   cleanPrepOnly: false,
@@ -63,15 +63,7 @@ export function ProductCatalogContainer() {
   }
 
   const resetFilters = () => {
-    setFilters({
-      categories: [],
-      minPrice: 100_000,
-      maxPrice: 2_500_000,
-      onlyInStock: false,
-      includeUpcoming: false,
-      fastShippingOnly: false,
-      cleanPrepOnly: false,
-    });
+    setFilters(INITIAL_FILTERS);
     setCurrentPage(1);
   };
 

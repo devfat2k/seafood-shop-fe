@@ -27,12 +27,12 @@ export default async function About(props: AboutPageProps) {
   // });
 
   return (
-    <div className="py-8">
-      <h1 className="py-4 text-center text-3xl font-bold">Giới thiệu hải sản Phan Thiết</h1>
-      <p className="mt-4 text-neutral-600">
-        Chúng tôi cung cấp hải sản tươi sống được đánh bắt và giao trong ngày, trực tiếp từ vùng
-        biển Phan Thiết đến bàn ăn của bạn.
-      </p>
+    <div className="flex min-h-screen flex-col bg-[#FBF8F3]">
+      <main className="max-w-8xl mx-auto w-full rounded-xl">
+        <div className="flex flex-col items-center justify-center">
+          <h1 className="text-4xl font-bold text-primary">Về chúng tôi</h1>
+        </div>
+      </main>
     </div>
   );
 }

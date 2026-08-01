@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { Icon } from '@/components/common/Icon';
 import { MOCK_ORDERS } from '@/data/account-mock';
 import type { DeliveryStep } from '@/data/account-mock';
 
@@ -173,7 +174,7 @@ export function AccountOrdersTab() {
                       <div
                         className={`flex h-9 w-9 items-center justify-center rounded-full text-xs font-bold shadow-sm ${getStepClassName(step)}`}
                       >
-                        {step.completed ? '✓' : idx + 1}
+                        {step.completed ? <Icon name="check" size="xs" /> : idx + 1}
                       </div>
                       <span className="mt-2 text-xs font-bold text-[#26312D]">{step.title}</span>
                       <span className="mt-0.5 text-[10px] text-[#5B6B63]">{step.time}</span>
@@ -194,7 +195,8 @@ export function AccountOrdersTab() {
                     }}
                     className="inline-flex items-center gap-2 rounded-full border border-[#E4E0D8] bg-white px-5 py-2.5 text-xs font-bold text-[#26312D] shadow-sm hover:bg-[#F5F1E8]"
                   >
-                    <span>📞 Liên hệ shipper</span>
+                    <Icon name="phone" size="xs" />
+                    <span>Liên hệ shipper</span>
                   </button>
                   <button
                     type="button"
@@ -203,7 +205,8 @@ export function AccountOrdersTab() {
                     }}
                     className="inline-flex items-center gap-2 rounded-full bg-[#0E3D34] px-6 py-2.5 text-xs font-bold text-white shadow hover:bg-[#0B2F28]"
                   >
-                    <span>📍 Định vị đơn hàng</span>
+                    <Icon name="map-pin" size="xs" />
+                    <span>Định vị đơn hàng</span>
                   </button>
                 </>
               )}
@@ -217,7 +220,8 @@ export function AccountOrdersTab() {
                     }}
                     className="inline-flex items-center gap-2 rounded-full border border-[#E4E0D8] bg-white px-5 py-2.5 text-xs font-bold text-[#26312D] shadow-sm hover:bg-[#F5F1E8]"
                   >
-                    <span>⭐ Viết đánh giá</span>
+                    <Icon name="star" size="xs" />
+                    <span>Viết đánh giá</span>
                   </button>
                   <button
                     type="button"
@@ -226,7 +230,8 @@ export function AccountOrdersTab() {
                     }}
                     className="inline-flex items-center gap-2 rounded-full bg-[#0E3D34] px-6 py-2.5 text-xs font-bold text-white shadow hover:bg-[#0B2F28]"
                   >
-                    <span>🔄 Mua lại đơn này</span>
+                    <Icon name="shopping-bag" size="xs" />
+                    <span>Mua lại đơn này</span>
                   </button>
                 </>
               )}

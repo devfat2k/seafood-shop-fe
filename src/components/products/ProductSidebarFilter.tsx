@@ -1,5 +1,6 @@
 'use client';
 
+import { Icon } from '@/components/common/Icon';
 import { CATEGORY_FILTER_LIST } from '@/data/products-catalog-mock';
 import type { CatalogProduct } from '@/data/products-catalog-mock';
 
@@ -46,19 +47,7 @@ export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
       {/* Sidebar Header */}
       <div className="flex items-center justify-between border-b border-[#E4E0D8] pb-4">
         <div className="flex items-center gap-2">
-          <svg
-            className="h-5 w-5 text-[#0E3D34]"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
-            />
-          </svg>
+          <Icon name="sliders-horizontal" size="sm" className="text-[#0E3D34]" />
           <h3 className="text-base font-extrabold text-[#26312D]">Bộ Lọc Tìm Kiếm</h3>
         </div>
         <button
@@ -91,7 +80,7 @@ export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
                   }}
                   className="rounded-full hover:bg-[#0E3D34]/10"
                 >
-                  ✕
+                  <Icon name="x" size="xs" />
                 </button>
               </span>
             );
@@ -147,19 +136,26 @@ export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
           <div className="relative h-2 w-full rounded-full bg-[#E4E0D8]">
             <div
               className="absolute h-2 rounded-full bg-[#D9A441]"
-              style={{ left: '10%', right: '20%' }}
+              style={{
+                left: `${Math.min(100, Math.max(0, (filters.minPrice / 2_500_000) * 100))}%`,
+                right: `${Math.min(100, Math.max(0, 100 - (filters.maxPrice / 2_500_000) * 100))}%`,
+              }}
             />
             <div
               className="absolute top-1/2 h-4 w-4 -translate-y-1/2 rounded-full border-2 border-white bg-[#D9A441] shadow-md"
-              style={{ left: '10%' }}
+              style={{
+                left: `${Math.min(100, Math.max(0, (filters.minPrice / 2_500_000) * 100))}%`,
+              }}
             />
             <div
               className="absolute top-1/2 h-4 w-4 -translate-y-1/2 rounded-full border-2 border-white bg-[#D9A441] shadow-md"
-              style={{ left: '80%' }}
+              style={{
+                left: `${Math.min(100, Math.max(0, (filters.maxPrice / 2_500_000) * 100))}%`,
+              }}
             />
           </div>
           <div className="mt-2 flex justify-between text-[10px] text-[#5B6B63]">
-            <span>100.000đ</span>
+            <span>0đ</span>
             <span>2.500.000đ</span>
           </div>
         </div>

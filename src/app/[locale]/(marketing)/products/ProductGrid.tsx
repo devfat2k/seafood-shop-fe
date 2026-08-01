@@ -8,8 +8,7 @@ import { getProducts } from '@/libs/api/products';
 export default function ProductGrid() {
   const { data, isLoading, isError } = useQuery({
     queryKey: ['products'],
-    // oxlint-disable-next-line typescript/promise-function-async -- queryFn signature does not accept async
-    queryFn: () => getProducts(),
+    queryFn: async () => await getProducts(),
   });
 
   if (isLoading) {

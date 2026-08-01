@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { Icon } from '@/components/common/Icon';
 import type { ProductDetailData } from '@/data/product-detail-mock';
 import { Link } from '@/libs/I18nNavigation';
 
@@ -40,8 +41,9 @@ export function ProductPurchasePanel(props: ProductPurchasePanelProps) {
           <span className="rounded-full bg-[#E4EEEA] px-3.5 py-1 text-xs font-extrabold text-[#0E3D34]">
             {product.category}
           </span>
-          <div className="flex items-center gap-1 rounded-full bg-[#F6E8CC] px-3.5 py-1 text-xs font-extrabold text-[#C4922F]">
-            <span>⭐ {product.rating}</span>
+          <div className="flex items-center gap-1.5 rounded-full bg-[#F6E8CC] px-3.5 py-1 text-xs font-extrabold text-[#C4922F]">
+            <Icon name="star" size="xs" className="fill-current text-[#C4922F]" />
+            <span>{product.rating}</span>
             <span>({product.reviewCount} Đánh giá)</span>
           </div>
         </div>
@@ -51,8 +53,10 @@ export function ProductPurchasePanel(props: ProductPurchasePanelProps) {
 
         {/* Origin & Availability */}
         <div className="mt-2.5 flex flex-wrap items-center gap-2 text-xs text-[#5B6B63]">
-          <span>
-            📍 Xuất xứ: <strong className="text-[#26312D]">{product.origin}</strong>
+          <span className="flex items-center gap-1">
+            <Icon name="map-pin" size="xs" />
+            <span>Xuất xứ:</span>
+            <strong className="text-[#26312D]">{product.origin}</strong>
           </span>
           <span>•</span>
           <span className="font-bold text-[#3F8F5F]">
@@ -93,25 +97,7 @@ export function ProductPurchasePanel(props: ProductPurchasePanelProps) {
               className="flex items-start gap-3 rounded-2xl border border-[#E4E0D8] bg-[#FBF8F3] p-3.5"
             >
               <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#E4EEEA] text-[#0E3D34]">
-                {trust.icon === 'truck' ? (
-                  <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
-                ) : (
-                  <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-                    />
-                  </svg>
-                )}
+                <Icon name={trust.icon === 'truck' ? 'truck' : 'shield-check'} size="md" />
               </div>
               <div>
                 <h4 className="text-xs font-bold text-[#26312D]">{trust.title}</h4>
@@ -132,7 +118,7 @@ export function ProductPurchasePanel(props: ProductPurchasePanelProps) {
                 onClick={handleDecrease}
                 className="flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold text-[#26312D] hover:bg-[#E4EEEA]"
               >
-                -
+                <Icon name="minus" size="xs" />
               </button>
               <span className="w-8 text-center text-xs font-bold text-[#26312D]">{quantity}</span>
               <button
@@ -141,7 +127,7 @@ export function ProductPurchasePanel(props: ProductPurchasePanelProps) {
                 onClick={handleIncrease}
                 className="flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold text-[#26312D] hover:bg-[#E4EEEA]"
               >
-                +
+                <Icon name="plus" size="xs" />
               </button>
             </div>
             <span className="text-xs text-[#5B6B63]">
@@ -158,21 +144,15 @@ export function ProductPurchasePanel(props: ProductPurchasePanelProps) {
             onClick={handleAddToCart}
             className="flex flex-1 items-center justify-center gap-2 rounded-full bg-[#0E3D34] px-6 py-3.5 text-xs font-bold text-white shadow-lg transition-transform hover:scale-105 hover:bg-[#0B2F28]"
           >
-            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
-              />
-            </svg>
+            <Icon name="shopping-bag" size="sm" />
             <span>Thêm Vào Giỏ Hàng</span>
           </button>
           <Link
             href="/checkout"
-            className="flex items-center justify-center rounded-full bg-[#D9A441] px-6 py-3.5 text-xs font-bold text-[#26312D] shadow transition-transform hover:scale-105"
+            className="flex items-center justify-center gap-1.5 rounded-full bg-[#D9A441] px-6 py-3.5 text-xs font-bold text-[#26312D] shadow transition-transform hover:scale-105"
           >
-            <span>💳 Mua Ngay</span>
+            <Icon name="shopping-cart" size="xs" />
+            <span>Mua Ngay</span>
           </Link>
         </div>
       </div>
@@ -197,7 +177,7 @@ export function ProductPurchasePanel(props: ProductPurchasePanelProps) {
                 }}
                 className="text-xs text-[#5B6B63] hover:text-[#26312D]"
               >
-                ✕
+                <Icon name="x" size="xs" />
               </button>
             </div>
             <p className="mt-0.5 line-clamp-1 text-xs font-bold text-[#26312D]">{product.name}</p>

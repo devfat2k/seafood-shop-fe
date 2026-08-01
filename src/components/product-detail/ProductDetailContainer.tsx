@@ -30,7 +30,6 @@ export function ProductDetailContainer(props: { productId?: string }) {
 
   return (
     <div className="flex min-h-screen flex-col bg-[#FBF8F3]">
-      {/* Breadcrumb Bar */}
       <ProductDetailBreadcrumb
         categoryName={product.category}
         categorySlug={product.categorySlug}
@@ -38,7 +37,7 @@ export function ProductDetailContainer(props: { productId?: string }) {
       />
 
       {/* Main Layout Content */}
-      <main className="mx-auto w-full max-w-[1280px] flex-1 px-4 py-8 sm:px-6">
+      <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-8 sm:px-6">
         {/* Top 2 Columns Layout: Gallery (Left) + Purchase Panel (Right) */}
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-12">
           {/* Gallery Cột Trái */}

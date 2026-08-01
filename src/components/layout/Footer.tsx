@@ -1,5 +1,6 @@
 'use client';
 
+import { Icon } from '@/components/common/Icon';
 import { Link } from '@/libs/I18nNavigation';
 
 export function Footer() {
@@ -11,14 +12,7 @@ export function Footer() {
           <div>
             <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-[#0E3D34]">
-                <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 12c2.5-3 6-5 10-5 3.5 0 6 1.5 8 4-2 2.5-4.5 4-8 4-4 0-7.5-2-10-5zm0 0c1.5 2 3.5 3 6 3m-6-3l-2-2m2 2l-2 2"
-                  />
-                </svg>
+                <Icon name="fish" size="sm" />
               </div>
               <span className="text-lg font-extrabold tracking-wide uppercase">
                 HẢI SẢN PHAN THIẾT
@@ -36,42 +30,21 @@ export function Footer() {
                 aria-label="Website"
                 className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-[#D9A441] hover:text-[#26312D]"
               >
-                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m-9 9a9 9 0 019-9"
-                  />
-                </svg>
+                <Icon name="sparkles" size="sm" />
               </Link>
               <Link
                 href="/contact"
                 aria-label="Hotline"
                 className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-[#D9A441] hover:text-[#26312D]"
               >
-                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-                  />
-                </svg>
+                <Icon name="phone" size="sm" />
               </Link>
               <Link
                 href="/contact"
                 aria-label="Email"
                 className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-[#D9A441] hover:text-[#26312D]"
               >
-                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                  />
-                </svg>
+                <Icon name="mail" size="sm" />
               </Link>
             </div>
           </div>
