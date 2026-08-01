@@ -1,6 +1,6 @@
-import { Icon } from "@/components/common/Icon";
-import { BENTO_CATEGORIES } from "@/data/home-mock";
-import { Link } from "@/libs/I18nNavigation";
+import { Icon } from '@/components/common/Icon';
+import { BENTO_CATEGORIES } from '@/data/home-mock';
+import { Link } from '@/libs/I18nNavigation';
 
 export function BentoCategories() {
   const [mainCombo, lobsterCard, squidCard] = BENTO_CATEGORIES;
@@ -12,15 +12,15 @@ export function BentoCategories() {
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-2 rounded-full border border-[#F97316]/20 bg-[#FFEDD5] px-3.5 py-1 text-[11px] font-extrabold text-[#EA580C] uppercase">
-              <span className="h-2 w-2 rounded-full bg-[#F97316] animate-pulse" />
+              <span className="h-2 w-2 animate-pulse rounded-full bg-[#F97316]" />
               <span>DANH MỤC HẢI SẢN PHAN THIẾT</span>
             </div>
             <h2 className="mt-3 text-2xl font-extrabold tracking-tight text-[#0F172A] sm:text-3xl lg:text-4xl">
               Chọn Lựa Theo Thói Quen Thưởng Thức
             </h2>
             <p className="mt-2 text-xs text-text-secondary sm:text-sm">
-              Hải sản đánh bắt trong đêm tại cảng cá Phan Thiết, phân loại theo
-              nhu cầu ăn tiệc, gia đình &amp; quà tặng.
+              Hải sản đánh bắt trong đêm tại cảng cá Phan Thiết, phân loại theo nhu cầu ăn tiệc, gia
+              đình &amp; quà tặng.
             </p>
           </div>
 
@@ -38,6 +38,7 @@ export function BentoCategories() {
         <div className="mt-8 grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-5">
           {mainCombo && (
             <div className="group relative overflow-hidden rounded-3xl border border-[#1E3A8A]/20 bg-[#1E3A8A] text-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl lg:col-span-2">
+              {/* biome-ignore lint/performance/noImgElement: mock category image */}
               <img
                 src={mainCombo.image}
                 alt={mainCombo.title}
@@ -46,7 +47,7 @@ export function BentoCategories() {
               <div className="absolute inset-0 flex flex-col justify-end bg-linear-to-t from-[#0F172A] via-[#1E3A8A]/60 to-transparent p-6 sm:p-8">
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="rounded-full bg-[#F97316] px-3.5 py-1 text-[10px] font-extrabold tracking-wide text-white uppercase shadow-sm">
-                    👑 {mainCombo.badge ?? "PET COMBO"}
+                    👑 {mainCombo.badge ?? 'PET COMBO'}
                   </span>
                   <span className="rounded-full bg-white/20 px-3 py-1 text-[10px] font-bold text-white backdrop-blur-md">
                     ⚡ Giao kèm sốt chấm chuẩn vị
@@ -69,10 +70,7 @@ export function BentoCategories() {
                     <Icon name="arrow-right" size="xs" />
                   </Link>
                   <span className="text-xs font-semibold text-blue-200">
-                    Chỉ từ{" "}
-                    <span className="font-extrabold text-white">
-                      650.000₫/set
-                    </span>
+                    Chỉ từ <span className="font-extrabold text-white">650.000₫/set</span>
                   </span>
                 </div>
               </div>
@@ -96,12 +94,8 @@ export function BentoCategories() {
                     </span>
                   </div>
                   <div>
-                    <h3 className="text-lg font-extrabold text-white">
-                      {lobsterCard.title}
-                    </h3>
-                    <p className="mt-1 text-xs text-blue-100">
-                      {lobsterCard.subtitle}
-                    </p>
+                    <h3 className="text-lg font-extrabold text-white">{lobsterCard.title}</h3>
+                    <p className="mt-1 text-xs text-blue-100">{lobsterCard.subtitle}</p>
                     <Link
                       href={lobsterCard.href}
                       className="mt-3 inline-flex items-center gap-1 text-xs font-bold text-[#F97316] transition-all hover:underline"
@@ -129,12 +123,8 @@ export function BentoCategories() {
                     </span>
                   </div>
                   <div>
-                    <h3 className="text-lg font-extrabold text-white">
-                      {squidCard.title}
-                    </h3>
-                    <p className="mt-1 text-xs text-blue-100">
-                      {squidCard.subtitle}
-                    </p>
+                    <h3 className="text-lg font-extrabold text-white">{squidCard.title}</h3>
+                    <p className="mt-1 text-xs text-blue-100">{squidCard.subtitle}</p>
                     <Link
                       href={squidCard.href}
                       className="mt-3 inline-flex items-center gap-1 text-xs font-bold text-[#F97316] transition-all hover:underline"
@@ -188,9 +178,7 @@ export function BentoCategories() {
                   <span>{card.linkText}</span>
                   <Icon name="chevron-right" size="xs" />
                 </Link>
-                <span className="text-[11px] font-semibold text-text-secondary">
-                  Giao hỏa tốc
-                </span>
+                <span className="text-[11px] font-semibold text-text-secondary">Giao hỏa tốc</span>
               </div>
             </div>
           ))}
