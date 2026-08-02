@@ -1,30 +1,30 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 
 export function AccountSecurityTab() {
-  const [currentPassword, setCurrentPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState(false);
 
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
     if (!currentPassword || !newPassword || !confirmPassword) {
-      setErrorMsg('Vui lòng nhập đầy đủ các trường mật khẩu.');
+      setErrorMsg("Vui lòng nhập đầy đủ các trường mật khẩu.");
       return;
     }
     if (newPassword !== confirmPassword) {
-      setErrorMsg('Mật khẩu mới và xác nhận mật khẩu không trùng khớp.');
+      setErrorMsg("Mật khẩu mới và xác nhận mật khẩu không trùng khớp.");
       return;
     }
 
     setErrorMsg(null);
     setSuccessMsg(true);
-    setCurrentPassword('');
-    setNewPassword('');
-    setConfirmPassword('');
+    setCurrentPassword("");
+    setNewPassword("");
+    setConfirmPassword("");
 
     setTimeout(() => {
       setSuccessMsg(false);
@@ -35,7 +35,7 @@ export function AccountSecurityTab() {
     <div className="rounded-3xl border border-[#E2E8F0] bg-white p-6 shadow-sm sm:p-8">
       <div className="border-b border-[#E2E8F0] pb-4">
         <h1 className="text-2xl font-extrabold text-[#0F172A]">Đổi Mật Khẩu</h1>
-        <p className="mt-1 text-xs text-[#475569]">
+        <p className="mt-1 text-xs text-text-secondary">
           Cập nhật mật khẩu để bảo vệ an toàn cho tài khoản cá nhân của bạn.
         </p>
       </div>
@@ -48,13 +48,17 @@ export function AccountSecurityTab() {
 
       {successMsg && (
         <div className="mt-4 rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-xs font-bold text-emerald-800">
-          🔑 Đổi mật khẩu thành công! Vui lòng sử dụng mật khẩu mới cho lần đăng nhập sau.
+          🔑 Đổi mật khẩu thành công! Vui lòng sử dụng mật khẩu mới cho lần đăng
+          nhập sau.
         </div>
       )}
 
       <form onSubmit={handleSubmit} className="mt-6 max-w-md space-y-5">
         <div>
-          <label htmlFor="current-pass-input" className="block text-xs font-bold text-[#0F172A]">
+          <label
+            htmlFor="current-pass-input"
+            className="block text-xs font-bold text-[#0F172A]"
+          >
             Mật khẩu hiện tại
           </label>
           <input
@@ -71,7 +75,10 @@ export function AccountSecurityTab() {
         </div>
 
         <div>
-          <label htmlFor="new-pass-input" className="block text-xs font-bold text-[#0F172A]">
+          <label
+            htmlFor="new-pass-input"
+            className="block text-xs font-bold text-[#0F172A]"
+          >
             Mật khẩu mới
           </label>
           <input
@@ -88,7 +95,10 @@ export function AccountSecurityTab() {
         </div>
 
         <div>
-          <label htmlFor="confirm-pass-input" className="block text-xs font-bold text-[#0F172A]">
+          <label
+            htmlFor="confirm-pass-input"
+            className="block text-xs font-bold text-[#0F172A]"
+          >
             Xác nhận mật khẩu mới
           </label>
           <input

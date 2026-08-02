@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { Icon } from '@/components/common/Icon';
-import type { IconName } from '@/components/common/Icon';
-import type { UserProfile } from '@/data/account-mock';
+import { Icon } from "@/components/common/Icon";
+import type { IconName } from "@/components/common/Icon";
+import type { UserProfile } from "@/data/account-mock";
 
-type AccountTab = 'profile' | 'orders' | 'addresses' | 'security';
+type AccountTab = "profile" | "orders" | "addresses" | "security";
 
 type AccountSidebarProps = {
   profile: UserProfile;
@@ -16,10 +16,10 @@ export function AccountSidebar(props: AccountSidebarProps) {
   const { profile, activeTab, onSelectTab } = props;
 
   const menuItems: { id: AccountTab; label: string; icon: IconName }[] = [
-    { id: 'profile', label: 'Thông tin cá nhân', icon: 'user' },
-    { id: 'orders', label: 'Đơn hàng của tôi', icon: 'shopping-bag' },
-    { id: 'addresses', label: 'Địa chỉ giao hàng', icon: 'map-pin' },
-    { id: 'security', label: 'Đổi mật khẩu', icon: 'lock' },
+    { id: "profile", label: "Thông tin cá nhân", icon: "user" },
+    { id: "orders", label: "Đơn hàng của tôi", icon: "shopping-bag" },
+    { id: "addresses", label: "Địa chỉ giao hàng", icon: "map-pin" },
+    { id: "security", label: "Đổi mật khẩu", icon: "lock" },
   ];
 
   return (
@@ -33,9 +33,12 @@ export function AccountSidebar(props: AccountSidebarProps) {
           className="h-16 w-16 rounded-full border-2 border-[#1E3A8A] object-cover"
         />
         <div>
-          <h2 className="text-base font-extrabold text-[#0F172A]">{profile.name}</h2>
-          <p className="mt-1 text-xs font-semibold text-[#475569]">
-            {profile.rank} • <span className="text-[#F97316]">{profile.rewardPoints} Điểm</span>
+          <h2 className="text-base font-extrabold text-[#0F172A]">
+            {profile.name}
+          </h2>
+          <p className="mt-1 text-xs font-semibold text-text-secondary">
+            {profile.rank} •{" "}
+            <span className="text-[#F97316]">{profile.rewardPoints} Điểm</span>
           </p>
         </div>
       </div>
@@ -53,8 +56,8 @@ export function AccountSidebar(props: AccountSidebarProps) {
               }}
               className={`flex w-full items-center gap-3 rounded-2xl px-4 py-3.5 text-xs font-bold transition-all ${
                 isActive
-                  ? 'bg-[#EDF2F7] text-[#1E3A8A] shadow-sm ring-1 ring-[#1E3A8A]/10'
-                  : 'text-[#475569] hover:bg-[#F8FAFC] hover:text-[#0F172A]'
+                  ? "bg-[#EDF2F7] text-[#1E3A8A] shadow-sm ring-1 ring-[#1E3A8A]/10"
+                  : "text-text-secondary hover:bg-[#F8FAFC] hover:text-[#0F172A]"
               }`}
             >
               <Icon name={item.icon} size="sm" />
@@ -69,7 +72,7 @@ export function AccountSidebar(props: AccountSidebarProps) {
         <button
           type="button"
           onClick={() => {
-            console.log('Đăng xuất tài khoản');
+            console.log("Đăng xuất tài khoản");
           }}
           className="flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-xs font-bold text-red-600 transition-colors hover:bg-red-50"
         >

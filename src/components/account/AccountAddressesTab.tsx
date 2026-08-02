@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { MOCK_ADDRESSES } from '@/data/account-mock';
-import type { UserAddress } from '@/data/account-mock';
+import { useState } from "react";
+import { MOCK_ADDRESSES } from "@/data/account-mock";
+import type { UserAddress } from "@/data/account-mock";
 
 export function AccountAddressesTab() {
   const [addresses, setAddresses] = useState<UserAddress[]>(MOCK_ADDRESSES);
@@ -15,7 +15,7 @@ export function AccountAddressesTab() {
         isDefault: addr.id === id,
       })),
     );
-    setNotificationMsg('Đã thiết lập địa chỉ mặc định mới thành công.');
+    setNotificationMsg("Đã thiết lập địa chỉ mặc định mới thành công.");
     setTimeout(() => {
       setNotificationMsg(null);
     }, 3000);
@@ -25,15 +25,17 @@ export function AccountAddressesTab() {
     <div className="rounded-3xl border border-[#E2E8F0] bg-white p-6 shadow-sm sm:p-8">
       <div className="flex flex-col gap-4 border-b border-[#E2E8F0] pb-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-extrabold text-[#0F172A]">Địa Chỉ Giao Hàng</h1>
-          <p className="mt-1 text-xs text-[#475569]">
+          <h1 className="text-2xl font-extrabold text-[#0F172A]">
+            Địa Chỉ Giao Hàng
+          </h1>
+          <p className="mt-1 text-xs text-text-secondary">
             Quản lý danh sách địa chỉ nhận hải sản tươi giao tận nhà.
           </p>
         </div>
         <button
           type="button"
           onClick={() => {
-            setNotificationMsg('Mở form nhập địa chỉ giao hàng mới.');
+            setNotificationMsg("Mở form nhập địa chỉ giao hàng mới.");
             setTimeout(() => {
               setNotificationMsg(null);
             }, 3000);
@@ -59,8 +61,12 @@ export function AccountAddressesTab() {
           >
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="text-sm font-extrabold text-[#0F172A]">{addr.name}</h3>
-                <span className="text-xs text-[#475569]">({addr.phone})</span>
+                <h3 className="text-sm font-extrabold text-[#0F172A]">
+                  {addr.name}
+                </h3>
+                <span className="text-xs text-text-secondary">
+                  ({addr.phone})
+                </span>
                 {addr.tag && (
                   <span className="rounded-full bg-[#DBEAFE] px-2.5 py-0.5 text-[10px] font-bold text-[#1E3A8A]">
                     {addr.tag}
@@ -72,7 +78,9 @@ export function AccountAddressesTab() {
                   </span>
                 )}
               </div>
-              <p className="mt-2 text-xs leading-relaxed text-[#475569]">{addr.addressDetail}</p>
+              <p className="mt-2 text-xs leading-relaxed text-text-secondary">
+                {addr.addressDetail}
+              </p>
             </div>
 
             <div className="flex items-center gap-3">
@@ -82,7 +90,7 @@ export function AccountAddressesTab() {
                   onClick={() => {
                     handleSetDefault(addr.id);
                   }}
-                  className="rounded-full border border-[#E2E8F0] bg-white px-3.5 py-1.5 text-xs font-bold text-[#475569] hover:text-[#1E3A8A]"
+                  className="rounded-full border border-[#E2E8F0] bg-white px-3.5 py-1.5 text-xs font-bold text-text-secondary hover:text-[#1E3A8A]"
                 >
                   Thiết lập mặc định
                 </button>
@@ -90,7 +98,9 @@ export function AccountAddressesTab() {
               <button
                 type="button"
                 onClick={() => {
-                  setNotificationMsg(`Mở form chỉnh sửa địa chỉ: ${addr.tag ?? addr.name}`);
+                  setNotificationMsg(
+                    `Mở form chỉnh sửa địa chỉ: ${addr.tag ?? addr.name}`,
+                  );
                   setTimeout(() => {
                     setNotificationMsg(null);
                   }, 3000);

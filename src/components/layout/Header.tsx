@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { AuthModal } from '@/components/auth/AuthModal';
-import { Icon } from '@/components/common/Icon';
-import { Logo } from '@/components/Logo';
-import { Link } from '@/libs/I18nNavigation';
+import { useState } from "react";
+import { AuthModal } from "@/components/auth/AuthModal";
+import { Icon } from "@/components/common/Icon";
+import { Logo } from "@/components/Logo";
+import { Link } from "@/libs/I18nNavigation";
 
 export function Header() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState<boolean>(false);
@@ -54,7 +54,11 @@ export function Header() {
                 placeholder="Tìm hải sản tươi sống..."
                 className="w-56 rounded-full border border-[#E2E8F0] bg-[#EDF2F7] py-2 pr-4 pl-9 text-xs text-[#0F172A] placeholder-[#475569] transition-all focus:w-64 focus:border-[#1E3A8A] focus:outline-none"
               />
-              <Icon name="search" size="sm" className="absolute top-2.5 left-3 text-[#475569]" />
+              <Icon
+                name="search"
+                size="sm"
+                className="absolute top-2.5 left-3 text-text-secondary"
+              />
             </div>
 
             <Link
@@ -80,7 +84,9 @@ export function Header() {
                   alt="Nguyễn Văn A"
                   className="h-8 w-8 rounded-full border border-[#1E3A8A] object-cover"
                 />
-                <span className="text-xs font-extrabold text-[#0F172A]">Nguyễn Văn A</span>
+                <span className="text-xs font-extrabold text-[#0F172A]">
+                  Nguyễn Văn A
+                </span>
               </Link>
             ) : (
               <button

@@ -1,18 +1,18 @@
-import type { IconName } from '@/components/common/Icon';
-import { Icon } from '@/components/common/Icon';
-import { USP_LIST } from '@/data/home-mock';
+import type { IconName } from "@/components/common/Icon";
+import { Icon } from "@/components/common/Icon";
+import { USP_LIST } from "@/data/home-mock";
 
 function getUspIconName(iconName: string): IconName {
-  if (iconName === 'bag') {
-    return 'shopping-bag';
+  if (iconName === "bag") {
+    return "shopping-bag";
   }
-  if (iconName === 'clock') {
-    return 'clock';
+  if (iconName === "clock") {
+    return "clock";
   }
-  if (iconName === 'shield') {
-    return 'shield-check';
+  if (iconName === "shield") {
+    return "shield-check";
   }
-  return 'sparkles';
+  return "sparkles";
 }
 
 export function UspSection() {
@@ -29,8 +29,12 @@ export function UspSection() {
                 <Icon name={getUspIconName(item.iconName)} size="lg" />
               </div>
               <div>
-                <h4 className="text-base font-bold text-[#0F172A]">{item.title}</h4>
-                <p className="mt-0.5 text-xs leading-relaxed text-[#475569]">{item.description}</p>
+                <h4 className="text-base font-bold text-[#0F172A]">
+                  {item.title}
+                </h4>
+                <p className="mt-0.5 text-xs leading-relaxed text-text-secondary">
+                  {item.description}
+                </p>
               </div>
             </div>
           ))}

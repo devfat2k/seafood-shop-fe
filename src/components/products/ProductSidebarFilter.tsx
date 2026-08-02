@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { Icon } from '@/components/common/Icon';
-import { CATEGORY_FILTER_LIST } from '@/data/products-catalog-mock';
-import type { CatalogProduct } from '@/data/products-catalog-mock';
+import { Icon } from "@/components/common/Icon";
+import { CATEGORY_FILTER_LIST } from "@/data/products-catalog-mock";
+import type { CatalogProduct } from "@/data/products-catalog-mock";
 
 type FilterState = {
-  categories: CatalogProduct['categorySlug'][];
+  categories: CatalogProduct["categorySlug"][];
   minPrice: number;
   maxPrice: number;
   onlyInStock: boolean;
@@ -23,7 +23,7 @@ type ProductSidebarFilterProps = {
 export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
   const { filters, onFilterChange, onResetFilters } = props;
 
-  const toggleCategory = (slug: CatalogProduct['categorySlug']) => {
+  const toggleCategory = (slug: CatalogProduct["categorySlug"]) => {
     const exists = filters.categories.includes(slug);
     const updated = exists
       ? filters.categories.filter((c) => c !== slug)
@@ -35,7 +35,7 @@ export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
     });
   };
 
-  const removeCategoryTag = (slug: CatalogProduct['categorySlug']) => {
+  const removeCategoryTag = (slug: CatalogProduct["categorySlug"]) => {
     onFilterChange({
       ...filters,
       categories: filters.categories.filter((c) => c !== slug),
@@ -47,15 +47,21 @@ export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
       {/* Sidebar Header */}
       <div className="flex items-center justify-between border-b border-[#E2E8F0] pb-4">
         <div className="flex items-center gap-2">
-          <Icon name="sliders-horizontal" size="sm" className="text-[#1E3A8A]" />
-          <h3 className="text-base font-extrabold text-[#0F172A]">Bộ Lọc Tìm Kiếm</h3>
+          <Icon
+            name="sliders-horizontal"
+            size="sm"
+            className="text-[#1E3A8A]"
+          />
+          <h3 className="text-base font-extrabold text-[#0F172A]">
+            Bộ Lọc Tìm Kiếm
+          </h3>
         </div>
         <button
           type="button"
           onClick={() => {
             onResetFilters();
           }}
-          className="flex items-center gap-1 text-xs font-bold text-[#475569] transition-colors hover:text-[#F97316]"
+          className="flex items-center gap-1 text-xs font-bold text-text-secondary transition-colors hover:text-[#F97316]"
         >
           <span>⟲ Xoá bộ lọc</span>
         </button>
@@ -104,7 +110,7 @@ export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
             return (
               <label
                 key={item.id}
-                className="flex cursor-pointer items-center justify-between text-xs text-[#475569] hover:text-[#0F172A]"
+                className="flex cursor-pointer items-center justify-between text-xs text-text-secondary hover:text-[#0F172A]"
               >
                 <div className="flex items-center gap-2.5">
                   <input
@@ -116,9 +122,13 @@ export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
                     }}
                     className="h-4 w-4 rounded border-[#E2E8F0] text-[#1E3A8A] focus:ring-[#1E3A8A]"
                   />
-                  <span className={isChecked ? 'font-bold text-[#1E3A8A]' : ''}>{item.name}</span>
+                  <span className={isChecked ? "font-bold text-[#1E3A8A]" : ""}>
+                    {item.name}
+                  </span>
                 </div>
-                <span className="text-[11px] text-[#475569]">({item.count})</span>
+                <span className="text-[11px] text-text-secondary">
+                  ({item.count})
+                </span>
               </label>
             );
           })}
@@ -154,7 +164,7 @@ export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
               }}
             />
           </div>
-          <div className="mt-2 flex justify-between text-[10px] text-[#475569]">
+          <div className="mt-2 flex justify-between text-[10px] text-text-secondary">
             <span>0đ</span>
             <span>2.500.000đ</span>
           </div>
@@ -165,15 +175,15 @@ export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
           <input
             type="text"
             aria-label="Giá tối thiểu"
-            value={filters.minPrice.toLocaleString('vi-VN')}
+            value={filters.minPrice.toLocaleString("vi-VN")}
             readOnly
             className="w-full rounded-xl border border-[#E2E8F0] bg-white px-3 py-2 text-center text-xs font-bold text-[#0F172A]"
           />
-          <span className="text-xs text-[#475569]">-</span>
+          <span className="text-xs text-text-secondary">-</span>
           <input
             type="text"
             aria-label="Giá tối đa"
-            value={filters.maxPrice.toLocaleString('vi-VN')}
+            value={filters.maxPrice.toLocaleString("vi-VN")}
             readOnly
             className="w-full rounded-xl border border-[#E2E8F0] bg-white px-3 py-2 text-center text-xs font-bold text-[#0F172A]"
           />
@@ -186,25 +196,31 @@ export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
           Trạng Thái Kho Hàng
         </h4>
         <div className="mt-3 space-y-2.5">
-          <label className="flex cursor-pointer items-center gap-2.5 text-xs text-[#475569] hover:text-[#0F172A]">
+          <label className="flex cursor-pointer items-center gap-2.5 text-xs text-text-secondary hover:text-[#0F172A]">
             <input
               type="checkbox"
               aria-label="Chỉ hiển thị sản phẩm Còn Hàng"
               checked={filters.onlyInStock}
               onChange={() => {
-                onFilterChange({ ...filters, onlyInStock: !filters.onlyInStock });
+                onFilterChange({
+                  ...filters,
+                  onlyInStock: !filters.onlyInStock,
+                });
               }}
               className="h-4 w-4 rounded border-[#E2E8F0] text-[#1E3A8A] focus:ring-[#1E3A8A]"
             />
             <span>Chỉ hiển thị sản phẩm Còn Hàng</span>
           </label>
-          <label className="flex cursor-pointer items-center gap-2.5 text-xs text-[#475569] hover:text-[#0F172A]">
+          <label className="flex cursor-pointer items-center gap-2.5 text-xs text-text-secondary hover:text-[#0F172A]">
             <input
               type="checkbox"
               aria-label="Bao gồm sản phẩm Sắp Về Hàng"
               checked={filters.includeUpcoming}
               onChange={() => {
-                onFilterChange({ ...filters, includeUpcoming: !filters.includeUpcoming });
+                onFilterChange({
+                  ...filters,
+                  includeUpcoming: !filters.includeUpcoming,
+                });
               }}
               className="h-4 w-4 rounded border-[#E2E8F0] text-[#1E3A8A] focus:ring-[#1E3A8A]"
             />
@@ -219,25 +235,31 @@ export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
           Cam Kết Phục Vụ
         </h4>
         <div className="mt-3 space-y-2.5">
-          <label className="flex cursor-pointer items-center gap-2.5 text-xs text-[#475569] hover:text-[#0F172A]">
+          <label className="flex cursor-pointer items-center gap-2.5 text-xs text-text-secondary hover:text-[#0F172A]">
             <input
               type="checkbox"
               aria-label="Giao hỏa tốc 2 giờ"
               checked={filters.fastShippingOnly}
               onChange={() => {
-                onFilterChange({ ...filters, fastShippingOnly: !filters.fastShippingOnly });
+                onFilterChange({
+                  ...filters,
+                  fastShippingOnly: !filters.fastShippingOnly,
+                });
               }}
               className="h-4 w-4 rounded border-[#E2E8F0] text-[#1E3A8A] focus:ring-[#1E3A8A]"
             />
             <span>Giao hỏa tốc 2 giờ</span>
           </label>
-          <label className="flex cursor-pointer items-center gap-2.5 text-xs text-[#475569] hover:text-[#0F172A]">
+          <label className="flex cursor-pointer items-center gap-2.5 text-xs text-text-secondary hover:text-[#0F172A]">
             <input
               type="checkbox"
               aria-label="Hỗ trợ làm sạch, tách vỏ"
               checked={filters.cleanPrepOnly}
               onChange={() => {
-                onFilterChange({ ...filters, cleanPrepOnly: !filters.cleanPrepOnly });
+                onFilterChange({
+                  ...filters,
+                  cleanPrepOnly: !filters.cleanPrepOnly,
+                });
               }}
               className="h-4 w-4 rounded border-[#E2E8F0] text-[#1E3A8A] focus:ring-[#1E3A8A]"
             />

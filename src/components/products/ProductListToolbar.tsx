@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { Icon } from '@/components/common/Icon';
+import { Icon } from "@/components/common/Icon";
 
 type ProductListToolbarProps = {
   totalCount: number;
@@ -11,15 +11,18 @@ type ProductListToolbarProps = {
 };
 
 export function ProductListToolbar(props: ProductListToolbarProps) {
-  const { totalCount, shownRange, sortBy, onSortChange, onToggleMobileFilter } = props;
+  const { totalCount, shownRange, sortBy, onSortChange, onToggleMobileFilter } =
+    props;
 
   return (
     <div className="flex flex-col gap-4 rounded-2xl border border-[#E2E8F0] bg-white p-4 shadow-sm sm:flex-row sm:items-center sm:justify-between">
       {/* Thông tin số lượng */}
       <div className="flex items-center justify-between">
-        <p className="text-xs text-[#475569]">
-          Hiển thị <span className="font-bold text-[#0F172A]">{shownRange}</span> của{' '}
-          <span className="font-bold text-[#1E3A8A]">{totalCount}</span> sản phẩm phù hợp
+        <p className="text-xs text-text-secondary">
+          Hiển thị{" "}
+          <span className="font-bold text-[#0F172A]">{shownRange}</span> của{" "}
+          <span className="font-bold text-[#1E3A8A]">{totalCount}</span> sản
+          phẩm phù hợp
         </p>
 
         {/* Nút lọc mobile */}
@@ -39,7 +42,10 @@ export function ProductListToolbar(props: ProductListToolbarProps) {
 
       {/* Dropdown Sắp xếp */}
       <div className="flex items-center gap-2">
-        <label htmlFor="sort-dropdown" className="text-xs font-semibold text-[#475569]">
+        <label
+          htmlFor="sort-dropdown"
+          className="text-xs font-semibold text-text-secondary"
+        >
           Sắp xếp:
         </label>
         <select

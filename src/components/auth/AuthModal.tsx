@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Icon } from '@/components/common/Icon';
+import { useState } from "react";
+import { Icon } from "@/components/common/Icon";
 
 type AuthModalProps = {
   isOpen: boolean;
@@ -11,9 +11,9 @@ type AuthModalProps = {
 
 export function AuthModal(props: AuthModalProps) {
   const { isOpen, onClose, onLoginSuccess } = props;
-  const [activeTab, setActiveTab] = useState<'login' | 'register'>('login');
-  const [accountInput, setAccountInput] = useState('0987654321');
-  const [passwordInput, setPasswordInput] = useState('123456789');
+  const [activeTab, setActiveTab] = useState<"login" | "register">("login");
+  const [accountInput, setAccountInput] = useState("0987654321");
+  const [passwordInput, setPasswordInput] = useState("123456789");
   const [showPassword, setShowPassword] = useState(false);
 
   if (!isOpen) {
@@ -28,7 +28,6 @@ export function AuthModal(props: AuthModalProps) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      {/* Lớp phông làm mờ Backdrop */}
       <button
         type="button"
         aria-label="Đóng popup đăng nhập"
@@ -36,44 +35,42 @@ export function AuthModal(props: AuthModalProps) {
         onClick={onClose}
       />
 
-      {/* Khung Popup Content */}
       <div className="relative w-full max-w-md animate-in rounded-3xl border border-[#E2E8F0] bg-white p-6 shadow-2xl transition-all zoom-in-95 fade-in sm:p-8">
-        {/* Nút đóng ✕ */}
         <button
           type="button"
           aria-label="Đóng popup đăng nhập"
           onClick={onClose}
-          className="absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-full bg-[#EDF2F7] text-xs font-bold text-[#475569] transition-colors hover:bg-[#DBEAFE] hover:text-[#0F172A]"
+          className="absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-full bg-[#EDF2F7] text-xs font-bold text-text-secondary transition-colors hover:bg-[#DBEAFE] hover:text-[#0F172A]"
         >
           <Icon name="x" size="sm" />
         </button>
 
-        {/* Header Icon & Title */}
         <div className="text-center">
           <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#DBEAFE] text-[#1E3A8A]">
             <Icon name="lock" size="lg" />
           </div>
 
           <h2 className="mt-4 text-2xl font-extrabold text-[#0F172A]">
-            {activeTab === 'login' ? 'Đăng Nhập Thành Viên' : 'Đăng Ký Tài Khoản'}
+            {activeTab === "login"
+              ? "Đăng Nhập Thành Viên"
+              : "Đăng Ký Tài Khoản"}
           </h2>
-          <p className="mt-1.5 text-xs text-[#475569]">
-            Đăng nhập hoặc tạo tài khoản nhanh để lưu thông tin giao hàng &amp; tích lũy điểm
-            thưởng.
+          <p className="mt-1.5 text-xs text-text-secondary">
+            Đăng nhập hoặc tạo tài khoản nhanh để lưu thông tin giao hàng &amp;
+            tích lũy điểm thưởng.
           </p>
         </div>
 
-        {/* Tab Switcher Segmented Control */}
         <div className="mt-6 flex rounded-full border border-[#E2E8F0] bg-[#EDF2F7] p-1">
           <button
             type="button"
             onClick={() => {
-              setActiveTab('login');
+              setActiveTab("login");
             }}
             className={`flex flex-1 items-center justify-center gap-1.5 rounded-full py-2 text-xs font-bold transition-all ${
-              activeTab === 'login'
-                ? 'bg-white text-[#1E3A8A] shadow-sm'
-                : 'text-[#475569] hover:text-[#0F172A]'
+              activeTab === "login"
+                ? "bg-white text-[#1E3A8A] shadow-sm"
+                : "text-text-secondary hover:text-[#0F172A]"
             }`}
           >
             <Icon name="lock" size="xs" />
@@ -82,12 +79,12 @@ export function AuthModal(props: AuthModalProps) {
           <button
             type="button"
             onClick={() => {
-              setActiveTab('register');
+              setActiveTab("register");
             }}
             className={`flex flex-1 items-center justify-center gap-1.5 rounded-full py-2 text-xs font-bold transition-all ${
-              activeTab === 'register'
-                ? 'bg-white text-[#1E3A8A] shadow-sm'
-                : 'text-[#475569] hover:text-[#0F172A]'
+              activeTab === "register"
+                ? "bg-white text-[#1E3A8A] shadow-sm"
+                : "text-text-secondary hover:text-[#0F172A]"
             }`}
           >
             <Icon name="user" size="xs" />
@@ -95,11 +92,12 @@ export function AuthModal(props: AuthModalProps) {
           </button>
         </div>
 
-        {/* Form Đăng Nhập / Đăng Ký */}
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">
-          {/* Số điện thoại hoặc Email */}
           <div>
-            <label htmlFor="auth-account-input" className="block text-xs font-bold text-[#0F172A]">
+            <label
+              htmlFor="auth-account-input"
+              className="block text-xs font-bold text-[#0F172A]"
+            >
               Số điện thoại hoặc Email
             </label>
             <div className="relative mt-1.5">
@@ -114,11 +112,14 @@ export function AuthModal(props: AuthModalProps) {
                 }}
                 className="w-full rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] py-3 pr-4 pl-10 text-xs font-bold text-[#0F172A] focus:border-[#1E3A8A] focus:outline-none"
               />
-              <Icon name="phone" size="sm" className="absolute top-3.5 left-3.5 text-[#475569]" />
+              <Icon
+                name="phone"
+                size="sm"
+                className="absolute top-3.5 left-3.5 text-text-secondary"
+              />
             </div>
           </div>
 
-          {/* Mật khẩu */}
           <div>
             <div className="flex items-center justify-between">
               <label
@@ -127,11 +128,11 @@ export function AuthModal(props: AuthModalProps) {
               >
                 Mật khẩu
               </label>
-              {activeTab === 'login' && (
+              {activeTab === "login" && (
                 <button
                   type="button"
                   onClick={() => {
-                    console.log('Quên mật khẩu');
+                    console.log("Quên mật khẩu");
                   }}
                   className="text-xs font-bold text-[#F97316] hover:underline"
                 >
@@ -142,7 +143,7 @@ export function AuthModal(props: AuthModalProps) {
             <div className="relative mt-1.5">
               <input
                 id="auth-password-input"
-                type={showPassword ? 'text' : 'password'}
+                type={showPassword ? "text" : "password"}
                 aria-label="Mật khẩu"
                 placeholder="••••••••••••"
                 value={passwordInput}
@@ -151,57 +152,44 @@ export function AuthModal(props: AuthModalProps) {
                 }}
                 className="w-full rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] py-3 pr-10 pl-10 text-xs font-bold text-[#0F172A] focus:border-[#1E3A8A] focus:outline-none"
               />
-              <Icon name="lock" size="sm" className="absolute top-3.5 left-3.5 text-[#475569]" />
+              <Icon
+                name="lock"
+                size="sm"
+                className="absolute top-3.5 left-3.5 text-text-secondary"
+              />
               <button
                 type="button"
                 aria-label="Ẩn hiện mật khẩu"
                 onClick={() => {
                   setShowPassword(!showPassword);
                 }}
-                className="absolute top-3.5 right-3.5 text-xs text-[#475569] hover:text-[#0F172A]"
+                className="absolute top-3.5 right-3.5 text-xs text-text-secondary hover:text-[#0F172A]"
               >
-                <Icon name={showPassword ? 'eye-off' : 'eye'} size="sm" />
+                <Icon name={showPassword ? "eye-off" : "eye"} size="sm" />
               </button>
             </div>
           </div>
 
-          {/* Submit CTA Button */}
           <div className="pt-2">
             <button
               type="submit"
               className="flex w-full items-center justify-center gap-2 rounded-full bg-[#1E3A8A] py-3.5 text-xs font-bold text-white shadow-lg transition-transform hover:scale-[1.02] hover:bg-[#172554]"
             >
-              <span>{activeTab === 'login' ? 'Đăng Nhập Ngay' : 'Tạo Tài Khoản Mới'}</span>
+              <span>
+                {activeTab === "login" ? "Đăng Nhập Ngay" : "Tạo Tài Khoản Mới"}
+              </span>
               <Icon name="arrow-right" size="sm" />
             </button>
           </div>
         </form>
 
-        {/* Phần Tiếp Tục Nhanh */}
         <div className="mt-6 text-center">
-          <div className="relative flex items-center justify-center border-t border-[#E2E8F0] pt-4">
-            <span className="bg-white px-3 text-[10px] font-bold tracking-wider text-[#475569] uppercase">
-              HOẶC TIẾP TỤC NHANH
-            </span>
-          </div>
-
-          <button
-            type="button"
-            onClick={() => {
-              onLoginSuccess();
-              onClose();
-            }}
-            className="mt-4 flex w-full items-center justify-center gap-2 rounded-full border border-[#E2E8F0] bg-white py-3 text-xs font-bold text-[#0F172A] shadow-sm transition-all hover:bg-[#EDF2F7]"
-          >
-            <span>👤 Mua hàng không cần tài khoản</span>
-          </button>
-
-          <p className="mt-4 text-xs text-[#475569]">
-            Bạn là khách hàng mới?{' '}
+          <p className="mt-4 text-xs text-text-secondary">
+            Bạn là khách hàng mới?{" "}
             <button
               type="button"
               onClick={() => {
-                setActiveTab('register');
+                setActiveTab("register");
               }}
               className="font-bold text-[#F97316] hover:underline"
             >

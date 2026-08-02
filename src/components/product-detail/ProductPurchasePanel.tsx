@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Icon } from '@/components/common/Icon';
-import type { ProductDetailData } from '@/data/product-detail-mock';
-import { Link } from '@/libs/I18nNavigation';
+import { useState } from "react";
+import { Icon } from "@/components/common/Icon";
+import type { ProductDetailData } from "@/data/product-detail-mock";
+import { Link } from "@/libs/I18nNavigation";
 
 type ProductPurchasePanelProps = {
   product: ProductDetailData;
@@ -42,17 +42,23 @@ export function ProductPurchasePanel(props: ProductPurchasePanelProps) {
             {product.category}
           </span>
           <div className="flex items-center gap-1.5 rounded-full bg-[#FFEDD5] px-3.5 py-1 text-xs font-extrabold text-[#EA580C]">
-            <Icon name="star" size="xs" className="fill-current text-[#EA580C]" />
+            <Icon
+              name="star"
+              size="xs"
+              className="fill-current text-[#EA580C]"
+            />
             <span>{product.rating}</span>
             <span>({product.reviewCount} Đánh giá)</span>
           </div>
         </div>
 
         {/* Product Title */}
-        <h1 className="mt-3 text-3xl font-extrabold text-[#0F172A] sm:text-4xl">{product.name}</h1>
+        <h1 className="mt-3 text-3xl font-extrabold text-[#0F172A] sm:text-4xl">
+          {product.name}
+        </h1>
 
         {/* Origin & Availability */}
-        <div className="mt-2.5 flex flex-wrap items-center gap-2 text-xs text-[#475569]">
+        <div className="mt-2.5 flex flex-wrap items-center gap-2 text-xs text-text-secondary">
           <span className="flex items-center gap-1">
             <Icon name="map-pin" size="xs" />
             <span>Xuất xứ:</span>
@@ -67,10 +73,10 @@ export function ProductPurchasePanel(props: ProductPurchasePanelProps) {
         {/* Khung Giá (Cream Box) */}
         <div className="mt-5 flex items-center gap-4 rounded-2xl bg-[#EDF2F7] p-4">
           <span className="text-3xl font-extrabold text-[#F97316]">
-            {product.price.toLocaleString('vi-VN')}đ
+            {product.price.toLocaleString("vi-VN")}đ
           </span>
-          <span className="text-sm text-[#475569] line-through">
-            {product.originalPrice.toLocaleString('vi-VN')}đ
+          <span className="text-sm text-text-secondary line-through">
+            {product.originalPrice.toLocaleString("vi-VN")}đ
           </span>
           <span className="rounded-md bg-red-100 px-2.5 py-1 text-xs font-bold text-red-600">
             -{product.discountPercentage}% GIẢM SỐC
@@ -78,9 +84,11 @@ export function ProductPurchasePanel(props: ProductPurchasePanelProps) {
         </div>
 
         {/* Description & Specs List */}
-        <p className="mt-5 text-sm leading-relaxed text-[#475569]">{product.shortDescription}</p>
+        <p className="mt-5 text-sm leading-relaxed text-text-secondary">
+          {product.shortDescription}
+        </p>
 
-        <ul className="mt-3 space-y-1.5 text-xs text-[#475569]">
+        <ul className="mt-3 space-y-1.5 text-xs text-text-secondary">
           {product.specs.map((item, idx) => (
             <li key={idx} className="flex items-center gap-2">
               <span className="h-1.5 w-1.5 rounded-full bg-[#1E3A8A]" />
@@ -97,11 +105,18 @@ export function ProductPurchasePanel(props: ProductPurchasePanelProps) {
               className="flex items-start gap-3 rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] p-3.5"
             >
               <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#DBEAFE] text-[#1E3A8A]">
-                <Icon name={trust.icon === 'truck' ? 'truck' : 'shield-check'} size="md" />
+                <Icon
+                  name={trust.icon === "truck" ? "truck" : "shield-check"}
+                  size="md"
+                />
               </div>
               <div>
-                <h4 className="text-xs font-bold text-[#0F172A]">{trust.title}</h4>
-                <p className="mt-0.5 text-[11px] leading-snug text-[#475569]">{trust.desc}</p>
+                <h4 className="text-xs font-bold text-[#0F172A]">
+                  {trust.title}
+                </h4>
+                <p className="mt-0.5 text-[11px] leading-snug text-text-secondary">
+                  {trust.desc}
+                </p>
               </div>
             </div>
           ))}
@@ -109,7 +124,9 @@ export function ProductPurchasePanel(props: ProductPurchasePanelProps) {
 
         {/* Quantity Stepper & Subtotal */}
         <div className="mt-6 flex items-center justify-between border-t border-[#E2E8F0] pt-5">
-          <span className="text-xs font-bold text-[#0F172A]">Chọn số lượng:</span>
+          <span className="text-xs font-bold text-[#0F172A]">
+            Chọn số lượng:
+          </span>
           <div className="flex items-center gap-4">
             <div className="flex items-center rounded-full border border-[#E2E8F0] bg-[#EDF2F7] px-2 py-1">
               <button
@@ -120,7 +137,9 @@ export function ProductPurchasePanel(props: ProductPurchasePanelProps) {
               >
                 <Icon name="minus" size="xs" />
               </button>
-              <span className="w-8 text-center text-xs font-bold text-[#0F172A]">{quantity}</span>
+              <span className="w-8 text-center text-xs font-bold text-[#0F172A]">
+                {quantity}
+              </span>
               <button
                 type="button"
                 aria-label="Tăng số lượng"
@@ -130,9 +149,12 @@ export function ProductPurchasePanel(props: ProductPurchasePanelProps) {
                 <Icon name="plus" size="xs" />
               </button>
             </div>
-            <span className="text-xs text-[#475569]">
-              (Tạm tính:{' '}
-              <strong className="text-[#1E3A8A]">{subtotal.toLocaleString('vi-VN')}đ</strong>)
+            <span className="text-xs text-text-secondary">
+              (Tạm tính:{" "}
+              <strong className="text-[#1E3A8A]">
+                {subtotal.toLocaleString("vi-VN")}đ
+              </strong>
+              )
             </span>
           </div>
         </div>
@@ -168,21 +190,25 @@ export function ProductPurchasePanel(props: ProductPurchasePanelProps) {
           />
           <div className="flex-1">
             <div className="flex items-center justify-between">
-              <span className="text-[11px] font-bold text-[#16A34A]">✅ Đã thêm thành công!</span>
+              <span className="text-[11px] font-bold text-[#16A34A]">
+                ✅ Đã thêm thành công!
+              </span>
               <button
                 type="button"
                 aria-label="Đóng thông báo"
                 onClick={() => {
                   setShowToast(false);
                 }}
-                className="text-xs text-[#475569] hover:text-[#0F172A]"
+                className="text-xs text-text-secondary hover:text-[#0F172A]"
               >
                 <Icon name="x" size="xs" />
               </button>
             </div>
-            <p className="mt-0.5 line-clamp-1 text-xs font-bold text-[#0F172A]">{product.name}</p>
-            <p className="text-[10px] text-[#475569]">
-              Số lượng: {quantity} con • {subtotal.toLocaleString('vi-VN')}đ
+            <p className="mt-0.5 line-clamp-1 text-xs font-bold text-[#0F172A]">
+              {product.name}
+            </p>
+            <p className="text-[10px] text-text-secondary">
+              Số lượng: {quantity} con • {subtotal.toLocaleString("vi-VN")}đ
             </p>
             <div className="mt-2 flex items-center gap-2">
               <Link
