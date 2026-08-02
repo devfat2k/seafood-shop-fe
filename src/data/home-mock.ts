@@ -31,6 +31,22 @@ export type UspItem = {
   description: string;
 };
 
+export type ComboSet = {
+  id: string;
+  tag: string;
+  title: string;
+  description: string;
+  price: number;
+  unit: string;
+  ctaText: string;
+  href: string;
+  image: string;
+  theme: 'light' | 'dark';
+  badgeType?: 'gold' | 'green' | 'orange';
+  isBreakout?: boolean;
+  category: 'all' | 'lunch' | 'party' | 'family';
+};
+
 export const USP_LIST: UspItem[] = [
   {
     id: 'usp-1',
@@ -134,8 +150,8 @@ export const FEATURED_PRODUCTS: Product[] = [
     name: 'Tôm Hùm Bông Phan Thiết (Size 1-1.2kg/con)',
     category: 'TÔM & CUA',
     categorySlug: 'tom-cua',
-    badges: ['🔥 Bán chạy số 1', 'Tươi sống'],
-    spec: '⚡ Giao sống tận nơi • Thùng xốp 4l',
+    badges: ['Bán chạy số 1', 'Tươi sống'],
+    spec: 'Giao sống tận nơi • Thùng xốp 4l',
     price: 890_000,
     unit: '1kg',
     image:
@@ -147,8 +163,8 @@ export const FEATURED_PRODUCTS: Product[] = [
     name: 'Mực Lá Phan Thiết Lớn (Size 2-3 con/kg)',
     category: 'MỰC & BẠCH TUỘC',
     categorySlug: 'muc-bach-tuoc',
-    badges: ['🔥 Bán chạy số 1'],
-    spec: '⚡ Giao tươi dấp đá • Đóng khay sạch',
+    badges: ['Bán chạy số 1'],
+    spec: 'Giao tươi dấp đá • Đóng khay sạch',
     price: 380_000,
     unit: '1kg',
     image:
@@ -160,8 +176,8 @@ export const FEATURED_PRODUCTS: Product[] = [
     name: 'Set Nhậu Hải Sản "Cuối Tuần" Tiết Kiệm',
     category: 'SET COMBO',
     categorySlug: 'sot-tiec',
-    badges: ['🔥 Bán chạy số 1', 'Sốt Tiệc'],
-    spec: '⚡ Đã kèm sốt chấm muối ớt xanh',
+    badges: ['Bán chạy số 1', 'Sốt Tiệc'],
+    spec: 'Đã kèm sốt chấm muối ớt xanh',
     price: 650_000,
     unit: 'set',
     image:
@@ -174,11 +190,78 @@ export const FEATURED_PRODUCTS: Product[] = [
     category: 'SÒ & ỐC',
     categorySlug: 'so-oc',
     badges: ['Đơn 11 món'],
-    spec: '⚡ Hỗ trợ tách nắp miễn phí',
+    spec: 'Hỗ trợ tách nắp miễn phí',
     price: 145_000,
     unit: '1kg',
     image:
       'https://images.unsplash.com/photo-1615141982883-c7ad0e69fd62?auto=format&fit=crop&w=600&q=80',
     rating: 4.7,
+  },
+];
+
+export const COMBO_SETS: ComboSet[] = [
+  {
+    id: 'combo-eatclean',
+    tag: 'SỨC KHỎE',
+    title: 'Set Văn Phòng Eat-Clean',
+    description: 'Hải sản hấp nhẹ kèm salad và sốt bơ chanh thơm béo, ít calo, giàu protein.',
+    price: 185_000,
+    unit: 'phần',
+    ctaText: 'Đặt phần ăn trưa',
+    href: '/products?category=sot-tiec',
+    image:
+      'https://images.unsplash.com/photo-1555126634-323283e090fa?auto=format&fit=crop&w=800&q=80',
+    theme: 'light',
+    badgeType: 'gold',
+    category: 'lunch',
+  },
+  {
+    id: 'combo-bbq',
+    tag: 'TIỆC TÚNG',
+    title: 'Set Nhậu Cuối Tuần BBQ',
+    description:
+      'Hải sản ướp sẵn sốt nướng cay nồng Phan Thiết kèm bếp than mini tự nướng tiện lợi.',
+    price: 650_000,
+    unit: 'set 2-3 người',
+    ctaText: 'Đặt tiệc cuối tuần',
+    href: '/products?category=sot-tiec',
+    image:
+      'https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?auto=format&fit=crop&w=800&q=80',
+    theme: 'dark',
+    badgeType: 'gold',
+    isBreakout: true,
+    category: 'party',
+  },
+  {
+    id: 'combo-family-hotpot',
+    tag: 'GIA ĐÌNH',
+    title: 'Combo Lẩu Hải Sản Hoàng Gia',
+    description:
+      'Tôm hùm, cua Huỳnh Đế, mực lá và nghêu tươi kèm nước dùng lẩu Thái chua cay đậm đà.',
+    price: 1_250_000,
+    unit: 'set 4-6 người',
+    ctaText: 'Đặt set lẩu gia đình',
+    href: '/products?category=sot-tiec',
+    image:
+      'https://images.unsplash.com/photo-1545696968-1a5245650b36?auto=format&fit=crop&w=800&q=80',
+    theme: 'dark',
+    badgeType: 'gold',
+    isBreakout: true,
+    category: 'family',
+  },
+  {
+    id: 'combo-lunch-bento',
+    tag: 'HỎA TỐC',
+    title: 'Set Cơm Trưa Hải Sản Tươi',
+    description: 'Cơm gạo lứt kèm cá thu sốt cà, mực xào cần tây và canh ngao thì là nóng hổi.',
+    price: 145_000,
+    unit: 'phần',
+    ctaText: 'Đặt cơm trưa hỏa tốc',
+    href: '/products?category=sot-tiec',
+    image:
+      'https://images.unsplash.com/photo-1615141982883-c7ad0e69fd62?auto=format&fit=crop&w=800&q=80',
+    theme: 'light',
+    badgeType: 'green',
+    category: 'lunch',
   },
 ];

@@ -49,7 +49,7 @@ export function FeaturedProducts() {
               className={`rounded-full px-4 py-2 text-xs font-bold transition-colors ${
                 activeTab === "tom-cua"
                   ? "bg-[#1E3A8A] text-white"
-                  : "text-[#475569] hover:text-[#0F172A]"
+                  : "text-text-secondary hover:text-[#0F172A]"
               }`}
             >
               Tôm &amp; Cua
@@ -83,20 +83,18 @@ export function FeaturedProducts() {
           </div>
         </div>
 
-        {/* Product Cards Grid */}
         <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {filteredProducts.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
 
-        {/* View All Button */}
-        <div className="mt-12 text-center">
+        <div className="mt-8 flex justify-center items-center">
           <Link
             href="/products"
-            className="inline-flex items-center gap-2 rounded-full border border-[#E2E8F0] bg-[#EDF2F7] px-8 py-3.5 text-xs font-bold text-[#0F172A] shadow-sm transition-all hover:-translate-y-0.5 hover:bg-[#DBEAFE] hover:text-[#1E3A8A]"
+            className="inline-flex items-center cursor-pointer gap-2 rounded-full border border-[#E2E8F0] bg-[#EDF2F7] px-12 py-4 text-xs font-bold text-[#0F172A] shadow-sm transition-all hover:-translate-y-0.5 hover:bg-[#DBEAFE] hover:text-[#1E3A8A]"
           >
-            <span>Xem Tất Cả 120+ Sản Phẩm</span>
+            <span>Xem Tất Cả</span>
             <Icon name="chevron-right" size="sm" />
           </Link>
         </div>

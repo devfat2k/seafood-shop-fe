@@ -1,7 +1,7 @@
-import Image from "next/image";
-import { Icon } from "@/components/common/Icon";
-import { BENTO_CATEGORIES } from "@/data/home-mock";
-import { Link } from "@/libs/I18nNavigation";
+import Image from 'next/image';
+import { Icon } from '@/components/common/Icon';
+import { BENTO_CATEGORIES } from '@/data/home-mock';
+import { Link } from '@/libs/I18nNavigation';
 
 export function BentoCategories() {
   const [mainCombo, lobsterCard, squidCard] = BENTO_CATEGORIES;
@@ -18,8 +18,7 @@ export function BentoCategories() {
             Khám Phá Hải Sản Phan Thiết
           </h2>
           <p className="mt-2.5 text-xs leading-relaxed text-[#5B6B63] sm:text-sm">
-            Tuyển chọn những loại hải sản tươi ngon, đa dạng phù hợp cho từng
-            nhu cầu ăn uống
+            Tuyển chọn những loại hải sản tươi ngon, đa dạng phù hợp cho từng nhu cầu ăn uống
           </p>
         </div>
 
@@ -30,13 +29,13 @@ export function BentoCategories() {
                 src={mainCombo.image}
                 alt={mainCombo.title}
                 fill
-                style={{ objectFit: "cover" }}
+                style={{ objectFit: 'cover' }}
                 priority
               />
               <div className="absolute inset-0 flex flex-col justify-between bg-linear-to-t from-[#0B2F28]/95 via-[#0B2F28]/40 to-transparent p-6 sm:p-8">
                 <div>
                   <span className="inline-block rounded-full bg-[#D9A441] px-3.5 py-1 text-[11px] font-extrabold tracking-wide text-white uppercase shadow-xs">
-                    {mainCombo.badge ?? "HOT COMBO"}
+                    {mainCombo.badge ?? 'HOT COMBO'}
                   </span>
                 </div>
 
@@ -74,9 +73,7 @@ export function BentoCategories() {
                     <h3 className="text-lg font-extrabold text-white sm:text-xl">
                       {lobsterCard.title}
                     </h3>
-                    <p className="mt-1 text-xs text-slate-200">
-                      {lobsterCard.subtitle}
-                    </p>
+                    <p className="mt-1 text-xs text-slate-200">{lobsterCard.subtitle}</p>
                     <Link
                       href={lobsterCard.href}
                       className="mt-3 inline-flex items-center gap-1.5 text-xs font-bold text-[#D9A441] transition-all hover:text-[#C4922F]"
@@ -94,16 +91,14 @@ export function BentoCategories() {
                   src={squidCard.image}
                   alt={squidCard.title}
                   fill
-                  style={{ objectFit: "cover" }}
+                  style={{ objectFit: 'cover' }}
                 />
                 <div className="absolute inset-0 flex flex-col justify-end bg-linear-to-t from-[#0B2F28]/95 via-[#0B2F28]/40 to-transparent p-6">
                   <div>
                     <h3 className="text-lg font-extrabold text-white sm:text-xl">
                       {squidCard.title}
                     </h3>
-                    <p className="mt-1 text-xs text-slate-200">
-                      {squidCard.subtitle}
-                    </p>
+                    <p className="mt-1 text-xs text-slate-200">{squidCard.subtitle}</p>
                     <Link
                       href={squidCard.href}
                       className="mt-3 inline-flex items-center gap-1.5 text-xs font-bold text-[#D9A441] transition-all hover:text-[#C4922F]"
@@ -126,15 +121,15 @@ export function BentoCategories() {
               <div>
                 <div className="flex items-center justify-between">
                   <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#F5F1E8] text-[#C4922F] transition-transform duration-300 group-hover:scale-110">
-                    <Icon name={card.iconName ?? "fish"} size="sm" />
+                    <Icon name={card.iconName ?? 'fish'} size="sm" />
                   </div>
 
                   {card.badge && (
                     <span
                       className={`rounded-full px-3 py-1 text-[11px] font-extrabold ${
-                        card.badgeType === "fresh"
-                          ? "bg-[#F6E8CC] text-[#C4922F]"
-                          : "bg-[#F5F1E8] text-[#5B6B63]"
+                        card.badgeType === 'fresh'
+                          ? 'bg-[#F6E8CC] text-[#C4922F]'
+                          : 'bg-[#F5F1E8] text-[#5B6B63]'
                       }`}
                     >
                       {card.badge}
@@ -145,9 +140,7 @@ export function BentoCategories() {
                 <h3 className="mt-4 text-base font-extrabold text-[#0B2F28] transition-colors group-hover:text-[#C4922F] sm:text-lg">
                   {card.title}
                 </h3>
-                <p className="mt-1.5 text-xs leading-relaxed text-[#5B6B63]">
-                  {card.subtitle}
-                </p>
+                <p className="mt-1.5 text-xs leading-relaxed text-[#5B6B63]">{card.subtitle}</p>
               </div>
 
               <div className="mt-6 flex items-center justify-between border-t border-[#E4E0D8]/60 pt-4">

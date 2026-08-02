@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { BentoCategories } from '@/components/home/BentoCategories';
+import { ComboSetsSection } from '@/components/home/ComboSetsSection';
 import { FeaturedProducts } from '@/components/home/FeaturedProducts';
 import { HeroSection } from '@/components/home/HeroSection';
 import { MarqueeStrip } from '@/components/home/MarqueeStrip';
@@ -33,6 +34,7 @@ export default async function Index(props: IndexPageProps) {
       <MarqueeStrip />
       <UspSection />
       <FeaturedProducts />
+      <ComboSetsSection />
       <BentoCategories />
     </div>
   );
