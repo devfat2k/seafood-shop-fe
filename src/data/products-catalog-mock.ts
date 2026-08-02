@@ -82,7 +82,7 @@ export const CATALOG_PRODUCTS: CatalogProduct[] = [
     price: 380_000,
     unit: 'Kg',
     image:
-      'https://images.unsplash.com/photo-1545696968-1a5245650b36?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=600&q=80',
     inStock: true,
     isPopular: true,
     fastShipping: true,

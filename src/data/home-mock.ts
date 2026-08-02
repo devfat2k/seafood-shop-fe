@@ -21,6 +21,7 @@ export type CategoryItem = {
   href: string;
   image: string;
   gridSpan?: string;
+  iconName?: string;
 };
 
 export type UspItem = {
@@ -62,8 +63,8 @@ export const BENTO_CATEGORIES: CategoryItem[] = [
     id: 'bento-combo',
     title: 'SET HẢI SẢN NHẬU & BBQ',
     subtitle:
-      'Đầy đủ tôm, mực, hàu, sò kèm sốt muối ớt xanh đặc sản Phan Thiết, chỉ cần mở nắp là nướng. Lý tưởng cho gia đình & tiệc cuối tuần.',
-    badge: 'PET COMBO',
+      'Đầy đủ tôm, mực, hàu, sò kèm sốt muối ớt xanh đặc sản Phan Thiết. Chỉ cần mở hộp và nướng, lý tưởng cho gia đình & tiệc cuối tuần.',
+    badge: 'HOT COMBO',
     badgeType: 'hot',
     linkText: 'Khám phá ngay →',
     href: '/products?category=set-combo',
@@ -74,53 +75,56 @@ export const BENTO_CATEGORIES: CategoryItem[] = [
   {
     id: 'bento-lobster',
     title: 'Tôm Hùm & Cua Ghẹ',
-    subtitle: 'Tươi sống, thịt chắc ngọt đậm đà',
+    subtitle: 'Tươi sống, đang bơi trong bể kính',
     linkText: 'Xem thêm →',
     href: '/products?category=tom-cua',
     image:
-      'https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1555126634-323283e090fa?auto=format&fit=crop&w=800&q=80',
   },
   {
     id: 'bento-squid',
     title: 'Mực Lá & Bạch Tuộc',
-    subtitle: 'Dày thịt, giòn sần sật nướng đậm vị',
+    subtitle: 'Mực nhảy cấp đông chuẩn IQF',
     linkText: 'Xem thêm →',
     href: '/products?category=muc-bach-tuoc',
     image:
-      'https://images.unsplash.com/photo-1545696968-1a5245650b36?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1555126634-323283e090fa?auto=format&fit=crop&w=800&q=80',
   },
   {
     id: 'bento-clam',
     title: 'Nghêu, Sò & Ốc',
-    subtitle: 'Hàng tươi béo ngậy, béo ngậy tôm hùm Phan Thiết.',
-    badge: '#1 Sản phẩm',
+    subtitle: 'Hàu sữa Pháp, sò điệp Nhật, ốc hương Phan Thiết.',
+    badge: '45+ sản phẩm',
     badgeType: 'number',
-    linkText: 'Mua ngay >',
+    linkText: 'Mua ngay →',
     href: '/products?category=so-oc',
     image:
-      'https://images.unsplash.com/photo-1615141982883-c7ad0e69fd62?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1555126634-323283e090fa?auto=format&fit=crop&w=800&q=80',
+    iconName: 'shell',
   },
   {
     id: 'bento-ready',
     title: 'Chế Biến Sẵn',
-    subtitle: 'Các món hấp, nướng sẵn mang hương vị Phan Thiết thơm lừng.',
+    subtitle: 'Cá kho tộ, mực rim me, chả cá Phan Thiết chiên nóng.',
     badge: 'Món ăn liền',
     badgeType: 'fresh',
-    linkText: 'Mua ngay >',
+    linkText: 'Mua ngay →',
     href: '/products?category=che-bien-san',
     image:
       'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?auto=format&fit=crop&w=600&q=80',
+    iconName: 'flame',
   },
   {
     id: 'bento-dry',
     title: 'Hải Sản Khô & Gia Vị',
-    subtitle: 'Mực một nắng, nước mắm truyền thống đậm đà chuẩn vị.',
+    subtitle: 'Mực một nắng, cá chỉ vàng, sốt chấm muối ớt đỏ thần thánh.',
     badge: 'Đặc sản khô',
     badgeType: 'dry',
-    linkText: 'Mua ngay >',
+    linkText: 'Mua ngay →',
     href: '/products?category=dac-san-kho',
     image:
       'https://images.unsplash.com/photo-1509358217973-885695e43e6e?auto=format&fit=crop&w=600&q=80',
+    iconName: 'sun',
   },
 ];
 
@@ -148,7 +152,7 @@ export const FEATURED_PRODUCTS: Product[] = [
     price: 380_000,
     unit: '1kg',
     image:
-      'https://images.unsplash.com/photo-1545696968-1a5245650b36?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1555126634-323283e090fa?auto=format&fit=crop&w=800&q=80',
     rating: 4.8,
   },
   {

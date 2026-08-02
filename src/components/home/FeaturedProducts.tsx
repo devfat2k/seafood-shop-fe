@@ -1,21 +1,21 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Icon } from '@/components/common/Icon';
-import { ProductCard } from '@/components/products/ProductCard';
-import { FEATURED_PRODUCTS } from '@/data/home-mock';
-import { Link } from '@/libs/I18nNavigation';
+import { useState } from "react";
+import { Icon } from "@/components/common/Icon";
+import { ProductCard } from "@/components/products/ProductCard";
+import { FEATURED_PRODUCTS } from "@/data/home-mock";
+import { Link } from "@/libs/I18nNavigation";
 
 export function FeaturedProducts() {
-  const [activeTab, setActiveTab] = useState<string>('all');
+  const [activeTab, setActiveTab] = useState<string>("all");
 
   const filteredProducts =
-    activeTab === 'all'
+    activeTab === "all"
       ? FEATURED_PRODUCTS
       : FEATURED_PRODUCTS.filter((p) => p.categorySlug === activeTab);
 
   return (
-    <section className="bg-white py-16 lg:py-24">
+    <section className="bg-white py-8 lg:py-12">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <div>
@@ -27,17 +27,16 @@ export function FeaturedProducts() {
             </h2>
           </div>
 
-          {/* Filter Tabs */}
           <div className="flex flex-wrap items-center gap-2 rounded-full border border-[#E2E8F0] bg-[#F8FAFC] p-1.5">
             <button
               type="button"
               onClick={() => {
-                setActiveTab('all');
+                setActiveTab("all");
               }}
               className={`rounded-full px-4 py-2 text-xs font-bold transition-colors ${
-                activeTab === 'all'
-                  ? 'bg-[#1E3A8A] text-white'
-                  : 'text-[#475569] hover:text-[#0F172A]'
+                activeTab === "all"
+                  ? "bg-[#1E3A8A] text-white"
+                  : "text-text-secondary hover:text-[#0F172A]"
               }`}
             >
               Tất cả
@@ -45,12 +44,12 @@ export function FeaturedProducts() {
             <button
               type="button"
               onClick={() => {
-                setActiveTab('tom-cua');
+                setActiveTab("tom-cua");
               }}
               className={`rounded-full px-4 py-2 text-xs font-bold transition-colors ${
-                activeTab === 'tom-cua'
-                  ? 'bg-[#1E3A8A] text-white'
-                  : 'text-[#475569] hover:text-[#0F172A]'
+                activeTab === "tom-cua"
+                  ? "bg-[#1E3A8A] text-white"
+                  : "text-[#475569] hover:text-[#0F172A]"
               }`}
             >
               Tôm &amp; Cua
@@ -58,12 +57,12 @@ export function FeaturedProducts() {
             <button
               type="button"
               onClick={() => {
-                setActiveTab('muc-bach-tuoc');
+                setActiveTab("muc-bach-tuoc");
               }}
               className={`rounded-full px-4 py-2 text-xs font-bold transition-colors ${
-                activeTab === 'muc-bach-tuoc'
-                  ? 'bg-[#1E3A8A] text-white'
-                  : 'text-[#475569] hover:text-[#0F172A]'
+                activeTab === "muc-bach-tuoc"
+                  ? "bg-[#1E3A8A] text-white"
+                  : "text-text-secondary hover:text-[#0F172A]"
               }`}
             >
               Mực &amp; Bạch tuộc
@@ -71,12 +70,12 @@ export function FeaturedProducts() {
             <button
               type="button"
               onClick={() => {
-                setActiveTab('sot-tiec');
+                setActiveTab("sot-tiec");
               }}
               className={`rounded-full px-4 py-2 text-xs font-bold transition-colors ${
-                activeTab === 'sot-tiec'
-                  ? 'bg-[#1E3A8A] text-white'
-                  : 'text-[#475569] hover:text-[#0F172A]'
+                activeTab === "sot-tiec"
+                  ? "bg-[#1E3A8A] text-white"
+                  : "text-text-secondary hover:text-[#0F172A]"
               }`}
             >
               Sốt Tiệc

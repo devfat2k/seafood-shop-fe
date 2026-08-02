@@ -47,7 +47,7 @@ export const PRODUCT_DETAIL_DATA: ProductDetailData = {
   images: [
     'https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?auto=format&fit=crop&w=1000&q=80',
     'https://images.unsplash.com/photo-1555126634-323283e090fa?auto=format&fit=crop&w=1000&q=80',
-    'https://images.unsplash.com/photo-1545696968-1a5245650b36?auto=format&fit=crop&w=1000&q=80',
+    'https://images.unsplash.com/photo-1555126634-323283e090fa?auto=format&fit=crop&w=600&q=80',
     'https://images.unsplash.com/photo-1615141982883-c7ad0e69fd62?auto=format&fit=crop&w=1000&q=80',
   ],
   shortDescription:
