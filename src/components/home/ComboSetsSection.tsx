@@ -1,34 +1,33 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import { useRef, useState } from "react";
-import { Icon } from "@/components/common/Icon";
-import { COMBO_SETS } from "@/data/home-mock";
-import type { ComboSet } from "@/data/home-mock";
-import { Link } from "@/libs/I18nNavigation";
+import Image from 'next/image';
+import { useRef, useState } from 'react';
+import { Icon } from '@/components/common/Icon';
+import { COMBO_SETS } from '@/data/home-mock';
+import type { ComboSet } from '@/data/home-mock';
+import { Link } from '@/libs/I18nNavigation';
 
 export function ComboSetsSection() {
-  const [activeCategory, setActiveCategory] =
-    useState<ComboSet["category"]>("all");
+  const [activeCategory, setActiveCategory] = useState<ComboSet['category']>('all');
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const filteredSets =
-    activeCategory === "all"
+    activeCategory === 'all'
       ? COMBO_SETS
       : COMBO_SETS.filter((set) => set.category === activeCategory);
 
-  const handleScroll = (direction: "left" | "right") => {
+  const handleScroll = (direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {
-      const scrollAmount = direction === "left" ? -380 : 380;
+      const scrollAmount = direction === 'left' ? -380 : 380;
       scrollContainerRef.current.scrollBy({
         left: scrollAmount,
-        behavior: "smooth",
+        behavior: 'smooth',
       });
     }
   };
 
   return (
-    <section className="bg-[#FBF8F3] py-12 lg:py-16">
+    <section className="bg-[#F8FAFC] py-14 lg:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
@@ -40,8 +39,7 @@ export function ComboSetsSection() {
               Thưởng Thức Hải Sản Theo Dịp
             </h2>
             <p className="mt-2 text-xs text-[#5B6B63] sm:text-sm">
-              Thiết kế trọn gói cho bữa ăn văn phòng, gia đình hoặc tiệc nhậu
-              nướng ngoài trời
+              Thiết kế trọn gói cho bữa ăn văn phòng, gia đình hoặc tiệc nhậu nướng ngoài trời
             </p>
           </div>
 
@@ -50,12 +48,12 @@ export function ComboSetsSection() {
               <button
                 type="button"
                 onClick={() => {
-                  setActiveCategory("all");
+                  setActiveCategory('all');
                 }}
                 className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition-all ${
-                  activeCategory === "all"
-                    ? "bg-[#0B2F28] text-white shadow-xs"
-                    : "text-[#5B6B63] hover:text-[#0B2F28]"
+                  activeCategory === 'all'
+                    ? 'bg-[#0B2F28] text-white shadow-xs'
+                    : 'text-[#5B6B63] hover:text-[#0B2F28]'
                 }`}
               >
                 Tất cả
@@ -63,12 +61,12 @@ export function ComboSetsSection() {
               <button
                 type="button"
                 onClick={() => {
-                  setActiveCategory("lunch");
+                  setActiveCategory('lunch');
                 }}
                 className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition-all ${
-                  activeCategory === "lunch"
-                    ? "bg-[#0B2F28] text-white shadow-xs"
-                    : "text-[#5B6B63] hover:text-[#0B2F28]"
+                  activeCategory === 'lunch'
+                    ? 'bg-[#0B2F28] text-white shadow-xs'
+                    : 'text-[#5B6B63] hover:text-[#0B2F28]'
                 }`}
               >
                 Ăn Trưa
@@ -76,12 +74,12 @@ export function ComboSetsSection() {
               <button
                 type="button"
                 onClick={() => {
-                  setActiveCategory("party");
+                  setActiveCategory('party');
                 }}
                 className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition-all ${
-                  activeCategory === "party"
-                    ? "bg-[#0B2F28] text-white shadow-xs"
-                    : "text-[#5B6B63] hover:text-[#0B2F28]"
+                  activeCategory === 'party'
+                    ? 'bg-[#0B2F28] text-white shadow-xs'
+                    : 'text-[#5B6B63] hover:text-[#0B2F28]'
                 }`}
               >
                 Tiệc BBQ
@@ -89,12 +87,12 @@ export function ComboSetsSection() {
               <button
                 type="button"
                 onClick={() => {
-                  setActiveCategory("family");
+                  setActiveCategory('family');
                 }}
                 className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition-all ${
-                  activeCategory === "family"
-                    ? "bg-[#0B2F28] text-white shadow-xs"
-                    : "text-[#5B6B63] hover:text-[#0B2F28]"
+                  activeCategory === 'family'
+                    ? 'bg-[#0B2F28] text-white shadow-xs'
+                    : 'text-[#5B6B63] hover:text-[#0B2F28]'
                 }`}
               >
                 Gia Đình
@@ -105,7 +103,7 @@ export function ComboSetsSection() {
               <button
                 type="button"
                 onClick={() => {
-                  handleScroll("left");
+                  handleScroll('left');
                 }}
                 aria-label="Cuộn trái"
                 className="flex h-10 w-10 items-center justify-center rounded-full border border-[#E4E0D8] bg-white text-[#0B2F28] shadow-xs transition-all hover:scale-105 hover:bg-[#F5F1E8] active:scale-95"
@@ -115,7 +113,7 @@ export function ComboSetsSection() {
               <button
                 type="button"
                 onClick={() => {
-                  handleScroll("right");
+                  handleScroll('right');
                 }}
                 aria-label="Cuộn phải"
                 className="flex h-10 w-10 items-center justify-center rounded-full border border-[#E4E0D8] bg-white text-[#0B2F28] shadow-xs transition-all hover:scale-105 hover:bg-[#F5F1E8] active:scale-95"
@@ -132,9 +130,9 @@ export function ComboSetsSection() {
           className="mt-8 flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth pb-4 lg:grid lg:grid-cols-2 lg:overflow-visible"
         >
           {filteredSets.map((set) => {
-            const formattedPrice = `${set.price.toLocaleString("vi-VN")}₫`;
+            const formattedPrice = `${set.price.toLocaleString('vi-VN')}₫`;
 
-            if (set.theme === "dark") {
+            if (set.theme === 'dark') {
               return (
                 <div
                   key={set.id}
@@ -157,9 +155,7 @@ export function ComboSetsSection() {
                         <span className="text-2xl font-extrabold text-[#D9A441] sm:text-3xl">
                           {formattedPrice}
                         </span>
-                        <span className="text-xs text-slate-300 sm:text-sm">
-                          / {set.unit}
-                        </span>
+                        <span className="text-xs text-slate-300 sm:text-sm">/ {set.unit}</span>
                       </div>
 
                       <div className="mt-6">
@@ -224,9 +220,7 @@ export function ComboSetsSection() {
                       <span className="text-2xl font-extrabold text-[#C4922F] sm:text-3xl">
                         {formattedPrice}
                       </span>
-                      <span className="text-xs text-[#5B6B63] sm:text-sm">
-                        / {set.unit}
-                      </span>
+                      <span className="text-xs text-[#5B6B63] sm:text-sm">/ {set.unit}</span>
                     </div>
 
                     <div className="mt-6">

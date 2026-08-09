@@ -2,11 +2,16 @@
 
 import { useState } from "react";
 import { Icon } from "@/components/common/Icon";
+import type { ProductCardItem } from "@/components/products/ProductCard";
 import { ProductCard } from "@/components/products/ProductCard";
 import { FEATURED_PRODUCTS } from "@/data/home-mock";
 import { Link } from "@/libs/I18nNavigation";
 
-export function FeaturedProducts() {
+type FeaturedProductsProps = {
+  onQuickView?: (product: ProductCardItem) => void;
+};
+
+export function FeaturedProducts({ onQuickView }: FeaturedProductsProps) {
   const [activeTab, setActiveTab] = useState<string>("all");
 
   const filteredProducts =
@@ -15,7 +20,7 @@ export function FeaturedProducts() {
       : FEATURED_PRODUCTS.filter((p) => p.categorySlug === activeTab);
 
   return (
-    <section className="bg-white py-8 lg:py-12">
+    <section className="bg-white py-14 lg:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <div>
@@ -85,14 +90,18 @@ export function FeaturedProducts() {
 
         <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {filteredProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
+            <ProductCard
+              key={product.id}
+              product={product}
+              onQuickView={onQuickView}
+            />
           ))}
         </div>
 
-        <div className="mt-8 flex justify-center items-center">
+        <div className="mt-8 flex items-center justify-center">
           <Link
             href="/products"
-            className="inline-flex items-center cursor-pointer gap-2 rounded-full border border-[#E2E8F0] bg-[#EDF2F7] px-12 py-4 text-xs font-bold text-[#0F172A] shadow-sm transition-all hover:-translate-y-0.5 hover:bg-[#DBEAFE] hover:text-[#1E3A8A]"
+            className="inline-flex cursor-pointer items-center gap-2 rounded-full border border-[#E2E8F0] bg-[#EDF2F7] px-12 py-4 text-xs font-bold text-[#0F172A] shadow-xs transition-all hover:-translate-y-0.5 hover:bg-[#DBEAFE] hover:text-[#1E3A8A]"
           >
             <span>Xem Tất Cả</span>
             <Icon name="chevron-right" size="sm" />
