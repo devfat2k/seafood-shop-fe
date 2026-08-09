@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { Icon } from "@/components/common/Icon";
-import { CATEGORY_FILTER_LIST } from "@/data/products-catalog-mock";
-import type { CatalogProduct } from "@/data/products-catalog-mock";
+import { Icon } from '@/components/common/Icon';
+import { CATEGORY_FILTER_LIST } from '@/data/products-catalog-mock';
+import type { CatalogProduct } from '@/data/products-catalog-mock';
 
 type FilterState = {
-  categories: CatalogProduct["categorySlug"][];
+  categories: CatalogProduct['categorySlug'][];
   minPrice: number;
   maxPrice: number;
   onlyInStock: boolean;
@@ -23,7 +23,7 @@ type ProductSidebarFilterProps = {
 export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
   const { filters, onFilterChange, onResetFilters } = props;
 
-  const toggleCategory = (slug: CatalogProduct["categorySlug"]) => {
+  const toggleCategory = (slug: CatalogProduct['categorySlug']) => {
     const exists = filters.categories.includes(slug);
     const updated = exists
       ? filters.categories.filter((c) => c !== slug)
@@ -35,7 +35,7 @@ export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
     });
   };
 
-  const removeCategoryTag = (slug: CatalogProduct["categorySlug"]) => {
+  const removeCategoryTag = (slug: CatalogProduct['categorySlug']) => {
     onFilterChange({
       ...filters,
       categories: filters.categories.filter((c) => c !== slug),
@@ -47,14 +47,8 @@ export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
       {/* Sidebar Header */}
       <div className="flex items-center justify-between border-b border-[#E2E8F0] pb-4">
         <div className="flex items-center gap-2">
-          <Icon
-            name="sliders-horizontal"
-            size="sm"
-            className="text-[#1E3A8A]"
-          />
-          <h3 className="text-base font-extrabold text-[#0F172A]">
-            Bộ Lọc Tìm Kiếm
-          </h3>
+          <Icon name="sliders-horizontal" size="sm" className="text-[#1E3A8A]" />
+          <h3 className="text-base font-extrabold text-[#0F172A]">Bộ Lọc Tìm Kiếm</h3>
         </div>
         <button
           type="button"
@@ -122,13 +116,9 @@ export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
                     }}
                     className="h-4 w-4 rounded border-[#E2E8F0] text-[#1E3A8A] focus:ring-[#1E3A8A]"
                   />
-                  <span className={isChecked ? "font-bold text-[#1E3A8A]" : ""}>
-                    {item.name}
-                  </span>
+                  <span className={isChecked ? 'font-bold text-[#1E3A8A]' : ''}>{item.name}</span>
                 </div>
-                <span className="text-[11px] text-text-secondary">
-                  ({item.count})
-                </span>
+                <span className="text-[11px] text-text-secondary">({item.count})</span>
               </label>
             );
           })}
@@ -175,7 +165,7 @@ export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
           <input
             type="text"
             aria-label="Giá tối thiểu"
-            value={filters.minPrice.toLocaleString("vi-VN")}
+            value={filters.minPrice.toLocaleString('vi-VN')}
             readOnly
             className="w-full rounded-xl border border-[#E2E8F0] bg-white px-3 py-2 text-center text-xs font-bold text-[#0F172A]"
           />
@@ -183,7 +173,7 @@ export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
           <input
             type="text"
             aria-label="Giá tối đa"
-            value={filters.maxPrice.toLocaleString("vi-VN")}
+            value={filters.maxPrice.toLocaleString('vi-VN')}
             readOnly
             className="w-full rounded-xl border border-[#E2E8F0] bg-white px-3 py-2 text-center text-xs font-bold text-[#0F172A]"
           />

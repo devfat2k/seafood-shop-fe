@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { Icon } from "@/components/common/Icon";
-import { ProductCard } from "@/components/products/ProductCard";
-import { Skeleton } from "@/components/ui/skeleton";
-import type { CatalogProduct } from "@/data/products-catalog-mock";
+import { Icon } from '@/components/common/Icon';
+import { ProductCard } from '@/components/products/ProductCard';
+import { Skeleton } from '@/components/ui/skeleton';
+import type { CatalogProduct } from '@/data/products-catalog-mock';
 
 type ProductCatalogGridProps = {
   products: CatalogProduct[];
@@ -46,12 +46,9 @@ export function ProductCatalogGrid(props: ProductCatalogGridProps) {
         <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-100 text-red-600">
           <Icon name="x" size="lg" />
         </div>
-        <h3 className="mt-4 text-base font-bold text-red-900">
-          Có lỗi xảy ra khi tải hải sản
-        </h3>
+        <h3 className="mt-4 text-base font-bold text-red-900">Có lỗi xảy ra khi tải hải sản</h3>
         <p className="mt-1 text-xs text-red-700">
-          Không thể kết nối dữ liệu. Vui lòng kiểm tra lại đường truyền mạng
-          hoặc thử lại.
+          Không thể kết nối dữ liệu. Vui lòng kiểm tra lại đường truyền mạng hoặc thử lại.
         </p>
         <button
           type="button"
@@ -73,12 +70,9 @@ export function ProductCatalogGrid(props: ProductCatalogGridProps) {
         <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[#DBEAFE] text-[#1E3A8A]">
           <Icon name="search" size="xl" />
         </div>
-        <h3 className="mt-4 text-lg font-bold text-[#0F172A]">
-          Không tìm thấy hải sản phù hợp
-        </h3>
+        <h3 className="mt-4 text-lg font-bold text-[#0F172A]">Không tìm thấy hải sản phù hợp</h3>
         <p className="mt-2 text-xs text-text-secondary">
-          Vui lòng thử bỏ chọn một số tiêu chí lọc hoặc xóa tất cả bộ lọc để xem
-          đầy đủ sản phẩm.
+          Vui lòng thử bỏ chọn một số tiêu chí lọc hoặc xóa tất cả bộ lọc để xem đầy đủ sản phẩm.
         </p>
         {onResetFilters && (
           <button
@@ -99,11 +93,7 @@ export function ProductCatalogGrid(props: ProductCatalogGridProps) {
   return (
     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {products.map((product) => (
-        <ProductCard
-          key={product.id}
-          product={product}
-          onAddToCart={onAddToCart}
-        />
+        <ProductCard key={product.id} product={product} onAddToCart={onAddToCart} />
       ))}
     </div>
   );
