@@ -5,10 +5,9 @@ import { Link } from '@/libs/I18nNavigation';
 
 export function Footer() {
   return (
-    <footer className="border-t border-[#172554] bg-[#1E3A8A] pt-16 pb-8 text-white">
-      <div className="mx-auto max-w-[1280px] px-4 sm:px-6">
+    <footer className="border-t border-brand-900 bg-[#1E3A8A] pt-16 pb-8 text-white">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4">
-          {/* Cột 1: Thương hiệu */}
           <div>
             <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-[#1E3A8A]">
@@ -83,7 +82,6 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Cột 3: Danh mục bán chạy */}
           <div>
             <h4 className="text-sm font-bold tracking-wider text-[#F97316] uppercase">
               DANH MỤC BÁN CHẠY
@@ -132,37 +130,26 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Cột 4: Đăng ký nhận tin */}
           <div>
             <h4 className="text-sm font-bold tracking-wider text-[#F97316] uppercase">
-              ĐĂNG KÝ NHẬN TIN
+              THÔNG TIN LIÊN HỆ
             </h4>
             <p className="mt-4 text-xs leading-relaxed text-white/80">
-              Đăng ký nhận tin để không bỏ lỡ voucher và ưu đãi mua hải sản tươi ngon giá tốt nhất
+              Liên hệ các nền tảng số điện thoại hoặc mạng xã hội để được hỗ trợ tư vấn đặt hàng và
+              hỗ trợ
             </p>
-            <form
-              className="mt-4 flex items-center gap-2"
-              onSubmit={(e) => {
-                e.preventDefault();
-              }}
-            >
-              <input
-                type="email"
-                aria-label="Email nhận thông báo ưu đãi"
-                placeholder="Nhập email của bạn..."
-                className="w-full rounded-xl border border-white/20 bg-white/10 px-3.5 py-2.5 text-xs text-white placeholder-white/50 focus:border-[#F97316] focus:outline-none"
-              />
-              <button
-                type="submit"
-                className="shrink-0 rounded-xl bg-[#F97316] px-4 py-2.5 text-xs font-bold text-white transition-transform hover:scale-105 hover:bg-[#EA580C]"
-              >
-                Đăng ký
-              </button>
-            </form>
+            <div className="mt-2 flex items-center gap-2">
+              <span className="text-xs font-medium">Số điện thoại: 0905139113</span>
+            </div>
+
+            <div className="mt-2 flex items-center gap-2">
+              <span className="text-xs font-medium">
+                Địa chỉ: Số 123, đường Lê Lợi, phường 1, thành phố Phan Thiết, tỉnh Bình Thuận
+              </span>
+            </div>
           </div>
         </div>
 
-        {/* Copyright & Legal Links */}
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-6 text-xs text-white/60 sm:flex-row">
           <p>© 2026 Hải Sản Ecommerce Hải Sản Phan Thiết. Bản quyền thuộc về Cảng cá Phan Thiết.</p>
           <div className="flex items-center gap-4">

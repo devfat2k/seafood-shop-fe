@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { MOCK_USER_PROFILE } from "@/data/account-mock";
-import type { UserProfile } from "@/data/account-mock";
+import { useState } from 'react';
+import { MOCK_USER_PROFILE } from '@/data/account-mock';
+import type { UserProfile } from '@/data/account-mock';
 
 export function AccountProfileTab() {
   const [profile, setProfile] = useState<UserProfile>(MOCK_USER_PROFILE);
@@ -19,12 +19,9 @@ export function AccountProfileTab() {
   return (
     <div className="rounded-3xl border border-[#E2E8F0] bg-white p-6 shadow-sm sm:p-8">
       <div className="border-b border-[#E2E8F0] pb-4">
-        <h1 className="text-2xl font-extrabold text-[#0F172A]">
-          Thông Tin Cá Nhân
-        </h1>
+        <h1 className="text-2xl font-extrabold text-[#0F172A]">Thông Tin Cá Nhân</h1>
         <p className="mt-1 text-xs text-text-secondary">
-          Cập nhật thông tin tài khoản cá nhân để trải nghiệm dịch vụ mua sắm
-          tốt nhất.
+          Cập nhật thông tin tài khoản cá nhân để trải nghiệm dịch vụ mua sắm tốt nhất.
         </p>
       </div>
 
@@ -47,15 +44,13 @@ export function AccountProfileTab() {
             <button
               type="button"
               onClick={() => {
-                console.log("Tải ảnh đại diện mới");
+                console.log('Tải ảnh đại diện mới');
               }}
               className="rounded-full border border-[#E2E8F0] bg-[#EDF2F7] px-4 py-2 text-xs font-bold text-[#0F172A] transition-colors hover:bg-[#DBEAFE]"
             >
               📷 Tải ảnh mới
             </button>
-            <p className="mt-1 text-[11px] text-text-secondary">
-              Dung lượng tối đa 2MB (JPG, PNG)
-            </p>
+            <p className="mt-1 text-[11px] text-text-secondary">Dung lượng tối đa 2MB (JPG, PNG)</p>
           </div>
         </div>
 
@@ -63,10 +58,7 @@ export function AccountProfileTab() {
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
           {/* Họ và tên */}
           <div>
-            <label
-              htmlFor="user-name-input"
-              className="block text-xs font-bold text-[#0F172A]"
-            >
+            <label htmlFor="user-name-input" className="block text-xs font-bold text-[#0F172A]">
               Họ và tên
             </label>
             <input
@@ -83,10 +75,7 @@ export function AccountProfileTab() {
 
           {/* Số điện thoại */}
           <div>
-            <label
-              htmlFor="user-phone-input"
-              className="block text-xs font-bold text-[#0F172A]"
-            >
+            <label htmlFor="user-phone-input" className="block text-xs font-bold text-[#0F172A]">
               Số điện thoại
             </label>
             <input
@@ -103,10 +92,7 @@ export function AccountProfileTab() {
 
           {/* Email */}
           <div>
-            <label
-              htmlFor="user-email-input"
-              className="block text-xs font-bold text-[#0F172A]"
-            >
+            <label htmlFor="user-email-input" className="block text-xs font-bold text-[#0F172A]">
               Email
             </label>
             <input
@@ -144,18 +130,16 @@ export function AccountProfileTab() {
 
         {/* Giới tính */}
         <div>
-          <span className="block text-xs font-bold text-[#0F172A]">
-            Giới tính
-          </span>
+          <span className="block text-xs font-bold text-[#0F172A]">Giới tính</span>
           <div className="mt-2 flex items-center gap-6">
             <label className="flex items-center gap-2 text-xs text-[#0F172A]">
               <input
                 type="radio"
                 name="gender"
                 aria-label="Giới tính Nam"
-                checked={profile.gender === "Nam"}
+                checked={profile.gender === 'Nam'}
                 onChange={() => {
-                  setProfile({ ...profile, gender: "Nam" });
+                  setProfile({ ...profile, gender: 'Nam' });
                 }}
                 className="text-[#1E3A8A] focus:ring-[#1E3A8A]"
               />
@@ -166,9 +150,9 @@ export function AccountProfileTab() {
                 type="radio"
                 name="gender"
                 aria-label="Giới tính Nữ"
-                checked={profile.gender === "Nữ"}
+                checked={profile.gender === 'Nữ'}
                 onChange={() => {
-                  setProfile({ ...profile, gender: "Nữ" });
+                  setProfile({ ...profile, gender: 'Nữ' });
                 }}
                 className="text-[#1E3A8A] focus:ring-[#1E3A8A]"
               />
