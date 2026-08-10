@@ -8,7 +8,7 @@ export function BentoCategories() {
   const bottomCards = BENTO_CATEGORIES.slice(3);
 
   return (
-    <section className="bg-white py-14 lg:py-24">
+    <section className="bg-white py-8 lg:py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
           <span className="text-xs font-extrabold tracking-widest text-[#C4922F] uppercase">

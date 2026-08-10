@@ -136,7 +136,7 @@ export function HeroSection() {
   return (
     <section
       aria-label="Khuyến mãi & Sản phẩm nổi bật"
-      className="relative overflow-hidden bg-gradient-to-b from-[#071E19] via-[#0B2F28] to-[#0E3D34] pt-12 pb-24 text-white outline-none lg:pt-16 lg:pb-32"
+      className="relative overflow-hidden bg-gradient-to-b from-[#071E19] via-[#0B2F28] to-[#0E3D34] py-8 lg:py-16 text-white outline-none"
     >
       {/* Dynamic Wave Lines & Ambient Background Glow */}
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden opacity-20">

@@ -62,17 +62,17 @@ const GALLERY_ITEMS: GalleryItem[] = [
 
 export function MasonryGallery() {
   return (
-    <section className="bg-[#F8FAFC] py-14 lg:py-24">
+    <section className="bg-[#F8FAFC] py-8 lg:py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
-        <div className="mb-12 text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[#FFEDD5] bg-[#FFEDD5]/80 px-4 py-1.5 text-xs font-bold text-[#EA580C]">
+        <div className="mb-10 text-center">
+          <div className="inline-flex items-center gap-2 rounded-full border border-[#F6E8CC] bg-[#F6E8CC] px-4 py-1.5 text-xs font-bold text-[#C4922F]">
             <Icon name="sparkles" size="xs" />
             <span>KHOẢNH KHẮC PHAN THIẾT</span>
           </div>
-          <h2 className="mt-4 text-3xl font-extrabold text-[#0F172A] sm:text-4xl">
-            Từ Đại Dương <span className="text-[#F97316]">Tới Bàn Tiệc</span>
+          <h2 className="mt-3 text-2xl font-extrabold text-[#26312D] sm:text-3xl lg:text-4xl">
+            Từ Đại Dương <span className="text-[#C4922F]">Tới Bàn Tiệc</span>
           </h2>
-          <p className="mt-2 text-sm text-text-secondary sm:text-base">
+          <p className="mt-2 text-xs leading-relaxed text-text-secondary sm:text-sm">
             Hành trình đánh bắt, tuyển chọn và vận chuyển hải sản tươi sống mỗi
             ngày
           </p>
@@ -83,7 +83,7 @@ export function MasonryGallery() {
           {GALLERY_ITEMS.map((item) => (
             <div
               key={item.id}
-              className={`group relative overflow-hidden rounded-3xl border border-[#E2E8F0] shadow-md ${item.heightClass}`}
+              className={`group relative overflow-hidden rounded-3xl border border-[#E4E0D8] shadow-md ${item.heightClass}`}
             >
               <Image
                 src={item.image}
@@ -94,7 +94,7 @@ export function MasonryGallery() {
               <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent opacity-80 transition-opacity group-hover:opacity-90" />
 
               <div className="absolute right-4 bottom-4 left-4 text-white">
-                <span className="inline-block rounded-md bg-[#1E3A8A] px-2.5 py-1 text-[10px] font-extrabold tracking-wider uppercase">
+                <span className="inline-block rounded-md bg-[#0E3D34] px-2.5 py-1 text-[10px] font-extrabold tracking-wider text-[#D9A441] uppercase">
                   NHẬT KÝ BIỂN CẢ
                 </span>
                 <h3 className="mt-2 text-base font-bold text-white sm:text-lg">

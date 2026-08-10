@@ -9,6 +9,7 @@ import { HeroSection } from "@/components/home/HeroSection";
 import { MarqueeStrip } from "@/components/home/MarqueeStrip";
 import { MasonryGallery } from "@/components/home/MasonryGallery";
 import { SocialProofSection } from "@/components/home/SocialProofSection";
+import { UspSection } from "@/components/home/UspSection";
 import { QuickViewModal } from "@/components/products/QuickViewModal";
 import type { QuickViewProduct } from "@/components/products/QuickViewModal";
 
@@ -47,6 +48,9 @@ export default function IndexPage() {
 
       {/* 2. Marquee Strip */}
       <MarqueeStrip />
+
+      {/* 2.5. USP Section */}
+      <UspSection />
 
       {/* 3. Bento Grid Categories */}
       <BentoCategories />

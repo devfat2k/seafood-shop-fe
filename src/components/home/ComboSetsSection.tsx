@@ -27,7 +27,7 @@ export function ComboSetsSection() {
   };
 
   return (
-    <section className="bg-[#F8FAFC] py-14 lg:py-24">
+    <section className="bg-[#F8FAFC] py-8 lg:py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
