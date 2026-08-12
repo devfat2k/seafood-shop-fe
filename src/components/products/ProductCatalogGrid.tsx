@@ -66,11 +66,11 @@ export function ProductCatalogGrid(props: ProductCatalogGridProps) {
   /* 3. Trạng thái Empty */
   if (products.length === 0) {
     return (
-      <div className="rounded-3xl border border-[#E2E8F0] bg-[#F8FAFC] p-12 text-center">
-        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[#DBEAFE] text-[#1E3A8A]">
+      <div className="rounded-3xl border border-[#E4E0D8] bg-white p-12 text-center shadow-xs">
+        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[#E4EEEA] text-[#0B2F28]">
           <Icon name="search" size="xl" />
         </div>
-        <h3 className="mt-4 text-lg font-bold text-[#0F172A]">Không tìm thấy hải sản phù hợp</h3>
+        <h3 className="mt-4 text-lg font-bold text-[#26312D]">Không tìm thấy hải sản phù hợp</h3>
         <p className="mt-2 text-xs text-text-secondary">
           Vui lòng thử bỏ chọn một số tiêu chí lọc hoặc xóa tất cả bộ lọc để xem đầy đủ sản phẩm.
         </p>
@@ -80,7 +80,7 @@ export function ProductCatalogGrid(props: ProductCatalogGridProps) {
             onClick={() => {
               onResetFilters();
             }}
-            className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#1E3A8A] px-6 py-2.5 text-xs font-bold text-white shadow transition-transform hover:scale-105"
+            className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#0B2F28] px-6 py-2.5 text-xs font-bold text-white shadow-xs transition-transform hover:scale-105 hover:bg-[#0E3D34]"
           >
             ⟲ Xoá bộ lọc
           </button>

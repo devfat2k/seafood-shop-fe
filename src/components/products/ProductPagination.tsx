@@ -30,8 +30,8 @@ export function ProductPagination(props: ProductPaginationProps) {
           }}
           className={`flex h-9 w-9 items-center justify-center rounded-full text-xs font-bold transition-all ${
             isActive
-              ? 'bg-[#0E3D34] text-white shadow'
-              : 'text-[#26312D] hover:bg-[#E4EEEA] hover:text-[#0E3D34]'
+              ? 'bg-[#0B2F28] text-white shadow-xs'
+              : 'text-[#26312D] hover:bg-[#E4EEEA] hover:text-[#0B2F28]'
           }`}
         >
           {page}

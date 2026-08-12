@@ -48,7 +48,7 @@ export function QuickViewModal({ product, onClose, onAddToCart }: QuickViewModal
       />
 
       {/* Modal Container */}
-      <div className="relative z-10 w-full max-w-2xl overflow-hidden rounded-3xl border border-[#E2E8F0] bg-white shadow-2xl">
+      <div className="relative z-10 w-full max-w-2xl overflow-hidden rounded-3xl border border-[#E4E0D8] bg-white shadow-2xl">
         <button
           type="button"
           onClick={onClose}
@@ -60,13 +60,13 @@ export function QuickViewModal({ product, onClose, onAddToCart }: QuickViewModal
 
         <div className="grid grid-cols-1 md:grid-cols-2">
           {/* Product Image */}
-          <div className="relative h-64 w-full bg-[#1E3A8A] md:h-full">
+          <div className="relative h-64 w-full bg-[#0E3D34] md:h-full">
             <img
               src={product.image}
               alt={product.name}
               className="h-full w-full object-cover opacity-90"
             />
-            <span className="absolute top-4 left-4 rounded-full bg-[#1E3A8A] px-3 py-1 text-[10px] font-extrabold text-white uppercase">
+            <span className="absolute top-4 left-4 rounded-full bg-[#0E3D34] px-3 py-1 text-[10px] font-extrabold text-white uppercase shadow-sm">
               {product.badge}
             </span>
           </div>
@@ -74,16 +74,16 @@ export function QuickViewModal({ product, onClose, onAddToCart }: QuickViewModal
           {/* Details & Action */}
           <div className="flex flex-col justify-between p-6">
             <div>
-              <div className="flex items-center gap-1 text-xs text-amber-400">
+              <div className="flex items-center gap-1 text-xs text-[#C4922F]">
                 <Icon name="star" size="xs" />
-                <span className="font-bold text-[#0F172A]">{product.rating}</span>
+                <span className="font-bold text-[#26312D]">{product.rating}</span>
                 <span className="text-text-secondary">({product.reviewsCount} đánh giá)</span>
               </div>
 
-              <h2 className="mt-2 text-xl font-extrabold text-[#0F172A]">{product.name}</h2>
+              <h2 className="mt-2 text-xl font-extrabold text-[#26312D]">{product.name}</h2>
 
               <div className="mt-2 flex items-baseline gap-2">
-                <span className="text-2xl font-black text-[#F97316]">{product.price}</span>
+                <span className="text-2xl font-black text-[#C4922F]">{product.price}</span>
                 <span className="text-xs text-text-secondary line-through">
                   {product.originalPrice}
                 </span>
@@ -94,13 +94,13 @@ export function QuickViewModal({ product, onClose, onAddToCart }: QuickViewModal
               </p>
 
               <div className="mt-4 flex items-center gap-2 text-xs font-semibold text-text-secondary">
-                <Icon name="map-pin" size="xs" className="text-[#1E3A8A]" />
+                <Icon name="map-pin" size="xs" className="text-[#0B2F28]" />
                 <span>Nguồn gốc: {product.origin}</span>
               </div>
 
               {/* Weight Selector */}
               <div className="mt-5">
-                <span className="text-xs font-bold text-[#0F172A]">Chọn quy cách:</span>
+                <span className="text-xs font-bold text-[#26312D]">Chọn quy cách:</span>
                 <div className="mt-2 flex flex-wrap gap-2">
                   {product.weights.map((w) => (
                     <button
@@ -111,8 +111,8 @@ export function QuickViewModal({ product, onClose, onAddToCart }: QuickViewModal
                       }}
                       className={`rounded-xl border px-3 py-1.5 text-xs font-bold transition-all ${
                         selectedWeight === w
-                          ? 'border-[#1E3A8A] bg-[#DBEAFE] text-[#1E3A8A]'
-                          : 'border-[#E2E8F0] bg-white text-text-secondary hover:border-[#CBD5E1]'
+                          ? 'border-[#0B2F28] bg-[#E4EEEA] text-[#0B2F28]'
+                          : 'border-[#E4E0D8] bg-white text-text-secondary hover:border-[#C4922F]/40'
                       }`}
                     >
                       {w}
@@ -123,24 +123,24 @@ export function QuickViewModal({ product, onClose, onAddToCart }: QuickViewModal
 
               {/* Quantity Stepper */}
               <div className="mt-5 flex items-center gap-4">
-                <span className="text-xs font-bold text-[#0F172A]">Số lượng:</span>
-                <div className="flex items-center rounded-xl border border-[#E2E8F0] bg-[#F8FAFC]">
+                <span className="text-xs font-bold text-[#26312D]">Số lượng:</span>
+                <div className="flex items-center rounded-xl border border-[#E4E0D8] bg-[#F5F1E8]">
                   <button
                     type="button"
                     onClick={() => {
                       setQuantity((q) => Math.max(1, q - 1));
                     }}
-                    className="px-3 py-1 text-sm font-bold text-text-secondary hover:bg-[#E2E8F0]"
+                    className="px-3 py-1 text-sm font-bold text-text-secondary hover:bg-[#E4EEEA]"
                   >
                     -
                   </button>
-                  <span className="px-3 text-xs font-extrabold text-[#0F172A]">{quantity}</span>
+                  <span className="px-3 text-xs font-extrabold text-[#26312D]">{quantity}</span>
                   <button
                     type="button"
                     onClick={() => {
                       setQuantity((q) => q + 1);
                     }}
-                    className="px-3 py-1 text-sm font-bold text-text-secondary hover:bg-[#E2E8F0]"
+                    className="px-3 py-1 text-sm font-bold text-text-secondary hover:bg-[#E4EEEA]"
                   >
                     +
                   </button>
@@ -149,11 +149,11 @@ export function QuickViewModal({ product, onClose, onAddToCart }: QuickViewModal
             </div>
 
             {/* CTAs */}
-            <div className="mt-6 flex items-center gap-3 border-t border-[#F1F5F9] pt-4">
+            <div className="mt-6 flex items-center gap-3 border-t border-[#E4E0D8]/60 pt-4">
               <button
                 type="button"
                 onClick={handleAdd}
-                className="flex-1 rounded-full bg-[#1E3A8A] py-3 text-xs font-bold text-white shadow-md hover:bg-[#172554]"
+                className="flex-1 rounded-full bg-[#0B2F28] py-3 text-xs font-bold text-white shadow-md transition-all hover:bg-[#0E3D34] active:scale-95"
               >
                 Thêm Vào Giỏ Hàng
               </button>
@@ -161,7 +161,7 @@ export function QuickViewModal({ product, onClose, onAddToCart }: QuickViewModal
               <Link
                 href={`/products/${product.id}`}
                 onClick={onClose}
-                className="rounded-full border border-[#E2E8F0] bg-white px-4 py-3 text-xs font-bold text-[#0F172A] hover:bg-[#F1F5F9]"
+                className="rounded-full border border-[#E4E0D8] bg-white px-4 py-3 text-xs font-bold text-[#26312D] hover:bg-[#F5F1E8]"
               >
                 Chi Tiết
               </Link>
