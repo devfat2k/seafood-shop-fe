@@ -4,51 +4,32 @@ import { useState } from 'react';
 import { Icon } from '@/components/common/Icon';
 import { Link } from '@/libs/I18nNavigation';
 
-type CartItem = {
-  id: string;
+export type CartItem = {
+  id: string | number;
   name: string;
-  weight: string;
+  weight?: string;
   price: number;
   quantity: number;
-  image: string;
+  image?: string;
 };
 
 type CartDrawerProps = {
   isOpen: boolean;
   onClose: () => void;
+  initialItems?: CartItem[];
 };
-
-const INITIAL_CART: CartItem[] = [
-  {
-    id: 'c-1',
-    name: 'Set Hải Sản BBQ "Đại Dương Xanh"',
-    weight: 'Set 3-4 người ăn',
-    price: 980_000,
-    quantity: 1,
-    image:
-      'https://images.unsplash.com/photo-1615141982883-c7ad0e69fd62?auto=format&fit=crop&w=400&q=80',
-  },
-  {
-    id: 'c-2',
-    name: 'Set Cua Gạch Phan Thiết (2 Con)',
-    weight: '1kg / Túi oxy',
-    price: 620_000,
-    quantity: 1,
-    image:
-      'https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?auto=format&fit=crop&w=400&q=80',
-  },
-];
 
 const FREESHIP_THRESHOLD = 1_500_000;
 
-export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
-  const [items, setItems] = useState<CartItem[]>(INITIAL_CART);
+export function CartDrawer(props: CartDrawerProps) {
+  const { isOpen, onClose, initialItems = [] } = props;
+  const [items, setItems] = useState<CartItem[]>(initialItems);
 
   if (!isOpen) {
     return null;
   }
 
-  const updateQuantity = (id: string, delta: number) => {
+  const updateQuantity = (id: string | number, delta: number) => {
     setItems((prev) =>
       prev
         .map((item) => {
@@ -62,7 +43,7 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
     );
   };
 
-  const removeItem = (id: string) => {
+  const removeItem = (id: string | number) => {
     setItems((prev) => prev.filter((item) => item.id !== id));
   };
 
@@ -151,11 +132,13 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                 <div className="divide-y divide-[#F1F5F9]">
                   {items.map((item) => (
                     <div key={item.id} className="flex gap-4 py-4">
-                      <img
-                        src={item.image}
-                        alt={item.name}
-                        className="h-20 w-20 shrink-0 rounded-xl border border-[#E2E8F0] object-cover"
-                      />
+                      {item.image && (
+                        <img
+                          src={item.image}
+                          alt={item.name}
+                          className="h-20 w-20 shrink-0 rounded-xl border border-[#E2E8F0] object-cover"
+                        />
+                      )}
                       <div className="flex flex-1 flex-col justify-between">
                         <div>
                           <div className="flex items-start justify-between gap-2">
@@ -173,7 +156,9 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                               <Icon name="trash" size="xs" />
                             </button>
                           </div>
-                          <p className="mt-0.5 text-[11px] text-text-secondary">{item.weight}</p>
+                          {item.weight && (
+                            <p className="mt-0.5 text-[11px] text-text-secondary">{item.weight}</p>
+                          )}
                         </div>
 
                         <div className="mt-2 flex items-center justify-between">

@@ -13,8 +13,9 @@ type AuthModalProps = {
 export function AuthModal(props: AuthModalProps) {
   const { isOpen, onClose, onLoginSuccess } = props;
   const [activeTab, setActiveTab] = useState<'login' | 'register'>('login');
-  const [accountInput, setAccountInput] = useState('0987654321');
-  const [passwordInput, setPasswordInput] = useState('123456789');
+  const [fullNameInput, setFullNameInput] = useState('');
+  const [accountInput, setAccountInput] = useState('');
+  const [passwordInput, setPasswordInput] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
   const [isForgotPasswordOpen, setIsForgotPasswordOpen] = useState(false);
@@ -95,6 +96,35 @@ export function AuthModal(props: AuthModalProps) {
           </div>
 
           <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+            {activeTab === 'register' && (
+              <div>
+                <label
+                  htmlFor="auth-fullname-input"
+                  className="block text-xs font-bold text-[#0F172A]"
+                >
+                  Họ và tên
+                </label>
+                <div className="relative mt-1.5">
+                  <input
+                    id="auth-fullname-input"
+                    type="text"
+                    aria-label="Họ và tên"
+                    placeholder="Nhập họ và tên đầy đủ"
+                    value={fullNameInput}
+                    onChange={(e) => {
+                      setFullNameInput(e.target.value);
+                    }}
+                    className="w-full rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] py-3 pr-4 pl-10 text-xs font-bold text-[#0F172A] focus:border-[#1E3A8A] focus:outline-none"
+                  />
+                  <Icon
+                    name="user"
+                    size="sm"
+                    className="absolute top-3.5 left-3.5 text-text-secondary"
+                  />
+                </div>
+              </div>
+            )}
+
             <div>
               <label
                 htmlFor="auth-account-input"
@@ -165,7 +195,7 @@ export function AuthModal(props: AuthModalProps) {
                   onClick={() => {
                     setShowPassword(!showPassword);
                   }}
-                  className="absolute top-3.5 right-3.5 text-xs text-text-secondary hover:text-[#0F172A]"
+                  className="absolute top-3.5 right-3.5 text-xs text-[#5B6B63] hover:text-[#0F172A]"
                 >
                   <Icon name={showPassword ? 'eye-off' : 'eye'} size="sm" />
                 </button>
@@ -185,15 +215,15 @@ export function AuthModal(props: AuthModalProps) {
 
           <div className="mt-6 text-center">
             <p className="mt-4 text-xs text-text-secondary">
-              Bạn là khách hàng mới?{' '}
+              {activeTab === 'login' ? 'Bạn là khách hàng mới? ' : 'Đã có tài khoản? '}
               <button
                 type="button"
                 onClick={() => {
-                  setActiveTab('register');
+                  setActiveTab(activeTab === 'login' ? 'register' : 'login');
                 }}
                 className="font-bold text-[#F97316] hover:underline"
               >
-                Tạo tài khoản nhanh chỉ 5 giây
+                {activeTab === 'login' ? 'Tạo tài khoản nhanh chỉ 5 giây' : 'Đăng nhập ngay'}
               </button>
             </p>
           </div>

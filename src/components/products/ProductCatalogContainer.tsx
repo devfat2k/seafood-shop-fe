@@ -1,17 +1,16 @@
 'use client';
 
 import { useState } from 'react';
+import type { ProductCardItem } from '@/components/products/ProductCard';
 import { ProductCatalogGrid } from '@/components/products/ProductCatalogGrid';
 import { ProductHeaderBanner } from '@/components/products/ProductHeaderBanner';
 import { ProductListToolbar } from '@/components/products/ProductListToolbar';
 import { ProductPagination } from '@/components/products/ProductPagination';
 import { ProductSidebarFilter } from '@/components/products/ProductSidebarFilter';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
-import { CATALOG_PRODUCTS } from '@/data/products-catalog-mock';
-import type { CatalogProduct } from '@/data/products-catalog-mock';
 
 const INITIAL_FILTERS = {
-  categories: [] as CatalogProduct['categorySlug'][],
+  categories: [] as string[],
   minPrice: 0,
   maxPrice: 2_500_000,
   onlyInStock: false,
@@ -20,32 +19,23 @@ const INITIAL_FILTERS = {
   cleanPrepOnly: false,
 };
 
-export function ProductCatalogContainer() {
+type ProductCatalogContainerProps = {
+  initialProducts?: ProductCardItem[];
+  totalElements?: number;
+  totalPages?: number;
+};
+
+export function ProductCatalogContainer(props: ProductCatalogContainerProps) {
+  const { initialProducts = [], totalElements = 0, totalPages = 1 } = props;
+
   const [filters, setFilters] = useState(INITIAL_FILTERS);
   const [sortBy, setSortBy] = useState('newest');
   const [currentPage, setCurrentPage] = useState(1);
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
 
-  /* Lọc danh sách sản phẩm theo bộ lọc */
-  let filteredProducts = CATALOG_PRODUCTS.filter((product) => {
-    // 1. Lọc theo danh mục (nếu có chọn)
-    if (filters.categories.length > 0 && !filters.categories.includes(product.categorySlug)) {
-      return false;
-    }
-    // 2. Lọc theo khoảng giá
+  /* Lọc danh sách sản phẩm ở client nếu có initialProducts */
+  let filteredProducts = initialProducts.filter((product) => {
     if (product.price < filters.minPrice || product.price > filters.maxPrice) {
-      return false;
-    }
-    // 3. Chỉ sản phẩm còn hàng
-    if (filters.onlyInStock && !product.inStock) {
-      return false;
-    }
-    // 4. Giao hỏa tốc
-    if (filters.fastShippingOnly && !product.fastShipping) {
-      return false;
-    }
-    // 5. Làm sạch sơ chế
-    if (filters.cleanPrepOnly && !product.cleanPrep) {
       return false;
     }
     return true;
@@ -56,10 +46,6 @@ export function ProductCatalogContainer() {
     filteredProducts = [...filteredProducts].toSorted((a, b) => a.price - b.price);
   } else if (sortBy === 'price-desc') {
     filteredProducts = [...filteredProducts].toSorted((a, b) => b.price - a.price);
-  } else if (sortBy === 'popular') {
-    filteredProducts = [...filteredProducts].toSorted(
-      (a, b) => (b.isPopular ? 1 : 0) - (a.isPopular ? 1 : 0),
-    );
   }
 
   const resetFilters = () => {
@@ -67,10 +53,13 @@ export function ProductCatalogContainer() {
     setCurrentPage(1);
   };
 
+  const currentTotal = totalElements || filteredProducts.length;
+  const currentTotalPages = totalPages || Math.ceil(currentTotal / 12) || 1;
+
   return (
     <div className="flex min-h-screen flex-col bg-[#FBF8F3]">
       {/* Banner Tiêu Đề Top */}
-      <ProductHeaderBanner totalProducts={filteredProducts.length} />
+      <ProductHeaderBanner totalProducts={currentTotal} />
 
       {/* Main Layout Content (Split Sidebar + Grid) */}
       <main className="mx-auto w-full max-w-[1280px] flex-1 px-4 py-8 sm:px-6">
@@ -91,8 +80,8 @@ export function ProductCatalogContainer() {
           <div className="flex flex-col gap-6 lg:col-span-9">
             {/* Toolbar Top */}
             <ProductListToolbar
-              totalCount={filteredProducts.length}
-              shownRange={`1 - ${Math.min(12, filteredProducts.length)}`}
+              totalCount={currentTotal}
+              shownRange={`1 - ${Math.min(12, currentTotal)}`}
               sortBy={sortBy}
               onSortChange={(sort) => {
                 setSortBy(sort);
@@ -107,16 +96,15 @@ export function ProductCatalogContainer() {
               products={filteredProducts}
               onResetFilters={resetFilters}
               onAddToCart={(prod) => {
-                // Thêm vào giỏ hàng
                 console.log('Thêm vào giỏ hàng:', prod.name);
               }}
             />
 
             {/* Phân Trang */}
-            {filteredProducts.length > 0 && (
+            {currentTotal > 0 && (
               <ProductPagination
                 currentPage={currentPage}
-                totalPages={8}
+                totalPages={currentTotalPages}
                 onPageChange={(page) => {
                   setCurrentPage(page);
                   window.scrollTo({ top: 200, behavior: 'smooth' });

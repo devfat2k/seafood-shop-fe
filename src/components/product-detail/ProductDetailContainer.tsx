@@ -4,35 +4,38 @@ import { ProductDetailBreadcrumb } from '@/components/product-detail/ProductDeta
 import { ProductGallery } from '@/components/product-detail/ProductGallery';
 import { ProductPurchasePanel } from '@/components/product-detail/ProductPurchasePanel';
 import { ProductTabs } from '@/components/product-detail/ProductTabs';
-import { PRODUCT_DETAIL_DATA } from '@/data/product-detail-mock';
-import { CATALOG_PRODUCTS } from '@/data/products-catalog-mock';
+import type { Product } from '@/types/api';
 
-export function ProductDetailContainer(props: { productId?: string }) {
-  const { productId } = props;
+type ProductDetailContainerProps = {
+  productId?: string;
+  initialProduct?: Product;
+};
 
-  const matchedCatalogProduct = CATALOG_PRODUCTS.find((p) => p.id === productId);
+export function ProductDetailContainer(props: ProductDetailContainerProps) {
+  const { productId, initialProduct } = props;
 
-  const product = matchedCatalogProduct
-    ? {
-        ...PRODUCT_DETAIL_DATA,
-        id: matchedCatalogProduct.id,
-        name: matchedCatalogProduct.name,
-        category: matchedCatalogProduct.category,
-        categorySlug: matchedCatalogProduct.categorySlug,
-        price: matchedCatalogProduct.price,
-        unit: matchedCatalogProduct.unit,
-        images: [matchedCatalogProduct.image, ...PRODUCT_DETAIL_DATA.images.slice(1)],
-      }
-    : {
-        ...PRODUCT_DETAIL_DATA,
-        id: productId ?? PRODUCT_DETAIL_DATA.id,
-      };
+  const product: Product = initialProduct ?? {
+    id: productId ? Number(productId) || 1 : 1,
+    name: 'Sản phẩm Hải Sản Phan Thiết',
+    price: 0,
+    imageUrl: '',
+    images: [],
+    active: true,
+    stock: 0,
+    categoryId: 1,
+    categoryName: 'Hải Sản',
+    categorySlug: 'tom-cua',
+  };
+
+  const images = product.images && product.images.length > 0
+    ? product.images
+    : [product.imageUrl ?? ''];
 
   return (
     <div className="flex min-h-screen flex-col bg-[#FBF8F3]">
       <ProductDetailBreadcrumb
-        categoryName={product.category}
-        categorySlug={product.categorySlug}
+        categoryName={product.categoryName ?? 'Hải Sản'}
+        categorySlug={product.categorySlug ?? 'tom-cua'}
         productName={product.name}
       />
 
@@ -43,9 +46,9 @@ export function ProductDetailContainer(props: { productId?: string }) {
           {/* Gallery Cột Trái */}
           <div className="lg:col-span-6">
             <ProductGallery
-              images={product.images}
+              images={images}
               productName={product.name}
-              badges={product.badges}
+              badges={product.featured ? ['Nổi bật'] : []}
             />
           </div>
 
@@ -55,7 +58,7 @@ export function ProductDetailContainer(props: { productId?: string }) {
           </div>
         </div>
 
-        {/* Content Tabs Section (Mô Tả Sản Phẩm / Hướng Dẫn Chế Biến / Đánh Giá) */}
+        {/* Content Tabs Section */}
         <ProductTabs product={product} />
       </main>
     </div>

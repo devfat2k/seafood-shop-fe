@@ -1,15 +1,32 @@
 'use client';
 
 import { useState } from 'react';
-import { MOCK_USER_PROFILE } from '@/data/account-mock';
-import type { UserProfile } from '@/data/account-mock';
+import type { UserProfile } from '@/types/user';
 
-export function AccountProfileTab() {
-  const [profile, setProfile] = useState<UserProfile>(MOCK_USER_PROFILE);
+type AccountProfileTabProps = {
+  profile?: UserProfile | null;
+  onSaveProfile?: (updated: Partial<UserProfile>) => void;
+};
+
+export function AccountProfileTab(props: AccountProfileTabProps) {
+  const { profile: initialProfile, onSaveProfile } = props;
+
+  const [profile, setProfile] = useState<Partial<UserProfile>>({
+    fullName: initialProfile?.fullName ?? '',
+    phone: initialProfile?.phoneNumber ?? '',
+    email: initialProfile?.email ?? '',
+    birthDate: initialProfile?.birthDate ?? '',
+    gender: initialProfile?.gender ?? 'Nam',
+    avatarUrl: initialProfile?.avatarUrl ?? '',
+  });
+
   const [savedSuccess, setSavedSuccess] = useState(false);
 
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
+    if (onSaveProfile) {
+      onSaveProfile(profile);
+    }
     setSavedSuccess(true);
     setTimeout(() => {
       setSavedSuccess(false);
@@ -34,12 +51,17 @@ export function AccountProfileTab() {
       <form onSubmit={handleSubmit} className="mt-6 space-y-6">
         {/* Avatar Upload */}
         <div className="flex items-center gap-6">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={profile.avatar}
-            alt={profile.name}
-            className="h-20 w-20 rounded-full border-2 border-[#1E3A8A] object-cover"
-          />
+          {profile.avatarUrl ? (
+            <img
+              src={profile.avatarUrl}
+              alt={profile.fullName ?? ''}
+              className="h-20 w-20 rounded-full border-2 border-[#1E3A8A] object-cover"
+            />
+          ) : (
+            <div className="flex h-20 w-20 items-center justify-center rounded-full bg-[#1E3A8A] text-2xl font-extrabold text-white">
+              {(profile.fullName ?? 'U').slice(0, 1)}
+            </div>
+          )}
           <div>
             <button
               type="button"
@@ -65,10 +87,8 @@ export function AccountProfileTab() {
               id="user-name-input"
               type="text"
               aria-label="Họ và tên"
-              value={profile.name}
-              onChange={(e) => {
-                setProfile({ ...profile, name: e.target.value });
-              }}
+              value={profile.fullName ?? ''}
+              onChange={(e) => setProfile({ ...profile, fullName: e.target.value })}
               className="mt-2 w-full rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 text-xs text-[#0F172A] focus:border-[#1E3A8A] focus:outline-none"
             />
           </div>
@@ -82,10 +102,8 @@ export function AccountProfileTab() {
               id="user-phone-input"
               type="text"
               aria-label="Số điện thoại"
-              value={profile.phone}
-              onChange={(e) => {
-                setProfile({ ...profile, phone: e.target.value });
-              }}
+              value={profile.phoneNumber ?? profile.phone ?? ''}
+              onChange={(e) => setProfile({ ...profile, phoneNumber: e.target.value })}
               className="mt-2 w-full rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 text-xs text-[#0F172A] focus:border-[#1E3A8A] focus:outline-none"
             />
           </div>
@@ -99,10 +117,8 @@ export function AccountProfileTab() {
               id="user-email-input"
               type="email"
               aria-label="Địa chỉ email"
-              value={profile.email}
-              onChange={(e) => {
-                setProfile({ ...profile, email: e.target.value });
-              }}
+              value={profile.email ?? ''}
+              onChange={(e) => setProfile({ ...profile, email: e.target.value })}
               className="mt-2 w-full rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 text-xs text-[#0F172A] focus:border-[#1E3A8A] focus:outline-none"
             />
           </div>
@@ -119,10 +135,8 @@ export function AccountProfileTab() {
               id="user-birthdate-input"
               type="text"
               aria-label="Ngày sinh"
-              value={profile.birthDate}
-              onChange={(e) => {
-                setProfile({ ...profile, birthDate: e.target.value });
-              }}
+              value={profile.birthDate ?? ''}
+              onChange={(e) => setProfile({ ...profile, birthDate: e.target.value })}
               className="mt-2 w-full rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 text-xs text-[#0F172A] focus:border-[#1E3A8A] focus:outline-none"
             />
           </div>
@@ -138,9 +152,7 @@ export function AccountProfileTab() {
                 name="gender"
                 aria-label="Giới tính Nam"
                 checked={profile.gender === 'Nam'}
-                onChange={() => {
-                  setProfile({ ...profile, gender: 'Nam' });
-                }}
+                onChange={() => setProfile({ ...profile, gender: 'Nam' })}
                 className="text-[#1E3A8A] focus:ring-[#1E3A8A]"
               />
               <span>Nam</span>
@@ -151,9 +163,7 @@ export function AccountProfileTab() {
                 name="gender"
                 aria-label="Giới tính Nữ"
                 checked={profile.gender === 'Nữ'}
-                onChange={() => {
-                  setProfile({ ...profile, gender: 'Nữ' });
-                }}
+                onChange={() => setProfile({ ...profile, gender: 'Nữ' })}
                 className="text-[#1E3A8A] focus:ring-[#1E3A8A]"
               />
               <span>Nữ</span>

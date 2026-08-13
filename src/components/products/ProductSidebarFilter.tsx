@@ -1,11 +1,16 @@
 'use client';
 
 import { Icon } from '@/components/common/Icon';
-import { CATEGORY_FILTER_LIST } from '@/data/products-catalog-mock';
-import type { CatalogProduct } from '@/data/products-catalog-mock';
+
+export type CategoryFilterItem = {
+  id: number | string;
+  name: string;
+  slug: string;
+  count?: number;
+};
 
 type FilterState = {
-  categories: CatalogProduct['categorySlug'][];
+  categories: string[];
   minPrice: number;
   maxPrice: number;
   onlyInStock: boolean;
@@ -16,14 +21,24 @@ type FilterState = {
 
 type ProductSidebarFilterProps = {
   filters: FilterState;
+  categoryList?: CategoryFilterItem[];
   onFilterChange: (newFilters: FilterState) => void;
   onResetFilters: () => void;
 };
 
-export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
-  const { filters, onFilterChange, onResetFilters } = props;
+const DEFAULT_CATEGORIES: CategoryFilterItem[] = [
+  { id: 'cat-combo', name: 'Set Hải Sản BBQ & Nhậu', slug: 'set-combo', count: 12 },
+  { id: 'cat-tom-cua', name: 'Tôm Hùm & Cua Ghẹ', slug: 'tom-cua', count: 18 },
+  { id: 'cat-muc', name: 'Mực & Bạch Tuộc', slug: 'muc-bach-tuoc', count: 24 },
+  { id: 'cat-so-oc', name: 'Nghêu, Sò & Ốc', slug: 'so-oc', count: 30 },
+  { id: 'cat-che-bien', name: 'Chế Biến Sẵn & Phile', slug: 'che-bien-san', count: 15 },
+  { id: 'cat-kho', name: 'Đặc Sản Khô & Gia Vị', slug: 'dac-san-kho', count: 21 },
+];
 
-  const toggleCategory = (slug: CatalogProduct['categorySlug']) => {
+export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
+  const { filters, categoryList = DEFAULT_CATEGORIES, onFilterChange, onResetFilters } = props;
+
+  const toggleCategory = (slug: string) => {
     const exists = filters.categories.includes(slug);
     const updated = exists
       ? filters.categories.filter((c) => c !== slug)
@@ -35,7 +50,7 @@ export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
     });
   };
 
-  const removeCategoryTag = (slug: CatalogProduct['categorySlug']) => {
+  const removeCategoryTag = (slug: string) => {
     onFilterChange({
       ...filters,
       categories: filters.categories.filter((c) => c !== slug),
@@ -52,9 +67,7 @@ export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
         </div>
         <button
           type="button"
-          onClick={() => {
-            onResetFilters();
-          }}
+          onClick={onResetFilters}
           className="flex items-center gap-1 text-xs font-bold text-text-secondary transition-colors hover:text-[#C4922F]"
         >
           <span>⟲ Xoá bộ lọc</span>
@@ -65,7 +78,7 @@ export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
       {filters.categories.length > 0 && (
         <div className="flex flex-wrap items-center gap-2 border-b border-[#E4E0D8] py-3">
           {filters.categories.map((slug) => {
-            const cat = CATEGORY_FILTER_LIST.find((c) => c.slug === slug);
+            const cat = categoryList.find((c) => c.slug === slug);
             return (
               <span
                 key={slug}
@@ -75,9 +88,7 @@ export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
                 <button
                   type="button"
                   aria-label={`Xoá lọc ${cat?.name}`}
-                  onClick={() => {
-                    removeCategoryTag(slug);
-                  }}
+                  onClick={() => removeCategoryTag(slug)}
                   className="rounded-full hover:bg-[#0B2F28]/10"
                 >
                   <Icon name="x" size="xs" />
@@ -99,7 +110,7 @@ export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
           Danh Mục Hải Sản
         </h4>
         <div className="mt-3 space-y-2.5">
-          {CATEGORY_FILTER_LIST.map((item) => {
+          {categoryList.map((item) => {
             const isChecked = filters.categories.includes(item.slug);
             return (
               <label
@@ -111,14 +122,14 @@ export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
                     type="checkbox"
                     aria-label={`Chọn danh mục ${item.name}`}
                     checked={isChecked}
-                    onChange={() => {
-                      toggleCategory(item.slug);
-                    }}
+                    onChange={() => toggleCategory(item.slug)}
                     className="h-4 w-4 rounded border-[#E4E0D8] text-[#0B2F28] focus:ring-[#0B2F28]"
                   />
                   <span className={isChecked ? 'font-bold text-[#0B2F28]' : ''}>{item.name}</span>
                 </div>
-                <span className="text-[11px] text-text-secondary">({item.count})</span>
+                {item.count !== undefined && (
+                  <span className="text-[11px] text-text-secondary">({item.count})</span>
+                )}
               </label>
             );
           })}
@@ -131,7 +142,6 @@ export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
           Khoảng Giá (VNĐ)
         </h4>
 
-        {/* Thanh trượt giá giả lập */}
         <div className="mt-4 px-1">
           <div className="relative h-2 w-full rounded-full bg-[#E4E0D8]">
             <div
@@ -160,7 +170,6 @@ export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
           </div>
         </div>
 
-        {/* Ô nhập giá Min / Max */}
         <div className="mt-4 flex items-center gap-2">
           <input
             type="text"
@@ -191,30 +200,15 @@ export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
               type="checkbox"
               aria-label="Chỉ hiển thị sản phẩm Còn Hàng"
               checked={filters.onlyInStock}
-              onChange={() => {
+              onChange={() =>
                 onFilterChange({
                   ...filters,
                   onlyInStock: !filters.onlyInStock,
-                });
-              }}
+                })
+              }
               className="h-4 w-4 rounded border-[#E4E0D8] text-[#0B2F28] focus:ring-[#0B2F28]"
             />
             <span>Chỉ hiển thị sản phẩm Còn Hàng</span>
-          </label>
-          <label className="flex cursor-pointer items-center gap-2.5 text-xs text-text-secondary hover:text-[#26312D]">
-            <input
-              type="checkbox"
-              aria-label="Bao gồm sản phẩm Sắp Về Hàng"
-              checked={filters.includeUpcoming}
-              onChange={() => {
-                onFilterChange({
-                  ...filters,
-                  includeUpcoming: !filters.includeUpcoming,
-                });
-              }}
-              className="h-4 w-4 rounded border-[#E4E0D8] text-[#0B2F28] focus:ring-[#0B2F28]"
-            />
-            <span>Bao gồm sản phẩm Sắp Về Hàng</span>
           </label>
         </div>
       </div>
@@ -230,30 +224,15 @@ export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
               type="checkbox"
               aria-label="Giao hỏa tốc 2 giờ"
               checked={filters.fastShippingOnly}
-              onChange={() => {
+              onChange={() =>
                 onFilterChange({
                   ...filters,
                   fastShippingOnly: !filters.fastShippingOnly,
-                });
-              }}
+                })
+              }
               className="h-4 w-4 rounded border-[#E4E0D8] text-[#0B2F28] focus:ring-[#0B2F28]"
             />
             <span>Giao hỏa tốc 2 giờ</span>
-          </label>
-          <label className="flex cursor-pointer items-center gap-2.5 text-xs text-text-secondary hover:text-[#26312D]">
-            <input
-              type="checkbox"
-              aria-label="Hỗ trợ làm sạch, tách vỏ"
-              checked={filters.cleanPrepOnly}
-              onChange={() => {
-                onFilterChange({
-                  ...filters,
-                  cleanPrepOnly: !filters.cleanPrepOnly,
-                });
-              }}
-              className="h-4 w-4 rounded border-[#E4E0D8] text-[#0B2F28] focus:ring-[#0B2F28]"
-            />
-            <span>Hỗ trợ làm sạch, tách vỏ</span>
           </label>
         </div>
       </div>
