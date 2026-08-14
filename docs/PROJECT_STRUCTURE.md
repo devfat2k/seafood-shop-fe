@@ -69,27 +69,62 @@ Dự án **Seafood Shop Web** được xây dựng nhằm phục vụ nhu cầu 
 
 ```text
 seafood-shop-web/
-├── .agents/               # Rules và skills dành cho AI Agent
-├── .github/               # Workflows CI/CD GitHub Actions
-├── .storybook/            # Cấu hình Storybook UI sandbox
-├── .vscode/               # Cấu hình khuyến nghị extension VS Code
-├── docs/                  # Tài liệu specs kiến trúc, API contract, UI design system
-├── public/                # Tài nguyên tĩnh: favicon, hình ảnh hải sản, logos
-├── src/                   # MÃ NGUỒN CHÍNH
-│   ├── app/               # Next.js App Router ([locale]/(marketing), [locale]/(auth))
-│   ├── components/        # UI components (account, auth, common, home, layout, product-detail, products, ui)
-│   ├── data/              # Mock data phát triển (home, products catalog, detail, account)
-│   ├── lib/ & libs/       # Axios ApiClient (401 refresh token), Arcjet, Env validation, I18n, Logger
-│   ├── locales/           # File từ điển dịch thuật i18n (en.json, fr.json...)
-│   ├── styles/            # global.css (Tailwind CSS v4 tokens)
-│   ├── types/             # Types TypeScript (api.ts, I18n.ts)
-│   ├── utils/             # Helpers & AppConfig
-│   └── validations/       # Zod validation schemas
-├── tests/                 # Integration và E2E Playwright tests
-├── AGENTS.md              # Quy chuẩn bắt buộc cho Developer & AI Agent
-├── PROJECT_OVERVIEW.md    # Tài liệu tổng quan gốc của toàn bộ dự án
-├── package.json           # Khai báo dependencies và scripts
-└── next.config.ts         # Cấu hình Next.js
+├── AGENTS.md                        # File gốc — quy chuẩn chính cho agent & developer
+├── GEMINI.md                        # Quy chuẩn tối cao bắt buộc (Verification loop, architecture hard rules)
+├── .agents/
+│   ├── rules/                       # Luật chi tiết, tách theo domain (AGENTS.md gốc chỉ nên <150 dòng)
+│   │   ├── typescript.md            # Strict mode, no `any`, kiểu dữ liệu API
+│   │   ├── react-nextjs.md          # Server/Client Component, hook rules, Suspense
+│   │   ├── styling-ui.md            # Design tokens, spacing scale, Tailwind v4 rules
+│   │   ├── state-data.md            # React Query patterns, ApiClient, Zod schema
+│   │   ├── i18n.md                  # next-intl, locale routing
+│   │   └── testing.md               # Vitest + Playwright conventions
+│   │
+│   ├── skills/                      # "Kỹ năng" tái sử dụng — quy trình từng bước cho việc lặp lại
+│   │   ├── clean-code/
+│   │   │   └── SKILL.md             # Nguyên tắc viết code sạch, ngắn gọn, dễ đọc
+│   │   ├── ux-ui/
+│   │   │   └── SKILL.md             # Quy chuẩn thiết kế UI/UX, design tokens, spacing
+│   │   ├── brainstorm/
+│   │   │   └── SKILL.md             # Đưa ra 2-3 hướng giải pháp/UX kèm ưu-nhược điểm
+│   │   ├── spec-writing/
+│   │   │   └── SKILL.md             # Viết technical spec ngắn gọn trước khi implement
+│   │   ├── create-component/
+│   │   │   └── SKILL.md             # Cách tạo 1 component chuẩn (props, test, story)
+│   │   ├── create-api-hook/
+│   │   │   └── SKILL.md             # Cách tạo 1 React Query hook mới
+│   │   ├── add-locale-key/
+│   │   │   └── SKILL.md             # Cách thêm 1 key i18n an toàn (không thiếu locale)
+│   │   └── code-review/
+│   │       └── SKILL.md             # Checklist agent tự chạy trước khi báo "done"
+│   │
+│   ├── specs/                       # Đặc tả từng tính năng (spec-driven development)
+│   │   ├── _template.md             # Mẫu spec chuẩn
+│   │   ├── 2026-08-checkout-flow.md
+│   │   └── archive/                 # Spec đã hoàn thành, giữ lại làm tài liệu
+│   │
+│   └── checklists/
+│       ├── pre-implementation.md    # Checklist trước khi cho agent code
+│       └── pre-merge.md             # Checklist trước khi merge
+│
+├── .github/                         # Workflows CI/CD GitHub Actions
+├── .storybook/                      # Cấu hình Storybook UI sandbox
+├── .vscode/                         # Cấu hình khuyến nghị extension VS Code
+├── docs/                            # Tài liệu specs kiến trúc, API contract, UI design system
+├── public/                          # Tài nguyên tĩnh: favicon, hình ảnh hải sản, logos
+├── src/                             # MÃ NGUỒN CHÍNH
+│   ├── app/                         # Next.js App Router ([locale]/(marketing), [locale]/(auth))
+│   ├── components/                  # UI components (account, auth, common, home, layout, product-detail, products, ui)
+│   ├── data/                        # Mock data phát triển (home, products catalog, detail, account)
+│   ├── lib/ & libs/                 # Axios ApiClient (401 refresh token), Arcjet, Env validation, I18n, Logger
+│   ├── locales/                     # File từ điển dịch thuật i18n (en.json, fr.json...)
+│   ├── styles/                      # global.css (Tailwind CSS v4 tokens)
+│   ├── types/                       # Types TypeScript (api.ts, I18n.ts)
+│   ├── utils/                       # Helpers & AppConfig
+│   └── validations/                 # Zod validation schemas
+├── tests/                           # Integration và E2E Playwright tests
+├── package.json                     # Khai báo dependencies và scripts
+└── next.config.ts                   # Cấu hình Next.js
 ```
 
 ---

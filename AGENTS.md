@@ -1,85 +1,65 @@
-# Next.js: ALWAYS read docs before coding
-Before any Next.js work, find and read the relevant doc in `node_modules/next/dist/docs/`. Your training data is outdated — the docs are the source of truth.
+# AGENTS.md — Seafood Shop Web (Nguồn ngữ cảnh chung cho mọi AI tool)
 
-# AGENTS
+> Đọc cùng với `GEMINI.md` (rule cứng, ưu tiên cao nhất — xem file đó nếu có xung đột)
+> và `PROJECT_STRUCTURE.md` (kiến trúc, stack, danh sách route đầy đủ).
 
-## Principles
-- Clarity and consistency over cleverness. Minimal changes. Match existing patterns.
-- Keep components/functions short; break down when it improves structure.
-- TypeScript everywhere; no `any` unless isolated and necessary.
-- No unnecessary `try/catch`. Avoid casting; use narrowing.
-- Named exports only (no default exports, except Next.js pages).
-- Absolute imports via `@/` unless same directory.
-- Follow existing ESLint setup; don't reformat unrelated code.
-- Zod type-only by default: `import type * as z from 'zod';`. Exception: runtime API-response validation in `src/types/api.ts` uses `import * as z from 'zod'` with `.safeParse`.
-- Let compiler infer return types unless annotation adds clarity.
-- Options object for 3+ params, optional flags, or ambiguous args.
-- Hypothesis-driven debugging: 1-3 causes, validate most likely first.
+## Vai trò
 
-## Token efficiency
-- Skip recaps unless the result is ambiguous or you need more input.
+Senior frontend engineer làm việc trên storefront thương mại điện tử hải sản
+(Seafood Shop Web), dùng Next.js 16 App Router + React 19 + TypeScript strict +
+Tailwind v4.
 
-## Commands
-Only these `bun run` scripts: `build-local`, `lint`, `check:types`, `check:deps`, `check:i18n`, `test`, `test:e2e`.
+## Trước khi code — luôn theo trình tự này
 
-## Git Commits
-Conventional Commits: `type: summary` without scope. The summary should be a short, specific sentence that explains what changed and where or why, not a vague phrase. Types: `feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert`. `BREAKING CHANGE:` footer when needed.
+1. Đọc `docs/specs/` cho feature liên quan. Nếu **chưa có spec** cho feature đang làm
+   và feature đó có độ phức tạp trung bình trở lên → dùng skill `spec-writing` để tạo
+   spec trước, dừng lại chờ user duyệt.
+2. Đọc `docs/conventions/` cho convention liên quan (naming, folder, pattern).
+3. Kiểm tra `src/components/ui/` xem đã có component tái dùng được chưa trước khi tạo mới.
+4. Nếu là feature UI mới hoặc chỉnh sửa giao diện → dùng skill `ux-ui` để đối chiếu
+   design tokens/spacing/pattern trước khi code.
+5. Nếu yêu cầu của user mơ hồ về UX hoặc có nhiều cách implement hợp lý → dùng skill
+   `brainstorm` trước khi chọn hướng.
 
-## Env
-All env vars validated in `Env.ts`; never read `process.env` directly.
+## Stack & thư viện cố định (không tự ý đổi/thêm lib thay thế)
 
-## Backend API (đọc trước khi gọi API)
-Contract đầy đủ ở `docs/specs/api-contract.md`. Quy tắc bất biến:
-- Mọi response bọc trong `ApiResponse<T>`.
-- API list trả `PageResponse<T>`; `page` là 0-indexed.
-- Base URL local: `http://localhost:8085`. Prefix: `/api/v1`.
-- Gọi API client dùng instance ở `src/libs/ApiClient.ts` (đã có interceptor 401 → refresh). KHÔNG tự tạo axios instance mới.
+| Nhu cầu | Dùng | Không dùng |
+|---|---|---|
+| Data fetching/cache | TanStack Query | `useEffect` + `useState` fetch thủ công |
+| HTTP | axios qua `ApiClient.ts` (đã có interceptor refresh token 401) | viết lại logic refresh token |
+| Form | `react-hook-form` + zod qua `@hookform/resolvers` | validate tay bằng if/else |
+| Toast | `sonner` | tự viết component toast |
+| Icon | `lucide-react` | SVG tự vẽ/thư viện icon khác |
+| i18n | `next-intl`, string qua `src/locales/` | hardcode chuỗi tiếng Việt trong JSX |
+| className | `cn()` helper (clsx + tailwind-merge) | nối chuỗi className thủ công |
 
-## Styling
-Tailwind v4 utility classes. Reuse shared components. Responsive. No unnecessary classes.
+## Cấu trúc thư mục — đặt file đúng chỗ
 
-## UI Spec
-- Full design spec in `docs/specs/design-spec.md`; follow it for every screen.
-- Spacing comes from the fixed table in the spec; never estimate off-scale values (no 18/28/52px). Scale: 4·8·12·16·24·32·48·64·96.
-- Max 3 color groups per screen; accent never fills large areas. Never use colors outside the design tokens.
-- No full-page dark mode. User-visible text is 100% Vietnamese; prices formatted like `320.000₫`.
-- Every screen with dynamic data has loading (skeleton, not spinner), empty, and error states.
+- `src/components/{feature}/` theo đúng domain: `account`, `auth`, `common`, `home`,
+  `layout`, `product-detail`, `products`, `ui`.
+- `src/validations/` cho mọi zod schema — không định nghĩa schema rời trong component.
+- `src/types/` cho types dùng chung — không định nghĩa lại type API response cục bộ
+  ở nhiều nơi khác nhau.
 
+## Testing
 
-## React
-- No `useMemo`/`useCallback` (React compiler handles it). Avoid `useEffect`.
-- Single `props` param with inline type; access as `props.foo` (no destructuring).
-- Use `React.ReactNode`, not `ReactNode`.
-- Inline short event handlers; extract only when complex.
+- Logic quan trọng (hooks, utils, validation) → unit test bằng `vitest`.
+- Flow người dùng chính (checkout, auth) → cân nhắc Playwright E2E nếu spec yêu cầu.
+- Component UI tái dùng (trong `src/components/ui` hoặc component phức tạp) → thêm
+  Storybook story.
 
-## Pages
-- Default export name ends with `Page`. Props alias (if reused) ends with `PageProps`.
-- Locale pages: `props: { params: Promise<{ locale: string }> }` → `await props.params` → `setRequestLocale(locale)`.
-- Escape glob chars in shell commands for Next.js paths.
-- Dashboard pages (sit behind auth); define meta once in layout, not in each page.
+## Khi task lớn (nhiều màn hình / nhiều component)
 
-## i18n (next-intl)
-- Never hard-code user-visible strings. Page namespaces end with `Page`.
-- Server: `getTranslations`; Client: `useTranslations`.
-- Context-specific keys (`card_title`, `meta_description`). Use `t.rich(...)` for markup.
-- Use sentence case for translations.
-- Error messages: short, no "try again" variants.
+Không implement một lần toàn bộ. Trình tự bắt buộc:
 
-## JSDoc
-- Start each block with `/**` directly above the symbol.
-- Short, sentence-case, present-tense description of intent.
-- Order: description → `@param` → `@returns` → `@throws` (only if it can throw).
+1. Viết spec ngắn (skill `spec-writing`) → chờ duyệt.
+2. Brainstorm nếu có nhiều hướng UX (skill `brainstorm`) → chờ user chọn hướng.
+3. Implement từng phần nhỏ (1 component / 1 hook mỗi lần), chạy verification loop
+   (xem `GEMINI.md` mục 1) sau mỗi phần.
+4. Tự review bằng skill `code-review` trước khi báo hoàn tất.
 
-## Tests
-- `*.test.ts` for unit tests; `*.integ.ts` for integration tests; `*.e2e.ts` for Playwright tests.
-- `*.test.ts` co-located with implementation; `*.integ.ts` and `*.e2e.ts` in `tests/` directory.
-- Top `describe` = subject; nested `describe` to group scenarios or contexts.
-- `it` titles: short, third-person present, `verb + object + context`. Sentence case, no period.
-- Omit "should/works/handles/checks/validates". State what, not how.
-- Avoid mocking unless necessary.
+## Tham chiếu
 
-## Boundaries
-- Never commit `.env` hoặc secrets.
-- Never hardcode màu ngoài design token.
-- Never sửa trực tiếp file trong `src/components/ui/` (Shadcn primitives) — compose ở tầng trên.
-- Never sửa `migrations/`.
+- Rule cứng, bất biến, không được vi phạm: `GEMINI.md`
+- Kiến trúc tổng thể, danh sách route, danh sách dependency đầy đủ: `PROJECT_STRUCTURE.md`
+- Skills chi tiết: `.agents/skills/{clean-code,ux-ui,spec-writing,code-review,brainstorm}/SKILL.md`
