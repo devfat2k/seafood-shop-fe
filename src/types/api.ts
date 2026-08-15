@@ -4,6 +4,8 @@ import { z } from 'zod';
  * Wrapper chung của mọi response backend.
  * BE trả `{ success, message, data, timestamp }` — KHÔNG có trường `errors`.
  * Validation errors nằm trong `data` khi `success = false`.
+ * @param data - Schema cho trường data.
+ * @returns Schema object ApiResponse.
  */
 export const apiResponseSchema = <T extends z.ZodType>(data: T) =>
   z.object({
@@ -13,7 +15,11 @@ export const apiResponseSchema = <T extends z.ZodType>(data: T) =>
     timestamp: z.string(),
   });
 
-/** Wrapper phân trang (page 0-indexed). */
+/**
+ * Wrapper phân trang (page 0-indexed).
+ * @param item - Schema cho các item trong mảng content.
+ * @returns Schema object PageResponse.
+ */
 export const pageResponseSchema = <T extends z.ZodType>(item: T) =>
   z.object({
     content: z.array(item),

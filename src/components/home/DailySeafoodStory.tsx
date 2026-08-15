@@ -17,7 +17,9 @@ export function DailySeafoodStory(props: DailySeafoodStoryProps) {
   }
 
   const activeStory = arrivals[activeStoryIndex] ?? arrivals[0];
-  if (!activeStory) return null;
+  if (!activeStory) {
+    return null;
+  }
 
   return (
     <section className="bg-[#F8FAFC] py-8 lg:py-16">
@@ -51,7 +53,11 @@ export function DailySeafoodStory(props: DailySeafoodStoryProps) {
 
                 {activeStory.badge && (
                   <div className="absolute top-4 left-4 rounded-full bg-[#0E3D34] px-3.5 py-1.5 text-xs font-extrabold text-white shadow-md">
-                    <Icon name="sparkles" size="xs" className="mr-1.5 inline-block text-[#D9A441]" />
+                    <Icon
+                      name="sparkles"
+                      size="xs"
+                      className="mr-1.5 inline-block text-[#D9A441]"
+                    />
                     {activeStory.badge}
                   </div>
                 )}
@@ -76,19 +82,25 @@ export function DailySeafoodStory(props: DailySeafoodStoryProps) {
           <div className="flex flex-col gap-5 lg:col-span-6">
             {arrivals.map((story, index) => {
               const isActive = index === activeStoryIndex;
-              const formattedPrice = typeof story.price === 'number'
-                ? `${story.price.toLocaleString('vi-VN')}₫`
-                : (story.price ?? '');
-              const formattedOrigPrice = typeof story.originalPrice === 'number'
-                ? `${story.originalPrice.toLocaleString('vi-VN')}₫`
-                : (story.originalPrice ?? '');
+              const formattedPrice =
+                typeof story.price === 'number'
+                  ? `${story.price.toLocaleString('vi-VN')}₫`
+                  : (story.price ?? '');
+              const formattedOrigPrice =
+                typeof story.originalPrice === 'number'
+                  ? `${story.originalPrice.toLocaleString('vi-VN')}₫`
+                  : (story.originalPrice ?? '');
 
               return (
                 <button
                   key={story.id}
                   type="button"
-                  onMouseEnter={() => setActiveStoryIndex(index)}
-                  onClick={() => setActiveStoryIndex(index)}
+                  onMouseEnter={() => {
+                    setActiveStoryIndex(index);
+                  }}
+                  onClick={() => {
+                    setActiveStoryIndex(index);
+                  }}
                   className={`group cursor-pointer rounded-2xl border p-6 text-left transition-all duration-300 ${
                     isActive
                       ? 'border-[#0B2F28] bg-white shadow-lg ring-2 ring-[#0B2F28]/20'

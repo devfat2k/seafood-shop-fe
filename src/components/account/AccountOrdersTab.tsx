@@ -60,7 +60,9 @@ export function AccountOrdersTab(props: AccountOrdersTabProps) {
             <button
               key={tab.id}
               type="button"
-              onClick={() => setFilterStatus(tab.id)}
+              onClick={() => {
+                setFilterStatus(tab.id);
+              }}
               className={`rounded-full px-4 py-1.5 text-xs font-bold transition-colors ${
                 filterStatus === tab.id
                   ? 'bg-[#1E3A8A] text-white'
@@ -165,9 +167,7 @@ export function AccountOrdersTab(props: AccountOrdersTabProps) {
                         >
                           {step.completed ? <Icon name="check" size="xs" /> : idx + 1}
                         </div>
-                        <span className="mt-2 text-xs font-bold text-[#0F172A]">
-                          {step.title}
-                        </span>
+                        <span className="mt-2 text-xs font-bold text-[#0F172A]">{step.title}</span>
                         <span className="mt-0.5 text-[10px] text-text-secondary">{step.time}</span>
                       </div>
                     ))}
@@ -180,9 +180,9 @@ export function AccountOrdersTab(props: AccountOrdersTabProps) {
                 {order.status === 'SHIPPED' && order.shipperPhone && (
                   <button
                     type="button"
-                    onClick={() =>
-                      showNotification(`Đang kết nối tới shipper: ${order.shipperPhone}`)
-                    }
+                    onClick={() => {
+                      showNotification(`Đang kết nối tới shipper: ${order.shipperPhone}`);
+                    }}
                     className="inline-flex items-center gap-2 rounded-full border border-[#E2E8F0] bg-white px-5 py-2.5 text-xs font-bold text-[#0F172A] shadow-sm hover:bg-[#EDF2F7]"
                   >
                     <Icon name="phone" size="xs" />
@@ -193,9 +193,9 @@ export function AccountOrdersTab(props: AccountOrdersTabProps) {
                 {order.status === 'DONE' && (
                   <button
                     type="button"
-                    onClick={() =>
-                      showNotification('Đã thêm toàn bộ sản phẩm của đơn hàng vào giỏ hàng.')
-                    }
+                    onClick={() => {
+                      showNotification('Đã thêm toàn bộ sản phẩm của đơn hàng vào giỏ hàng.');
+                    }}
                     className="inline-flex items-center gap-2 rounded-full bg-[#1E3A8A] px-6 py-2.5 text-xs font-bold text-white shadow hover:bg-[#172554]"
                   >
                     <Icon name="shopping-bag" size="xs" />

@@ -31,7 +31,7 @@ export function HomePageContent(props: HomePageContentProps) {
     spec?: string;
   }) => {
     setQuickViewProduct({
-      id: product.id,
+      id: String(product.id),
       name: product.name,
       badge: product.badges?.[0] ?? 'CẢNG PHAN THIẾT',
       price: `${product.price.toLocaleString('vi-VN')}₫`,
@@ -82,7 +82,9 @@ export function HomePageContent(props: HomePageContentProps) {
       {/* Quick View Modal Overlay */}
       <QuickViewModal
         product={quickViewProduct}
-        onClose={() => setQuickViewProduct(null)}
+        onClose={() => {
+          setQuickViewProduct(null);
+        }}
       />
     </div>
   );

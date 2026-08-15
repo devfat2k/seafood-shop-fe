@@ -23,9 +23,8 @@ export function FeaturedProducts(props: FeaturedProductsProps) {
     return null;
   }
 
-  const filteredProducts = activeTab === 'all'
-    ? products
-    : products.filter((p) => p.categorySlug === activeTab);
+  const filteredProducts =
+    activeTab === 'all' ? products : products.filter((p) => p.categorySlug === activeTab);
 
   const displayProducts: ProductCardItem[] = filteredProducts.map((p) => ({
     id: p.id,
@@ -48,14 +47,15 @@ export function FeaturedProducts(props: FeaturedProductsProps) {
     }
   };
 
-  const activeTabsList = tabs.length > 0
-    ? tabs
-    : [
-        { slug: 'all', label: 'Tất cả' },
-        { slug: 'tom-cua', label: 'Tôm & Cua' },
-        { slug: 'muc-bach-tuoc', label: 'Mực & Bạch tuộc' },
-        { slug: 'sot-tiec', label: 'Sốt Tiệc' },
-      ];
+  const activeTabsList =
+    tabs.length > 0
+      ? tabs
+      : [
+          { slug: 'all', label: 'Tất cả' },
+          { slug: 'tom-cua', label: 'Tôm & Cua' },
+          { slug: 'muc-bach-tuoc', label: 'Mực & Bạch tuộc' },
+          { slug: 'sot-tiec', label: 'Sốt Tiệc' },
+        ];
 
   return (
     <section className="bg-white py-8 lg:py-16">
@@ -76,7 +76,9 @@ export function FeaturedProducts(props: FeaturedProductsProps) {
                 <button
                   key={tab.slug}
                   type="button"
-                  onClick={() => setActiveTab(tab.slug)}
+                  onClick={() => {
+                    setActiveTab(tab.slug);
+                  }}
                   className={`rounded-full px-4 py-1.5 text-xs font-bold transition-all ${
                     activeTab === tab.slug
                       ? 'bg-[#0B2F28] text-white shadow-xs'
@@ -92,7 +94,9 @@ export function FeaturedProducts(props: FeaturedProductsProps) {
             <div className="flex items-center gap-2">
               <button
                 type="button"
-                onClick={() => handleScroll('left')}
+                onClick={() => {
+                  handleScroll('left');
+                }}
                 aria-label="Cuộn trái danh sách sản phẩm"
                 className="flex h-10 w-10 items-center justify-center rounded-full border border-[#E4E0D8] bg-white text-[#0B2F28] shadow-xs transition-all hover:scale-105 hover:bg-[#F5F1E8] active:scale-95"
               >
@@ -100,7 +104,9 @@ export function FeaturedProducts(props: FeaturedProductsProps) {
               </button>
               <button
                 type="button"
-                onClick={() => handleScroll('right')}
+                onClick={() => {
+                  handleScroll('right');
+                }}
                 aria-label="Cuộn phải danh sách sản phẩm"
                 className="flex h-10 w-10 items-center justify-center rounded-full border border-[#E4E0D8] bg-white text-[#0B2F28] shadow-xs transition-all hover:scale-105 hover:bg-[#F5F1E8] active:scale-95"
               >
@@ -113,7 +119,7 @@ export function FeaturedProducts(props: FeaturedProductsProps) {
         {/* Carousel Grid Container */}
         <div
           ref={scrollContainerRef}
-          className="mt-8 flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth pb-4 scrollbar-none"
+          className="mt-8 flex snap-x snap-mandatory scrollbar-none gap-6 overflow-x-auto scroll-smooth pb-4"
         >
           {displayProducts.map((product) => (
             <div

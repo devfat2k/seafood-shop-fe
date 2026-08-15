@@ -88,7 +88,9 @@ export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
                 <button
                   type="button"
                   aria-label={`Xoá lọc ${cat?.name}`}
-                  onClick={() => removeCategoryTag(slug)}
+                  onClick={() => {
+                    removeCategoryTag(slug);
+                  }}
                   className="rounded-full hover:bg-[#0B2F28]/10"
                 >
                   <Icon name="x" size="xs" />
@@ -122,7 +124,9 @@ export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
                     type="checkbox"
                     aria-label={`Chọn danh mục ${item.name}`}
                     checked={isChecked}
-                    onChange={() => toggleCategory(item.slug)}
+                    onChange={() => {
+                      toggleCategory(item.slug);
+                    }}
                     className="h-4 w-4 rounded border-[#E4E0D8] text-[#0B2F28] focus:ring-[#0B2F28]"
                   />
                   <span className={isChecked ? 'font-bold text-[#0B2F28]' : ''}>{item.name}</span>
@@ -200,12 +204,12 @@ export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
               type="checkbox"
               aria-label="Chỉ hiển thị sản phẩm Còn Hàng"
               checked={filters.onlyInStock}
-              onChange={() =>
+              onChange={() => {
                 onFilterChange({
                   ...filters,
                   onlyInStock: !filters.onlyInStock,
-                })
-              }
+                });
+              }}
               className="h-4 w-4 rounded border-[#E4E0D8] text-[#0B2F28] focus:ring-[#0B2F28]"
             />
             <span>Chỉ hiển thị sản phẩm Còn Hàng</span>
@@ -224,12 +228,12 @@ export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
               type="checkbox"
               aria-label="Giao hỏa tốc 2 giờ"
               checked={filters.fastShippingOnly}
-              onChange={() =>
+              onChange={() => {
                 onFilterChange({
                   ...filters,
                   fastShippingOnly: !filters.fastShippingOnly,
-                })
-              }
+                });
+              }}
               className="h-4 w-4 rounded border-[#E4E0D8] text-[#0B2F28] focus:ring-[#0B2F28]"
             />
             <span>Giao hỏa tốc 2 giờ</span>

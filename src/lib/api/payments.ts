@@ -1,5 +1,5 @@
-import type { CreateVnpayUrlRequest } from '@/types/payment';
 import type { ApiResponse } from '@/types/api';
+import type { CreateVnpayUrlRequest } from '@/types/payment';
 import { api } from '../ApiClient';
 
 export async function createVnpayUrl(data: CreateVnpayUrlRequest): Promise<ApiResponse<string>> {

@@ -56,7 +56,16 @@ Không implement một lần toàn bộ. Trình tự bắt buộc:
 2. Brainstorm nếu có nhiều hướng UX (skill `brainstorm`) → chờ user chọn hướng.
 3. Implement từng phần nhỏ (1 component / 1 hook mỗi lần), chạy verification loop
    (xem `GEMINI.md` mục 1) sau mỗi phần.
-4. Tự review bằng skill `code-review` trước khi báo hoàn tất.
+4. Bắt buộc thực hiện đầy đủ **Task Completion Checklist** bên dưới trước khi báo hoàn tất.
+
+## Checklist bắt buộc khi hoàn thành task (Task Completion Checklist)
+
+Trước khi báo xong task hoặc dừng công việc, BẮT BUỘC thực hiện kiểm tra 5 bước:
+1. `bun run check:types` — PHẢI đạt 0 lỗi TS (không dùng `any` hay `// @ts-ignore`).
+2. `bun run lint` — PHẢI kiểm tra và sửa các lỗi linter.
+3. `bun run test` — PHẢI pass tất cả unit test khi có sửa đổi logic/hook/util.
+4. **3 trạng thái UI** — PHẢI xử lý đủ Loading, Empty, Error trên các màn hình động.
+5. **Quality Review** — Chạy skill `code-review` tự đánh giá code trước khi bàn giao.
 
 ## Tham chiếu
 

@@ -10,9 +10,13 @@ export function SocialProofSection(props: SocialProofSectionProps) {
   const { reviews = [], stats } = props;
 
   const displayStats = {
-    orders: stats?.totalOrdersDelivered ? `${stats.totalOrdersDelivered.toLocaleString('vi-VN')}+` : '12.000+',
+    orders: stats?.totalOrdersDelivered
+      ? `${stats.totalOrdersDelivered.toLocaleString('vi-VN')}+`
+      : '12.000+',
     rating: stats?.averageRating ? `${stats.averageRating.toFixed(1)} / 5.0` : '4.9 / 5.0',
-    totalReviews: stats?.totalReviews ? `${stats.totalReviews.toLocaleString('vi-VN')}+ Đánh Giá` : '10.000+ Đánh Giá',
+    totalReviews: stats?.totalReviews
+      ? `${stats.totalReviews.toLocaleString('vi-VN')}+ Đánh Giá`
+      : '10.000+ Đánh Giá',
   };
 
   return (

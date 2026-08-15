@@ -27,9 +27,8 @@ export function ProductDetailContainer(props: ProductDetailContainerProps) {
     categorySlug: 'tom-cua',
   };
 
-  const images = product.images && product.images.length > 0
-    ? product.images
-    : [product.imageUrl ?? ''];
+  const images =
+    product.images && product.images.length > 0 ? product.images : [product.imageUrl ?? ''];
 
   return (
     <div className="flex min-h-screen flex-col bg-[#FBF8F3]">

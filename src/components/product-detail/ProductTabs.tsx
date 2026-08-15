@@ -7,14 +7,14 @@ type ProductTabsProps = {
   product: Product;
   descriptionHtml?: string;
   recipeGuideHtml?: string;
-  reviews?: Array<{
+  reviews?: {
     id: string | number;
     author: string;
     avatar?: string;
     rating: number;
     date: string;
     comment: string;
-  }>;
+  }[];
 };
 
 export function ProductTabs(props: ProductTabsProps) {
@@ -28,7 +28,9 @@ export function ProductTabs(props: ProductTabsProps) {
       <div className="flex border-b border-[#E4E0D8] text-sm font-bold">
         <button
           type="button"
-          onClick={() => setActiveTab('description')}
+          onClick={() => {
+            setActiveTab('description');
+          }}
           className={`border-b-2 px-6 py-3 transition-colors ${
             activeTab === 'description'
               ? 'border-[#0E3D34] text-[#0E3D34]'
@@ -39,7 +41,9 @@ export function ProductTabs(props: ProductTabsProps) {
         </button>
         <button
           type="button"
-          onClick={() => setActiveTab('recipe')}
+          onClick={() => {
+            setActiveTab('recipe');
+          }}
           className={`border-b-2 px-6 py-3 transition-colors ${
             activeTab === 'recipe'
               ? 'border-[#0E3D34] text-[#0E3D34]'
@@ -50,7 +54,9 @@ export function ProductTabs(props: ProductTabsProps) {
         </button>
         <button
           type="button"
-          onClick={() => setActiveTab('reviews')}
+          onClick={() => {
+            setActiveTab('reviews');
+          }}
           className={`border-b-2 px-6 py-3 transition-colors ${
             activeTab === 'reviews'
               ? 'border-[#0E3D34] text-[#0E3D34]'
@@ -79,10 +85,16 @@ export function ProductTabs(props: ProductTabsProps) {
               <div dangerouslySetInnerHTML={{ __html: recipeGuideHtml }} />
             ) : (
               <div>
-                <h3 className="text-xl font-bold text-[#26312D] mb-3">Gợi Ý Chế Biến Món Ngon</h3>
-                <ul className="list-disc pl-5 text-sm space-y-2 text-[#5B6B63]">
-                  <li><strong>Hấp sả / Nướng bơ tỏi:</strong> Giữ nguyên vị ngọt thanh tự nhiên của hải sản tươi sống.</li>
-                  <li><strong>Lẩu hải sản Thái chua cay:</strong> Kết hợp cùng nước lẩu đậm đà thơm mùi sả ớt.</li>
+                <h3 className="mb-3 text-xl font-bold text-[#26312D]">Gợi Ý Chế Biến Món Ngon</h3>
+                <ul className="list-disc space-y-2 pl-5 text-sm text-[#5B6B63]">
+                  <li>
+                    <strong>Hấp sả / Nướng bơ tỏi:</strong> Giữ nguyên vị ngọt thanh tự nhiên của
+                    hải sản tươi sống.
+                  </li>
+                  <li>
+                    <strong>Lẩu hải sản Thái chua cay:</strong> Kết hợp cùng nước lẩu đậm đà thơm
+                    mùi sả ớt.
+                  </li>
                 </ul>
               </div>
             )}
@@ -99,7 +111,10 @@ export function ProductTabs(props: ProductTabsProps) {
             ) : (
               <div className="space-y-4">
                 {reviews.map((rev) => (
-                  <div key={rev.id} className="rounded-2xl border border-[#E4E0D8] bg-[#FBF8F3] p-4">
+                  <div
+                    key={rev.id}
+                    className="rounded-2xl border border-[#E4E0D8] bg-[#FBF8F3] p-4"
+                  >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
                         {rev.avatar && (

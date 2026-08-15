@@ -19,9 +19,7 @@ export function ProductCatalogGrid<T extends ProductCardItem>(props: ProductCata
         <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#F5F1E8] text-[#5B6B63]">
           🔍
         </div>
-        <h3 className="mt-4 text-lg font-bold text-[#26312D]">
-          Không Tìm Thấy Sản Phẩm Phù Hợp
-        </h3>
+        <h3 className="mt-4 text-lg font-bold text-[#26312D]">Không Tìm Thấy Sản Phẩm Phù Hợp</h3>
         <p className="mt-1 max-w-sm text-xs text-text-secondary">
           Vui lòng thử bỏ bớt bộ lọc hoặc tìm kiếm với từ khóa khác.
         </p>

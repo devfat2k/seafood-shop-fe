@@ -49,7 +49,7 @@ export function BentoCategories(props: BentoCategoriesProps) {
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
 
-                <div className="relative z-10 flex h-full flex-col justify-between text-white min-h-[220px]">
+                <div className="relative z-10 flex h-full min-h-[220px] flex-col justify-between text-white">
                   <div>
                     {cat.badge && (
                       <span className="inline-block rounded-full bg-[#D9A441] px-3 py-1 text-[10px] font-extrabold text-[#0B2F28] uppercase shadow-sm">

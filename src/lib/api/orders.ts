@@ -1,5 +1,5 @@
-import type { CreateOrderRequest, OrderResponse } from '@/types/order';
 import type { ApiResponse, PageResponse } from '@/types/api';
+import type { CreateOrderRequest, OrderResponse } from '@/types/order';
 import { api } from '../ApiClient';
 
 export async function createOrder(data: CreateOrderRequest): Promise<ApiResponse<OrderResponse>> {
@@ -7,7 +7,10 @@ export async function createOrder(data: CreateOrderRequest): Promise<ApiResponse
   return res.data;
 }
 
-export async function getMyOrders(page = 0, size = 10): Promise<PageResponse<OrderResponse> | null> {
+export async function getMyOrders(
+  page = 0,
+  size = 10,
+): Promise<PageResponse<OrderResponse> | null> {
   try {
     const res = await api.get<ApiResponse<PageResponse<OrderResponse>>>(
       `/orders/my-orders?page=${page}&size=${size}`,

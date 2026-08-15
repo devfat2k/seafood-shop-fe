@@ -66,7 +66,9 @@ export function AccountSidebar(props: AccountSidebarProps) {
             <button
               key={item.id}
               type="button"
-              onClick={() => onSelectTab(item.id)}
+              onClick={() => {
+                onSelectTab(item.id);
+              }}
               className={`flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-xs font-bold transition-all ${
                 isActive
                   ? 'bg-[#1E3A8A] text-white shadow-md'

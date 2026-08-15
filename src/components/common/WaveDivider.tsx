@@ -29,4 +29,3 @@ export const WaveDivider: FC<WaveDividerProps> = ({
     </svg>
   </div>
 );
-

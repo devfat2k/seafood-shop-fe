@@ -81,7 +81,7 @@ export type ComboSet = {
   theme?: 'light' | 'dark';
   badgeType?: 'gold' | 'green' | 'orange';
   isBreakout?: boolean;
-  category?: 'all' | 'lunch' | 'party' | 'family' | string;
+  category?: string;
 };
 
 export type FeaturedReview = {

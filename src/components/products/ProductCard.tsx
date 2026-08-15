@@ -73,7 +73,9 @@ export function ProductCard<T extends ProductCardItem>(props: ProductCardProps<T
           {onQuickView && (
             <button
               type="button"
-              onClick={() => onQuickView(product)}
+              onClick={() => {
+                onQuickView(product);
+              }}
               className="absolute right-2.5 bottom-2.5 flex h-9 w-9 items-center justify-center rounded-full bg-black/50 text-white opacity-0 backdrop-blur-md transition-all group-hover:opacity-100 hover:scale-110 hover:bg-[#0B2F28]"
               aria-label={`Xem nhanh ${product.name}`}
               title="Xem nhanh"

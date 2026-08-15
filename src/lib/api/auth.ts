@@ -1,3 +1,4 @@
+import type { ApiResponse } from '@/types/api';
 import type {
   AuthResponse,
   LoginRequest,
@@ -7,7 +8,6 @@ import type {
   RegisterResponse,
   ResetPasswordRequest,
 } from '@/types/auth';
-import type { ApiResponse } from '@/types/api';
 import { api } from '../ApiClient';
 
 export async function registerUser(data: RegisterRequest): Promise<ApiResponse<RegisterResponse>> {

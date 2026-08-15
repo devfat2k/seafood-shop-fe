@@ -1,5 +1,11 @@
-import type { AddressRequest, ChangePasswordRequest, UpdateProfileRequest, UserAddress, UserProfile } from '@/types/user';
 import type { ApiResponse } from '@/types/api';
+import type {
+  AddressRequest,
+  ChangePasswordRequest,
+  UpdateProfileRequest,
+  UserAddress,
+  UserProfile,
+} from '@/types/user';
 import { api } from '../ApiClient';
 
 export async function getUserProfile(): Promise<UserProfile | null> {
@@ -12,7 +18,9 @@ export async function getUserProfile(): Promise<UserProfile | null> {
   }
 }
 
-export async function updateUserProfile(data: UpdateProfileRequest): Promise<ApiResponse<UserProfile>> {
+export async function updateUserProfile(
+  data: UpdateProfileRequest,
+): Promise<ApiResponse<UserProfile>> {
   const res = await api.put<ApiResponse<UserProfile>>('/users/me', data);
   return res.data;
 }
@@ -46,7 +54,10 @@ export async function createUserAddress(data: AddressRequest): Promise<ApiRespon
   return res.data;
 }
 
-export async function updateUserAddress(id: number, data: AddressRequest): Promise<ApiResponse<UserAddress>> {
+export async function updateUserAddress(
+  id: number,
+  data: AddressRequest,
+): Promise<ApiResponse<UserAddress>> {
   const res = await api.put<ApiResponse<UserAddress>>(`/users/addresses/${id}`, data);
   return res.data;
 }

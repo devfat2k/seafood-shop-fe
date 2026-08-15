@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useState } from 'react';
 import { Icon } from '@/components/common/Icon';
 import { Link } from '@/libs/I18nNavigation';
@@ -133,9 +134,12 @@ export function CartDrawer(props: CartDrawerProps) {
                   {items.map((item) => (
                     <div key={item.id} className="flex gap-4 py-4">
                       {item.image && (
-                        <img
+                        <Image
                           src={item.image}
                           alt={item.name}
+                          width={80}
+                          height={80}
+                          unoptimized
                           className="h-20 w-20 shrink-0 rounded-xl border border-[#E2E8F0] object-cover"
                         />
                       )}

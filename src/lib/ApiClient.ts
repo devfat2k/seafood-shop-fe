@@ -1,6 +1,5 @@
 import axios, { create } from 'axios';
 import type { AxiosError, AxiosInstance, InternalAxiosRequestConfig } from 'axios';
-
 import { Env } from '@/libs/Env';
 
 const BASE_URL = Env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:8085';
@@ -74,10 +73,10 @@ api.interceptors.response.use(
     isRefreshing = true;
     try {
       const refreshToken = getRefreshToken();
-      const response = await axios.post<{ success: boolean; data: { accessToken: string; refreshToken: string } }>(
-        `${BASE_URL}/api/v1/auth/refresh-token`,
-        { refreshToken },
-      );
+      const response = await axios.post<{
+        success: boolean;
+        data: { accessToken: string; refreshToken: string };
+      }>(`${BASE_URL}/api/v1/auth/refresh-token`, { refreshToken });
       const newAccess = response.data.data.accessToken;
       const newRefresh = response.data.data.refreshToken;
       setTokens(newAccess, newRefresh);

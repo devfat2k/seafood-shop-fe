@@ -4,19 +4,25 @@
 > workspace này (Gemini, Claude Opus/Sonnet, ...). Nếu có xung đột với `AGENTS.md` hoặc
 > bất kỳ rule nào khác trong `.agents/rules/`, file này luôn thắng.
 
-## 1. Verification Loop — bắt buộc, không thương lượng
+## 1. Verification Loop & Quy trình bắt buộc khi hoàn thành task — không thương lượng
 
-Sau **mọi** thay đổi code, trước khi báo "done" hoặc dừng task, PHẢI chạy tuần tự và
-tự sửa lỗi cho tới khi pass:
+Trước khi báo hoàn thành ("done") bất kỳ task nào hoặc dừng công việc, PHẢI kiểm tra và đáp ứng đầy đủ các điều kiện bắt buộc sau:
 
-```
-bun run check:types
-bun run lint
-```
+1. **Type Checking (Bắt buộc 100%)**:
+   - Chạy `bun run check:types` — phải đạt **0 lỗi TypeScript**.
+   - Cấm tuyệt đối việc dùng `// @ts-ignore`, `// @ts-nocheck`, hoặc gán ép kiểu `any` để né lỗi type.
 
-Nếu thay đổi liên quan tới logic/hook/util quan trọng: chạy thêm `bun run test`.
-Không được báo hoàn thành task khi các lệnh trên còn lỗi. Không được tự ý "bỏ qua"
-lỗi type bằng `// @ts-ignore` hoặc `any` để né lỗi — phải sửa gốc rễ hoặc dừng lại hỏi user.
+2. **Linting & Code Formatting**:
+   - Chạy `bun run lint` — khắc phục các lỗi linting và đảm bảo không có warning/error nghiêm trọng vỡ build.
+
+3. **Automated Unit Testing**:
+   - Nếu thay đổi liên quan tới logic/hook/util/validation: chạy `bun run test` và đảm bảo toàn bộ test suite pass.
+
+4. **Kiểm tra 3 Trạng thái UI (cho màn hình/component động)**:
+   - Đã xử lý đủ 3 trạng thái: **Loading** (Skeleton đúng khung hình), **Empty** (Message tiếng Việt + icon), và **Error** (Message lỗi + nút Thử lại).
+
+5. **Đối chiếu Checklist Pre-merge**:
+   - Tuân thủ các mục trong `.agents/checklists/pre-merge.md` (Design tokens, i18n tiếng Việt qua `next-intl`, định dạng tiền tệ `xxx.xxx₫`).
 
 ## 2. Kiến trúc bất biến (không được vi phạm)
 

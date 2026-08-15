@@ -30,7 +30,9 @@ export function AccountContainer(props: AccountContainerProps) {
           <AccountSidebar
             profile={initialProfile}
             activeTab={activeTab}
-            onSelectTab={(tab) => setActiveTab(tab)}
+            onSelectTab={(tab) => {
+              setActiveTab(tab);
+            }}
           />
         </div>
 

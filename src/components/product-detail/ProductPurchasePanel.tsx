@@ -92,9 +92,7 @@ export function ProductPurchasePanel(props: ProductPurchasePanelProps) {
 
         {/* Description & Specs List */}
         {product.description && (
-          <p className="mt-5 text-sm leading-relaxed text-text-secondary">
-            {product.description}
-          </p>
+          <p className="mt-5 text-sm leading-relaxed text-text-secondary">{product.description}</p>
         )}
 
         {product.spec && (
@@ -187,11 +185,7 @@ export function ProductPurchasePanel(props: ProductPurchasePanelProps) {
       {showToast && (
         <div className="fixed right-6 bottom-6 z-50 flex w-80 animate-in items-center gap-3 rounded-2xl border border-[#E4E0D8] bg-white p-4 shadow-2xl transition-all fade-in slide-in-from-bottom-4">
           {mainImage && (
-            <img
-              src={mainImage}
-              alt={product.name}
-              className="h-12 w-12 rounded-xl object-cover"
-            />
+            <img src={mainImage} alt={product.name} className="h-12 w-12 rounded-xl object-cover" />
           )}
           <div className="flex-1">
             <div className="flex items-center justify-between">
@@ -199,7 +193,9 @@ export function ProductPurchasePanel(props: ProductPurchasePanelProps) {
               <button
                 type="button"
                 aria-label="Đóng thông báo"
-                onClick={() => setShowToast(false)}
+                onClick={() => {
+                  setShowToast(false);
+                }}
                 className="text-xs text-text-secondary hover:text-[#26312D]"
               >
                 <Icon name="x" size="xs" />

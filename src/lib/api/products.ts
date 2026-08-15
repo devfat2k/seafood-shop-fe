@@ -1,6 +1,5 @@
 import type { PageResponse, Product } from '@/types/api';
 import { apiResponseSchema, pageResponseSchema, productSchema } from '@/types/api';
-
 import { api } from '../ApiClient';
 
 export type ProductListParams = {

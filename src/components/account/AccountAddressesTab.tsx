@@ -27,7 +27,9 @@ export function AccountAddressesTab(props: AccountAddressesTabProps) {
 
         <button
           type="button"
-          onClick={() => setShowAddForm(!showAddForm)}
+          onClick={() => {
+            setShowAddForm(!showAddForm);
+          }}
           className="inline-flex items-center gap-2 rounded-full bg-[#1E3A8A] px-5 py-2.5 text-xs font-bold text-white shadow transition-transform hover:scale-105 hover:bg-[#172554]"
         >
           <Icon name="plus" size="xs" />
@@ -72,7 +74,9 @@ export function AccountAddressesTab(props: AccountAddressesTabProps) {
                 {!addr.isDefault && onSetDefaultAddress && (
                   <button
                     type="button"
-                    onClick={() => onSetDefaultAddress(addr.id)}
+                    onClick={() => {
+                      onSetDefaultAddress(addr.id);
+                    }}
                     className="text-xs font-bold text-[#1E3A8A] hover:underline"
                   >
                     Thiết lập mặc định
@@ -81,7 +85,9 @@ export function AccountAddressesTab(props: AccountAddressesTabProps) {
                 {onDeleteAddress && (
                   <button
                     type="button"
-                    onClick={() => onDeleteAddress(addr.id)}
+                    onClick={() => {
+                      onDeleteAddress(addr.id);
+                    }}
                     className="text-xs font-bold text-red-500 hover:underline"
                   >
                     Xóa

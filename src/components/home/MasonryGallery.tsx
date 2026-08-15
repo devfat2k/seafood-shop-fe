@@ -1,5 +1,5 @@
-import { Icon } from "@/components/common/Icon";
-import Image from "next/image";
+import Image from 'next/image';
+import { Icon } from '@/components/common/Icon';
 
 type GalleryItem = {
   id: string;
@@ -11,52 +11,52 @@ type GalleryItem = {
 
 const GALLERY_ITEMS: GalleryItem[] = [
   {
-    id: "cang-ca-hung-dong",
-    title: "Hừng Đông Cảng Cá Phan Thiết",
-    subtitle: "Thuyền đánh bắt đêm rẽ sóng cập cảng lúc 4h00 sáng",
+    id: 'cang-ca-hung-dong',
+    title: 'Hừng Đông Cảng Cá Phan Thiết',
+    subtitle: 'Thuyền đánh bắt đêm rẽ sóng cập cảng lúc 4h00 sáng',
     image:
-      "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80",
-    heightClass: "h-72 lg:h-96",
+      'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80',
+    heightClass: 'h-72 lg:h-96',
   },
   {
-    id: "dong-thung-oxy",
-    title: "Đóng Thùng Oxy Tươi Sống",
-    subtitle: "Hải sản bơi bể đóng oxy chuẩn xuất khẩu giao tận tay",
+    id: 'dong-thung-oxy',
+    title: 'Đóng Thùng Oxy Tươi Sống',
+    subtitle: 'Hải sản bơi bể đóng oxy chuẩn xuất khẩu giao tận tay',
     image:
-      "https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?auto=format&fit=crop&w=800&q=80",
-    heightClass: "h-60 lg:h-72",
+      'https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?auto=format&fit=crop&w=800&q=80',
+    heightClass: 'h-60 lg:h-72',
   },
   {
-    id: "tom-hum-phu-quy",
-    title: "Tôm Hùm Đảo Phú Quý",
-    subtitle: "Tôm bơi khoẻ, vỏ cứng gạch đậm đà tự nhiên",
+    id: 'tom-hum-phu-quy',
+    title: 'Tôm Hùm Đảo Phú Quý',
+    subtitle: 'Tôm bơi khoẻ, vỏ cứng gạch đậm đà tự nhiên',
     image:
-      "https://images.unsplash.com/photo-1615141982883-c7ad0e69fd62?auto=format&fit=crop&w=800&q=80",
-    heightClass: "h-80 lg:h-96",
+      'https://images.unsplash.com/photo-1615141982883-c7ad0e69fd62?auto=format&fit=crop&w=800&q=80',
+    heightClass: 'h-80 lg:h-96',
   },
   {
-    id: "tuyet-tac-mon-ngon",
-    title: "Bàn Tiệc Hải Sản Đậm Vị Biển",
-    subtitle: "Chế biến đơn giản giữ trọn vị ngọt tự nhiên tại gia",
+    id: 'tuyet-tac-mon-ngon',
+    title: 'Bàn Tiệc Hải Sản Đậm Vị Biển',
+    subtitle: 'Chế biến đơn giản giữ trọn vị ngọt tự nhiên tại gia',
     image:
-      "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?auto=format&fit=crop&w=800&q=80",
-    heightClass: "h-64 lg:h-80",
+      'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?auto=format&fit=crop&w=800&q=80',
+    heightClass: 'h-64 lg:h-80',
   },
   {
-    id: "doi-ngu-giao-hang",
-    title: "Giao Nhanh Tốc Độ < 2 Giờ",
-    subtitle: "Đội ngũ shipper thùng lạnh bảo quản nghiêm ngặt",
+    id: 'doi-ngu-giao-hang',
+    title: 'Giao Nhanh Tốc Độ < 2 Giờ',
+    subtitle: 'Đội ngũ shipper thùng lạnh bảo quản nghiêm ngặt',
     image:
-      "https://images.unsplash.com/photo-1555126634-323283e090fa?auto=format&fit=crop&w=800&q=80",
-    heightClass: "h-72 lg:h-88",
+      'https://images.unsplash.com/photo-1555126634-323283e090fa?auto=format&fit=crop&w=800&q=80',
+    heightClass: 'h-72 lg:h-88',
   },
   {
-    id: "che-bien-dat-chuan",
-    title: "Sơ Chế Đạt Chuẩn ATTP",
-    subtitle: "Đóng khay hút chân không sạch sẽ, an toàn tuyệt đối",
+    id: 'che-bien-dat-chuan',
+    title: 'Sơ Chế Đạt Chuẩn ATTP',
+    subtitle: 'Đóng khay hút chân không sạch sẽ, an toàn tuyệt đối',
     image:
-      "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=800&q=80",
-    heightClass: "h-64 lg:h-80",
+      'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=800&q=80',
+    heightClass: 'h-64 lg:h-80',
   },
 ];
 
@@ -73,8 +73,7 @@ export function MasonryGallery() {
             Từ Đại Dương <span className="text-[#C4922F]">Tới Bàn Tiệc</span>
           </h2>
           <p className="mt-2 text-xs leading-relaxed text-text-secondary sm:text-sm">
-            Hành trình đánh bắt, tuyển chọn và vận chuyển hải sản tươi sống mỗi
-            ngày
+            Hành trình đánh bắt, tuyển chọn và vận chuyển hải sản tươi sống mỗi ngày
           </p>
         </div>
 
@@ -97,9 +96,7 @@ export function MasonryGallery() {
                 <span className="inline-block rounded-md bg-[#0E3D34] px-2.5 py-1 text-[10px] font-extrabold tracking-wider text-[#D9A441] uppercase">
                   NHẬT KÝ BIỂN CẢ
                 </span>
-                <h3 className="mt-2 text-base font-bold text-white sm:text-lg">
-                  {item.title}
-                </h3>
+                <h3 className="mt-2 text-base font-bold text-white sm:text-lg">{item.title}</h3>
                 <p className="mt-1 text-xs text-slate-200">{item.subtitle}</p>
               </div>
             </div>

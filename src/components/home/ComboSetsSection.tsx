@@ -17,9 +17,8 @@ export function ComboSetsSection(props: ComboSetsSectionProps) {
     return null;
   }
 
-  const filteredCombos = activeCategory === 'all'
-    ? combos
-    : combos.filter((c) => c.category === activeCategory);
+  const filteredCombos =
+    activeCategory === 'all' ? combos : combos.filter((c) => c.category === activeCategory);
 
   return (
     <section className="bg-[#F8FAFC] py-8 lg:py-16">
@@ -48,7 +47,9 @@ export function ComboSetsSection(props: ComboSetsSectionProps) {
               <button
                 key={tab.id}
                 type="button"
-                onClick={() => setActiveCategory(tab.id)}
+                onClick={() => {
+                  setActiveCategory(tab.id);
+                }}
                 className={`rounded-full px-4 py-1.5 text-xs font-bold transition-all ${
                   activeCategory === tab.id
                     ? 'bg-[#0B2F28] text-white shadow-xs'
@@ -88,7 +89,7 @@ export function ComboSetsSection(props: ComboSetsSectionProps) {
                   </div>
 
                   <h3
-                    className={`mt-4 text-lg font-extrabold leading-snug ${
+                    className={`mt-4 text-lg leading-snug font-extrabold ${
                       isDark ? 'text-white' : 'text-[#26312D]'
                     }`}
                   >
@@ -107,7 +108,7 @@ export function ComboSetsSection(props: ComboSetsSectionProps) {
                 <div className="mt-6 border-t border-[#E4E0D8]/40 pt-4">
                   <div className="flex items-center justify-between">
                     <div>
-                      <span className="text-[10px] text-text-secondary uppercase font-semibold">
+                      <span className="text-[10px] font-semibold text-text-secondary uppercase">
                         Giá trọn gói / {combo.unit}
                       </span>
                       <p className="text-xl font-extrabold text-[#C4922F]">
