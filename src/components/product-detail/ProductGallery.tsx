@@ -1,74 +1,134 @@
 'use client';
 
+import Image from 'next/image';
 import { useState } from 'react';
+import { Icon } from '@/components/common/Icon';
 
 type ProductGalleryProps = {
-  images: string[];
+  images?: string[];
   productName: string;
-  badges: string[];
+  badges?: string[];
 };
 
 export function ProductGallery(props: ProductGalleryProps) {
-  const { images, productName, badges } = props;
+  const { images = [], productName, badges = ['Mới cập bến', 'Hot Sale'] } = props;
   const [activeImageIndex, setActiveImageIndex] = useState(0);
 
-  const currentImage = images[activeImageIndex] ?? images[0];
+  const currentImage = images[activeImageIndex] ?? images[0] ?? '';
+
+  const handlePrev = () => {
+    if (images.length === 0) {
+      return;
+    }
+    setActiveImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+  };
+
+  const handleNext = () => {
+    if (images.length === 0) {
+      return;
+    }
+    setActiveImageIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+  };
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="space-y-4">
       {/* Khung ảnh chính lớn */}
-      <div className="relative h-[480px] w-full overflow-hidden rounded-3xl border border-[#E4E0D8] bg-[#F5F1E8] shadow-md">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={currentImage}
-          alt={productName}
-          className="h-full w-full object-cover transition-all duration-300"
-        />
+      <div className="group relative aspect-square w-full overflow-hidden rounded-2xl border border-border bg-card shadow-xs">
+        {currentImage ? (
+          <Image
+            src={currentImage}
+            alt={productName}
+            fill
+            priority
+            unoptimized
+            className="cursor-zoom-in object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center bg-muted text-muted-foreground">
+            <Icon name="fish" size="xl" />
+          </div>
+        )}
 
-        {/* Badges đè trên ảnh */}
-        <div className="absolute top-4 left-4 flex flex-col items-start gap-2">
-          {badges.map((badge, idx) => (
-            <span
-              key={idx}
-              className={`rounded-full px-3.5 py-1 text-xs font-bold ${
-                badge.includes('🟢')
-                  ? 'bg-[#0E3D34] text-white shadow-sm'
-                  : 'bg-[#26312D] text-white shadow-sm'
-              }`}
-            >
-              {badge}
-            </span>
-          ))}
-        </div>
+        {/* Badges góc trên trái */}
+        {badges.length > 0 && (
+          <div className="absolute top-4 left-4 flex flex-col gap-2">
+            {badges.map((badge, idx) => (
+              <span
+                key={idx}
+                className={`rounded-full px-3 py-1 text-xs font-bold tracking-wider uppercase shadow-xs ${
+                  idx === 0
+                    ? 'bg-primary text-primary-foreground'
+                    : 'bg-accent text-accent-foreground'
+                }`}
+              >
+                {badge}
+              </span>
+            ))}
+          </div>
+        )}
+
+        {/* Zoom lens instruction */}
+        {currentImage && (
+          <div className="pointer-events-none absolute right-4 bottom-4 flex items-center gap-1.5 rounded-lg bg-black/60 px-3 py-1.5 text-xs text-white opacity-0 backdrop-blur-xs transition-opacity duration-300 group-hover:opacity-100">
+            <Icon name="search" size="xs" />
+            <span>Rê chuột để phóng to</span>
+          </div>
+        )}
       </div>
 
       {/* Dải Thumbnails bên dưới */}
-      <div className="grid grid-cols-4 gap-3">
-        {images.map((img, idx) => {
-          const isActive = idx === activeImageIndex;
-          return (
-            <button
-              key={idx}
-              type="button"
-              onClick={() => {
-                setActiveImageIndex(idx);
-              }}
-              className={`relative h-24 overflow-hidden rounded-2xl border-2 transition-all ${
-                isActive
-                  ? 'border-[#0E3D34] ring-2 ring-[#0E3D34]/20'
-                  : 'border-[#E4E0D8] opacity-70 hover:opacity-100'
-              }`}
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={img}
-                alt={`${productName} thumbnail ${idx + 1}`}
-                className="h-full w-full object-cover"
-              />
-            </button>
-          );
-        })}
-      </div>
+      {images.length > 1 && (
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={handlePrev}
+            aria-label="Ảnh trước"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-border bg-card text-foreground transition-all hover:bg-muted"
+          >
+            <Icon name="chevron-left" size="sm" />
+          </button>
+
+          {/* Thumbnails grid */}
+          <div className="grid flex-1 grid-cols-4 gap-3">
+            {images.slice(0, 4).map((img, idx) => {
+              const isActive = idx === activeImageIndex;
+
+              return (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => {
+                    setActiveImageIndex(idx);
+                  }}
+                  aria-label={`Xem ảnh ${idx + 1}`}
+                  className={`relative aspect-square overflow-hidden rounded-xl bg-card p-1 transition-all ${
+                    isActive
+                      ? 'border-2 border-primary ring-2 ring-primary/20'
+                      : 'border border-border hover:border-secondary'
+                  }`}
+                >
+                  <Image
+                    src={img}
+                    alt={`${productName} thumbnail ${idx + 1}`}
+                    fill
+                    unoptimized
+                    className="rounded-lg object-cover"
+                  />
+                </button>
+              );
+            })}
+          </div>
+
+          <button
+            type="button"
+            onClick={handleNext}
+            aria-label="Ảnh tiếp theo"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-border bg-card text-foreground transition-all hover:bg-muted"
+          >
+            <Icon name="chevron-right" size="sm" />
+          </button>
+        </div>
+      )}
     </div>
   );
 }
