@@ -1,59 +1,44 @@
 'use client';
 
 import { Icon } from '@/components/common/Icon';
+import { Logo } from '@/components/Logo';
 import { Link } from '@/libs/I18nNavigation';
 
 export function Footer() {
   return (
-    <footer className="border-t border-brand-900 bg-[#1E3A8A] pt-16 pb-8 text-white">
+    <footer className="border-t border-secondary/20 bg-foreground pt-12 pb-8 text-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
-        <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4">
-          <div>
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-[#1E3A8A]">
-                <Icon name="fish" size="sm" />
-              </div>
-              <span className="text-lg font-extrabold tracking-wide uppercase">
-                HẢI SẢN PHAN THIẾT
-              </span>
-            </div>
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
+          {/* Cột 1: Thông tin thương hiệu */}
+          <div className="space-y-3">
+            <Link href="/">
+              <Logo textColor="text-white" showSubtext={false} />
+            </Link>
 
-            <p className="mt-4 text-xs leading-relaxed text-white/80">
-              Thương hiệu cung cấp hải sản tươi sống đánh bắt tự nhiên từ vùng biển Phan Thiết, giao
-              tận nhà trong 2h, đóng thùng giữ lạnh chuẩn xuất khẩu.
+            <p className="text-xs leading-relaxed text-white/80">
+              Sàn thương mại điện tử hải sản tươi sống chất lượng cao, thu mua trực tiếp tại bến
+              cảng Phan Thiết, Bình Thuận. Chuỗi lạnh khép kín giao nhanh 2h tại TP.HCM.
             </p>
 
-            <div className="mt-6 flex items-center gap-3">
-              <Link
-                href="/"
-                aria-label="Website"
-                className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-[#F97316] hover:text-white"
-              >
-                <Icon name="sparkles" size="sm" />
-              </Link>
-              <Link
-                href="/contact"
-                aria-label="Hotline"
-                className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-[#F97316] hover:text-white"
-              >
-                <Icon name="phone" size="sm" />
-              </Link>
-              <Link
-                href="/contact"
-                aria-label="Email"
-                className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-[#F97316] hover:text-white"
-              >
-                <Icon name="mail" size="sm" />
-              </Link>
+            <div className="flex items-center gap-2 pt-2">
+              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-primary">
+                <Icon name="sparkles" size="xs" />
+              </span>
+              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-primary">
+                <Icon name="phone" size="xs" />
+              </span>
+              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-primary">
+                <Icon name="mail" size="xs" />
+              </span>
             </div>
           </div>
 
           {/* Cột 2: Hỗ trợ khách hàng */}
           <div>
-            <h4 className="text-sm font-bold tracking-wider text-[#F97316] uppercase">
-              HỖ TRỢ KHÁCH HÀNG
+            <h4 className="font-heading text-sm font-bold tracking-wider text-accent uppercase">
+              Hỗ trợ khách hàng
             </h4>
-            <ul className="mt-4 space-y-2.5 text-xs text-white/80">
+            <ul className="mt-3 space-y-2 text-xs text-white/80">
               <li>
                 <Link href="/policy/shipping" className="transition-colors hover:text-white">
                   Chính sách giao hàng 2h
@@ -61,7 +46,7 @@ export function Footer() {
               </li>
               <li>
                 <Link href="/policy/refund" className="transition-colors hover:text-white">
-                  Cam kết 1 đổi 1 nếu lỗi
+                  Cam kết 1 đổi 1 nếu không tươi
                 </Link>
               </li>
               <li>
@@ -71,7 +56,7 @@ export function Footer() {
               </li>
               <li>
                 <Link href="/tracking" className="transition-colors hover:text-white">
-                  Kiểm tra đơn hàng của bạn
+                  Kiểm tra đơn hàng
                 </Link>
               </li>
               <li>
@@ -82,86 +67,77 @@ export function Footer() {
             </ul>
           </div>
 
+          {/* Cột 3: Danh mục nổi bật */}
           <div>
-            <h4 className="text-sm font-bold tracking-wider text-[#F97316] uppercase">
-              DANH MỤC BÁN CHẠY
+            <h4 className="font-heading text-sm font-bold tracking-wider text-accent uppercase">
+              Danh mục nổi bật
             </h4>
-            <ul className="mt-4 space-y-2.5 text-xs text-white/80">
-              <li>
-                <Link
-                  href="/products?category=set-combo"
-                  className="transition-colors hover:text-white"
-                >
-                  Set Combo BBQ Cuối Tuần
-                </Link>
-              </li>
+            <ul className="mt-3 space-y-2 text-xs text-white/80">
               <li>
                 <Link
                   href="/products?category=tom-cua"
                   className="transition-colors hover:text-white"
                 >
-                  Tôm Hùm Sống Cực Rẻ
+                  Tôm hùm &amp; Cua gạch Phan Thiết
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/products?category=muc-bach-tuoc"
+                  href="/products?category=muc-tuoi"
                   className="transition-colors hover:text-white"
                 >
-                  Mực Lá Nướng Phan Thiết
+                  Mực nháy &amp; Bạch tuộc sống
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/products?category=so-oc"
+                  href="/products?category=ca-mot-nang"
                   className="transition-colors hover:text-white"
                 >
-                  Hàu Sữa &amp; Ốc Hương
+                  Cá thu một nắng &amp; Cá bớp cắt lát
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/products?category=dac-san-kho"
+                  href="/products?category=oc-so"
                   className="transition-colors hover:text-white"
                 >
-                  Đặc Sản Khô &amp; Gia Vị
+                  Ốc hương &amp; Cồi sò điệp đại
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/products?category=combo-tiec"
+                  className="transition-colors hover:text-white"
+                >
+                  Combo đại tiệc hải sản cao cấp
                 </Link>
               </li>
             </ul>
           </div>
 
+          {/* Cột 4: Cam kết chuỗi lạnh & Liên hệ */}
           <div>
-            <h4 className="text-sm font-bold tracking-wider text-[#F97316] uppercase">
-              THÔNG TIN LIÊN HỆ
+            <h4 className="font-heading text-sm font-bold tracking-wider text-accent uppercase">
+              Liên hệ trực tiếp
             </h4>
-            <p className="mt-4 text-xs leading-relaxed text-white/80">
-              Liên hệ các nền tảng số điện thoại hoặc mạng xã hội để được hỗ trợ tư vấn đặt hàng và
-              hỗ trợ
-            </p>
-            <div className="mt-2 flex items-center gap-2">
-              <span className="text-xs font-medium">Số điện thoại: 0905139113</span>
-            </div>
-
-            <div className="mt-2 flex items-center gap-2">
-              <span className="text-xs font-medium">
-                Địa chỉ: Số 123, đường Lê Lợi, phường 1, thành phố Phan Thiết, tỉnh Bình Thuận
-              </span>
+            <div className="mt-3 space-y-2 text-xs text-white/80">
+              <p>📍 Cảng cá Phan Thiết, Phường Đức Thắng, TP. Phan Thiết, Bình Thuận</p>
+              <p>🏢 Kho trung chuyển: 128 Nguyễn Hữu Cảnh, P.22, Q. Bình Thạnh, TP.HCM</p>
+              <p className="font-bold text-white">📞 Hotline: 1900 6868 (07:00 - 21:00)</p>
+              <p>✉️ Email: lienhe@haisanphanthiet.vn</p>
             </div>
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-6 text-xs text-white/60 sm:flex-row">
-          <p>© 2026 Hải Sản Ecommerce Hải Sản Phan Thiết. Bản quyền thuộc về Cảng cá Phan Thiết.</p>
-          <div className="flex items-center gap-4">
-            <Link href="/terms" className="hover:text-white">
-              Điều khoản sử dụng
-            </Link>
-            <Link href="/privacy" className="hover:text-white">
-              Chính sách bảo mật
-            </Link>
-            <Link href="/map" className="hover:text-white">
-              Bản đồ cảng cá
-            </Link>
+        {/* Bottom bar & Payment badges */}
+        <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-6 text-xs text-white/60 sm:flex-row">
+          <p>© 2026 Hải Sản Phan Thiết Premium. Bảo lưu mọi quyền.</p>
+          <div className="flex items-center gap-2 text-[10px] font-bold tracking-wider text-white/80">
+            <span className="rounded border border-white/15 bg-white/5 px-2.5 py-1">VNPAY</span>
+            <span className="rounded border border-white/15 bg-white/5 px-2.5 py-1">MOMO</span>
+            <span className="rounded border border-white/15 bg-white/5 px-2.5 py-1">ZALOPAY</span>
+            <span className="rounded border border-white/15 bg-white/5 px-2.5 py-1">COD</span>
           </div>
         </div>
       </div>

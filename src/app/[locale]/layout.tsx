@@ -1,9 +1,32 @@
 import type { Metadata, Viewport } from 'next';
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
 import { setRequestLocale } from 'next-intl/server';
+import { Be_Vietnam_Pro, Fraunces, JetBrains_Mono } from 'next/font/google';
 import { notFound } from 'next/navigation';
+import Providers from '@/app/providers';
 import { routing } from '@/libs/I18nRouting';
 import '@/styles/global.css';
+
+const beVietnamPro = Be_Vietnam_Pro({
+  weight: ['400', '500', '600', '700', '800'],
+  subsets: ['latin', 'vietnamese'],
+  display: 'swap',
+  variable: '--font-sans',
+});
+
+const fraunces = Fraunces({
+  weight: ['400', '500', '600', '700', '800'],
+  subsets: ['latin', 'vietnamese'],
+  display: 'swap',
+  variable: '--font-heading',
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  weight: ['400', '500', '600', '700'],
+  subsets: ['latin', 'vietnamese'],
+  display: 'swap',
+  variable: '--font-mono',
+});
 
 export const metadata: Metadata = {
   icons: [
@@ -52,9 +75,15 @@ export default async function RootLayout(props: {
   setRequestLocale(locale);
 
   return (
-    <html lang={locale}>
-      <body>
-        <NextIntlClientProvider>{props.children}</NextIntlClientProvider>
+    <html
+      lang={locale}
+      className={`${beVietnamPro.variable} ${fraunces.variable} ${jetbrainsMono.variable}`}
+      suppressHydrationWarning
+    >
+      <body className="min-h-screen bg-background font-sans text-foreground antialiased">
+        <NextIntlClientProvider>
+          <Providers>{props.children}</Providers>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

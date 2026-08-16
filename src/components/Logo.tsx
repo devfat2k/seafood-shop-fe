@@ -1,18 +1,46 @@
 import Image from 'next/image';
 
-export function Logo() {
+type LogoProps = {
+  className?: string;
+  showSubtext?: boolean;
+  textColor?: string;
+  size?: 'sm' | 'md' | 'lg';
+};
+
+export function Logo(props: LogoProps) {
+  const { className = '', showSubtext = true, textColor = 'text-foreground', size = 'md' } = props;
+
+  const imageDimensions = {
+    sm: { width: 32, height: 32, container: 'h-8 w-8' },
+    md: { width: 40, height: 40, container: 'h-10 w-10 sm:h-11 sm:w-11' },
+    lg: { width: 48, height: 48, container: 'h-12 w-12 sm:h-14 sm:w-14' },
+  }[size];
+
   return (
-    <div className="flex items-center gap-3">
-      <div className="relative flex h-12 w-12 items-center justify-center rounded-full bg-amber-950">
-        <Image src="/assets/images/logoseafood.png" alt="Logo" width={64} height={64} priority />
+    <div className={`flex items-center gap-2.5 ${className}`}>
+      <div
+        className={`relative flex shrink-0 items-center justify-center overflow-hidden rounded-full shadow-xs ${imageDimensions.container}`}
+      >
+        <Image
+          src="/assets/images/logo.png"
+          alt="logo"
+          width={imageDimensions.width}
+          height={imageDimensions.height}
+          priority
+          className="h-full w-full object-cover"
+        />
       </div>
-      <div className="flex flex-col leading-tight">
-        <span className="text-md font-extrabold tracking-wide text-[#1E3A8A] uppercase">
+      <div>
+        <span
+          className={`block font-heading text-base font-bold tracking-tight sm:text-lg ${textColor}`}
+        >
           Hải Sản Phan Thiết
         </span>
-        <span className="text-xs font-semibold tracking-wider text-[#F97316] uppercase">
-          Tươi ngon mỗi ngày
-        </span>
+        {showSubtext && (
+          <span className="-mt-0.5 hidden text-[10px] font-bold tracking-widest text-secondary uppercase sm:block">
+            Tươi từ biển • Sạch đến bàn ăn
+          </span>
+        )}
       </div>
     </div>
   );
