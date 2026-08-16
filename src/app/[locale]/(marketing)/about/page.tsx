@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { AboutContactContent } from '@/components/about/AboutContactContent';
 
 type AboutPageProps = {
   params: Promise<{ locale: string }>;
@@ -7,32 +8,28 @@ type AboutPageProps = {
 
 export async function generateMetadata(props: AboutPageProps): Promise<Metadata> {
   const { locale } = await props.params;
-  const t = await getTranslations({
-    locale,
-    namespace: 'About',
-  });
+  try {
+    const t = await getTranslations({
+      locale,
+      namespace: 'About',
+    });
 
-  return {
-    title: t('meta_title'),
-    description: t('meta_description'),
-  };
+    return {
+      title: t('meta_title'),
+      description: t('meta_description'),
+    };
+  } catch {
+    return {
+      title: 'Liên Hệ & Về Chúng Tôi | Hải Sản Phan Thiết',
+      description:
+        'Thông tin liên hệ, địa chỉ bến cảng, kho TP.HCM và dịch vụ giao hải sản tươi sống tận nơi.',
+    };
+  }
 }
 
-export default async function About(props: AboutPageProps) {
+export default async function AboutPage(props: AboutPageProps) {
   const { locale } = await props.params;
   setRequestLocale(locale);
-  // const t = await getTranslations({
-  //   locale,
-  //   namespace: "About",
-  // });
 
-  return (
-    <div className="flex min-h-screen flex-col bg-[#FBF8F3]">
-      <main className="max-w-8xl mx-auto w-full rounded-xl">
-        <div className="flex flex-col items-center justify-center">
-          <h1 className="text-4xl font-bold text-primary">Về chúng tôi</h1>
-        </div>
-      </main>
-    </div>
-  );
+  return <AboutContactContent />;
 }

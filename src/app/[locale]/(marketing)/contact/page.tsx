@@ -1,8 +1,19 @@
-export default function ContactPage() {
-  return (
-    <div className="py-8">
-      <h1 className="text-3xl font-bold">Liên hệ</h1>
-      <p className="mt-4 text-neutral-600">Màn hình: Liên hệ (Contact)</p>
-    </div>
-  );
+import type { Metadata } from 'next';
+import { setRequestLocale } from 'next-intl/server';
+import { AboutContactContent } from '@/components/about/AboutContactContent';
+
+type ContactPageProps = {
+  params: Promise<{ locale: string }>;
+};
+
+export const metadata: Metadata = {
+  title: 'Liên Hệ & Hỗ Trợ Khách Hàng | Hải Sản Phan Thiết',
+  description: 'Liên hệ hotline 1900 6868, địa chỉ kho TP.HCM và cảng cá Phan Thiết. Hỗ trợ 24/7.',
+};
+
+export default async function ContactPage(props: ContactPageProps) {
+  const { locale } = await props.params;
+  setRequestLocale(locale);
+
+  return <AboutContactContent />;
 }
