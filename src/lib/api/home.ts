@@ -1,9 +1,10 @@
+import { api } from '@/libs/ApiClient';
+import type { ApiResponse } from '@/types/api';
 import type { HomePageData } from '@/types/home';
-import { api } from '../ApiClient';
 
 export async function getHomePageData(): Promise<HomePageData | null> {
   try {
-    const res = await api.get<{ success: boolean; data: HomePageData }>('/home');
+    const res = await api.get<ApiResponse<HomePageData>>('/home');
     if (res.data?.success && res.data?.data) {
       return res.data.data;
     }

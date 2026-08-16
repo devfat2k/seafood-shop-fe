@@ -6,12 +6,15 @@ import { ComboSetsSection } from '@/components/home/ComboSetsSection';
 import { DailySeafoodStory } from '@/components/home/DailySeafoodStory';
 import { FeaturedProducts } from '@/components/home/FeaturedProducts';
 import { HeroSection } from '@/components/home/HeroSection';
+import { HomePageEmpty } from '@/components/home/HomePageEmpty';
+import { HomePageError } from '@/components/home/HomePageError';
+import { HomePageSkeleton } from '@/components/home/HomePageSkeleton';
 import { MarqueeStrip } from '@/components/home/MarqueeStrip';
-import { MasonryGallery } from '@/components/home/MasonryGallery';
 import { SocialProofSection } from '@/components/home/SocialProofSection';
 import { UspSection } from '@/components/home/UspSection';
 import type { QuickViewProduct } from '@/components/products/QuickViewModal';
 import { QuickViewModal } from '@/components/products/QuickViewModal';
+import { useHomeQuery } from '@/libs/queries/home';
 import type { HomePageData } from '@/types/home';
 
 type HomePageContentProps = {
@@ -19,8 +22,45 @@ type HomePageContentProps = {
 };
 
 export function HomePageContent(props: HomePageContentProps) {
-  const { data } = props;
+  const { data: initialData } = props;
+  const { data: homeData, isLoading, isError, error, refetch } = useHomeQuery(initialData);
+
   const [quickViewProduct, setQuickViewProduct] = useState<QuickViewProduct | null>(null);
+
+  // 1. Loading State
+  if (isLoading && !homeData) {
+    return <HomePageSkeleton />;
+  }
+
+  // 2. Error State
+  if (isError && !homeData) {
+    return (
+      <HomePageError
+        message={error?.message}
+        onRetry={() => {
+          void refetch();
+        }}
+      />
+    );
+  }
+
+  // 3. Empty State (When API returns empty or no slides/products)
+  const hasContent =
+    homeData &&
+    ((homeData.heroSlides && homeData.heroSlides.length > 0) ||
+      (homeData.featuredProducts && homeData.featuredProducts.length > 0) ||
+      (homeData.categories && homeData.categories.length > 0) ||
+      (homeData.dailyArrivals && homeData.dailyArrivals.length > 0));
+
+  if (!hasContent) {
+    return (
+      <HomePageEmpty
+        onRefresh={() => {
+          void refetch();
+        }}
+      />
+    );
+  }
 
   const handleOpenQuickView = (product: {
     id: string | number;
@@ -47,41 +87,39 @@ export function HomePageContent(props: HomePageContentProps) {
   };
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#F8FAFC]">
+    <div className="flex min-h-screen flex-col bg-background">
       {/* 1. Hero Section */}
-      <HeroSection slides={data?.heroSlides} />
+      <HeroSection slides={homeData.heroSlides} />
 
       {/* 2. Marquee Strip */}
       <MarqueeStrip />
 
-      {/* 2.5. USP Section */}
+      {/* 3. USP Section */}
       <UspSection />
 
-      {/* 3. Bento Grid Categories */}
-      <BentoCategories categories={data?.categories} />
+      {/* 4. Bento Grid Categories */}
+      <BentoCategories categories={homeData.categories} />
 
-      {/* 5. "Hải Sản Hôm Nay" — Sticky Scroll Storytelling */}
-      <DailySeafoodStory arrivals={data?.dailyArrivals} />
+      {/* 5. Daily Arrivals */}
+      <DailySeafoodStory arrivals={homeData.dailyArrivals} />
 
-      {/* 6. Featured Products Carousel / Grid */}
+      {/* 6. Featured Products with Tabs */}
       <FeaturedProducts
-        products={data?.featuredProducts}
-        tabs={data?.featuredProductTabs}
+        products={homeData.featuredProducts}
+        tabs={homeData.featuredProductTabs}
         onQuickView={handleOpenQuickView}
       />
 
-      {/* 7. Masonry Editorial Gallery "Khoảnh Khắc Hải Sản" */}
-      <MasonryGallery />
+      {/* 7. Combo Sets */}
+      <ComboSetsSection combos={homeData.comboSets} />
 
-      {/* 9. Social Proof & Reviews */}
-      <SocialProofSection reviews={data?.featuredReviews} stats={data?.stats} />
+      {/* 8. Social Proof Reviews */}
+      <SocialProofSection reviews={homeData.featuredReviews} />
 
-      {/* 10. Combo Sets Section */}
-      <ComboSetsSection combos={data?.comboSets} />
-
-      {/* Quick View Modal Overlay */}
+      {/* QUICK VIEW MODAL OVERLAY */}
       <QuickViewModal
         product={quickViewProduct}
+        isOpen={quickViewProduct !== null}
         onClose={() => {
           setQuickViewProduct(null);
         }}

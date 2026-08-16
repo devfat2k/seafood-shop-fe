@@ -49,6 +49,7 @@ export type CategoryItem = Category;
 export type DailyArrival = {
   id: number | string;
   productId?: number;
+  boatCode?: string;
   date?: string;
   time?: string;
   badge?: string;

@@ -10,46 +10,43 @@ type UspItem = {
 const USP_LIST: UspItem[] = [
   {
     id: 'usp-1',
-    iconName: 'bag',
-    title: 'Đánh Bắt Trong Đêm',
-    description: 'Hải sản tươi mang từ cảng cá Phan Thiết ngay từ bình minh.',
+    iconName: 'anchor',
+    title: 'Cam kết xuất xứ',
+    description:
+      '100% hải sản được thu mua trực tiếp tại cảng cá Phan Thiết, Bình Thuận có nhật ký đánh bắt rõ ràng.',
   },
   {
     id: 'usp-2',
-    iconName: 'clock',
-    title: 'Giao Hỏa Tốc < 2h',
-    description: 'Đóng gói giữ lạnh chuyên nghiệp, giao hàng tận nơi nhanh chóng.',
+    iconName: 'snowflake',
+    title: 'Chuỗi lạnh bảo quản',
+    description:
+      'Hệ thống cấp đông siêu tốc và xe đông lạnh chuyên dụng giữ nhiệt độ chuẩn từ biển đến bàn ăn.',
   },
   {
     id: 'usp-3',
-    iconName: 'shield',
-    title: 'Cam Kết Hoàn Tiền',
-    description: 'Bồi hoàn 100% nếu sản phẩm hư hỏng hoặc không tươi.',
-  },
-  {
-    id: 'usp-4',
-    iconName: 'snowflake',
-    title: 'Đóng Khay Sạch Sẽ',
-    description: 'Hải sản làm sạch, sơ chế và hút chân không chuẩn 5 sao.',
+    iconName: 'truck',
+    title: 'Giao nhanh 2H',
+    description:
+      'Giao hàng siêu tốc trong vòng 2 giờ tại nội thành đối với hải sản tươi sống bơi tại hồ.',
   },
 ];
 
 export function UspSection() {
   return (
-    <section className="border-b border-[#E4E0D8] bg-[#FBF8F3] py-8 lg:py-12">
+    <section className="border-b border-border bg-card py-6 lg:py-10">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:gap-6">
           {USP_LIST.map((item) => (
             <div
               key={item.id}
-              className="flex items-start gap-4 rounded-2xl border border-[#E4E0D8]/60 bg-white p-5 shadow-xs transition-all hover:border-[#C4922F]/40 hover:shadow-md"
+              className="flex items-start gap-3.5 rounded-xl border border-border bg-background p-4 shadow-xs transition-all hover:border-secondary/40 hover:shadow-sm"
             >
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#E4EEEA] text-[#0B2F28]">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-secondary/10 text-secondary">
                 <Icon name={item.iconName} size="md" />
               </div>
               <div>
-                <h3 className="text-sm font-extrabold text-[#26312D]">{item.title}</h3>
-                <p className="mt-1 text-xs leading-relaxed text-text-secondary">
+                <h3 className="font-sans text-sm font-bold text-foreground">{item.title}</h3>
+                <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
                   {item.description}
                 </p>
               </div>

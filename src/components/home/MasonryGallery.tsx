@@ -72,7 +72,7 @@ export function MasonryGallery() {
           <h2 className="mt-3 text-2xl font-extrabold text-[#26312D] sm:text-3xl lg:text-4xl">
             Từ Đại Dương <span className="text-[#C4922F]">Tới Bàn Tiệc</span>
           </h2>
-          <p className="mt-2 text-xs leading-relaxed text-text-secondary sm:text-sm">
+          <p className="text-text-secondary mt-2 text-xs leading-relaxed sm:text-sm">
             Hành trình đánh bắt, tuyển chọn và vận chuyển hải sản tươi sống mỗi ngày
           </p>
         </div>
