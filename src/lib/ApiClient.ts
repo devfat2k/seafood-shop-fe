@@ -7,6 +7,9 @@ const BASE_URL = Env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:8085';
 export const api: AxiosInstance = create({
   baseURL: `${BASE_URL}/api/v1`,
   headers: { 'Content-Type': 'application/json' },
+  paramsSerializer: {
+    indexes: null,
+  },
 });
 
 // --- Token helpers (đổi sang cookie an toàn khi lên prod) ---

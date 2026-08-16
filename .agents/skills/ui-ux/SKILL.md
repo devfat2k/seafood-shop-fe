@@ -12,16 +12,17 @@ description: Use when building or editing any storefront UI screen, section, or 
 ## Bước 2 — Ràng buộc cứng
 - Spacing lấy ĐÚNG bảng mục 1.1 của design-spec. Không nội suy (không 18/28/52px). Thang: 4·8·12·16·24·32·48·64·96.
 - Breakout product image ở mọi vị trí chỉ định; ảnh PNG tách nền tràn viền trên 15–30%; shadow đặt dưới thân sản phẩm.
-- ≤3 nhóm màu/màn hình; accent (`accent-500`) không tô nền lớn.
-- Radius: card 16px, button/input 12px, modal 20px, badge 999px.
+- Màu sắc: `background` (#FBF7F0), `foreground` (#0B4A5C), `primary` (#FF6B4A), `secondary` (#0F7C8C), `tertiary` (#2E8B57), `accent` (#F4A93B).
+- Typography: `font-sans` (Be Vietnam Pro), `font-heading` (Fraunces), `font-mono` (JetBrains Mono).
+- Radius: card 12px (`rounded-xl`), button/input 8px (`rounded-lg`), modal 16–20px, badge 999px (`rounded-full`).
 - Motion tôn trọng `prefers-reduced-motion`.
 
 ## Bước 3 — Trạng thái bắt buộc
 Mọi màn hình có dữ liệu động phải có: Loading (skeleton, KHÔNG spinner) · Empty · Error · Success.
 
 ## Bước 4 — Anti-slop gate (tự tick trước khi xuất code)
-- [ ] Không hero gradient tím→xanh; dùng khối màu đơn `bg-subtle`/`brand-100`.
-- [ ] Không dùng một font cho cả display lẫn body.
+- [ ] Không hero gradient tím→xanh; dùng nền `bg-background` (#FBF7F0) hoặc `bg-card` (#FFFFFF).
+- [ ] Kết hợp chuẩn font: `font-heading` (Fraunces) cho Display/Hero và `font-sans` (Be Vietnam Pro) cho Body/Heading.
 - [ ] Không căn giữa mọi thứ; bias layout có chủ đích.
 - [ ] Spacing khớp bảng cứng, đồng nhất giữa các phần tử cùng cấp.
 - [ ] Có skeleton + empty + error.

@@ -12,7 +12,7 @@ export const apiResponseSchema = <T extends z.ZodType>(data: T) =>
     success: z.boolean(),
     message: z.string(),
     data: data.nullable(),
-    timestamp: z.string(),
+    timestamp: z.string().optional(),
   });
 
 /**
@@ -32,49 +32,53 @@ export const pageResponseSchema = <T extends z.ZodType>(item: T) =>
 
 /** Weight option cho sản phẩm (tùy chọn khối lượng). */
 export const weightOptionSchema = z.object({
-  id: z.number(),
-  label: z.string(),
-  value: z.string(),
+  id: z.number().optional(),
+  label: z.string().optional(),
+  value: z.string().optional(),
   priceAdjustment: z.number().optional(),
 });
 
-/** Product DTO — full fields từ BE product detail response. */
-export const productSchema = z.object({
-  id: z.number(),
-  name: z.string(),
-  slug: z.string().optional(),
-  description: z.string().nullable().optional(),
-  price: z.number(),
-  originalPrice: z.number().nullable().optional(),
-  imageUrl: z.string().nullable(),
-  images: z.array(z.string()).optional(),
-  active: z.boolean(),
-  featured: z.boolean().optional(),
-  stock: z.number(),
-  unit: z.string().nullable().optional(),
-  origin: z.string().nullable().optional(),
-  spec: z.string().nullable().optional(),
-  categoryId: z.number(),
-  categoryName: z.string().nullable().optional(),
-  categorySlug: z.string().nullable().optional(),
-  weightOptions: z.array(weightOptionSchema).optional(),
-  rating: z.number().nullable().optional(),
-  reviewCount: z.number().nullable().optional(),
-  createdAt: z.string().nullable().optional(),
-  updatedAt: z.string().nullable().optional(),
-});
-
-/** Category DTO. */
+/** Category DTO (hỗ trợ cả name & categoryName, slug, count). */
 export const categorySchema = z.object({
   id: z.number(),
-  name: z.string(),
-  slug: z.string(),
+  name: z.string().optional(),
+  categoryName: z.string().optional(),
+  slug: z.string().optional(),
+  description: z.string().nullable().optional(),
   imageUrl: z.string().nullable().optional(),
   badge: z.string().nullable().optional(),
   badgeType: z.string().nullable().optional(),
   iconName: z.string().nullable().optional(),
   homeDisplayStyle: z.string().nullable().optional(),
-  productCount: z.number().optional(),
+  productCount: z.number().nullable().optional(),
+});
+
+/** Product DTO — full fields từ BE product list & detail response. */
+export const productSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  slug: z.string().optional(),
+  description: z.string().nullable().optional(),
+  price: z.coerce.number(),
+  originalPrice: z.coerce.number().nullable().optional(),
+  imageUrl: z.string().nullable().optional(),
+  images: z.array(z.string()).optional(),
+  active: z.boolean().optional().default(true),
+  featured: z.boolean().optional(),
+  stock: z.coerce.number().optional().default(0),
+  unit: z.string().nullable().optional(),
+  origin: z.string().nullable().optional(),
+  spec: z.string().nullable().optional(),
+  categoryId: z.number().optional(),
+  categoryName: z.string().nullable().optional(),
+  categorySlug: z.string().nullable().optional(),
+  category: categorySchema.nullable().optional(),
+  tags: z.array(z.string()).optional(),
+  weightOptions: z.array(weightOptionSchema).optional(),
+  rating: z.number().nullable().optional(),
+  reviewCount: z.number().nullable().optional(),
+  createdAt: z.string().nullable().optional(),
+  updatedAt: z.string().nullable().optional(),
 });
 
 export type Product = z.infer<typeof productSchema>;
@@ -85,7 +89,7 @@ export type ApiResponse<T> = {
   success: boolean;
   message: string;
   data: T | null;
-  timestamp: string;
+  timestamp?: string;
 };
 
 export type PageResponse<T> = {

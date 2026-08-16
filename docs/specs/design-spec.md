@@ -1,39 +1,47 @@
 # HẢI SẢN PHAN THIẾT — STOREFRONT UI DESIGN SPEC
 
-Web site chuẩn SEO HẢI SẢN PHAN THIẾT. Vibe: biển cả, tươi sáng, trẻ trung, thời thượng, hiện đại xu hướng 2026. Font: **Inter** (400/500/600/700/800). Ngôn ngữ hiển thị: 100% tiếng Việt. Light theme tuyệt đối — không dark mode toàn trang.
+Web site chuẩn SEO HẢI SẢN PHAN THIẾT. Vibe: biển cả Phan Thiết sâu thẳm, tươi sáng, trẻ trung, thời thượng, sang trọng hiện đại xu hướng 2026. Font: **Be Vietnam Pro** (Sans-serif cho UI, body, heading H2-H6) kết hợp **Fraunces** (Serif cho display, hero headline, combo thượng hạng) và **JetBrains Mono** (Mono cho thông số, mã đơn, ngày giờ). Ngôn ngữ hiển thị: 100% tiếng Việt. Light theme chủ đạo — tối ưu hóa tương phản và hiển thị di động (Mobile-First).
 
 ---
 
-## 1. DESIGN TOKENS
+## 1. DESIGN TOKENS (CHUẨN UXMAGIC FRAME 6a8031ae52f49148d866f95c)
 
-**Màu sắc**
+**Bảng màu thương hiệu (Color Palette)**
 
-- `bg-base` `#FBF8F3` — nền chính, 60% diện tích
-- `bg-subtle` `#F5F1E8` — nền phụ, card nền, section xen kẽ
-- `brand-900` `#0B2F28` — hover/active brand
-- `brand-700` `#0E3D34` — brand chính: header, footer, nút primary, 30% diện tích
-- `brand-100` `#E4EEEA` — tint brand: badge, hover nhẹ
-- `accent-600` `#C4922F` — hover accent
-- `accent-500` `#D9A441` — Sandy Gold, giá tiền/CTA phụ/badge, 10% diện tích, không tô nền lớn
-- `accent-100` `#F6E8CC` — tint accent: badge khuyến mãi
-- `text-primary` `#26312D` · `text-secondary` `#5B6B63` · `border` `#E4E0D8`
-- `success` `#3F8F5F` · `warning` `#E8B84B` · `danger` `#D9604A` · `info` `#4A7FB5`
-- Giới hạn cứng: ≤3 nhóm màu chính/màn hình (nền + brand + accent). Semantic không tính vào giới hạn.
+- `background` `#FBF7F0` (Be sáng / Soft Warm Ivory) — nền chính trang, 60% diện tích
+- `foreground` / `text-primary` `#0B4A5C` (Ocean Deep) — xanh biển sâu thẳm, tiêu đề chính, văn bản chính, tạo cảm giác sang trọng
+- `primary` `#FF6B4A` (Coral) — đỏ cam san hô, nút hành động chính (CTA), giỏ hàng, điểm nhấn mua hàng
+  - `primary-text` `#CF3E1C` — phiên bản Coral đậm tối ưu độ tương phản văn bản AA
+- `secondary` `#0F7C8C` (Ocean Teal) — xanh ngọc biển, hệ thống điều hướng, icon, nút outline, tag MỚI VỀ
+  - `secondary-text` `#0F7C8C`
+- `tertiary` `#2E8B57` (Fresh Green) — trạng thái "Còn hàng", thông báo thành công, chuỗi cung ứng tươi sạch
+  - `tertiary-text` `#22814E`
+- `accent` `#F4A93B` (Amber) — nhãn HOT SALE, giảm giá, đánh giá sao, huy hiệu khuyến mãi
+  - `accent-text` `#A76100`
+- `destructive` `#E4483C` (Red) — trạng thái "Hết hàng", cảnh báo lỗi, nút hủy đơn
+  - `destructive-text` `#D3372E`
+- `card` `#FFFFFF` — nền thẻ sản phẩm, ô thông tin nổi bật
+- `muted` `#E2E8E4` · `muted-foreground` `#4A5560` · `border` `#E2E8E4` · `input` `#E2E8E4`
+- `ring` `#0F7C8C` (Ocean Teal)
+- Giới hạn: Màu sắc chỉ dùng từ các semantic token trên, tuyệt đối không hardcode mã hex trong component.
 
-**Typography (Inter)**
+**Hệ thống Typography**
 
-- `display` 48–56px/1.1/800 — hero headline
-- `h1` 32–36px/1.2/700 — tiêu đề trang
-- `h2` 24–28px/1.3/700 — tiêu đề section
-- `h3` 18–20px/1.4/600 — tiêu đề card
-- `body-lg` 16–18px/1.6/400–500 — mô tả dài
-- `body` 14–15px/1.6/400–500 — mặc định
-- `body-sm` 13px/1.5/400 — caption, meta text
-- `price` 20–24px/1.2/700, màu `accent-500`
-- `price-sm` 15–16px/1.2/600
+- `font-sans`: **Be Vietnam Pro** (`400`, `500`, `600`, `700`, `800`) — font chữ chính cho toàn bộ Heading (H2-H6), Body, Nút bấm, Ô nhập liệu, Bảng thông số.
+- `font-heading`: **Fraunces** (`400`, `500`, `600`, `700`, `800`) — font chữ điểm nhấn cho Hero Banner Display và Tên các Set quà tặng/Combo thượng hạng.
+- `font-mono`: **JetBrains Mono** — font mã đơn hàng, ngày giờ, số liệu kỹ thuật.
+
+**Thang kích thước chữ (Type Scale)**
+
+- `H1 (Display / Fraunces)` 36–48px / Bold — Hero Headline, tiêu đề chiến dịch lớn
+- `H2 (Be Vietnam Pro)` 24–28px / Bold — Tiêu đề các nhóm danh mục chính, tiêu đề trang con
+- `H3 (Be Vietnam Pro)` 18–20px / Bold — Tiêu đề sản phẩm chi tiết, tiêu đề các khối nội dung
+- `Body text (Be Vietnam Pro)` 14–16px / Regular & Medium — Đoạn văn mô tả, thông tin chi tiết sản phẩm
+- `Small / Caption (Be Vietnam Pro)` 12–13px / Regular — Chú thích nhỏ, nhãn phụ, ngày giờ, thông số kỹ thuật phụ
+- `Price (Be Vietnam Pro)` 18–24px / Bold, màu `primary` (`#FF6B4A`), giá cũ gạch ngang màu `muted-foreground`
 - Số liệu dùng `font-variant-numeric: tabular-nums`
 
-**Spacing scale:** `4·8·12·16·24·32·48·64·96` px — không dùng giá trị ngoài thang.
+**Spacing Scale:** `4·8·12·16·24·32·48·64·96` px (p-1, p-2, p-3, p-4, p-6, p-8, p-12, p-16, p-24) — không dùng giá trị ngoài thang.
 **Container:** max-width 1280px desktop, gutter 24px desktop / 16px mobile, section padding-y 64–96px desktop / 40–56px mobile.
 
 ### 1.1 LUẬT SPACING — ÉP CỨNG, KHÔNG TỰ ƯỚC LƯỢNG
@@ -43,7 +51,7 @@ Web site chuẩn SEO HẢI SẢN PHAN THIẾT. Vibe: biển cả, tươi sáng, 
 | Section padding-top/bottom                            | 96px desktop / 56px mobile — mọi section không ngoại lệ |
 | Section title → nội dung bên dưới                     | 40px desktop / 24px mobile                              |
 | Gutter giữa các cột grid                              | 24px desktop / 16px tablet / 12px mobile                |
-| Padding trong Product Card                            | 20px đều 4 cạnh                                         |
+| Padding trong Product Card                            | 16–20px đều 4 cạnh                                      |
 | Padding trong Card lớn (Dashboard/Modal content)      | 24–32px đều 4 cạnh                                      |
 | Card: ảnh → tên sản phẩm                              | 16px                                                    |
 | Card: tên sản phẩm → giá                              | 8px                                                     |
@@ -62,16 +70,18 @@ Web site chuẩn SEO HẢI SẢN PHAN THIẾT. Vibe: biển cả, tươi sáng, 
 | Footer: padding-y tổng thể                            | 64px                                                    |
 | Toast: padding                                        | 16px, khoảng cách icon → text 12px                      |
 
-**Nguyên tắc bổ sung:** trong CÙNG 1 khung màn hình, khoảng cách giữa các phần tử cùng cấp bậc (VD: khoảng cách giữa các card trong 1 grid, khoảng cách giữa các section) phải **tuyệt đối bằng nhau** — không có trường hợp section A cách section B 64px còn section B cách section C 80px. Nếu không chắc chắn giá trị, luôn dùng giá trị lớn hơn kế tiếp trong thang `4·8·12·16·24·32·48·64·96`, không nội suy số lẻ (VD không dùng 18px, 28px, 52px).
+**Quy chuẩn Bo góc (Radius):**
+- `sm` 8px (`rounded-lg`) — Nút bấm nhỏ, ô nhập liệu (input), dropdown, ô chọn lọc.
+- `md / lg` 12px (`rounded-xl`) — Thẻ sản phẩm (product card), khối quảng cáo, bento grid danh mục, banner.
+- `xl` 16–20px (`rounded-2xl`) — Modal, Drawer, Panel lớn.
+- `full` 999px (`rounded-full`) — Badges trạng thái, Pills, Avatar, Thanh tìm kiếm dạng tròn.
 
-**Radius:** `sm` 8px (input nhỏ) · `md` 12px (button/input) · `lg` 16px (card) · `xl` 20px (modal/panel) · `full` 999px (badge/avatar)
-
-**Shadow**
-
-- `card-rest`: outer `0 2px 8px rgba(11,47,40,.06)` + inner highlight `0 1px 0 rgba(255,255,255,.6)`
-- `card-hover`: `0 8px 20px rgba(11,47,40,.12)`
-- `product-drop`: `0 6px 16px rgba(11,47,40,.18)` — bóng riêng dưới thân sản phẩm breakout
-- `modal`: `0 20px 48px rgba(11,47,40,.20)`
+**Shadow:**
+- `shadow-sm` · `shadow-md` · `shadow-theme` `0 10px 30px -8px rgba(15, 23, 42, 0.12)`
+- `card-rest`: outer `0 2px 8px rgba(11,74,92,.06)`
+- `card-hover`: `0 8px 20px rgba(11,74,92,.12)`
+- `product-drop`: `0 6px 16px rgba(11,74,92,.18)` — bóng riêng dưới thân sản phẩm breakout
+- `modal`: `0 20px 48px rgba(11,74,92,.20)`
 
 **Breakpoints:** mobile <640px · tablet 640–1023px · desktop ≥1024px
 

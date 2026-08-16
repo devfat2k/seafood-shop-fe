@@ -3,14 +3,21 @@ name: ux-ui
 description: Quy chuẩn thiết kế UI/UX, design tokens, spacing, và pattern component cho Seafood Shop Web. Dùng khi tạo hoặc chỉnh sửa bất kỳ UI nào.
 ---
 
-## Design tokens (bắt buộc dùng, không tự chế)
-
+## Design tokens (UXMagic Frame 6a8031ae52f49148d866f95c)
+ 
 - **Spacing scale**: chỉ `4, 8, 12, 16, 24, 32, 48, 64, 96px` — map Tailwind:
-  `p-1/p-2/p-3/p-4/p-6/p-8/p-12/p-16/p-24`.
-- **Màu sắc**: chỉ dùng token định nghĩa trong `src/styles/global.css`
-  (semantic token như `--primary`, `--muted`). Không hardcode mã hex trong component.
-- **Typography**: dùng scale Tailwind chuẩn (`text-sm/base/lg/xl/2xl...`), không set
-  `font-size` inline hoặc arbitrary value.
+   `p-1/p-2/p-3/p-4/p-6/p-8/p-12/p-16/p-24`.
+- **Màu sắc**: chỉ dùng token định nghĩa trong `src/styles/global.css`:
+  - `bg-background` (`#FBF7F0` Ivory Warm) · `text-foreground` (`#0B4A5C` Ocean Deep)
+  - `bg-primary` / `text-primary` (`#FF6B4A` Coral) · `bg-secondary` / `text-secondary` (`#0F7C8C` Ocean Teal)
+  - `text-tertiary` (`#2E8B57` Fresh Green) · `text-accent` (`#F4A93B` Amber) · `text-destructive` (`#E4483C` Red)
+  - `bg-card` (`#FFFFFF`) · `border-border` (`#E2E8E4`) · `text-muted-foreground` (`#4A5560`)
+  - Không hardcode mã hex trong component.
+- **Typography**:
+  - `font-sans`: **Be Vietnam Pro** (UI, body, heading H2-H6, button, price)
+  - `font-heading`: **Fraunces** (Display headline, Hero banner, Luxury combo)
+  - `font-mono`: **JetBrains Mono** (Mã đơn hàng, ngày giờ, số liệu kỹ thuật)
+- **Radius**: `sm` 8px (input/button), `md/lg` 12px (card/banner), `full` 999px (badge/pill).
 
 ## Component pattern
 
