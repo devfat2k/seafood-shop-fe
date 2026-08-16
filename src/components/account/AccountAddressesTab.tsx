@@ -20,7 +20,7 @@ export function AccountAddressesTab(props: AccountAddressesTabProps) {
       <div className="flex flex-col gap-4 border-b border-[#E2E8F0] pb-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-2xl font-extrabold text-[#0F172A]">Sổ Địa Chỉ Giao Hàng</h1>
-          <p className="mt-1 text-xs text-text-secondary">
+          <p className="text-text-secondary mt-1 text-xs">
             Quản lý danh sách địa chỉ nhận hàng hải sản tươi sống.
           </p>
         </div>
@@ -40,7 +40,7 @@ export function AccountAddressesTab(props: AccountAddressesTabProps) {
       {addresses.length === 0 ? (
         <div className="py-12 text-center">
           <p className="text-sm font-bold text-[#0F172A]">Chưa có địa chỉ giao hàng nào</p>
-          <p className="mt-1 text-xs text-text-secondary">Vui lòng thêm địa chỉ nhận hàng mới.</p>
+          <p className="text-text-secondary mt-1 text-xs">Vui lòng thêm địa chỉ nhận hàng mới.</p>
         </div>
       ) : (
         <div className="mt-6 space-y-4">
@@ -52,7 +52,7 @@ export function AccountAddressesTab(props: AccountAddressesTabProps) {
               <div>
                 <div className="flex items-center gap-3">
                   <h3 className="text-sm font-extrabold text-[#0F172A]">{addr.name}</h3>
-                  <span className="text-xs text-text-secondary">({addr.phone})</span>
+                  <span className="text-text-secondary text-xs">({addr.phone})</span>
                   {addr.isDefault && (
                     <span className="rounded-full bg-emerald-100 px-2.5 py-0.5 text-[10px] font-bold text-emerald-800">
                       Mặc định
@@ -65,7 +65,7 @@ export function AccountAddressesTab(props: AccountAddressesTabProps) {
                   )}
                 </div>
 
-                <p className="mt-2 text-xs leading-relaxed text-text-secondary">
+                <p className="text-text-secondary mt-2 text-xs leading-relaxed">
                   {addr.addressDetail}
                 </p>
               </div>

@@ -43,7 +43,7 @@ export function AccountOrdersTab(props: AccountOrdersTabProps) {
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-2xl font-extrabold text-[#0F172A]">Đơn Hàng Của Tôi</h1>
-          <p className="mt-1 text-xs text-text-secondary">
+          <p className="text-text-secondary mt-1 text-xs">
             Quản lý và theo dõi tiến trình vận chuyển đơn hàng hải sản của bạn.
           </p>
         </div>
@@ -84,11 +84,11 @@ export function AccountOrdersTab(props: AccountOrdersTabProps) {
       {/* Empty Orders State */}
       {filteredOrders.length === 0 ? (
         <div className="flex flex-col items-center justify-center rounded-3xl border border-[#E2E8F0] bg-white py-16 text-center shadow-sm">
-          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#F1F5F9] text-text-secondary">
+          <div className="text-text-secondary flex h-16 w-16 items-center justify-center rounded-full bg-[#F1F5F9]">
             <Icon name="shopping-bag" size="xl" />
           </div>
           <p className="mt-4 text-base font-bold text-[#0F172A]">Chưa có đơn hàng nào</p>
-          <p className="mt-1 text-xs text-text-secondary">
+          <p className="text-text-secondary mt-1 text-xs">
             Hãy khám phá hải sản tươi ngon và đặt đơn hàng đầu tiên nhé!
           </p>
         </div>
@@ -113,11 +113,11 @@ export function AccountOrdersTab(props: AccountOrdersTabProps) {
                       ● {order.statusText ?? order.status}
                     </span>
                   </div>
-                  <p className="mt-1 text-xs text-text-secondary">{order.orderDate}</p>
+                  <p className="text-text-secondary mt-1 text-xs">{order.orderDate}</p>
                 </div>
 
                 <div className="text-right">
-                  <span className="text-xs text-text-secondary">Tổng thanh toán:</span>
+                  <span className="text-text-secondary text-xs">Tổng thanh toán:</span>
                   <p className="text-xl font-extrabold text-[#F97316]">
                     {order.totalPrice.toLocaleString('vi-VN')}đ
                   </p>
@@ -139,7 +139,7 @@ export function AccountOrdersTab(props: AccountOrdersTabProps) {
                       <div>
                         <h4 className="text-sm font-bold text-[#0F172A]">{item.productName}</h4>
                         {item.spec && (
-                          <p className="mt-1 text-xs text-text-secondary">{item.spec}</p>
+                          <p className="text-text-secondary mt-1 text-xs">{item.spec}</p>
                         )}
                       </div>
                     </div>
@@ -168,7 +168,7 @@ export function AccountOrdersTab(props: AccountOrdersTabProps) {
                           {step.completed ? <Icon name="check" size="xs" /> : idx + 1}
                         </div>
                         <span className="mt-2 text-xs font-bold text-[#0F172A]">{step.title}</span>
-                        <span className="mt-0.5 text-[10px] text-text-secondary">{step.time}</span>
+                        <span className="text-text-secondary mt-0.5 text-[10px]">{step.time}</span>
                       </div>
                     ))}
                   </div>

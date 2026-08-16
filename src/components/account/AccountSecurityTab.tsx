@@ -78,7 +78,7 @@ export function AccountSecurityTab() {
     <div className="rounded-3xl border border-[#E2E8F0] bg-white p-6 shadow-xs sm:p-8">
       <div className="border-b border-[#E2E8F0] pb-4">
         <h1 className="text-2xl font-extrabold text-[#0F172A]">Đổi Mật Khẩu</h1>
-        <p className="mt-1 text-xs text-text-secondary">
+        <p className="text-text-secondary mt-1 text-xs">
           Cập nhật mật khẩu để bảo vệ an toàn cho tài khoản cá nhân của bạn.
         </p>
       </div>
@@ -118,7 +118,7 @@ export function AccountSecurityTab() {
               onClick={() => {
                 setShowCurrentPass(!showCurrentPass);
               }}
-              className="absolute top-3.5 right-3.5 text-text-secondary hover:text-[#0F172A]"
+              className="text-text-secondary absolute top-3.5 right-3.5 hover:text-[#0F172A]"
             >
               <Icon name={showCurrentPass ? 'eye-off' : 'eye'} size="sm" />
             </button>
@@ -147,7 +147,7 @@ export function AccountSecurityTab() {
               onClick={() => {
                 setShowNewPass(!showNewPass);
               }}
-              className="absolute top-3.5 right-3.5 text-text-secondary hover:text-[#0F172A]"
+              className="text-text-secondary absolute top-3.5 right-3.5 hover:text-[#0F172A]"
             >
               <Icon name={showNewPass ? 'eye-off' : 'eye'} size="sm" />
             </button>
@@ -192,7 +192,7 @@ export function AccountSecurityTab() {
               onClick={() => {
                 setShowConfirmPass(!showConfirmPass);
               }}
-              className="absolute top-3.5 right-3.5 text-text-secondary hover:text-[#0F172A]"
+              className="text-text-secondary absolute top-3.5 right-3.5 hover:text-[#0F172A]"
             >
               <Icon name={showConfirmPass ? 'eye-off' : 'eye'} size="sm" />
             </button>

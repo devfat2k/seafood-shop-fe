@@ -65,7 +65,7 @@ function ProfileAvatar({ avatarUrl, fullName }: { avatarUrl: string; fullName: s
         >
           📷 Tải ảnh mới
         </button>
-        <p className="mt-1 text-[11px] text-text-secondary">Dung lượng tối đa 2MB (JPG, PNG)</p>
+        <p className="text-text-secondary mt-1 text-[11px]">Dung lượng tối đa 2MB (JPG, PNG)</p>
       </div>
     </div>
   );
@@ -131,7 +131,7 @@ export function AccountProfileTab(props: AccountProfileTabProps) {
     <div className="rounded-3xl border border-[#E2E8F0] bg-white p-6 shadow-sm sm:p-8">
       <div className="border-b border-[#E2E8F0] pb-4">
         <h1 className="text-2xl font-extrabold text-[#0F172A]">Thông Tin Cá Nhân</h1>
-        <p className="mt-1 text-xs text-text-secondary">
+        <p className="text-text-secondary mt-1 text-xs">
           Cập nhật thông tin tài khoản cá nhân để trải nghiệm dịch vụ mua sắm tốt nhất.
         </p>
       </div>

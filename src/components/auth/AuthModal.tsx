@@ -45,7 +45,7 @@ export function AuthModal(props: AuthModalProps) {
             type="button"
             aria-label="Đóng popup đăng nhập"
             onClick={onClose}
-            className="absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-full bg-[#EDF2F7] text-xs font-bold text-text-secondary transition-colors hover:bg-[#DBEAFE] hover:text-[#0F172A]"
+            className="text-text-secondary absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-full bg-[#EDF2F7] text-xs font-bold transition-colors hover:bg-[#DBEAFE] hover:text-[#0F172A]"
           >
             <Icon name="x" size="sm" />
           </button>
@@ -58,7 +58,7 @@ export function AuthModal(props: AuthModalProps) {
             <h2 className="mt-4 text-2xl font-extrabold text-[#0F172A]">
               {activeTab === 'login' ? 'Đăng Nhập Thành Viên' : 'Đăng Ký Tài Khoản'}
             </h2>
-            <p className="mt-1.5 text-xs text-text-secondary">
+            <p className="text-text-secondary mt-1.5 text-xs">
               Đăng nhập hoặc tạo tài khoản nhanh để lưu thông tin giao hàng &amp; tích lũy điểm
               thưởng.
             </p>
@@ -119,7 +119,7 @@ export function AuthModal(props: AuthModalProps) {
                   <Icon
                     name="user"
                     size="sm"
-                    className="absolute top-3.5 left-3.5 text-text-secondary"
+                    className="text-text-secondary absolute top-3.5 left-3.5"
                   />
                 </div>
               </div>
@@ -147,7 +147,7 @@ export function AuthModal(props: AuthModalProps) {
                 <Icon
                   name="phone"
                   size="sm"
-                  className="absolute top-3.5 left-3.5 text-text-secondary"
+                  className="text-text-secondary absolute top-3.5 left-3.5"
                 />
               </div>
             </div>
@@ -187,7 +187,7 @@ export function AuthModal(props: AuthModalProps) {
                 <Icon
                   name="lock"
                   size="sm"
-                  className="absolute top-3.5 left-3.5 text-text-secondary"
+                  className="text-text-secondary absolute top-3.5 left-3.5"
                 />
                 <button
                   type="button"
@@ -214,7 +214,7 @@ export function AuthModal(props: AuthModalProps) {
           </form>
 
           <div className="mt-6 text-center">
-            <p className="mt-4 text-xs text-text-secondary">
+            <p className="text-text-secondary mt-4 text-xs">
               {activeTab === 'login' ? 'Bạn là khách hàng mới? ' : 'Đã có tài khoản? '}
               <button
                 type="button"

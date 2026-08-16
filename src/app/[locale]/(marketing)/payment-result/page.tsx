@@ -16,7 +16,7 @@ export default function PaymentResultPage() {
       <div className="mx-auto max-w-2xl px-4 sm:px-6">
         {/* Demo Toggle Switcher */}
         <div className="mb-8 flex items-center justify-center gap-3">
-          <span className="text-xs font-bold text-text-secondary">Chế độ Demo UI:</span>
+          <span className="text-text-secondary text-xs font-bold">Chế độ Demo UI:</span>
           <div className="flex rounded-full border border-[#E2E8F0] bg-white p-1 shadow-xs">
             <button
               type="button"
@@ -64,7 +64,7 @@ export default function PaymentResultPage() {
               <h1 className="mt-4 text-3xl font-black text-[#0F172A] sm:text-4xl">
                 Cảm Ơn Bạn Đã Đặt Hàng!
               </h1>
-              <p className="mt-2 text-xs text-text-secondary sm:text-base">
+              <p className="text-text-secondary mt-2 text-xs sm:text-base">
                 Đơn hàng hải sản tươi sống của bạn đã được tiếp nhận &amp; đang đóng thùng oxy giao
                 tốc độ.
               </p>
@@ -76,17 +76,17 @@ export default function PaymentResultPage() {
                   <span className="font-mono text-sm text-[#1E3A8A]">#SF-89241</span>
                 </div>
 
-                <div className="flex items-center justify-between text-xs text-text-secondary">
+                <div className="text-text-secondary flex items-center justify-between text-xs">
                   <span>Tổng tiền đã thanh toán:</span>
                   <span className="text-base font-extrabold text-[#F97316]">1.600.000₫</span>
                 </div>
 
-                <div className="flex items-center justify-between text-xs text-text-secondary">
+                <div className="text-text-secondary flex items-center justify-between text-xs">
                   <span>Phương thức thanh toán:</span>
                   <span className="font-semibold text-[#0F172A]">Cổng VNPAY (Thẻ / QR)</span>
                 </div>
 
-                <div className="flex items-center justify-between text-xs text-text-secondary">
+                <div className="text-text-secondary flex items-center justify-between text-xs">
                   <span>Thời gian giao hàng dự kiến:</span>
                   <span className="flex items-center gap-1 font-bold text-emerald-600">
                     <Icon name="clock" size="xs" />
@@ -94,9 +94,9 @@ export default function PaymentResultPage() {
                   </span>
                 </div>
 
-                <div className="border-t border-[#E2E8F0] pt-3 text-xs text-text-secondary">
+                <div className="text-text-secondary border-t border-[#E2E8F0] pt-3 text-xs">
                   <span className="font-bold text-[#0F172A]">Địa chỉ nhận hàng:</span>
-                  <p className="mt-1 font-medium text-text-secondary">
+                  <p className="text-text-secondary mt-1 font-medium">
                     123 Nguyễn Thị Minh Khai, Phường 6, Quận 3, TP. Hồ Chí Minh
                   </p>
                 </div>
@@ -136,7 +136,7 @@ export default function PaymentResultPage() {
               <h1 className="mt-4 text-3xl font-black text-[#0F172A] sm:text-4xl">
                 Giao Dịch Bị Gián Đoạn
               </h1>
-              <p className="mt-2 text-xs text-text-secondary sm:text-base">
+              <p className="text-text-secondary mt-2 text-xs sm:text-base">
                 Rất tiếc, đơn hàng của bạn chưa được thanh toán thành công.
               </p>
 

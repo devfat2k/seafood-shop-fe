@@ -107,7 +107,7 @@ export function ForgotPasswordModal({
         <button
           type="button"
           onClick={onClose}
-          className="absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-full bg-[#EDF2F7] text-text-secondary hover:bg-[#DBEAFE] hover:text-[#0F172A]"
+          className="text-text-secondary absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-full bg-[#EDF2F7] hover:bg-[#DBEAFE] hover:text-[#0F172A]"
           aria-label="Đóng"
         >
           <Icon name="x" size="sm" />
@@ -135,7 +135,7 @@ export function ForgotPasswordModal({
                 <Icon name="mail" size="md" />
               </div>
               <h3 className="mt-3 text-xl font-extrabold text-[#0F172A]">Khôi Phục Mật Khẩu</h3>
-              <p className="mt-1 text-xs text-text-secondary">
+              <p className="text-text-secondary mt-1 text-xs">
                 Nhập email hoặc số điện thoại đăng ký tài khoản của bạn để nhận mã xác thực OTP
               </p>
             </div>
@@ -162,7 +162,7 @@ export function ForgotPasswordModal({
                 <Icon
                   name="mail"
                   size="sm"
-                  className="absolute top-3.5 left-3.5 text-text-secondary"
+                  className="text-text-secondary absolute top-3.5 left-3.5"
                 />
               </div>
             </div>
@@ -185,7 +185,7 @@ export function ForgotPasswordModal({
                 <Icon name="shield-check" size="md" />
               </div>
               <h3 className="mt-3 text-xl font-extrabold text-[#0F172A]">Nhập Mã OTP</h3>
-              <p className="mt-1 text-xs text-text-secondary">
+              <p className="text-text-secondary mt-1 text-xs">
                 Mã xác nhận 6 số đã được gửi tới{' '}
                 <span className="font-bold text-[#1E3A8A]">{emailOrPhone}</span>
               </p>
@@ -226,7 +226,7 @@ export function ForgotPasswordModal({
                 <Icon name="lock" size="md" />
               </div>
               <h3 className="mt-3 text-xl font-extrabold text-[#0F172A]">Tạo Mật Khẩu Mới</h3>
-              <p className="mt-1 text-xs text-text-secondary">
+              <p className="text-text-secondary mt-1 text-xs">
                 Vui lòng nhập mật khẩu mới cho tài khoản của bạn
               </p>
             </div>
@@ -250,7 +250,7 @@ export function ForgotPasswordModal({
                 <Icon
                   name="lock"
                   size="sm"
-                  className="absolute top-3.5 left-3.5 text-text-secondary"
+                  className="text-text-secondary absolute top-3.5 left-3.5"
                 />
                 <button
                   type="button"
@@ -258,7 +258,7 @@ export function ForgotPasswordModal({
                   onClick={() => {
                     setShowNewPass(!showNewPass);
                   }}
-                  className="absolute top-3.5 right-3.5 text-text-secondary hover:text-[#0F172A]"
+                  className="text-text-secondary absolute top-3.5 right-3.5 hover:text-[#0F172A]"
                 >
                   <Icon name={showNewPass ? 'eye-off' : 'eye'} size="sm" />
                 </button>
@@ -287,7 +287,7 @@ export function ForgotPasswordModal({
                 <Icon
                   name="lock"
                   size="sm"
-                  className="absolute top-3.5 left-3.5 text-text-secondary"
+                  className="text-text-secondary absolute top-3.5 left-3.5"
                 />
                 <button
                   type="button"
@@ -295,7 +295,7 @@ export function ForgotPasswordModal({
                   onClick={() => {
                     setShowConfirmPass(!showConfirmPass);
                   }}
-                  className="absolute top-3.5 right-3.5 text-text-secondary hover:text-[#0F172A]"
+                  className="text-text-secondary absolute top-3.5 right-3.5 hover:text-[#0F172A]"
                 >
                   <Icon name={showConfirmPass ? 'eye-off' : 'eye'} size="sm" />
                 </button>
@@ -320,7 +320,7 @@ export function ForgotPasswordModal({
             </div>
 
             <h3 className="mt-4 text-2xl font-black text-[#0F172A]">Đổi Mật Khẩu Thành Công!</h3>
-            <p className="mt-2 text-xs leading-relaxed text-text-secondary">
+            <p className="text-text-secondary mt-2 text-xs leading-relaxed">
               Mật khẩu mới của bạn đã được cập nhật. Bạn có thể sử dụng mật khẩu mới để đăng nhập
               ngay bây giờ.
             </p>

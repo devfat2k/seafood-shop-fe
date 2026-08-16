@@ -51,7 +51,7 @@ export function AccountSidebar(props: AccountSidebarProps) {
             <span className="rounded-full bg-[#FEF3C7] px-2.5 py-0.5 text-[10px] font-bold text-[#D97706]">
               ★ {rank}
             </span>
-            <span className="text-[11px] font-semibold text-text-secondary">
+            <span className="text-text-secondary text-[11px] font-semibold">
               {rewardPoints} điểm
             </span>
           </div>

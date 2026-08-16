@@ -116,7 +116,7 @@ export function OtpVerificationModal({
         <button
           type="button"
           onClick={onClose}
-          className="absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-full bg-[#EDF2F7] text-text-secondary hover:bg-[#DBEAFE] hover:text-[#0F172A]"
+          className="text-text-secondary absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-full bg-[#EDF2F7] hover:bg-[#DBEAFE] hover:text-[#0F172A]"
           aria-label="Đóng"
         >
           <Icon name="x" size="sm" />
@@ -128,7 +128,7 @@ export function OtpVerificationModal({
           </div>
 
           <h2 className="mt-4 text-2xl font-extrabold text-[#0F172A]">Xác Thực Mã OTP</h2>
-          <p className="mt-2 text-xs text-text-secondary">
+          <p className="text-text-secondary mt-2 text-xs">
             Mã xác thực 6 chữ số đã được gửi tới{' '}
             <span className="font-bold text-[#1E3A8A]">
               {targetEmailOrPhone || 'email/số điện thoại'}
@@ -178,7 +178,7 @@ export function OtpVerificationModal({
 
             <div className="text-center">
               {resendTimer > 0 ? (
-                <p className="text-xs text-text-secondary">
+                <p className="text-text-secondary text-xs">
                   Gửi lại mã sau <span className="font-bold text-[#F97316]">{resendTimer}s</span>
                 </p>
               ) : (
