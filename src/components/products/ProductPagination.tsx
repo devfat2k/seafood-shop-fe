@@ -1,5 +1,7 @@
 'use client';
 
+import { Icon } from '@/components/common/Icon';
+
 type ProductPaginationProps = {
   currentPage: number;
   totalPages: number;
@@ -9,12 +11,29 @@ type ProductPaginationProps = {
 export function ProductPagination(props: ProductPaginationProps) {
   const { currentPage, totalPages, onPageChange } = props;
 
+  if (totalPages <= 1) {
+    return null;
+  }
+
   const renderPageNumbers = () => {
-    const pages: (number | string)[] = [1, 2, 3, '...', totalPages];
+    const pages: (number | string)[] = [];
+
+    if (totalPages <= 5) {
+      for (let i = 1; i <= totalPages; i += 1) {
+        pages.push(i);
+      }
+    } else if (currentPage <= 3) {
+      pages.push(1, 2, 3, 4, '...', totalPages);
+    } else if (currentPage >= totalPages - 2) {
+      pages.push(1, '...', totalPages - 3, totalPages - 2, totalPages - 1, totalPages);
+    } else {
+      pages.push(1, '...', currentPage - 1, currentPage, currentPage + 1, '...', totalPages);
+    }
+
     return pages.map((page, idx) => {
       if (typeof page === 'string') {
         return (
-          <span key={`dots-${idx}`} className="px-2 text-xs font-bold text-[#5B6B63]">
+          <span key={`dots-${idx}`} className="px-1 text-xs font-bold text-muted-foreground">
             ...
           </span>
         );
@@ -28,10 +47,11 @@ export function ProductPagination(props: ProductPaginationProps) {
           onClick={() => {
             onPageChange(page);
           }}
-          className={`flex h-9 w-9 items-center justify-center rounded-full text-xs font-bold transition-all ${
+          aria-label={`Trang ${page}`}
+          className={`flex h-9 w-9 items-center justify-center rounded-xl text-xs font-bold transition-all ${
             isActive
-              ? 'bg-[#0B2F28] text-white shadow-xs'
-              : 'text-[#26312D] hover:bg-[#E4EEEA] hover:text-[#0B2F28]'
+              ? 'bg-secondary text-secondary-foreground shadow-xs'
+              : 'border border-border bg-card text-foreground hover:bg-muted'
           }`}
         >
           {page}
@@ -41,7 +61,7 @@ export function ProductPagination(props: ProductPaginationProps) {
   };
 
   return (
-    <div className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-[#E4E0D8] pt-8">
+    <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-border/80 pt-6">
       {/* Nút Trang Trước */}
       <button
         type="button"
@@ -51,9 +71,10 @@ export function ProductPagination(props: ProductPaginationProps) {
             onPageChange(currentPage - 1);
           }
         }}
-        className="inline-flex items-center gap-1.5 rounded-full border border-[#E4E0D8] bg-white px-5 py-2 text-xs font-bold text-[#26312D] shadow-sm transition-all hover:bg-[#F5F1E8] disabled:opacity-50 disabled:hover:bg-white"
+        className="inline-flex items-center gap-1.5 rounded-xl border border-border bg-card px-4 py-2 text-xs font-bold text-foreground shadow-xs transition-all hover:bg-muted disabled:cursor-not-allowed disabled:opacity-40"
       >
-        <span>← Trang Trước</span>
+        <Icon name="chevron-left" size="xs" />
+        <span>Trang trước</span>
       </button>
 
       {/* Danh sách số trang */}
@@ -68,9 +89,10 @@ export function ProductPagination(props: ProductPaginationProps) {
             onPageChange(currentPage + 1);
           }
         }}
-        className="inline-flex items-center gap-1.5 rounded-full border border-[#E4E0D8] bg-white px-5 py-2 text-xs font-bold text-[#26312D] shadow-sm transition-all hover:bg-[#F5F1E8] disabled:opacity-50 disabled:hover:bg-white"
+        className="inline-flex items-center gap-1.5 rounded-xl border border-border bg-card px-4 py-2 text-xs font-bold text-foreground shadow-xs transition-all hover:bg-muted disabled:cursor-not-allowed disabled:opacity-40"
       >
-        <span>Trang Sau →</span>
+        <span>Trang sau</span>
+        <Icon name="chevron-right" size="xs" />
       </button>
     </div>
   );

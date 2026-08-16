@@ -6,55 +6,108 @@ type ProductListToolbarProps = {
   totalCount: number;
   shownRange: string;
   sortBy: string;
+  viewMode?: 'grid' | 'list';
   onSortChange: (sort: string) => void;
+  onViewModeChange?: (mode: 'grid' | 'list') => void;
   onToggleMobileFilter?: () => void;
 };
 
 export function ProductListToolbar(props: ProductListToolbarProps) {
-  const { totalCount, shownRange, sortBy, onSortChange, onToggleMobileFilter } = props;
+  const {
+    totalCount,
+    shownRange,
+    sortBy,
+    viewMode = 'grid',
+    onSortChange,
+    onViewModeChange,
+    onToggleMobileFilter,
+  } = props;
 
   return (
-    <div className="flex flex-col gap-4 rounded-2xl border border-[#E4E0D8] bg-white p-4 shadow-xs sm:flex-row sm:items-center sm:justify-between">
-      {/* Thông tin số lượng */}
-      <div className="flex items-center justify-between">
-        <p className="text-xs text-text-secondary">
-          Hiển thị <span className="font-bold text-[#26312D]">{shownRange}</span> của{' '}
-          <span className="font-bold text-[#0B2F28]">{totalCount}</span> sản phẩm phù hợp
+    <div className="flex flex-col gap-4 rounded-2xl border border-border bg-card p-3.5 shadow-xs sm:flex-row sm:items-center sm:justify-between sm:p-4">
+      {/* Total Count and Mobile Filter Trigger */}
+      <div className="flex items-center justify-between gap-3">
+        <p className="text-xs text-muted-foreground sm:text-sm">
+          Hiển thị <span className="font-bold text-foreground">{shownRange}</span> trên tổng số{' '}
+          <strong className="font-heading font-bold text-primary">{totalCount}</strong> hải sản
         </p>
 
-        {/* Nút lọc mobile */}
+        {/* Mobile Filter Button */}
         {onToggleMobileFilter && (
           <button
             type="button"
-            onClick={() => {
-              onToggleMobileFilter();
-            }}
-            className="flex items-center gap-1.5 rounded-full border border-[#E4E0D8] bg-[#F5F1E8] px-3 py-1.5 text-xs font-bold text-[#0B2F28] lg:hidden"
+            onClick={onToggleMobileFilter}
+            className="inline-flex items-center gap-1.5 rounded-full border border-border bg-muted/60 px-3.5 py-1.5 text-xs font-bold text-foreground transition-colors hover:bg-muted lg:hidden"
           >
-            <Icon name="filter" size="sm" />
-            <span>Bộ lọc</span>
+            <Icon name="sliders-horizontal" size="xs" className="text-secondary" />
+            <span>Lọc ({totalCount})</span>
           </button>
         )}
       </div>
 
-      {/* Dropdown Sắp xếp */}
-      <div className="flex items-center gap-2">
-        <label htmlFor="sort-dropdown" className="text-xs font-semibold text-text-secondary">
-          Sắp xếp:
-        </label>
-        <select
-          id="sort-dropdown"
-          value={sortBy}
-          onChange={(e) => {
-            onSortChange(e.target.value);
-          }}
-          className="rounded-full border border-[#E4E0D8] bg-[#F5F1E8] px-4 py-1.5 text-xs font-bold text-[#26312D] transition-colors focus:border-[#0B2F28] focus:outline-none"
-        >
-          <option value="newest">Mới nhất hôm nay</option>
-          <option value="popular">Bán chạy nhất</option>
-          <option value="price-asc">Giá: Thấp đến Cao</option>
-          <option value="price-desc">Giá: Cao đến Thấp</option>
-        </select>
+      {/* Right: View Mode Switcher & Sort Dropdown */}
+      <div className="flex items-center justify-between gap-3 sm:justify-end">
+        {/* View Mode Toggle */}
+        {onViewModeChange && (
+          <div className="flex items-center rounded-xl border border-border bg-muted/40 p-0.5">
+            <button
+              type="button"
+              onClick={() => {
+                onViewModeChange('grid');
+              }}
+              aria-label="Xem dạng lưới"
+              className={`rounded-lg p-1.5 transition-all ${
+                viewMode === 'grid'
+                  ? 'bg-card text-primary shadow-xs'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              <Icon name="grid" size="xs" />
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                onViewModeChange('list');
+              }}
+              aria-label="Xem dạng danh sách"
+              className={`rounded-lg p-1.5 transition-all ${
+                viewMode === 'list'
+                  ? 'bg-card text-primary shadow-xs'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              <Icon name="list" size="xs" />
+            </button>
+          </div>
+        )}
+
+        {/* Sort Dropdown */}
+        <div className="flex items-center gap-2">
+          <label
+            htmlFor="sort-dropdown"
+            className="hidden text-xs font-medium whitespace-nowrap text-muted-foreground sm:inline"
+          >
+            Sắp xếp:
+          </label>
+          <div className="relative">
+            <select
+              id="sort-dropdown"
+              value={sortBy}
+              onChange={(e) => {
+                onSortChange(e.target.value);
+              }}
+              className="appearance-none rounded-xl border border-border bg-background py-2 pr-8 pl-3 text-xs font-bold text-foreground transition-colors focus:border-secondary focus:ring-1 focus:ring-secondary focus:outline-none"
+            >
+              <option value="newest">✨ Mới nhất cập cảng</option>
+              <option value="popular">🔥 Bán chạy nhất</option>
+              <option value="price-asc">💵 Giá: Thấp đến Cao</option>
+              <option value="price-desc">💎 Giá: Cao đến Thấp</option>
+            </select>
+            <span className="pointer-events-none absolute top-1/2 right-2.5 -translate-y-1/2 text-muted-foreground">
+              <Icon name="chevron-down" size="xs" />
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   );
