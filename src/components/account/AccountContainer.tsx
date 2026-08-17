@@ -6,42 +6,88 @@ import { AccountOrdersTab } from '@/components/account/AccountOrdersTab';
 import { AccountProfileTab } from '@/components/account/AccountProfileTab';
 import { AccountSecurityTab } from '@/components/account/AccountSecurityTab';
 import { AccountSidebar } from '@/components/account/AccountSidebar';
-import type { OrderResponse } from '@/types/order';
-import type { UserAddress, UserProfile } from '@/types/user';
-
-type AccountTab = 'profile' | 'orders' | 'addresses' | 'security';
+import type { AccountTab } from '@/components/account/AccountSidebar';
+import { Icon } from '@/components/common/Icon';
+import { Link } from '@/libs/I18nNavigation';
+import { useCurrentUserQuery } from '@/libs/queries/auth';
+import type { UserProfile } from '@/types/user';
 
 type AccountContainerProps = {
   defaultTab?: AccountTab;
   initialProfile?: UserProfile | null;
-  initialOrders?: OrderResponse[];
-  initialAddresses?: UserAddress[];
 };
 
 export function AccountContainer(props: AccountContainerProps) {
-  const { defaultTab = 'orders', initialProfile, initialOrders, initialAddresses } = props;
+  const { defaultTab = 'profile', initialProfile } = props;
   const [activeTab, setActiveTab] = useState<AccountTab>(defaultTab);
 
-  return (
-    <div className="mx-auto max-w-[1280px] py-8">
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
-        {/* Cột Trái: Sidebar Menu (4/12 desktop) */}
-        <div className="lg:col-span-4">
-          <AccountSidebar
-            profile={initialProfile}
-            activeTab={activeTab}
-            onSelectTab={(tab) => {
-              setActiveTab(tab);
-            }}
-          />
-        </div>
+  const { data: currentUser } = useCurrentUserQuery();
+  const profile = currentUser ?? initialProfile;
 
-        {/* Cột Phải: Nội Dung Tab Động (8/12 desktop) */}
-        <div className="lg:col-span-8">
-          {activeTab === 'orders' && <AccountOrdersTab orders={initialOrders} />}
-          {activeTab === 'profile' && <AccountProfileTab profile={initialProfile} />}
-          {activeTab === 'addresses' && <AccountAddressesTab addresses={initialAddresses} />}
-          {activeTab === 'security' && <AccountSecurityTab />}
+  const displayName = profile?.fullName ?? 'Khách Hàng Hải Sản';
+  const userEmail = profile?.email ?? 'khachhang@haisanphanthiet.vn';
+
+  return (
+    <div className="min-h-screen bg-background pb-16">
+      {/* 1. Account Hero Header Banner */}
+      <section className="relative overflow-hidden bg-gradient-to-r from-foreground via-[#0E5466] to-secondary py-8 text-white sm:py-12">
+        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
+          {/* Breadcrumb */}
+          <nav className="flex items-center gap-2 text-xs text-white/70">
+            <Link href="/" className="transition-colors hover:text-white">
+              Trang chủ
+            </Link>
+            <Icon name="chevron-right" size="xs" />
+            <span className="font-semibold text-white">Tài khoản cá nhân</span>
+          </nav>
+
+          <div className="mt-4 flex flex-col justify-between gap-6 md:flex-row md:items-center">
+            <div>
+              <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-bold text-white shadow-xs backdrop-blur-md">
+                <Icon name="shield-check" size="xs" className="text-secondary-foreground" />
+                <span>Tài khoản Khách hàng</span>
+              </div>
+              <h1 className="mt-2 font-heading text-2xl font-bold text-white sm:text-3xl lg:text-4xl">
+                Xin chào, {displayName}
+              </h1>
+              <p className="mt-1 max-w-xl text-xs text-white/80 sm:text-sm">
+                Quản lý thông tin tài khoản, theo dõi đơn hàng hải sản tươi sống và sổ địa chỉ giao
+                hàng.
+              </p>
+            </div>
+
+            {/* Quick Overview Card */}
+            <div className="rounded-xl border border-white/20 bg-white/10 p-4 backdrop-blur-md">
+              <span className="block text-[11px] font-semibold text-white/70">Email đăng nhập</span>
+              <span className="mt-0.5 block font-mono text-xs font-bold text-white">
+                {userEmail}
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 2. Main Content Grid (Sidebar + Dynamic Tab) */}
+      <div className="mx-auto mt-8 max-w-7xl px-4 sm:px-6">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
+          {/* Left Column: Account Sidebar (4/12 desktop) */}
+          <div className="lg:col-span-4">
+            <AccountSidebar
+              profile={profile}
+              activeTab={activeTab}
+              onSelectTab={(tab) => {
+                setActiveTab(tab);
+              }}
+            />
+          </div>
+
+          {/* Right Column: Tab Content (8/12 desktop) */}
+          <div className="lg:col-span-8">
+            {activeTab === 'profile' && <AccountProfileTab profile={profile} />}
+            {activeTab === 'orders' && <AccountOrdersTab />}
+            {activeTab === 'addresses' && <AccountAddressesTab />}
+            {activeTab === 'security' && <AccountSecurityTab />}
+          </div>
         </div>
       </div>
     </div>

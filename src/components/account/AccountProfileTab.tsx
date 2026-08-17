@@ -1,227 +1,212 @@
 'use client';
 
-import { useState } from 'react';
-import type { UserProfile } from '@/types/user';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
+import { Icon } from '@/components/common/Icon';
+import { useUpdateProfileMutation } from '@/libs/queries/users';
+import type { UpdateProfileRequest, UserProfile } from '@/types/user';
+import { updateProfileSchema } from '@/types/user';
 
 type AccountProfileTabProps = {
   profile?: UserProfile | null;
-  onSaveProfile?: (updated: Partial<UserProfile>) => void;
 };
-
-type ProfileFormState = {
-  fullName: string;
-  phoneNumber: string;
-  email: string;
-  birthDate: string;
-  gender: string;
-  avatarUrl: string;
-};
-
-function getInitialProfileState(initialProfile?: UserProfile | null): ProfileFormState {
-  if (!initialProfile) {
-    return {
-      fullName: '',
-      phoneNumber: '',
-      email: '',
-      birthDate: '',
-      gender: 'Nam',
-      avatarUrl: '',
-    };
-  }
-
-  return {
-    fullName: initialProfile.fullName ?? '',
-    phoneNumber: initialProfile.phoneNumber ?? '',
-    email: initialProfile.email ?? '',
-    birthDate: initialProfile.birthDate ?? '',
-    gender: initialProfile.gender ?? 'Nam',
-    avatarUrl: initialProfile.avatarUrl ?? '',
-  };
-}
-
-function ProfileAvatar({ avatarUrl, fullName }: { avatarUrl: string; fullName: string }) {
-  const initialLetter = fullName ? fullName.charAt(0) : 'U';
-
-  return (
-    <div className="flex items-center gap-6">
-      {avatarUrl ? (
-        <img
-          src={avatarUrl}
-          alt={fullName}
-          className="h-20 w-20 rounded-full border-2 border-[#1E3A8A] object-cover"
-        />
-      ) : (
-        <div className="flex h-20 w-20 items-center justify-center rounded-full bg-[#1E3A8A] text-2xl font-extrabold text-white">
-          {initialLetter}
-        </div>
-      )}
-      <div>
-        <button
-          type="button"
-          onClick={() => {
-            console.log('Tải ảnh đại diện mới');
-          }}
-          className="rounded-full border border-[#E2E8F0] bg-[#EDF2F7] px-4 py-2 text-xs font-bold text-[#0F172A] transition-colors hover:bg-[#DBEAFE]"
-        >
-          📷 Tải ảnh mới
-        </button>
-        <p className="text-text-secondary mt-1 text-[11px]">Dung lượng tối đa 2MB (JPG, PNG)</p>
-      </div>
-    </div>
-  );
-}
-
-function ProfileInputField({
-  id,
-  label,
-  type = 'text',
-  value,
-  onChange,
-}: {
-  id: string;
-  label: string;
-  type?: string;
-  value: string;
-  onChange: (val: string) => void;
-}) {
-  return (
-    <div>
-      <label htmlFor={id} className="block text-xs font-bold text-[#0F172A]">
-        {label}
-      </label>
-      <input
-        id={id}
-        type={type}
-        aria-label={label}
-        value={value}
-        onChange={(e) => {
-          onChange(e.target.value);
-        }}
-        className="mt-2 w-full rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 text-xs text-[#0F172A] focus:border-[#1E3A8A] focus:outline-none"
-      />
-    </div>
-  );
-}
 
 export function AccountProfileTab(props: AccountProfileTabProps) {
-  const { profile: initialProfile, onSaveProfile } = props;
+  const { profile } = props;
+  const updateProfileMutation = useUpdateProfileMutation();
 
-  const [profile, setProfile] = useState<ProfileFormState>(() =>
-    getInitialProfileState(initialProfile),
-  );
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<UpdateProfileRequest>({
+    resolver: zodResolver(updateProfileSchema),
+    values: {
+      fullName: profile?.fullName ?? '',
+      phoneNumber: profile?.phoneNumber ?? '',
+    },
+  });
 
-  const [savedSuccess, setSavedSuccess] = useState(false);
-
-  const handleSubmit = (e: React.SyntheticEvent) => {
-    e.preventDefault();
-    if (onSaveProfile) {
-      onSaveProfile(profile);
+  const onSubmit = async (data: UpdateProfileRequest) => {
+    try {
+      const res = await updateProfileMutation.mutateAsync(data);
+      toast.success(res.message || 'Cập nhật thông tin cá nhân thành công!');
+    } catch (error: unknown) {
+      const msg = error instanceof Error ? error.message : 'Cập nhật thất bại';
+      toast.error(msg);
     }
-    setSavedSuccess(true);
-    setTimeout(() => {
-      setSavedSuccess(false);
-    }, 3000);
-  };
-
-  const updateField = (field: keyof ProfileFormState, value: string) => {
-    setProfile((prev) => ({ ...prev, [field]: value }));
   };
 
   return (
-    <div className="rounded-3xl border border-[#E2E8F0] bg-white p-6 shadow-sm sm:p-8">
-      <div className="border-b border-[#E2E8F0] pb-4">
-        <h1 className="text-2xl font-extrabold text-[#0F172A]">Thông Tin Cá Nhân</h1>
-        <p className="text-text-secondary mt-1 text-xs">
-          Cập nhật thông tin tài khoản cá nhân để trải nghiệm dịch vụ mua sắm tốt nhất.
-        </p>
-      </div>
-
-      {savedSuccess && (
-        <div className="mt-4 rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-xs font-bold text-emerald-800">
-          ✅ Đã lưu thay đổi thông tin tài khoản thành công!
-        </div>
-      )}
-
-      <form onSubmit={handleSubmit} className="mt-6 space-y-6">
-        <ProfileAvatar avatarUrl={profile.avatarUrl} fullName={profile.fullName} />
-
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-          <ProfileInputField
-            id="user-name-input"
-            label="Họ và tên"
-            value={profile.fullName}
-            onChange={(val) => {
-              updateField('fullName', val);
-            }}
-          />
-          <ProfileInputField
-            id="user-phone-input"
-            label="Số điện thoại"
-            value={profile.phoneNumber}
-            onChange={(val) => {
-              updateField('phoneNumber', val);
-            }}
-          />
-          <ProfileInputField
-            id="user-email-input"
-            label="Email"
-            type="email"
-            value={profile.email}
-            onChange={(val) => {
-              updateField('email', val);
-            }}
-          />
-          <ProfileInputField
-            id="user-birthdate-input"
-            label="Ngày sinh"
-            value={profile.birthDate}
-            onChange={(val) => {
-              updateField('birthDate', val);
-            }}
-          />
-        </div>
-
-        <div>
-          <span className="block text-xs font-bold text-[#0F172A]">Giới tính</span>
-          <div className="mt-2 flex items-center gap-6">
-            <label className="flex items-center gap-2 text-xs text-[#0F172A]">
-              <input
-                type="radio"
-                name="gender"
-                aria-label="Giới tính Nam"
-                checked={profile.gender === 'Nam'}
-                onChange={() => {
-                  updateField('gender', 'Nam');
-                }}
-                className="text-[#1E3A8A] focus:ring-[#1E3A8A]"
-              />
-              <span>Nam</span>
-            </label>
-            <label className="flex items-center gap-2 text-xs text-[#0F172A]">
-              <input
-                type="radio"
-                name="gender"
-                aria-label="Giới tính Nữ"
-                checked={profile.gender === 'Nữ'}
-                onChange={() => {
-                  updateField('gender', 'Nữ');
-                }}
-                className="text-[#1E3A8A] focus:ring-[#1E3A8A]"
-              />
-              <span>Nữ</span>
-            </label>
+    <div className="space-y-6">
+      {/* 1. Profile Form Container */}
+      <div className="rounded-2xl border border-border bg-card p-6 shadow-sm sm:p-8">
+        <div className="border-b border-border pb-4">
+          <div className="flex items-center gap-2.5">
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-secondary/10 text-secondary">
+              <Icon name="user" size="sm" />
+            </div>
+            <div>
+              <h1 className="font-heading text-xl font-bold text-foreground sm:text-2xl">
+                Thông Tin Cá Nhân
+              </h1>
+              <p className="text-xs text-muted-foreground">
+                Quản lý và cập nhật thông tin tài khoản mua sắm của bạn.
+              </p>
+            </div>
           </div>
         </div>
 
-        <div className="pt-4">
-          <button
-            type="submit"
-            className="rounded-full bg-[#1E3A8A] px-8 py-3.5 text-xs font-bold text-white shadow transition-transform hover:scale-105 hover:bg-[#172554]"
-          >
-            Lưu thay đổi
-          </button>
+        <form onSubmit={handleSubmit(onSubmit)} className="mt-6 space-y-5">
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+            {/* Họ và tên */}
+            <div>
+              <label htmlFor="profile-fullname" className="block text-xs font-bold text-foreground">
+                Họ và tên <span className="text-destructive">*</span>
+              </label>
+              <div className="relative mt-1.5">
+                <input
+                  id="profile-fullname"
+                  type="text"
+                  placeholder="Nhập họ và tên đầy đủ"
+                  {...register('fullName')}
+                  className="w-full rounded-xl border border-border bg-background py-2.5 pr-4 pl-10 text-xs text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none"
+                />
+                <Icon
+                  name="user"
+                  size="sm"
+                  className="absolute top-3 left-3 text-muted-foreground"
+                />
+              </div>
+              {errors.fullName && (
+                <p className="mt-1 text-[11px] font-medium text-destructive">
+                  {errors.fullName.message}
+                </p>
+              )}
+            </div>
+
+            {/* Số điện thoại */}
+            <div>
+              <label htmlFor="profile-phone" className="block text-xs font-bold text-foreground">
+                Số điện thoại <span className="text-destructive">*</span>
+              </label>
+              <div className="relative mt-1.5">
+                <input
+                  id="profile-phone"
+                  type="tel"
+                  placeholder="0912345678"
+                  {...register('phoneNumber')}
+                  className="w-full rounded-xl border border-border bg-background py-2.5 pr-4 pl-10 text-xs text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none"
+                />
+                <Icon
+                  name="phone"
+                  size="sm"
+                  className="absolute top-3 left-3 text-muted-foreground"
+                />
+              </div>
+              {errors.phoneNumber && (
+                <p className="mt-1 text-[11px] font-medium text-destructive">
+                  {errors.phoneNumber.message}
+                </p>
+              )}
+            </div>
+
+            {/* Email (Readonly with Verified Badge) */}
+            <div className="sm:col-span-2">
+              <div className="flex items-center justify-between">
+                <label htmlFor="profile-email" className="block text-xs font-bold text-foreground">
+                  Địa chỉ Email
+                </label>
+                <span className="inline-flex items-center gap-1 text-[10px] font-bold text-tertiary">
+                  <Icon name="shield-check" size="xs" />
+                  <span>Đã xác thực</span>
+                </span>
+              </div>
+              <div className="relative mt-1.5">
+                <input
+                  id="profile-email"
+                  type="email"
+                  aria-label="Địa chỉ Email của tài khoản"
+                  readOnly
+                  disabled
+                  value={profile?.email ?? 'khachhang@haisanphanthiet.vn'}
+                  className="w-full cursor-not-allowed rounded-xl border border-border/80 bg-muted/40 py-2.5 pr-4 pl-10 text-xs text-muted-foreground select-none"
+                />
+                <Icon
+                  name="mail"
+                  size="sm"
+                  className="absolute top-3 left-3 text-muted-foreground"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="pt-3">
+            <button
+              type="submit"
+              disabled={updateProfileMutation.isPending}
+              className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-7 py-3 text-xs font-bold text-primary-foreground shadow-md transition-all hover:bg-primary/90 active:scale-98 disabled:opacity-50"
+            >
+              {updateProfileMutation.isPending ? (
+                <span className="inline-flex items-center gap-2">
+                  <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-primary-foreground border-t-transparent" />
+                  <span>Đang lưu...</span>
+                </span>
+              ) : (
+                <>
+                  <span>Lưu Thay Đổi</span>
+                  <Icon name="check" size="sm" />
+                </>
+              )}
+            </button>
+          </div>
+        </form>
+      </div>
+
+      {/* 2. Service Guarantees Card */}
+      <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+        <h3 className="font-sans text-xs font-bold tracking-wider text-secondary uppercase">
+          Cam Kết Chất Lượng Hải Sản Phan Thiết
+        </h3>
+        <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <div className="flex items-start gap-3 rounded-xl border border-border/80 bg-background p-3.5">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              <Icon name="truck" size="sm" />
+            </div>
+            <div>
+              <h4 className="text-xs font-bold text-foreground">Giao Nhanh Chuỗi Lạnh 2H</h4>
+              <p className="mt-0.5 text-[11px] text-muted-foreground">
+                Giao hàng hoả tốc giữ trọn độ tươi sống từ cảng biển.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-start gap-3 rounded-xl border border-border/80 bg-background p-3.5">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-secondary/15 text-secondary">
+              <Icon name="fish" size="sm" />
+            </div>
+            <div>
+              <h4 className="text-xs font-bold text-foreground">Đóng Thùng Oxy Tươi Sống</h4>
+              <p className="mt-0.5 text-[11px] text-muted-foreground">
+                Đóng thùng xốp nén oxy tiêu chuẩn xuất khẩu.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-start gap-3 rounded-xl border border-border/80 bg-background p-3.5">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-tertiary/10 text-tertiary">
+              <Icon name="shield-check" size="sm" />
+            </div>
+            <div>
+              <h4 className="text-xs font-bold text-foreground">Cam Kết 1 Đổi 1</h4>
+              <p className="mt-0.5 text-[11px] text-muted-foreground">
+                Đổi mới miễn phí nếu hải sản không đạt chuẩn tươi ngon.
+              </p>
+            </div>
+          </div>
         </div>
-      </form>
+      </div>
     </div>
   );
 }
