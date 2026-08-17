@@ -1,32 +1,52 @@
 'use client';
 
 import { useState } from 'react';
+import { AuthLoginForm } from '@/components/auth/AuthLoginForm';
+import { AuthRegisterForm } from '@/components/auth/AuthRegisterForm';
 import { ForgotPasswordModal } from '@/components/auth/ForgotPasswordModal';
+import { OtpVerificationModal } from '@/components/auth/OtpVerificationModal';
 import { Icon } from '@/components/common/Icon';
+import type { VerifyOtpResponse } from '@/types/auth';
 
 type AuthModalProps = {
   isOpen: boolean;
   onClose: () => void;
-  onLoginSuccess: () => void;
+  onLoginSuccess?: () => void;
 };
 
 export function AuthModal(props: AuthModalProps) {
   const { isOpen, onClose, onLoginSuccess } = props;
   const [activeTab, setActiveTab] = useState<'login' | 'register'>('login');
-  const [fullNameInput, setFullNameInput] = useState('');
-  const [accountInput, setAccountInput] = useState('');
-  const [passwordInput, setPasswordInput] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
 
   const [isForgotPasswordOpen, setIsForgotPasswordOpen] = useState(false);
+  const [otpModalState, setOtpModalState] = useState<{
+    isOpen: boolean;
+    email: string;
+  }>({
+    isOpen: false,
+    email: '',
+  });
 
   if (!isOpen) {
     return null;
   }
 
-  const handleSubmit = (e: React.SyntheticEvent) => {
-    e.preventDefault();
-    onLoginSuccess();
+  const handleLoginSuccess = () => {
+    onLoginSuccess?.();
+    onClose();
+  };
+
+  const handleRegisterSuccess = (email: string) => {
+    setOtpModalState({ isOpen: true, email });
+  };
+
+  const handleRequireVerification = (email: string) => {
+    setOtpModalState({ isOpen: true, email });
+  };
+
+  const handleOtpVerifySuccess = (_data: VerifyOtpResponse) => {
+    setOtpModalState({ isOpen: false, email: '' });
+    onLoginSuccess?.();
     onClose();
   };
 
@@ -36,35 +56,34 @@ export function AuthModal(props: AuthModalProps) {
         <button
           type="button"
           aria-label="Đóng popup đăng nhập"
-          className="fixed inset-0 border-none bg-black/50 backdrop-blur-xs transition-opacity outline-none"
+          className="fixed inset-0 border-none bg-black/60 backdrop-blur-xs transition-opacity outline-none"
           onClick={onClose}
         />
 
-        <div className="relative w-full max-w-md animate-in rounded-3xl border border-[#E2E8F0] bg-white p-6 shadow-2xl transition-all zoom-in-95 fade-in sm:p-8">
+        <div className="relative w-full max-w-md animate-in rounded-3xl border border-border bg-card p-6 shadow-2xl transition-all zoom-in-95 fade-in sm:p-8">
           <button
             type="button"
             aria-label="Đóng popup đăng nhập"
             onClick={onClose}
-            className="text-text-secondary absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-full bg-[#EDF2F7] text-xs font-bold transition-colors hover:bg-[#DBEAFE] hover:text-[#0F172A]"
+            className="absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-full bg-muted text-muted-foreground transition-colors hover:bg-muted/80 hover:text-foreground"
           >
             <Icon name="x" size="sm" />
           </button>
 
           <div className="text-center">
-            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#DBEAFE] text-[#1E3A8A]">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-primary/10 text-primary">
               <Icon name="lock" size="lg" />
             </div>
 
-            <h2 className="mt-4 text-2xl font-extrabold text-[#0F172A]">
+            <h2 className="mt-4 font-heading text-2xl font-bold text-foreground">
               {activeTab === 'login' ? 'Đăng Nhập Thành Viên' : 'Đăng Ký Tài Khoản'}
             </h2>
-            <p className="text-text-secondary mt-1.5 text-xs">
-              Đăng nhập hoặc tạo tài khoản nhanh để lưu thông tin giao hàng &amp; tích lũy điểm
-              thưởng.
+            <p className="mt-1.5 text-xs text-muted-foreground">
+              Đăng nhập để theo dõi đơn hàng, lưu sổ địa chỉ &amp; nhận ưu đãi thành viên.
             </p>
           </div>
 
-          <div className="mt-6 flex rounded-full border border-[#E2E8F0] bg-[#EDF2F7] p-1">
+          <div className="mt-6 flex rounded-full border border-border bg-muted/50 p-1">
             <button
               type="button"
               onClick={() => {
@@ -72,8 +91,8 @@ export function AuthModal(props: AuthModalProps) {
               }}
               className={`flex flex-1 items-center justify-center gap-1.5 rounded-full py-2 text-xs font-bold transition-all ${
                 activeTab === 'login'
-                  ? 'bg-white text-[#1E3A8A] shadow-xs'
-                  : 'text-text-secondary hover:text-[#0F172A]'
+                  ? 'bg-background text-primary shadow-xs'
+                  : 'text-muted-foreground hover:text-foreground'
               }`}
             >
               <Icon name="lock" size="xs" />
@@ -86,8 +105,8 @@ export function AuthModal(props: AuthModalProps) {
               }}
               className={`flex flex-1 items-center justify-center gap-1.5 rounded-full py-2 text-xs font-bold transition-all ${
                 activeTab === 'register'
-                  ? 'bg-white text-[#1E3A8A] shadow-xs'
-                  : 'text-text-secondary hover:text-[#0F172A]'
+                  ? 'bg-background text-primary shadow-xs'
+                  : 'text-muted-foreground hover:text-foreground'
               }`}
             >
               <Icon name="user" size="xs" />
@@ -95,135 +114,31 @@ export function AuthModal(props: AuthModalProps) {
             </button>
           </div>
 
-          <form onSubmit={handleSubmit} className="mt-6 space-y-4">
-            {activeTab === 'register' && (
-              <div>
-                <label
-                  htmlFor="auth-fullname-input"
-                  className="block text-xs font-bold text-[#0F172A]"
-                >
-                  Họ và tên
-                </label>
-                <div className="relative mt-1.5">
-                  <input
-                    id="auth-fullname-input"
-                    type="text"
-                    aria-label="Họ và tên"
-                    placeholder="Nhập họ và tên đầy đủ"
-                    value={fullNameInput}
-                    onChange={(e) => {
-                      setFullNameInput(e.target.value);
-                    }}
-                    className="w-full rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] py-3 pr-4 pl-10 text-xs font-bold text-[#0F172A] focus:border-[#1E3A8A] focus:outline-none"
-                  />
-                  <Icon
-                    name="user"
-                    size="sm"
-                    className="text-text-secondary absolute top-3.5 left-3.5"
-                  />
-                </div>
-              </div>
+          <div className="mt-6">
+            {activeTab === 'login' ? (
+              <AuthLoginForm
+                onSuccess={handleLoginSuccess}
+                onRequireVerification={handleRequireVerification}
+                onOpenForgotPassword={() => {
+                  setIsForgotPasswordOpen(true);
+                }}
+              />
+            ) : (
+              <AuthRegisterForm onRegisterSuccess={handleRegisterSuccess} />
             )}
-
-            <div>
-              <label
-                htmlFor="auth-account-input"
-                className="block text-xs font-bold text-[#0F172A]"
-              >
-                Số điện thoại hoặc Email
-              </label>
-              <div className="relative mt-1.5">
-                <input
-                  id="auth-account-input"
-                  type="text"
-                  aria-label="Số điện thoại hoặc Email"
-                  placeholder="Nhập số điện thoại hoặc email"
-                  value={accountInput}
-                  onChange={(e) => {
-                    setAccountInput(e.target.value);
-                  }}
-                  className="w-full rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] py-3 pr-4 pl-10 text-xs font-bold text-[#0F172A] focus:border-[#1E3A8A] focus:outline-none"
-                />
-                <Icon
-                  name="phone"
-                  size="sm"
-                  className="text-text-secondary absolute top-3.5 left-3.5"
-                />
-              </div>
-            </div>
-
-            <div>
-              <div className="flex items-center justify-between">
-                <label
-                  htmlFor="auth-password-input"
-                  className="block text-xs font-bold text-[#0F172A]"
-                >
-                  Mật khẩu
-                </label>
-                {activeTab === 'login' && (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setIsForgotPasswordOpen(true);
-                    }}
-                    className="text-xs font-bold text-[#F97316] hover:underline"
-                  >
-                    Quên mật khẩu?
-                  </button>
-                )}
-              </div>
-              <div className="relative mt-1.5">
-                <input
-                  id="auth-password-input"
-                  type={showPassword ? 'text' : 'password'}
-                  aria-label="Mật khẩu"
-                  placeholder="••••••••••••"
-                  value={passwordInput}
-                  onChange={(e) => {
-                    setPasswordInput(e.target.value);
-                  }}
-                  className="w-full rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] py-3 pr-10 pl-10 text-xs font-bold text-[#0F172A] focus:border-[#1E3A8A] focus:outline-none"
-                />
-                <Icon
-                  name="lock"
-                  size="sm"
-                  className="text-text-secondary absolute top-3.5 left-3.5"
-                />
-                <button
-                  type="button"
-                  aria-label="Ẩn hiện mật khẩu"
-                  onClick={() => {
-                    setShowPassword(!showPassword);
-                  }}
-                  className="absolute top-3.5 right-3.5 text-xs text-[#5B6B63] hover:text-[#0F172A]"
-                >
-                  <Icon name={showPassword ? 'eye-off' : 'eye'} size="sm" />
-                </button>
-              </div>
-            </div>
-
-            <div className="pt-2">
-              <button
-                type="submit"
-                className="flex w-full items-center justify-center gap-2 rounded-full bg-[#1E3A8A] py-3.5 text-xs font-bold text-white shadow-lg transition-transform hover:scale-[1.02] hover:bg-[#172554]"
-              >
-                <span>{activeTab === 'login' ? 'Đăng Nhập Ngay' : 'Tạo Tài Khoản Mới'}</span>
-                <Icon name="arrow-right" size="sm" />
-              </button>
-            </div>
-          </form>
+          </div>
 
           <div className="mt-6 text-center">
-            <p className="text-text-secondary mt-4 text-xs">
+            <p className="text-xs text-muted-foreground">
               {activeTab === 'login' ? 'Bạn là khách hàng mới? ' : 'Đã có tài khoản? '}
               <button
                 type="button"
                 onClick={() => {
                   setActiveTab(activeTab === 'login' ? 'register' : 'login');
                 }}
-                className="font-bold text-[#F97316] hover:underline"
+                className="font-bold text-secondary hover:underline"
               >
-                {activeTab === 'login' ? 'Tạo tài khoản nhanh chỉ 5 giây' : 'Đăng nhập ngay'}
+                {activeTab === 'login' ? 'Tạo tài khoản nhanh' : 'Đăng nhập ngay'}
               </button>
             </p>
           </div>
@@ -238,6 +153,16 @@ export function AuthModal(props: AuthModalProps) {
         onSuccessReturnLogin={() => {
           setActiveTab('login');
         }}
+      />
+
+      <OtpVerificationModal
+        isOpen={otpModalState.isOpen}
+        targetEmail={otpModalState.email}
+        purpose="REGISTER_VERIFICATION"
+        onClose={() => {
+          setOtpModalState({ isOpen: false, email: '' });
+        }}
+        onSuccess={handleOtpVerifySuccess}
       />
     </>
   );

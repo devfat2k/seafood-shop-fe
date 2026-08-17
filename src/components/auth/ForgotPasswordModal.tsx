@@ -1,7 +1,17 @@
 'use client';
 
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import { Icon } from '@/components/common/Icon';
+import {
+  useForgotPasswordMutation,
+  useResetPasswordMutation,
+  useVerifyOtpMutation,
+} from '@/libs/queries/auth';
+import type { ForgotPasswordRequest, ResetPasswordFormValues } from '@/types/auth';
+import { forgotPasswordRequestSchema, resetPasswordFormSchema } from '@/validations/auth';
 
 type ForgotPasswordModalProps = {
   isOpen: boolean;
@@ -11,75 +21,89 @@ type ForgotPasswordModalProps = {
 
 type WizardStep = 'EMAIL' | 'OTP' | 'NEW_PASSWORD' | 'SUCCESS';
 
-function getStepBadgeText(step: WizardStep): string {
-  if (step === 'EMAIL') {
-    return 'Bước 1/3';
-  }
-  if (step === 'OTP') {
-    return 'Bước 2/3';
-  }
-  if (step === 'NEW_PASSWORD') {
-    return 'Bước 3/3';
-  }
-  return 'Hoàn tất';
-}
-
 export function ForgotPasswordModal({
   isOpen,
   onClose,
   onSuccessReturnLogin,
 }: ForgotPasswordModalProps) {
   const [step, setStep] = useState<WizardStep>('EMAIL');
-  const [emailOrPhone, setEmailOrPhone] = useState('khachhang@gmail.com');
+  const [targetEmail, setTargetEmail] = useState('');
   const [otpCode, setOtpCode] = useState(['', '', '', '', '', '']);
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [actionToken, setActionToken] = useState('');
   const [showNewPass, setShowNewPass] = useState(false);
   const [showConfirmPass, setShowConfirmPass] = useState(false);
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  const forgotPasswordMutation = useForgotPasswordMutation();
+  const verifyOtpMutation = useVerifyOtpMutation();
+  const resetPasswordMutation = useResetPasswordMutation();
+
+  const emailForm = useForm<ForgotPasswordRequest>({
+    resolver: zodResolver(forgotPasswordRequestSchema),
+    defaultValues: { email: '' },
+  });
+
+  const passwordForm = useForm<ResetPasswordFormValues>({
+    resolver: zodResolver(resetPasswordFormSchema),
+    defaultValues: { newPassword: '', confirmPassword: '' },
+  });
 
   if (!isOpen) {
     return null;
   }
 
-  const handleStep1Submit = (e: React.SyntheticEvent) => {
-    e.preventDefault();
-    if (!emailOrPhone.trim()) {
-      setErrorMsg('Vui lòng nhập Email hoặc Số điện thoại');
-      return;
+  const handleStep1Submit = async (data: ForgotPasswordRequest) => {
+    try {
+      const res = await forgotPasswordMutation.mutateAsync(data);
+      toast.success(res.message || 'Mã OTP khôi phục đã được gửi tới email của bạn!');
+      setTargetEmail(data.email);
+      setStep('OTP');
+    } catch (error: unknown) {
+      const msg = error instanceof Error ? error.message : 'Không thể gửi mã khôi phục';
+      toast.error(msg);
     }
-    setErrorMsg(null);
-    setStep('OTP');
   };
 
-  const handleStep2OtpSubmit = (e: React.SyntheticEvent) => {
+  const handleStep2OtpSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     const fullOtp = otpCode.join('');
     if (fullOtp.length < 6) {
-      setErrorMsg('Vui lòng nhập đủ 6 chữ số mã OTP');
+      toast.error('Vui lòng nhập đầy đủ 6 chữ số mã OTP');
       return;
     }
-    setErrorMsg(null);
-    setStep('NEW_PASSWORD');
+
+    try {
+      const res = await verifyOtpMutation.mutateAsync({
+        email: targetEmail,
+        otpCode: fullOtp,
+        purpose: 'RESET_PASSWORD',
+      });
+
+      if (!res.data?.actionToken) {
+        toast.error('Mã xác thực không hợp lệ, vui lòng thử lại');
+        return;
+      }
+
+      setActionToken(res.data.actionToken);
+      toast.success('Xác thực OTP thành công! Vui lòng đặt mật khẩu mới.');
+      setStep('NEW_PASSWORD');
+    } catch (error: unknown) {
+      const msg = error instanceof Error ? error.message : 'Xác thực OTP thất bại';
+      toast.error(msg);
+    }
   };
 
-  const handleStep3PasswordSubmit = (e: React.SyntheticEvent) => {
-    e.preventDefault();
-    if (!newPassword || !confirmPassword) {
-      setErrorMsg('Vui lòng nhập đầy đủ hai trường mật khẩu');
-      return;
+  const handleStep3PasswordSubmit = async (data: ResetPasswordFormValues) => {
+    try {
+      const res = await resetPasswordMutation.mutateAsync({
+        actionToken,
+        newPassword: data.newPassword,
+      });
+      toast.success(res.message || 'Đặt lại mật khẩu thành công!');
+      setStep('SUCCESS');
+    } catch (error: unknown) {
+      const msg = error instanceof Error ? error.message : 'Đặt lại mật khẩu thất bại';
+      toast.error(msg);
     }
-    if (newPassword.length < 6) {
-      setErrorMsg('Mật khẩu mới phải có ít nhất 6 ký tự');
-      return;
-    }
-    if (newPassword !== confirmPassword) {
-      setErrorMsg('Mật khẩu mới và xác nhận mật khẩu không trùng khớp');
-      return;
-    }
-
-    setErrorMsg(null);
-    setStep('SUCCESS');
   };
 
   const handleOtpDigitChange = (index: number, val: string) => {
@@ -89,90 +113,90 @@ export function ForgotPasswordModal({
     const newOtp = [...otpCode];
     newOtp[index] = val.slice(-1);
     setOtpCode(newOtp);
-    setErrorMsg(null);
   };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      {/* Backdrop */}
       <button
         type="button"
         onClick={onClose}
         aria-label="Đóng popup quên mật khẩu"
-        className="fixed inset-0 h-full w-full bg-black/60 backdrop-blur-xs transition-opacity"
+        className="fixed inset-0 h-full w-full border-none bg-black/60 backdrop-blur-xs transition-opacity outline-none"
       />
 
-      {/* Modal Container */}
-      <div className="relative z-10 w-full max-w-md overflow-hidden rounded-3xl border border-[#E2E8F0] bg-white p-6 shadow-2xl sm:p-8">
+      <div className="relative z-10 w-full max-w-md overflow-hidden rounded-3xl border border-border bg-card p-6 shadow-2xl transition-all sm:p-8">
         <button
           type="button"
           onClick={onClose}
-          className="text-text-secondary absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-full bg-[#EDF2F7] hover:bg-[#DBEAFE] hover:text-[#0F172A]"
+          className="absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-full bg-muted text-muted-foreground hover:bg-muted/80 hover:text-foreground"
           aria-label="Đóng"
         >
           <Icon name="x" size="sm" />
         </button>
 
-        {/* Wizard Steps Progress Indicator */}
-        <div className="mb-6 flex items-center justify-between border-b border-[#F1F5F9] pb-4">
-          <span className="text-xs font-extrabold text-[#1E3A8A]">Quên Mật Khẩu</span>
-          <span className="rounded-full bg-[#DBEAFE] px-2.5 py-0.5 text-[10px] font-bold text-[#1E3A8A]">
-            {getStepBadgeText(step)}
+        <div className="mb-6 flex items-center justify-between border-b border-border pb-3">
+          <span className="font-heading text-xs font-bold text-foreground">Quên Mật Khẩu</span>
+          <span className="rounded-full bg-secondary/10 px-2.5 py-0.5 text-[10px] font-bold text-secondary">
+            {step === 'EMAIL' && 'Bước 1/3'}
+            {step === 'OTP' && 'Bước 2/3'}
+            {step === 'NEW_PASSWORD' && 'Bước 3/3'}
+            {step === 'SUCCESS' && 'Hoàn tất'}
           </span>
         </div>
 
-        {errorMsg && (
-          <div className="mb-4 rounded-2xl border border-red-200 bg-red-50 p-3 text-center text-xs font-bold text-red-700">
-            ⚠️ {errorMsg}
-          </div>
-        )}
-
-        {/* STEP 1: INPUT EMAIL / PHONE */}
+        {/* STEP 1: INPUT EMAIL */}
         {step === 'EMAIL' && (
-          <form onSubmit={handleStep1Submit} className="space-y-4">
+          <form onSubmit={emailForm.handleSubmit(handleStep1Submit)} className="space-y-4">
             <div className="text-center">
-              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-[#DBEAFE] text-[#1E3A8A]">
+              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
                 <Icon name="mail" size="md" />
               </div>
-              <h3 className="mt-3 text-xl font-extrabold text-[#0F172A]">Khôi Phục Mật Khẩu</h3>
-              <p className="text-text-secondary mt-1 text-xs">
-                Nhập email hoặc số điện thoại đăng ký tài khoản của bạn để nhận mã xác thực OTP
+              <h3 className="mt-3 font-heading text-xl font-bold text-foreground">
+                Khôi Phục Mật Khẩu
+              </h3>
+              <p className="mt-1 text-xs text-muted-foreground">
+                Nhập email đăng ký tài khoản của bạn để nhận mã xác thực OTP.
               </p>
             </div>
 
             <div>
-              <label
-                htmlFor="forgot-email-input"
-                className="block text-xs font-bold text-[#0F172A]"
-              >
-                Email hoặc Số điện thoại
+              <label htmlFor="forgot-email" className="block text-xs font-bold text-foreground">
+                Địa chỉ Email
               </label>
               <div className="relative mt-1.5">
                 <input
-                  id="forgot-email-input"
-                  type="text"
-                  aria-label="Email hoặc Số điện thoại"
-                  placeholder="khachhang@gmail.com"
-                  value={emailOrPhone}
-                  onChange={(e) => {
-                    setEmailOrPhone(e.target.value);
-                  }}
-                  className="w-full rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] py-3 pr-4 pl-10 text-xs font-bold text-[#0F172A] focus:border-[#1E3A8A] focus:outline-none"
+                  id="forgot-email"
+                  type="email"
+                  placeholder="name@example.com"
+                  {...emailForm.register('email')}
+                  className="w-full rounded-xl border border-border bg-background py-2.5 pr-4 pl-10 text-xs text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none"
                 />
                 <Icon
                   name="mail"
                   size="sm"
-                  className="text-text-secondary absolute top-3.5 left-3.5"
+                  className="absolute top-3 left-3 text-muted-foreground"
                 />
               </div>
+              {emailForm.formState.errors.email && (
+                <p className="mt-1 text-[11px] font-medium text-destructive">
+                  {emailForm.formState.errors.email.message}
+                </p>
+              )}
             </div>
 
             <button
               type="submit"
-              className="flex w-full items-center justify-center gap-2 rounded-full bg-[#1E3A8A] py-3.5 text-xs font-bold text-white shadow-md hover:bg-[#172554]"
+              disabled={forgotPasswordMutation.isPending}
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3 text-xs font-bold text-primary-foreground shadow-md transition-all hover:bg-primary/90 disabled:opacity-50"
             >
-              <span>Gửi Mã Xác Thực OTP</span>
-              <Icon name="arrow-right" size="sm" />
+              {forgotPasswordMutation.isPending ? (
+                <span>Đang gửi mã...</span>
+              ) : (
+                <>
+                  <span>Gửi Mã Xác Thực OTP</span>
+                  <Icon name="arrow-right" size="sm" />
+                </>
+              )}
             </button>
           </form>
         )}
@@ -181,13 +205,13 @@ export function ForgotPasswordModal({
         {step === 'OTP' && (
           <form onSubmit={handleStep2OtpSubmit} className="space-y-4">
             <div className="text-center">
-              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-[#DBEAFE] text-[#1E3A8A]">
+              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-secondary/10 text-secondary">
                 <Icon name="shield-check" size="md" />
               </div>
-              <h3 className="mt-3 text-xl font-extrabold text-[#0F172A]">Nhập Mã OTP</h3>
-              <p className="text-text-secondary mt-1 text-xs">
+              <h3 className="mt-3 font-heading text-xl font-bold text-foreground">Nhập Mã OTP</h3>
+              <p className="mt-1 text-xs text-muted-foreground">
                 Mã xác nhận 6 số đã được gửi tới{' '}
-                <span className="font-bold text-[#1E3A8A]">{emailOrPhone}</span>
+                <span className="font-bold text-primary">{targetEmail}</span>
               </p>
             </div>
 
@@ -203,111 +227,129 @@ export function ForgotPasswordModal({
                     handleOtpDigitChange(idx, e.target.value);
                   }}
                   aria-label={`Chữ số ${idx + 1}`}
-                  className="h-11 w-10 rounded-xl border-2 border-[#E2E8F0] bg-[#F8FAFC] text-center text-lg font-black text-[#0F172A] focus:border-[#1E3A8A] focus:bg-white focus:outline-none"
+                  className="h-11 w-10 rounded-xl border-2 border-border bg-background text-center text-lg font-black text-foreground focus:border-primary focus:outline-none"
                 />
               ))}
             </div>
 
             <button
               type="submit"
-              className="flex w-full items-center justify-center gap-2 rounded-full bg-[#1E3A8A] py-3.5 text-xs font-bold text-white shadow-md hover:bg-[#172554]"
+              disabled={verifyOtpMutation.isPending}
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3 text-xs font-bold text-primary-foreground shadow-md hover:bg-primary/90 disabled:opacity-50"
             >
-              <span>Xác Thực OTP &amp; Tiếp Tục</span>
-              <Icon name="arrow-right" size="sm" />
+              {verifyOtpMutation.isPending ? (
+                <span>Đang kiểm tra...</span>
+              ) : (
+                <>
+                  <span>Xác Thực OTP &amp; Tiếp Tục</span>
+                  <Icon name="arrow-right" size="sm" />
+                </>
+              )}
             </button>
           </form>
         )}
 
         {/* STEP 3: SET NEW PASSWORD */}
         {step === 'NEW_PASSWORD' && (
-          <form onSubmit={handleStep3PasswordSubmit} className="space-y-4">
+          <form
+            onSubmit={passwordForm.handleSubmit(handleStep3PasswordSubmit)}
+            className="space-y-4"
+          >
             <div className="text-center">
-              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-[#FFEDD5] text-[#EA580C]">
+              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-secondary/10 text-secondary">
                 <Icon name="lock" size="md" />
               </div>
-              <h3 className="mt-3 text-xl font-extrabold text-[#0F172A]">Tạo Mật Khẩu Mới</h3>
-              <p className="text-text-secondary mt-1 text-xs">
-                Vui lòng nhập mật khẩu mới cho tài khoản của bạn
+              <h3 className="mt-3 font-heading text-xl font-bold text-foreground">
+                Tạo Mật Khẩu Mới
+              </h3>
+              <p className="mt-1 text-xs text-muted-foreground">
+                Vui lòng nhập mật khẩu mới tối thiểu 8 ký tự cho tài khoản của bạn.
               </p>
             </div>
 
             <div>
-              <label htmlFor="new-pass-field" className="block text-xs font-bold text-[#0F172A]">
+              <label htmlFor="new-pass" className="block text-xs font-bold text-foreground">
                 Mật khẩu mới
               </label>
               <div className="relative mt-1.5">
                 <input
-                  id="new-pass-field"
+                  id="new-pass"
                   type={showNewPass ? 'text' : 'password'}
-                  aria-label="Mật khẩu mới"
-                  placeholder="••••••••••••"
-                  value={newPassword}
-                  onChange={(e) => {
-                    setNewPassword(e.target.value);
-                  }}
-                  className="w-full rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] py-3 pr-10 pl-10 text-xs font-bold text-[#0F172A] focus:border-[#1E3A8A] focus:outline-none"
+                  placeholder="••••••••"
+                  {...passwordForm.register('newPassword')}
+                  className="w-full rounded-xl border border-border bg-background py-2.5 pr-10 pl-10 text-xs text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none"
                 />
                 <Icon
                   name="lock"
                   size="sm"
-                  className="text-text-secondary absolute top-3.5 left-3.5"
+                  className="absolute top-3 left-3 text-muted-foreground"
                 />
                 <button
                   type="button"
-                  aria-label="Ẩn hiện mật khẩu"
+                  aria-label="Ẩn hiện mật khẩu mới"
                   onClick={() => {
                     setShowNewPass(!showNewPass);
                   }}
-                  className="text-text-secondary absolute top-3.5 right-3.5 hover:text-[#0F172A]"
+                  className="absolute top-3 right-3 text-muted-foreground hover:text-foreground"
                 >
                   <Icon name={showNewPass ? 'eye-off' : 'eye'} size="sm" />
                 </button>
               </div>
+              {passwordForm.formState.errors.newPassword && (
+                <p className="mt-1 text-[11px] font-medium text-destructive">
+                  {passwordForm.formState.errors.newPassword.message}
+                </p>
+              )}
             </div>
 
             <div>
-              <label
-                htmlFor="confirm-pass-field"
-                className="block text-xs font-bold text-[#0F172A]"
-              >
+              <label htmlFor="confirm-pass" className="block text-xs font-bold text-foreground">
                 Xác nhận mật khẩu mới
               </label>
               <div className="relative mt-1.5">
                 <input
-                  id="confirm-pass-field"
+                  id="confirm-pass"
                   type={showConfirmPass ? 'text' : 'password'}
-                  aria-label="Xác nhận mật khẩu mới"
-                  placeholder="••••••••••••"
-                  value={confirmPassword}
-                  onChange={(e) => {
-                    setConfirmPassword(e.target.value);
-                  }}
-                  className="w-full rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] py-3 pr-10 pl-10 text-xs font-bold text-[#0F172A] focus:border-[#1E3A8A] focus:outline-none"
+                  placeholder="••••••••"
+                  {...passwordForm.register('confirmPassword')}
+                  className="w-full rounded-xl border border-border bg-background py-2.5 pr-10 pl-10 text-xs text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none"
                 />
                 <Icon
                   name="lock"
                   size="sm"
-                  className="text-text-secondary absolute top-3.5 left-3.5"
+                  className="absolute top-3 left-3 text-muted-foreground"
                 />
                 <button
                   type="button"
-                  aria-label="Ẩn hiện mật khẩu"
+                  aria-label="Ẩn hiện xác nhận mật khẩu"
                   onClick={() => {
                     setShowConfirmPass(!showConfirmPass);
                   }}
-                  className="text-text-secondary absolute top-3.5 right-3.5 hover:text-[#0F172A]"
+                  className="absolute top-3 right-3 text-muted-foreground hover:text-foreground"
                 >
                   <Icon name={showConfirmPass ? 'eye-off' : 'eye'} size="sm" />
                 </button>
               </div>
+              {passwordForm.formState.errors.confirmPassword && (
+                <p className="mt-1 text-[11px] font-medium text-destructive">
+                  {passwordForm.formState.errors.confirmPassword.message}
+                </p>
+              )}
             </div>
 
             <button
               type="submit"
-              className="flex w-full items-center justify-center gap-2 rounded-full bg-[#1E3A8A] py-3.5 text-xs font-bold text-white shadow-md hover:bg-[#172554]"
+              disabled={resetPasswordMutation.isPending}
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3 text-xs font-bold text-primary-foreground shadow-md hover:bg-primary/90 disabled:opacity-50"
             >
-              <span>Cập Nhật Mật Khẩu</span>
-              <Icon name="check" size="sm" />
+              {resetPasswordMutation.isPending ? (
+                <span>Đang lưu mật khẩu...</span>
+              ) : (
+                <>
+                  <span>Cập Nhật Mật Khẩu</span>
+                  <Icon name="check" size="sm" />
+                </>
+              )}
             </button>
           </form>
         )}
@@ -319,10 +361,11 @@ export function ForgotPasswordModal({
               <Icon name="check" size="xl" />
             </div>
 
-            <h3 className="mt-4 text-2xl font-black text-[#0F172A]">Đổi Mật Khẩu Thành Công!</h3>
-            <p className="text-text-secondary mt-2 text-xs leading-relaxed">
-              Mật khẩu mới của bạn đã được cập nhật. Bạn có thể sử dụng mật khẩu mới để đăng nhập
-              ngay bây giờ.
+            <h3 className="mt-4 font-heading text-2xl font-bold text-foreground">
+              Đổi Mật Khẩu Thành Công!
+            </h3>
+            <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
+              Mật khẩu mới của bạn đã được cập nhật. Bạn có thể đăng nhập ngay bây giờ.
             </p>
 
             <button
@@ -331,7 +374,7 @@ export function ForgotPasswordModal({
                 onSuccessReturnLogin();
                 onClose();
               }}
-              className="mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-[#1E3A8A] py-3.5 text-xs font-bold text-white shadow-lg hover:bg-[#172554]"
+              className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3 text-xs font-bold text-primary-foreground shadow-lg hover:bg-primary/90"
             >
               <span>Quay Lại Đăng Nhập</span>
               <Icon name="arrow-right" size="sm" />

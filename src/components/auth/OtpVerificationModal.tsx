@@ -1,34 +1,38 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { toast } from 'sonner';
 import { Icon } from '@/components/common/Icon';
+import { useResendOtpMutation, useVerifyOtpMutation } from '@/libs/queries/auth';
+import type { OtpPurpose, VerifyOtpResponse } from '@/types/auth';
 
 type OtpVerificationModalProps = {
   isOpen: boolean;
-  targetEmailOrPhone: string;
+  targetEmail: string;
+  purpose: OtpPurpose;
   onClose: () => void;
-  onVerifySuccess: (otp: string) => void;
+  onSuccess: (data: VerifyOtpResponse) => void;
 };
 
 export function OtpVerificationModal({
   isOpen,
-  targetEmailOrPhone,
+  targetEmail,
+  purpose,
   onClose,
-  onVerifySuccess,
+  onSuccess,
 }: OtpVerificationModalProps) {
   const [otp, setOtp] = useState<string[]>(['', '', '', '', '', '']);
   const [resendTimer, setResendTimer] = useState<number>(60);
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
-
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
-  // Countdown timer for resend code
+  const verifyOtpMutation = useVerifyOtpMutation();
+  const resendOtpMutation = useResendOtpMutation();
+
   useEffect(() => {
     let timer: ReturnType<typeof setInterval> | null = null;
 
     if (isOpen) {
       setResendTimer(60);
-      setErrorMsg(null);
       setOtp(['', '', '', '', '', '']);
 
       timer = setInterval(() => {
@@ -55,9 +59,7 @@ export function OtpVerificationModal({
     const newOtp = [...otp];
     newOtp[index] = value.slice(-1);
     setOtp(newOtp);
-    setErrorMsg(null);
 
-    // Auto-advance to next input
     if (value && index < 5) {
       inputRefs.current[index + 1]?.focus();
     }
@@ -73,7 +75,7 @@ export function OtpVerificationModal({
     e.preventDefault();
     const pastedData = e.clipboardData.getData('text').trim();
     if (!/^\d{6}$/u.test(pastedData)) {
-      setErrorMsg('Mã OTP phải gồm 6 chữ số');
+      toast.error('Mã OTP phải gồm đúng 6 chữ số');
       return;
     }
 
@@ -83,64 +85,75 @@ export function OtpVerificationModal({
     inputRefs.current[5]?.focus();
   };
 
-  const handleSubmit = (e: React.SyntheticEvent) => {
+  const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     const fullOtp = otp.join('');
     if (fullOtp.length < 6) {
-      setErrorMsg('Vui lòng nhập đầy đủ 6 chữ số OTP');
+      toast.error('Vui lòng nhập đầy đủ 6 chữ số mã OTP');
       return;
     }
 
-    onVerifySuccess(fullOtp);
+    try {
+      const res = await verifyOtpMutation.mutateAsync({
+        email: targetEmail,
+        otpCode: fullOtp,
+        purpose,
+      });
+
+      toast.success(res.message || 'Xác thực OTP thành công!');
+      onSuccess(res.data ?? {});
+    } catch (error: unknown) {
+      const msg = error instanceof Error ? error.message : 'Xác thực OTP thất bại';
+      toast.error(msg);
+    }
   };
 
-  const handleResend = () => {
-    setResendTimer(60);
-    setOtp(['', '', '', '', '', '']);
-    setErrorMsg(null);
-    inputRefs.current[0]?.focus();
+  const handleResend = async () => {
+    try {
+      const res = await resendOtpMutation.mutateAsync({
+        email: targetEmail,
+        purpose,
+      });
+      toast.success(res.message || 'Mã OTP mới đã được gửi tới email của bạn!');
+      setResendTimer(60);
+      setOtp(['', '', '', '', '', '']);
+      inputRefs.current[0]?.focus();
+    } catch (error: unknown) {
+      const msg = error instanceof Error ? error.message : 'Không thể gửi lại mã OTP';
+      toast.error(msg);
+    }
   };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      {/* Backdrop */}
       <button
         type="button"
         onClick={onClose}
         aria-label="Đóng popup OTP"
-        className="fixed inset-0 h-full w-full bg-black/60 backdrop-blur-xs transition-opacity"
+        className="fixed inset-0 h-full w-full border-none bg-black/60 backdrop-blur-xs transition-opacity outline-none"
       />
 
-      {/* Modal Container */}
-      <div className="relative z-10 w-full max-w-md overflow-hidden rounded-3xl border border-[#E2E8F0] bg-white p-6 shadow-2xl sm:p-8">
+      <div className="relative z-10 w-full max-w-md overflow-hidden rounded-3xl border border-border bg-card p-6 shadow-2xl transition-all sm:p-8">
         <button
           type="button"
           onClick={onClose}
-          className="text-text-secondary absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-full bg-[#EDF2F7] hover:bg-[#DBEAFE] hover:text-[#0F172A]"
+          className="absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-full bg-muted text-muted-foreground hover:bg-muted/80 hover:text-foreground"
           aria-label="Đóng"
         >
           <Icon name="x" size="sm" />
         </button>
 
         <div className="text-center">
-          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#DBEAFE] text-[#1E3A8A]">
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-secondary/10 text-secondary">
             <Icon name="shield-check" size="lg" />
           </div>
 
-          <h2 className="mt-4 text-2xl font-extrabold text-[#0F172A]">Xác Thực Mã OTP</h2>
-          <p className="text-text-secondary mt-2 text-xs">
-            Mã xác thực 6 chữ số đã được gửi tới{' '}
-            <span className="font-bold text-[#1E3A8A]">
-              {targetEmailOrPhone || 'email/số điện thoại'}
-            </span>
+          <h2 className="mt-4 font-heading text-2xl font-bold text-foreground">Xác Thực Mã OTP</h2>
+          <p className="mt-2 text-xs text-muted-foreground">
+            Mã xác thực gồm 6 chữ số đã được gửi tới{' '}
+            <span className="font-bold text-primary">{targetEmail}</span>
           </p>
         </div>
-
-        {errorMsg && (
-          <div className="mt-4 rounded-2xl border border-red-200 bg-red-50 p-3 text-center text-xs font-bold text-red-700">
-            ⚠️ {errorMsg}
-          </div>
-        )}
 
         <form onSubmit={handleSubmit} className="mt-6">
           <div className="flex justify-center gap-2 sm:gap-3">
@@ -162,7 +175,7 @@ export function OtpVerificationModal({
                 }}
                 onPaste={handlePaste}
                 aria-label={`Chữ số OTP thứ ${index + 1}`}
-                className="h-12 w-11 rounded-2xl border-2 border-[#E2E8F0] bg-[#F8FAFC] text-center text-lg font-black text-[#0F172A] transition-all focus:border-[#1E3A8A] focus:bg-white focus:outline-none sm:h-14 sm:w-12"
+                className="h-12 w-11 rounded-xl border-2 border-border bg-background text-center text-lg font-black text-foreground transition-all focus:border-primary focus:outline-none sm:h-14 sm:w-12"
               />
             ))}
           </div>
@@ -170,24 +183,35 @@ export function OtpVerificationModal({
           <div className="mt-6 flex flex-col gap-3">
             <button
               type="submit"
-              className="flex w-full items-center justify-center gap-2 rounded-full bg-[#1E3A8A] py-3.5 text-xs font-bold text-white shadow-lg transition-transform hover:scale-[1.02] hover:bg-[#172554]"
+              disabled={verifyOtpMutation.isPending}
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3.5 text-xs font-bold text-primary-foreground shadow-lg transition-transform hover:bg-primary/90 active:scale-98 disabled:opacity-50"
             >
-              <span>Xác Nhận OTP</span>
-              <Icon name="check" size="sm" />
+              {verifyOtpMutation.isPending ? (
+                <span className="inline-flex items-center gap-2">
+                  <span className="h-4 w-4 animate-spin rounded-full border-2 border-primary-foreground border-t-transparent" />
+                  <span>Đang xác thực...</span>
+                </span>
+              ) : (
+                <>
+                  <span>Xác Nhận OTP</span>
+                  <Icon name="check" size="sm" />
+                </>
+              )}
             </button>
 
             <div className="text-center">
               {resendTimer > 0 ? (
-                <p className="text-text-secondary text-xs">
-                  Gửi lại mã sau <span className="font-bold text-[#F97316]">{resendTimer}s</span>
+                <p className="text-xs text-muted-foreground">
+                  Gửi lại mã sau <span className="font-bold text-secondary">{resendTimer}s</span>
                 </p>
               ) : (
                 <button
                   type="button"
                   onClick={handleResend}
-                  className="text-xs font-bold text-[#F97316] hover:underline"
+                  disabled={resendOtpMutation.isPending}
+                  className="text-xs font-bold text-secondary hover:underline disabled:opacity-50"
                 >
-                  Gửi lại mã OTP mới
+                  {resendOtpMutation.isPending ? 'Đang gửi mã...' : 'Gửi lại mã OTP mới'}
                 </button>
               )}
             </div>
