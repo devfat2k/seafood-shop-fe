@@ -1,7 +1,7 @@
 'use client';
 
 import { Icon } from '@/components/common/Icon';
-import { Logo } from '@/components/Logo';
+import { Logo } from '@/components/common/Logo';
 import { Link } from '@/libs/I18nNavigation';
 
 export function Footer() {
