@@ -24,37 +24,39 @@ export function Header() {
   return (
     <>
       <header className="sticky top-0 z-40 w-full border-b border-border bg-card/95 shadow-xs backdrop-blur-md transition-all">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:h-20 sm:px-6">
-          {/* Mobile Hamburger Menu Trigger */}
-          <div className="flex items-center gap-2 lg:hidden">
-            <button
-              type="button"
-              onClick={() => {
-                setIsMobileMenuOpen(true);
-              }}
-              className="rounded-full p-2 text-foreground hover:bg-muted focus:outline-none"
-              aria-label="Mở menu"
-            >
-              <Icon name="menu" size="md" />
-            </button>
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:h-20 sm:px-6">
+          {/* Left: Mobile Trigger + Logo + Desktop Nav */}
+          <div className="flex items-center gap-3 sm:gap-8">
+            <div className="flex items-center lg:hidden">
+              <button
+                type="button"
+                onClick={() => {
+                  setIsMobileMenuOpen(true);
+                }}
+                className="rounded-full p-2 text-foreground hover:bg-muted focus:outline-none"
+                aria-label="Mở menu"
+              >
+                <Icon name="menu" size="md" />
+              </button>
+            </div>
+
+            <Link href="/">
+              <Logo />
+            </Link>
+
+            <HeaderNav />
           </div>
 
-          {/* Logo */}
-          <Link href="/">
-            <Logo />
-          </Link>
-
-          {/* Desktop Navigation */}
-          <HeaderNav />
-
-          {/* Search Bar */}
+          {/* Center / Search Bar for non-catalog pages */}
           {!isCatalogOrSearchPage && (
-            <HeaderSearch
-              isMobileOverlayOpen={isMobileSearchOpen}
-              onCloseMobileOverlay={() => {
-                setIsMobileSearchOpen(false);
-              }}
-            />
+            <div className="hidden max-w-md flex-1 px-4 lg:block">
+              <HeaderSearch
+                isMobileOverlayOpen={isMobileSearchOpen}
+                onCloseMobileOverlay={() => {
+                  setIsMobileSearchOpen(false);
+                }}
+              />
+            </div>
           )}
 
           {/* Header Right Actions */}

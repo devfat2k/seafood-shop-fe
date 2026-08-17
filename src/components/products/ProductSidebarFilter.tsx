@@ -97,7 +97,7 @@ export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
           <button
             type="button"
             onClick={onResetFilters}
-            className="flex items-center gap-1 text-xs font-bold text-primary transition-colors hover:opacity-80"
+            className="flex items-center gap-1 text-xs font-bold text-primary transition-opacity hover:opacity-80"
           >
             <span>⟲ Xoá lọc</span>
           </button>
@@ -139,13 +139,13 @@ export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
       {/* Category Filter */}
       <div className="space-y-3">
         <h4 className="font-heading text-sm font-bold text-foreground">Danh Mục Hải Sản</h4>
-        <div className="space-y-1.5">
+        <div className="space-y-1">
           {categoryList.map((cat) => {
             const isChecked = filters.categories.includes(cat.slug);
             return (
               <label
                 key={cat.id}
-                className="flex cursor-pointer items-center justify-between rounded-lg px-2 py-1.5 text-xs transition-colors hover:bg-muted/50"
+                className="flex cursor-pointer items-center justify-between rounded-xl px-2.5 py-2 text-xs transition-colors hover:bg-muted/60"
               >
                 <div className="flex items-center gap-2.5">
                   <input
@@ -155,7 +155,7 @@ export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
                     onChange={() => {
                       toggleCategory(cat.slug);
                     }}
-                    className="h-4 w-4 rounded border-border text-secondary accent-secondary focus:ring-secondary"
+                    className="h-4 w-4 rounded-md border-border text-secondary accent-secondary focus:ring-secondary"
                   />
                   <span
                     className={`font-medium ${isChecked ? 'font-bold text-foreground' : 'text-muted-foreground'}`}
@@ -163,7 +163,7 @@ export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
                     {cat.name}
                   </span>
                 </div>
-                {cat.count !== undefined && (
+                {cat.count !== undefined && cat.count > 0 && (
                   <span className="rounded-full bg-muted px-2 py-0.5 text-[10px] font-semibold text-muted-foreground">
                     {cat.count}
                   </span>
@@ -177,7 +177,7 @@ export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
       {/* Price Range Presets */}
       <div className="space-y-3 border-t border-border pt-4">
         <h4 className="font-heading text-sm font-bold text-foreground">Khoảng Giá</h4>
-        <div className="space-y-1.5">
+        <div className="space-y-1">
           {PRICE_PRESETS.map((preset, idx) => {
             const active = isPresetActive(preset.min, preset.max);
             return (
@@ -191,7 +191,7 @@ export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
                     maxPrice: preset.max,
                   });
                 }}
-                className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-xs transition-all ${
+                className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-xs font-medium transition-all ${
                   active
                     ? 'bg-secondary font-bold text-secondary-foreground shadow-xs'
                     : 'text-muted-foreground hover:bg-muted hover:text-foreground'
@@ -206,13 +206,13 @@ export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
       </div>
 
       {/* Trust Guarantee Mini Box */}
-      <div className="rounded-xl border border-tertiary/30 bg-tertiary/5 p-3 text-xs">
+      <div className="rounded-xl border border-tertiary/30 bg-tertiary/5 p-3.5 text-xs">
         <div className="flex items-center gap-1.5 font-bold text-tertiary">
           <Icon name="shield-check" size="xs" />
           <span>Cam kết tươi sống 100%</span>
         </div>
         <p className="mt-1 text-[11px] leading-relaxed text-muted-foreground">
-          Hoàn tiền hoặc đổi mới 1-1 nếu hải sản không đạt chuẩn tươi ngon khi nhận.
+          Hoàn tiền hoặc đổi mới 1-1 nếu hải sản không đạt chuẩn tươi ngon khi nhận tại nhà.
         </p>
       </div>
     </aside>

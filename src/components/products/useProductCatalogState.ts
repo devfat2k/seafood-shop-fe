@@ -140,7 +140,7 @@ export function useProductCatalogState(
 
   const shownStart = totalElements === 0 ? 0 : (currentPage - 1) * ITEMS_PER_PAGE + 1;
   const shownEnd = Math.min(currentPage * ITEMS_PER_PAGE, totalElements);
-  const shownRange = `${shownStart}-${shownEnd} trên ${totalElements}`;
+  const shownRange = `${shownStart}-${shownEnd}`;
 
   const handleAddToCart = (product: ProductCardItem) => {
     addCartItem({
