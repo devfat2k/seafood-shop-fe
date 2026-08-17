@@ -1,13 +1,21 @@
 'use client';
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { cancelOrder, getMyOrders, getOrderDetail } from '@/libs/api/orders';
+import {
+  cancelOrder,
+  createOrder,
+  getMyOrders,
+  getMyOrdersByStatus,
+  getOrderDetail,
+} from '@/libs/api/orders';
 import type { ApiResponse, PageResponse } from '@/types/api';
-import type { OrderResponse } from '@/types/order';
+import type { CreateOrderRequest, OrderResponse } from '@/types/order';
 
 export const orderQueryKeys = {
   all: ['orders'] as const,
   myOrders: (page = 0, size = 10) => ['orders', 'my-orders', { page, size }] as const,
+  myOrdersByStatus: (userId: number | string, status: string, page = 0, size = 10) =>
+    ['orders', 'user-status', { userId, status, page, size }] as const,
   detail: (id: number | string) => ['orders', 'detail', id] as const,
 };
 
@@ -27,6 +35,22 @@ export function useMyOrdersQuery(
   });
 }
 
+export function useMyOrdersByStatusQuery(
+  userId: number | string,
+  status: string,
+  page = 0,
+  size = 10,
+) {
+  const hasToken = typeof window !== 'undefined' && Boolean(localStorage.getItem('accessToken'));
+
+  return useQuery<PageResponse<OrderResponse> | null>({
+    queryKey: orderQueryKeys.myOrdersByStatus(userId, status, page, size),
+    queryFn: async () => await getMyOrdersByStatus(userId, status, page, size),
+    enabled: hasToken && Boolean(userId) && Boolean(status),
+    staleTime: 30 * 1000,
+  });
+}
+
 export function useOrderDetailQuery(id: number | string, enabled = true) {
   const hasToken = typeof window !== 'undefined' && Boolean(localStorage.getItem('accessToken'));
 
@@ -35,6 +59,23 @@ export function useOrderDetailQuery(id: number | string, enabled = true) {
     queryFn: async () => await getOrderDetail(id),
     enabled: hasToken && enabled && Boolean(id),
     staleTime: 30 * 1000,
+  });
+}
+
+export function useCreateOrderMutation() {
+  const queryClient = useQueryClient();
+
+  return useMutation<ApiResponse<OrderResponse>, Error, CreateOrderRequest>({
+    mutationFn: async (data: CreateOrderRequest) => {
+      const res = await createOrder(data);
+      if (!res.success || !res.data) {
+        throw new Error(res.message || 'Đặt hàng không thành công');
+      }
+      return res;
+    },
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: orderQueryKeys.all });
+    },
   });
 }
 

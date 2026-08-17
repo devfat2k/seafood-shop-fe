@@ -1,12 +1,11 @@
 import { z } from 'zod';
 
 export const orderItemRequestSchema = z.object({
-  productId: z.number(),
-  quantity: z.number().min(1),
+  productId: z.number().min(1, 'Product ID không hợp lệ'),
+  quantity: z.number().min(1, 'Số lượng tối thiểu là 1'),
 });
 
 export const createOrderRequestSchema = z.object({
-  shippingAddressId: z.number(),
   paymentMethod: z.enum(['COD', 'VNPAY', 'MOMO', 'ZALOPAY']),
   note: z.string().optional(),
   items: z.array(orderItemRequestSchema).min(1, 'Đơn hàng phải chứa ít nhất 1 sản phẩm'),
