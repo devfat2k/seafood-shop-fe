@@ -4,40 +4,12 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
+import { PasswordStrengthIndicator } from '@/components/account/PasswordStrengthIndicator';
+import { SecurityAdviceCard } from '@/components/account/SecurityAdviceCard';
 import { Icon } from '@/components/common/Icon';
 import { useChangePasswordMutation } from '@/libs/queries/users';
 import type { ChangePasswordRequest } from '@/types/user';
 import { changePasswordSchema } from '@/types/user';
-
-function getPasswordStrength(pass: string) {
-  if (!pass) {
-    return { score: 0, label: '', color: 'bg-muted' };
-  }
-  let score = 0;
-  if (pass.length >= 6) {
-    score += 1;
-  }
-  if (pass.length >= 10) {
-    score += 1;
-  }
-  if (/[A-Z]/u.test(pass)) {
-    score += 1;
-  }
-  if (/[0-9]/u.test(pass)) {
-    score += 1;
-  }
-  if (/[^A-Za-z0-9]/u.test(pass)) {
-    score += 1;
-  }
-
-  if (score <= 2) {
-    return { score: 33, label: 'Mật khẩu yếu', color: 'bg-destructive' };
-  }
-  if (score <= 4) {
-    return { score: 66, label: 'Mật khẩu trung bình', color: 'bg-accent' };
-  }
-  return { score: 100, label: 'Mật khẩu mạnh & an toàn', color: 'bg-tertiary' };
-}
 
 export function AccountSecurityTab() {
   const [showOldPass, setShowOldPass] = useState(false);
@@ -59,7 +31,6 @@ export function AccountSecurityTab() {
   });
 
   const newPasswordVal = watch('newPassword', '');
-  const strength = getPasswordStrength(newPasswordVal);
 
   const onSubmit = async (data: ChangePasswordRequest) => {
     try {
@@ -74,7 +45,6 @@ export function AccountSecurityTab() {
 
   return (
     <div className="space-y-6">
-      {/* 1. Main Form Card */}
       <div className="rounded-2xl border border-border bg-card p-6 shadow-sm sm:p-8">
         <div className="border-b border-border pb-4">
           <div className="flex items-center gap-2.5">
@@ -93,7 +63,6 @@ export function AccountSecurityTab() {
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="mt-6 max-w-md space-y-4">
-          {/* Mật khẩu cũ */}
           <div>
             <label htmlFor="sec-old-pass" className="block text-xs font-bold text-foreground">
               Mật khẩu hiện tại
@@ -125,7 +94,6 @@ export function AccountSecurityTab() {
             )}
           </div>
 
-          {/* Mật khẩu mới */}
           <div>
             <label htmlFor="sec-new-pass" className="block text-xs font-bold text-foreground">
               Mật khẩu mới
@@ -156,21 +124,7 @@ export function AccountSecurityTab() {
               </p>
             )}
 
-            {/* Password Strength Progress Bar */}
-            {newPasswordVal && (
-              <div className="mt-2.5 rounded-xl border border-border/60 bg-background p-3">
-                <div className="flex items-center justify-between text-[11px]">
-                  <span className="text-muted-foreground">Độ mạnh mật khẩu:</span>
-                  <span className="font-bold text-foreground">{strength.label}</span>
-                </div>
-                <div className="mt-1.5 h-1.5 w-full overflow-hidden rounded-full bg-muted">
-                  <div
-                    className={`h-full transition-all duration-300 ${strength.color}`}
-                    style={{ width: `${strength.score}%` }}
-                  />
-                </div>
-              </div>
-            )}
+            <PasswordStrengthIndicator password={newPasswordVal} />
           </div>
 
           <div className="pt-2">
@@ -192,32 +146,7 @@ export function AccountSecurityTab() {
         </form>
       </div>
 
-      {/* 2. Security Advice Card */}
-      <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
-        <h3 className="font-sans text-xs font-bold tracking-wider text-secondary uppercase">
-          Khuyến Nghị Bảo Mật Tài Khoản
-        </h3>
-        <ul className="mt-3 space-y-2 text-xs text-muted-foreground">
-          <li className="flex items-center gap-2">
-            <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-tertiary/15 text-tertiary">
-              <Icon name="check" size="xs" />
-            </span>
-            <span>Mật khẩu nên chứa cả chữ hoa, chữ thường, số và ký tự đặc biệt (!@#$).</span>
-          </li>
-          <li className="flex items-center gap-2">
-            <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-tertiary/15 text-tertiary">
-              <Icon name="check" size="xs" />
-            </span>
-            <span>Không chia sẻ mã xác thực OTP gửi qua email/SMS cho bất kỳ ai.</span>
-          </li>
-          <li className="flex items-center gap-2">
-            <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-tertiary/15 text-tertiary">
-              <Icon name="check" size="xs" />
-            </span>
-            <span>Đăng xuất tài khoản khi sử dụng thiết bị công cộng.</span>
-          </li>
-        </ul>
-      </div>
+      <SecurityAdviceCard />
     </div>
   );
 }

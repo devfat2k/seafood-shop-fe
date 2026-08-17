@@ -3,6 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
+import { ProfileGuaranteesCard } from '@/components/account/ProfileGuaranteesCard';
 import { Icon } from '@/components/common/Icon';
 import { useUpdateProfileMutation } from '@/libs/queries/users';
 import type { UpdateProfileRequest, UserProfile } from '@/types/user';
@@ -40,7 +41,6 @@ export function AccountProfileTab(props: AccountProfileTabProps) {
 
   return (
     <div className="space-y-6">
-      {/* 1. Profile Form Container */}
       <div className="rounded-2xl border border-border bg-card p-6 shadow-sm sm:p-8">
         <div className="border-b border-border pb-4">
           <div className="flex items-center gap-2.5">
@@ -60,7 +60,6 @@ export function AccountProfileTab(props: AccountProfileTabProps) {
 
         <form onSubmit={handleSubmit(onSubmit)} className="mt-6 space-y-5">
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-            {/* Họ và tên */}
             <div>
               <label htmlFor="profile-fullname" className="block text-xs font-bold text-foreground">
                 Họ và tên <span className="text-destructive">*</span>
@@ -86,7 +85,6 @@ export function AccountProfileTab(props: AccountProfileTabProps) {
               )}
             </div>
 
-            {/* Số điện thoại */}
             <div>
               <label htmlFor="profile-phone" className="block text-xs font-bold text-foreground">
                 Số điện thoại <span className="text-destructive">*</span>
@@ -112,7 +110,6 @@ export function AccountProfileTab(props: AccountProfileTabProps) {
               )}
             </div>
 
-            {/* Email (Readonly with Verified Badge) */}
             <div className="sm:col-span-2">
               <div className="flex items-center justify-between">
                 <label htmlFor="profile-email" className="block text-xs font-bold text-foreground">
@@ -164,49 +161,7 @@ export function AccountProfileTab(props: AccountProfileTabProps) {
         </form>
       </div>
 
-      {/* 2. Service Guarantees Card */}
-      <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
-        <h3 className="font-sans text-xs font-bold tracking-wider text-secondary uppercase">
-          Cam Kết Chất Lượng Hải Sản Phan Thiết
-        </h3>
-        <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
-          <div className="flex items-start gap-3 rounded-xl border border-border/80 bg-background p-3.5">
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
-              <Icon name="truck" size="sm" />
-            </div>
-            <div>
-              <h4 className="text-xs font-bold text-foreground">Giao Nhanh Chuỗi Lạnh 2H</h4>
-              <p className="mt-0.5 text-[11px] text-muted-foreground">
-                Giao hàng hoả tốc giữ trọn độ tươi sống từ cảng biển.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-3 rounded-xl border border-border/80 bg-background p-3.5">
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-secondary/15 text-secondary">
-              <Icon name="fish" size="sm" />
-            </div>
-            <div>
-              <h4 className="text-xs font-bold text-foreground">Đóng Thùng Oxy Tươi Sống</h4>
-              <p className="mt-0.5 text-[11px] text-muted-foreground">
-                Đóng thùng xốp nén oxy tiêu chuẩn xuất khẩu.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-3 rounded-xl border border-border/80 bg-background p-3.5">
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-tertiary/10 text-tertiary">
-              <Icon name="shield-check" size="sm" />
-            </div>
-            <div>
-              <h4 className="text-xs font-bold text-foreground">Cam Kết 1 Đổi 1</h4>
-              <p className="mt-0.5 text-[11px] text-muted-foreground">
-                Đổi mới miễn phí nếu hải sản không đạt chuẩn tươi ngon.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
+      <ProfileGuaranteesCard />
     </div>
   );
 }
