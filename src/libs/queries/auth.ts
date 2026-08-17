@@ -9,7 +9,7 @@ import {
   resendOtp,
   resetPassword,
   verifyOtp,
-} from '@/lib/api/auth';
+} from '@/libs/api/auth';
 import { api } from '@/libs/ApiClient';
 import type { ApiResponse } from '@/types/api';
 import type {

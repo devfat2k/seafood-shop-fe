@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { redirect } from 'next/navigation';
 import { ProductCatalogContainer } from '@/components/products/ProductCatalogContainer';
-import { getCategories } from '@/lib/api/categories';
-import { getProducts } from '@/lib/api/products';
+import { getCategories } from '@/libs/api/categories';
+import { getProducts } from '@/libs/api/products';
 
 type ProductsPageProps = {
   params: Promise<{ locale: string }>;

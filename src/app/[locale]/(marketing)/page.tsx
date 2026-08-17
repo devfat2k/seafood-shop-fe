@@ -1,6 +1,6 @@
 import { setRequestLocale } from 'next-intl/server';
 import { HomePageContent } from '@/components/home/HomePageContent';
-import { getHomePageData } from '@/lib/api/home';
+import { getHomePageData } from '@/libs/api/home';
 
 type IndexPageProps = {
   params: Promise<{ locale: string }>;

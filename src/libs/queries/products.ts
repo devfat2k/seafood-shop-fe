@@ -1,8 +1,8 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import type { ProductListParams } from '@/lib/api/products';
-import { getProduct, getProducts } from '@/lib/api/products';
+import type { ProductListParams } from '@/libs/api/products';
+import { getProduct, getProducts } from '@/libs/api/products';
 import type { PageResponse, Product } from '@/types/api';
 
 export const productQueryKeys = {

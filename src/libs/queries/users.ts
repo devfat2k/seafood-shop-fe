@@ -10,7 +10,7 @@ import {
   updateUserAddress,
   updateUserProfile,
   uploadAvatar,
-} from '@/lib/api/users';
+} from '@/libs/api/users';
 import { authQueryKeys } from '@/libs/queries/auth';
 import type { ApiResponse } from '@/types/api';
 import type {

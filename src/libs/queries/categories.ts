@@ -1,7 +1,7 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { getCategories, getCategory } from '@/lib/api/categories';
+import { getCategories, getCategory } from '@/libs/api/categories';
 import type { Category } from '@/types/api';
 
 export const categoryQueryKeys = {
