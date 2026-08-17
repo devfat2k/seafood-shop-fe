@@ -32,15 +32,15 @@ const defaultSteps: StepItem[] = [
   },
   {
     step: 3,
-    title: 'Đang giao hỏa tốc 2H',
-    description: 'Shipper chuyên tuyến đang giao hàng đến bạn',
+    title: 'Đang giao hàng',
+    description: 'Shipper đang giao hải sản đến địa chỉ của bạn',
     done: false,
     current: true,
   },
   {
     step: 4,
     title: 'Giao hàng thành công',
-    description: 'Khách hàng nhận & kiểm tra độ tươi trước khi thanh toán',
+    description: 'Khách hàng nhận & kiểm tra hải sản trước khi thanh toán',
     done: false,
   },
 ];

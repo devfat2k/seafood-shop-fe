@@ -7,6 +7,7 @@ import { CheckoutAddressSection } from '@/components/checkout/CheckoutAddressSec
 import { CheckoutItemsSummary } from '@/components/checkout/CheckoutItemsSummary';
 import { CheckoutOrderSummary } from '@/components/checkout/CheckoutOrderSummary';
 import { CheckoutPaymentMethod } from '@/components/checkout/CheckoutPaymentMethod';
+import { PaymentWaitingOverlay } from '@/components/checkout/PaymentWaitingOverlay';
 import { Icon } from '@/components/common/Icon';
 import { Link, useRouter } from '@/libs/I18nNavigation';
 import { useCurrentUserQuery } from '@/libs/queries/auth';
@@ -24,6 +25,10 @@ export function CheckoutContainer() {
   const [selectedMethod, setSelectedMethod] = useState<PaymentMethod>('VNPAY');
   const [selectedAddress, setSelectedAddress] = useState<UserAddress | null>(null);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [waitingPayment, setWaitingPayment] = useState<{
+    orderId: number | string;
+    method: PaymentMethod;
+  } | null>(null);
 
   const { data: userProfile, isLoading: isUserLoading } = useCurrentUserQuery();
   const { data: addresses = [], isLoading: isAddressesLoading } = useAddressesQuery();
@@ -55,10 +60,14 @@ export function CheckoutContainer() {
 
     try {
       // Step 1: Create Order via POST /api/v1/orders
-      const orderItems = items.map((item) => ({
-        productId: Number(item.id),
-        quantity: item.quantity,
-      }));
+      const orderItems = items.map((item) => {
+        const rawId = item.productId ?? Number(String(item.id).split('-')[0]);
+        const cleanId = typeof rawId === 'number' && !Number.isNaN(rawId) ? rawId : 1;
+        return {
+          productId: cleanId,
+          quantity: item.quantity,
+        };
+      });
 
       const orderRes = await createOrderMutation.mutateAsync({
         paymentMethod: selectedMethod,
@@ -79,8 +88,15 @@ export function CheckoutContainer() {
 
         if (paymentRes.data?.paymentUrl) {
           clearCart();
-          toast.success('Đang chuyển hướng sang cổng thanh toán VNPAY...');
-          window.location.href = paymentRes.data.paymentUrl;
+          const newTab = window.open(paymentRes.data.paymentUrl, '_blank');
+          if (newTab) {
+            toast.success('Cổng thanh toán VNPAY đã mở ở tab mới!');
+            setWaitingPayment({ orderId: orderData.id, method: selectedMethod });
+          } else {
+            // Popup bị block → fallback redirect cùng tab
+            toast.info('Trình duyệt đã chặn tab mới. Đang chuyển hướng...');
+            window.location.href = paymentRes.data.paymentUrl;
+          }
           return;
         }
       }
@@ -96,6 +112,15 @@ export function CheckoutContainer() {
         error instanceof Error ? error.message : 'Đặt hàng không thành công, vui lòng thử lại sau';
       toast.error(msg);
     }
+  };
+
+  const handlePaymentConfirmed = (status: 'success' | 'failed') => {
+    if (!waitingPayment) {
+      return;
+    }
+    const { orderId, method } = waitingPayment;
+    setWaitingPayment(null);
+    router.push(`/payment-result?orderId=${orderId}&status=${status}&paymentMethod=${method}`);
   };
 
   // Loading State
@@ -233,6 +258,15 @@ export function CheckoutContainer() {
           setIsAuthModalOpen(false);
         }}
       />
+
+      {/* Payment Waiting Overlay */}
+      {waitingPayment && (
+        <PaymentWaitingOverlay
+          orderId={waitingPayment.orderId}
+          paymentMethod={waitingPayment.method}
+          onConfirmed={handlePaymentConfirmed}
+        />
+      )}
     </div>
   );
 }

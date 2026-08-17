@@ -4,6 +4,7 @@ import { useSyncExternalStore } from 'react';
 
 export type CartItem = {
   id: string | number;
+  productId?: number;
   name: string;
   weight?: string;
   price: number;

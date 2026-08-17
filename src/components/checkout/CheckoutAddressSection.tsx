@@ -70,7 +70,7 @@ export function CheckoutAddressSection({
           <div>
             <h2 className="font-heading text-base font-bold text-foreground">Địa Chỉ Nhận Hàng</h2>
             <p className="text-[11px] text-muted-foreground">
-              Hải sản được giao hỏa tốc 2H đóng thùng oxy tận cửa
+              Địa chỉ nhận hàng tươi sống được giao tận nơi
             </p>
           </div>
         </div>

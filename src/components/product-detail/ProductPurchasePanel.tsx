@@ -6,6 +6,7 @@ import { Icon } from '@/components/common/Icon';
 import { ProductGuarantees } from '@/components/product-detail/ProductGuarantees';
 import { ProductWeightSelector } from '@/components/product-detail/ProductWeightSelector';
 import type { WeightOption } from '@/components/product-detail/ProductWeightSelector';
+import { useRouter } from '@/libs/I18nNavigation';
 import { useCartStore } from '@/libs/stores/cart';
 import type { Product } from '@/types/api';
 
@@ -45,7 +46,8 @@ type ProductPurchasePanelProps = {
 };
 
 export function ProductPurchasePanel({ product }: ProductPurchasePanelProps) {
-  const { addItem: addCartItem, openCart } = useCartStore();
+  const router = useRouter();
+  const { addItem: addCartItem } = useCartStore();
   const weightOptions = useMemo(() => getProductWeightOptions(product), [product]);
   const [selectedWeight, setSelectedWeight] = useState<WeightOption>(
     weightOptions[0] ?? {
@@ -81,7 +83,7 @@ export function ProductPurchasePanel({ product }: ProductPurchasePanelProps) {
 
   const handleBuyNow = () => {
     handleAddToCart();
-    openCart();
+    router.push('/checkout');
   };
 
   return (
@@ -162,7 +164,7 @@ export function ProductPurchasePanel({ product }: ProductPurchasePanelProps) {
           className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-primary py-3 text-xs font-bold text-white shadow-md transition-all hover:opacity-90 active:scale-98 disabled:cursor-not-allowed disabled:opacity-50"
         >
           <Icon name="zap" size="sm" />
-          <span>Mua Ngay Hỏa Tốc</span>
+          <span>Mua Ngay</span>
         </button>
       </div>
 

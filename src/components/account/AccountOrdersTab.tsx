@@ -15,7 +15,7 @@ const ORDER_TABS: { key: string; label: string; status?: OrderStatus }[] = [
   { key: 'ALL', label: 'Tất cả đơn' },
   { key: 'PENDING', label: 'Chờ xử lý', status: 'PENDING' },
   { key: 'CONFIRMED', label: 'Đã xác nhận', status: 'CONFIRMED' },
-  { key: 'SHIPPED', label: 'Đang giao 2H', status: 'SHIPPED' },
+  { key: 'SHIPPED', label: 'Đang giao hàng', status: 'SHIPPED' },
   { key: 'DONE', label: 'Hoàn tất', status: 'DONE' },
   { key: 'CANCELLED', label: 'Đã hủy', status: 'CANCELLED' },
 ];

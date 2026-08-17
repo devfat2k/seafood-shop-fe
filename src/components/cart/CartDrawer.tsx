@@ -13,8 +13,6 @@ type CartDrawerProps = {
   onClose?: () => void;
 };
 
-const FREESHIP_THRESHOLD = 1_500_000;
-
 export function CartDrawer(props: CartDrawerProps) {
   const {
     items,
@@ -31,9 +29,6 @@ export function CartDrawer(props: CartDrawerProps) {
   if (!isVisible) {
     return null;
   }
-
-  const remainingForFreeship = Math.max(0, FREESHIP_THRESHOLD - subtotal);
-  const freeshipProgress = Math.min(100, (subtotal / FREESHIP_THRESHOLD) * 100);
 
   return (
     <div className="fixed inset-0 z-50 overflow-hidden">
@@ -69,31 +64,6 @@ export function CartDrawer(props: CartDrawerProps) {
             >
               <Icon name="x" size="md" />
             </button>
-          </div>
-
-          {/* Freeship Progress Bar */}
-          <div className="border-b border-border/60 bg-background px-6 py-3">
-            <p className="text-xs font-semibold text-foreground">
-              {remainingForFreeship > 0 ? (
-                <>
-                  Mua thêm{' '}
-                  <span className="font-bold text-primary">
-                    {remainingForFreeship.toLocaleString('vi-VN')}₫
-                  </span>{' '}
-                  để được <span className="font-bold text-tertiary">FREESHIP</span>!
-                </>
-              ) : (
-                <span className="font-bold text-tertiary">
-                  🎉 Bạn đã đủ điều kiện FREESHIP toàn quốc!
-                </span>
-              )}
-            </p>
-            <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-muted">
-              <div
-                className="h-full bg-gradient-to-r from-secondary to-primary transition-all duration-500"
-                style={{ width: `${freeshipProgress}%` }}
-              />
-            </div>
           </div>
 
           {/* Items List */}

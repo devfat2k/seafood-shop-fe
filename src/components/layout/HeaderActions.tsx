@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Icon } from '@/components/common/Icon';
 import { Link } from '@/libs/I18nNavigation';
 import { useCurrentUserQuery, useLogoutMutation } from '@/libs/queries/auth';
@@ -21,6 +21,11 @@ export function HeaderActions({
   const logoutMutation = useLogoutMutation();
   const { totalCount, openCart } = useCartStore();
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const user = currentUser;
   const isLoggedIn = Boolean(user);
@@ -53,7 +58,7 @@ export function HeaderActions({
         aria-label="Giỏ hàng"
       >
         <Icon name="shopping-bag" size="sm" />
-        {totalCount > 0 && (
+        {isMounted && totalCount > 0 && (
           <span className="absolute top-1.5 right-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-bold text-white shadow-xs">
             {totalCount > 99 ? '99+' : totalCount}
           </span>

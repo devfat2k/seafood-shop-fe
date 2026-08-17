@@ -1,7 +1,7 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import { Suspense, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { Icon } from '@/components/common/Icon';
 import { Link } from '@/libs/I18nNavigation';
 import { useOrderDetailQuery } from '@/libs/queries/orders';
@@ -15,6 +15,24 @@ function PaymentResultContent() {
 
   const initialStatus = rawStatus === 'failed' ? 'failed' : 'success';
   const [status, setStatus] = useState<'success' | 'failed'>(initialStatus);
+
+  // Broadcast kết quả sang tab checkout đang chờ
+  useEffect(() => {
+    if (!orderId || !('BroadcastChannel' in window)) {
+      return;
+    }
+    const channel = new BroadcastChannel('payment_status');
+    /* eslint-disable unicorn/require-post-message-target-origin */
+    channel.postMessage({
+      type: 'payment_complete',
+      orderId,
+      status: initialStatus,
+    });
+    /* eslint-enable unicorn/require-post-message-target-origin */
+    channel.close();
+    // Chỉ broadcast 1 lần khi mount — không re-run
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const { data: order } = useOrderDetailQuery(orderId ?? '', Boolean(orderId));
 
@@ -112,7 +130,7 @@ function PaymentResultContent() {
                   <span>Thời gian giao dự kiến:</span>
                   <span className="flex items-center gap-1 font-bold text-tertiary">
                     <Icon name="clock" size="xs" />
-                    Trong 2 giờ (Tận bàn tiệc)
+                    Đóng gói và giao sớm nhất
                   </span>
                 </div>
               </div>
