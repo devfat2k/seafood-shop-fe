@@ -1,42 +1,16 @@
 'use client';
 
-import { useMemo } from 'react';
 import { Icon } from '@/components/common/Icon';
 import { Link } from '@/libs/I18nNavigation';
 
-export type CategoryPill = {
-  id: string | number;
-  name: string;
-  slug: string;
-  icon?: string;
-};
-
 type ProductHeaderBannerProps = {
   totalProducts?: number;
-  activeCategory?: string;
-  categoryList?: CategoryPill[];
   searchQuery?: string;
-  onCategorySelect?: (slug: string) => void;
   onSearchChange?: (query: string) => void;
 };
 
 export function ProductHeaderBanner(props: ProductHeaderBannerProps) {
-  const {
-    totalProducts = 0,
-    activeCategory = 'all',
-    categoryList = [],
-    searchQuery = '',
-    onCategorySelect,
-    onSearchChange,
-  } = props;
-
-  const pills: CategoryPill[] = useMemo(() => {
-    const defaultAll: CategoryPill = { id: 'all', name: 'Tất cả', slug: 'all' };
-    if (!categoryList || categoryList.length === 0) {
-      return [defaultAll];
-    }
-    return [defaultAll, ...categoryList];
-  }, [categoryList]);
+  const { totalProducts = 0, searchQuery = '', onSearchChange } = props;
 
   return (
     <section className="relative overflow-hidden border-b border-border bg-gradient-to-br from-foreground via-[#0F5A6E] to-secondary px-4 py-8 text-white sm:px-6 sm:py-12">
@@ -59,7 +33,7 @@ export function ProductHeaderBanner(props: ProductHeaderBannerProps) {
           <div>
             <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-white/90 backdrop-blur-xs">
               <span className="h-2 w-2 animate-pulse rounded-full bg-tertiary" />
-              <span>Cập cảng rạng sáng nay • Giao lạnh 2H</span>
+              <span>Cập cảng rạng sáng nay • Giao lạnh 2H tại TP.HCM</span>
             </div>
             <h1 className="mt-2 font-heading text-2xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl">
               Hải Sản Tươi Sống Phan Thiết
@@ -101,27 +75,6 @@ export function ProductHeaderBanner(props: ProductHeaderBannerProps) {
               )}
             </div>
           )}
-        </div>
-
-        {/* 1-Click Quick Category Pills Rail */}
-        <div className="mt-8 flex scrollbar-none gap-2 overflow-x-auto pb-2 sm:flex-wrap">
-          {pills.map((pill) => {
-            const isActive = activeCategory === pill.slug;
-            return (
-              <button
-                key={pill.id}
-                type="button"
-                onClick={() => onCategorySelect?.(pill.slug)}
-                className={`rounded-full px-4 py-2 text-xs font-bold whitespace-nowrap transition-all active:scale-95 ${
-                  isActive
-                    ? 'bg-primary text-primary-foreground shadow-md ring-2 ring-primary/40'
-                    : 'bg-white/10 text-white backdrop-blur-xs hover:bg-white/20'
-                }`}
-              >
-                {pill.name}
-              </button>
-            );
-          })}
         </div>
       </div>
     </section>

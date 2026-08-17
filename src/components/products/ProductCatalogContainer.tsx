@@ -8,7 +8,6 @@ import { Icon } from '@/components/common/Icon';
 import type { ProductCardItem } from '@/components/products/ProductCard';
 import { ProductCatalogGrid } from '@/components/products/ProductCatalogGrid';
 import { ProductCatalogSkeleton } from '@/components/products/ProductCatalogSkeleton';
-import type { CategoryPill } from '@/components/products/ProductHeaderBanner';
 import { ProductHeaderBanner } from '@/components/products/ProductHeaderBanner';
 import { ProductListToolbar } from '@/components/products/ProductListToolbar';
 import { ProductPagination } from '@/components/products/ProductPagination';
@@ -158,17 +157,6 @@ export function ProductCatalogContainer(props: ProductCatalogContainerProps) {
     [categoriesData],
   );
 
-  // Category Pills mapped for header banner
-  const categoryPills: CategoryPill[] = useMemo(
-    () =>
-      categoriesData.map((c) => ({
-        id: c.id,
-        name: c.name ?? c.categoryName ?? `Danh mục #${c.id}`,
-        slug: String(c.id),
-      })),
-    [categoriesData],
-  );
-
   // Product cards mapping
   const productCards: ProductCardItem[] = useMemo(
     () => (pageResponse?.content ?? []).map(mapProductToCardItem),
@@ -184,15 +172,6 @@ export function ProductCatalogContainer(props: ProductCatalogContainerProps) {
           totalElements,
         )}`
       : '0';
-
-  const handleSelectQuickCategory = (slug: string) => {
-    if (slug === 'all') {
-      setFilters((prev) => ({ ...prev, categories: [] }));
-    } else {
-      setFilters((prev) => ({ ...prev, categories: [slug] }));
-    }
-    setCurrentPage(1);
-  };
 
   const handleResetFilters = () => {
     setSearchQuery('');
@@ -307,13 +286,10 @@ export function ProductCatalogContainer(props: ProductCatalogContainerProps) {
 
   return (
     <div className="flex min-h-screen flex-col bg-background pb-16">
-      {/* 1. Category Header Banner with 1-Click Category Rail & Integrated Search */}
+      {/* 1. Header Banner with Integrated Search */}
       <ProductHeaderBanner
         totalProducts={totalElements}
-        activeCategory={filters.categories[0] ?? 'all'}
-        categoryList={categoryPills}
         searchQuery={searchQuery}
-        onCategorySelect={handleSelectQuickCategory}
         onSearchChange={(q) => {
           setSearchQuery(q);
           setCurrentPage(1);

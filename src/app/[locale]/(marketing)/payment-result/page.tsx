@@ -1,11 +1,11 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import { Icon } from '@/components/common/Icon';
 import { Link } from '@/libs/I18nNavigation';
 
-export default function PaymentResultPage() {
+function PaymentResultContent() {
   const searchParams = useSearchParams();
   const initialStatus = searchParams?.get('status') === 'failed' ? 'failed' : 'success';
 
@@ -180,5 +180,15 @@ export default function PaymentResultPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function PaymentResultPage() {
+  return (
+    <Suspense
+      fallback={<div className="min-h-[80vh] bg-[#F8FAFC] py-12 text-center">Loading...</div>}
+    >
+      <PaymentResultContent />
+    </Suspense>
   );
 }

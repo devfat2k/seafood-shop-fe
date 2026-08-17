@@ -1,14 +1,17 @@
 'use client';
 
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AuthModal } from '@/components/auth/AuthModal';
 import { CartDrawer } from '@/components/cart/CartDrawer';
 import type { CartItem } from '@/components/cart/CartDrawer';
 import { Icon } from '@/components/common/Icon';
 import { Logo } from '@/components/Logo';
+import { SearchInstantDropdown } from '@/components/search/SearchInstantDropdown';
 import { cn } from '@/lib/utils';
 import { Link, usePathname, useRouter } from '@/libs/I18nNavigation';
+import { useCurrentUserQuery, useLogoutMutation } from '@/libs/queries/auth';
+import { useProductsQuery } from '@/libs/queries/products';
 
 const navLinks = [
   { id: 1, href: '/', label: 'Trang chủ' },
@@ -24,7 +27,11 @@ export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
   const [isSearchOverlayOpen, setIsSearchOverlayOpen] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [isLoggedIn] = useState<boolean>(false);
+  const [isSearchDropdownOpen, setIsSearchDropdownOpen] = useState<boolean>(false);
+
+  const { data: currentUser } = useCurrentUserQuery();
+  const logoutMutation = useLogoutMutation();
+  const isLoggedIn = Boolean(currentUser);
   const [cartItems, setCartItems] = useState<CartItem[]>([
     {
       id: 'default-1',
@@ -37,17 +44,51 @@ export function Header() {
     },
   ]);
 
+  const searchContainerRef = useRef<HTMLFormElement>(null);
+
+  const trimmedQuery = searchQuery.trim();
+
+  // Fetch instant search results
+  const { data: instantSearchData, isLoading: isInstantLoading } = useProductsQuery({
+    search: trimmedQuery || undefined,
+    size: 5,
+  });
+
+  const instantResults = instantSearchData?.content ?? [];
+
+  // Close dropdown on click outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        searchContainerRef.current &&
+        event.target instanceof Node &&
+        !searchContainerRef.current.contains(event.target)
+      ) {
+        setIsSearchDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   const handleSearchSubmit = (e?: React.SyntheticEvent) => {
     if (e) {
       e.preventDefault();
     }
-    if (searchQuery.trim()) {
-      setIsSearchOverlayOpen(false);
-      router.push(`/products?q=${encodeURIComponent(searchQuery.trim())}`);
+    setIsSearchDropdownOpen(false);
+    setIsSearchOverlayOpen(false);
+    if (trimmedQuery) {
+      router.push(`/search?q=${encodeURIComponent(trimmedQuery)}`);
+    } else {
+      router.push('/search');
     }
   };
 
   const totalCartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+
+  const isCatalogOrSearchPage = pathname.endsWith('/products') || pathname.endsWith('/search');
 
   return (
     <>
@@ -93,43 +134,63 @@ export function Header() {
             })}
           </nav>
 
-          {/* Desktop Search Bar */}
-          <form
-            onSubmit={handleSearchSubmit}
-            className="relative hidden w-72 items-center md:flex lg:w-80"
-          >
-            <input
-              type="text"
-              aria-label="Tìm kiếm sản phẩm"
-              value={searchQuery}
-              onChange={(e) => {
-                setSearchQuery(e.target.value);
-              }}
-              placeholder="Tìm cua, tôm, mực, cá..."
-              className="w-full rounded-full border border-border bg-background py-2 pr-4 pl-10 text-xs text-foreground transition-all focus:border-secondary focus:ring-2 focus:ring-secondary/20 focus:outline-none"
-            />
-            <button
-              type="submit"
-              className="absolute left-3 text-muted-foreground hover:text-foreground"
-              aria-label="Tìm kiếm"
+          {/* Desktop Search Bar (Hidden on /products and /search pages) */}
+          {!isCatalogOrSearchPage && (
+            <form
+              ref={searchContainerRef}
+              onSubmit={handleSearchSubmit}
+              className="relative hidden w-72 items-center md:flex lg:w-80"
             >
-              <Icon name="search" size="xs" />
-            </button>
-          </form>
+              <input
+                type="text"
+                aria-label="Tìm kiếm sản phẩm"
+                value={searchQuery}
+                onFocus={() => {
+                  setIsSearchDropdownOpen(true);
+                }}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setIsSearchDropdownOpen(true);
+                }}
+                placeholder="Tìm cua, tôm, mực, cá..."
+                className="w-full rounded-full border border-border bg-background py-2 pr-4 pl-10 text-xs text-foreground transition-all focus:border-secondary focus:ring-2 focus:ring-secondary/20 focus:outline-none"
+              />
+              <button
+                type="submit"
+                className="absolute left-3 text-muted-foreground hover:text-foreground"
+                aria-label="Tìm kiếm"
+              >
+                <Icon name="search" size="xs" />
+              </button>
+
+              {/* Instant Search Dropdown Popup */}
+              <SearchInstantDropdown
+                isOpen={isSearchDropdownOpen}
+                query={searchQuery}
+                isLoading={isInstantLoading}
+                results={instantResults}
+                onClose={() => {
+                  setIsSearchDropdownOpen(false);
+                }}
+              />
+            </form>
+          )}
 
           {/* Header Right Actions */}
           <div className="flex items-center gap-2 sm:gap-4">
-            {/* Mobile Search Button */}
-            <button
-              type="button"
-              onClick={() => {
-                setIsSearchOverlayOpen(true);
-              }}
-              className="rounded-full p-2 text-foreground hover:bg-muted md:hidden"
-              aria-label="Mở tìm kiếm"
-            >
-              <Icon name="search" size="md" />
-            </button>
+            {/* Mobile Search Button (Hidden on /products and /search pages) */}
+            {!isCatalogOrSearchPage && (
+              <button
+                type="button"
+                onClick={() => {
+                  setIsSearchOverlayOpen(true);
+                }}
+                className="rounded-full p-2 text-foreground hover:bg-muted md:hidden"
+                aria-label="Mở tìm kiếm"
+              >
+                <Icon name="search" size="md" />
+              </button>
+            )}
 
             {/* Cart Button */}
             <button
@@ -150,22 +211,41 @@ export function Header() {
 
             {/* User Login / Profile Button */}
             {isLoggedIn ? (
-              <Link
-                href="/account"
-                aria-label="Tài khoản cá nhân"
-                className="flex items-center gap-2 rounded-full border border-secondary/30 bg-card py-1 pr-3 pl-1 shadow-xs transition-all hover:border-secondary hover:shadow-sm"
-              >
-                <Image
-                  src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80"
-                  alt="Khách hàng"
-                  width={28}
-                  height={28}
-                  className="rounded-full object-cover"
-                />
-                <span className="hidden text-xs font-bold text-foreground sm:inline">
-                  Tài khoản
-                </span>
-              </Link>
+              <div className="flex items-center gap-2">
+                <Link
+                  href="/account"
+                  aria-label="Tài khoản cá nhân"
+                  className="flex items-center gap-2 rounded-full border border-secondary/30 bg-card py-1 pr-3 pl-1 shadow-xs transition-all hover:border-secondary hover:shadow-sm"
+                >
+                  {currentUser?.avatarUrl ? (
+                    <Image
+                      src={currentUser.avatarUrl}
+                      alt={currentUser.fullName || 'Khách hàng'}
+                      width={28}
+                      height={28}
+                      className="rounded-full object-cover"
+                    />
+                  ) : (
+                    <div className="flex h-7 w-7 items-center justify-center rounded-full bg-secondary/10 text-secondary">
+                      <Icon name="user" size="xs" />
+                    </div>
+                  )}
+                  <span className="hidden max-w-[120px] truncate text-xs font-bold text-foreground sm:inline">
+                    {currentUser?.fullName ?? 'Tài khoản'}
+                  </span>
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => {
+                    logoutMutation.mutate();
+                  }}
+                  title="Đăng xuất"
+                  aria-label="Đăng xuất"
+                  className="hidden rounded-full p-2 text-muted-foreground transition-colors hover:bg-muted hover:text-destructive md:inline-flex"
+                >
+                  <Icon name="log-out" size="sm" />
+                </button>
+              </div>
             ) : (
               <button
                 type="button"
@@ -213,17 +293,49 @@ export function Header() {
                 <Icon name="user" size="md" />
               </div>
               <div className="flex-1">
-                <p className="text-xs text-muted-foreground">Xin chào quý khách!</p>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setIsMobileMenuOpen(false);
-                    setIsAuthModalOpen(true);
-                  }}
-                  className="text-left text-xs font-bold text-secondary hover:underline"
-                >
-                  Đăng nhập / Đăng ký
-                </button>
+                {isLoggedIn ? (
+                  <>
+                    <p className="truncate text-xs font-bold text-foreground">
+                      {currentUser?.fullName ?? 'Khách hàng'}
+                    </p>
+                    <div className="mt-1 flex items-center gap-2">
+                      <Link
+                        href="/account"
+                        onClick={() => {
+                          setIsMobileMenuOpen(false);
+                        }}
+                        className="text-xs text-secondary hover:underline"
+                      >
+                        Tài khoản
+                      </Link>
+                      <span className="text-[10px] text-muted-foreground">•</span>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setIsMobileMenuOpen(false);
+                          logoutMutation.mutate();
+                        }}
+                        className="text-xs text-destructive hover:underline"
+                      >
+                        Đăng xuất
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <p className="text-xs text-muted-foreground">Xin chào quý khách!</p>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsMobileMenuOpen(false);
+                        setIsAuthModalOpen(true);
+                      }}
+                      className="text-left text-xs font-bold text-secondary hover:underline"
+                    >
+                      Đăng nhập / Đăng ký
+                    </button>
+                  </>
+                )}
               </div>
             </div>
 
@@ -307,7 +419,7 @@ export function Header() {
                     onClick={() => {
                       setSearchQuery(tag);
                       setIsSearchOverlayOpen(false);
-                      router.push(`/products?q=${encodeURIComponent(tag)}`);
+                      router.push(`/search?q=${encodeURIComponent(tag)}`);
                     }}
                     className="rounded-full border border-border bg-muted/50 px-3 py-1 text-xs text-foreground hover:border-secondary"
                   >

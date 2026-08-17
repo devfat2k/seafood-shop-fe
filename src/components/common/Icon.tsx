@@ -40,6 +40,7 @@ export type IconName =
   | 'eye'
   | 'eye-off'
   | 'fish'
+  | 'camera'
   | (string & Record<never, never>);
 
 export type IconProps = Omit<LucideProps, 'size'> & {

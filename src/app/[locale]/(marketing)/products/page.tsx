@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { redirect } from 'next/navigation';
 import { ProductCatalogContainer } from '@/components/products/ProductCatalogContainer';
 import { getCategories } from '@/lib/api/categories';
 import { getProducts } from '@/lib/api/products';
@@ -9,6 +10,7 @@ type ProductsPageProps = {
   searchParams?: Promise<{
     category?: string;
     search?: string;
+    q?: string;
     page?: string;
   }>;
 };
@@ -28,14 +30,20 @@ export async function generateMetadata(props: ProductsPageProps): Promise<Metada
 
 export default async function ProductsPage(props: ProductsPageProps) {
   const { locale } = await props.params;
+  const searchParamsObj = await props.searchParams;
   setRequestLocale(locale);
+
+  const query = searchParamsObj?.q ?? searchParamsObj?.search;
+  if (query) {
+    redirect(`/${locale}/search?q=${encodeURIComponent(query)}`);
+  }
 
   let initialProducts = null;
   let initialCategories = null;
 
   try {
     const [productsRes, categoriesRes] = await Promise.allSettled([
-      getProducts({ page: 0, size: 9 }),
+      getProducts({ page: 0, size: 9, sort: 'createdAt,desc' }),
       getCategories(),
     ]);
 
