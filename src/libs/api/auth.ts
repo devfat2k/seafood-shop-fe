@@ -1,8 +1,9 @@
 export {
+  forgotPassword,
   loginUser,
   logoutUser,
   registerUser,
+  resendOtp,
   resetPassword,
-  sendOtp,
   verifyOtp,
 } from '@/lib/api/auth';
