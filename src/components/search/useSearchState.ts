@@ -1,10 +1,11 @@
 'use client';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useState } from 'react';
-import type { CartItem } from '@/components/cart/CartDrawer';
+import { toast } from 'sonner';
 import { useCategoriesQuery } from '@/libs/queries/categories';
 import { useProductsQuery } from '@/libs/queries/products';
+import { useCartStore } from '@/libs/stores/cart';
+import type { Product } from '@/types/api';
 
 function getPriceRangeBounds(priceRangeParam: string): {
   minPrice?: number;
@@ -42,6 +43,7 @@ export function useSearchState() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const { addItem: addCartItem } = useCartStore();
 
   const queryParam = searchParams.get('q') ?? searchParams.get('search') ?? '';
   const categoryParam = searchParams.get('category');
@@ -70,9 +72,6 @@ export function useSearchState() {
     size: 24,
   });
 
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
-
   const products = productsData?.content ?? [];
   const totalElements = productsData?.totalElements ?? products.length;
 
@@ -92,6 +91,18 @@ export function useSearchState() {
     router.push(pathname);
   };
 
+  const handleAddToCart = (product: Product) => {
+    addCartItem({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.imageUrl ?? product.images?.[0] ?? '',
+      weight: product.unit ? `1 ${product.unit}` : undefined,
+      quantity: 1,
+    });
+    toast.success(`Đã thêm "${product.name}" vào giỏ hàng!`);
+  };
+
   return {
     pathname,
     queryParam,
@@ -105,11 +116,8 @@ export function useSearchState() {
     isError,
     error,
     refetch,
-    isCartOpen,
-    setIsCartOpen,
-    cartItems,
-    setCartItems,
     updateUrlParams,
     resetAll,
+    handleAddToCart,
   };
 }

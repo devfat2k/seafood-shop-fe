@@ -1,65 +1,37 @@
 'use client';
 
 import Image from 'next/image';
-import { useState } from 'react';
 import { Icon } from '@/components/common/Icon';
 import { Link } from '@/libs/I18nNavigation';
+import { useCartStore } from '@/libs/stores/cart';
+import type { CartItem } from '@/libs/stores/cart';
 
-export type CartItem = {
-  id: string | number;
-  name: string;
-  weight?: string;
-  price: number;
-  quantity: number;
-  image?: string;
-};
+export type { CartItem };
 
 type CartDrawerProps = {
-  isOpen: boolean;
-  onClose: () => void;
-  initialItems?: CartItem[];
-  onUpdateItems?: (items: CartItem[]) => void;
+  isOpen?: boolean;
+  onClose?: () => void;
 };
 
 const FREESHIP_THRESHOLD = 1_500_000;
 
 export function CartDrawer(props: CartDrawerProps) {
-  const { isOpen, onClose, initialItems = [] } = props;
-  const [items, setItems] = useState<CartItem[]>(initialItems);
+  const {
+    items,
+    isOpen: storeIsOpen,
+    subtotal,
+    closeCart,
+    updateQuantity,
+    removeItem,
+  } = useCartStore();
 
-  if (!isOpen) {
+  const isVisible = props.isOpen ?? storeIsOpen;
+  const handleClose = props.onClose ?? closeCart;
+
+  if (!isVisible) {
     return null;
   }
 
-  const updateQuantity = (id: string | number, delta: number) => {
-    setItems((prev) => {
-      const next = prev
-        .map((item) => {
-          if (item.id === id) {
-            const newQty = item.quantity + delta;
-            return newQty > 0 ? { ...item, quantity: newQty } : null;
-          }
-          return item;
-        })
-        .filter((item): item is CartItem => item !== null);
-      if (props.onUpdateItems) {
-        props.onUpdateItems(next);
-      }
-      return next;
-    });
-  };
-
-  const removeItem = (id: string | number) => {
-    setItems((prev) => {
-      const next = prev.filter((item) => item.id !== id);
-      if (props.onUpdateItems) {
-        props.onUpdateItems(next);
-      }
-      return next;
-    });
-  };
-
-  const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const remainingForFreeship = Math.max(0, FREESHIP_THRESHOLD - subtotal);
   const freeshipProgress = Math.min(100, (subtotal / FREESHIP_THRESHOLD) * 100);
 
@@ -68,13 +40,13 @@ export function CartDrawer(props: CartDrawerProps) {
       {/* Backdrop */}
       <button
         type="button"
-        onClick={onClose}
+        onClick={handleClose}
         aria-label="Đóng giỏ hàng"
-        className="fixed inset-0 h-full w-full bg-black/60 backdrop-blur-xs transition-opacity"
+        className="fixed inset-0 h-full w-full animate-in bg-black/60 backdrop-blur-xs transition-opacity fade-in"
       />
 
       {/* Slide Container: Right on desktop, bottom-to-top on mobile */}
-      <div className="fixed inset-x-0 top-auto bottom-0 flex max-h-[85vh] w-full flex-col rounded-t-2xl sm:inset-y-0 sm:right-0 sm:left-auto sm:h-full sm:max-h-none sm:w-full sm:max-w-md sm:rounded-none">
+      <div className="fixed inset-x-0 top-auto bottom-0 flex max-h-[85vh] w-full animate-in flex-col rounded-t-2xl slide-in-from-right sm:inset-y-0 sm:right-0 sm:left-auto sm:h-full sm:max-h-none sm:w-full sm:max-w-md sm:rounded-none">
         <div className="flex h-full flex-col bg-card shadow-2xl">
           {/* Mobile Handle bar */}
           <div className="mx-auto my-2 h-1 w-12 rounded-full bg-muted sm:hidden" />
@@ -91,7 +63,7 @@ export function CartDrawer(props: CartDrawerProps) {
             </div>
             <button
               type="button"
-              onClick={onClose}
+              onClick={handleClose}
               className="rounded-full p-2 text-muted-foreground hover:bg-muted hover:text-foreground"
               aria-label="Đóng giỏ hàng"
             >
@@ -139,8 +111,8 @@ export function CartDrawer(props: CartDrawerProps) {
                 </p>
                 <button
                   type="button"
-                  onClick={onClose}
-                  className="mt-6 rounded-lg bg-primary px-6 py-2.5 text-xs font-bold text-primary-foreground shadow-md hover:bg-primary/90"
+                  onClick={handleClose}
+                  className="mt-6 rounded-lg bg-primary px-6 py-2.5 text-xs font-bold text-white shadow-md transition-opacity hover:opacity-90"
                 >
                   Khám Phá Hải Sản
                 </button>
@@ -232,8 +204,8 @@ export function CartDrawer(props: CartDrawerProps) {
 
               <Link
                 href="/checkout"
-                onClick={onClose}
-                className="mt-4 flex w-full items-center justify-center gap-2 rounded-lg bg-primary py-3 text-sm font-bold text-primary-foreground shadow-md transition-all hover:bg-primary/90 active:scale-98"
+                onClick={handleClose}
+                className="mt-4 flex w-full items-center justify-center gap-2 rounded-lg bg-primary py-3 text-sm font-bold text-white shadow-md transition-all hover:opacity-90 active:scale-98"
               >
                 <span>Tiến Hành Thanh Toán</span>
                 <Icon name="arrow-right" size="sm" />

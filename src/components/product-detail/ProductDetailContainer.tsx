@@ -1,6 +1,5 @@
 'use client';
 
-import { CartDrawer } from '@/components/cart/CartDrawer';
 import { Icon } from '@/components/common/Icon';
 import { ProductDetailBreadcrumb } from '@/components/product-detail/ProductDetailBreadcrumb';
 import { ProductDetailSkeleton } from '@/components/product-detail/ProductDetailSkeleton';
@@ -33,7 +32,7 @@ function ProductDetailError({ message, onRetry }: { message?: string; onRetry: (
         <button
           type="button"
           onClick={onRetry}
-          className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-2.5 text-xs font-bold text-primary-foreground shadow-xs hover:bg-primary/90"
+          className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-2.5 text-xs font-bold text-white shadow-xs hover:bg-primary/90"
         >
           <Icon name="refresh-cw" size="xs" />
           <span>Thử lại</span>
@@ -63,7 +62,7 @@ function ProductDetailNotFound() {
       </p>
       <Link
         href="/products"
-        className="mt-6 inline-flex items-center gap-2 rounded-xl bg-secondary px-6 py-3 text-xs font-bold text-secondary-foreground shadow-md hover:bg-secondary/90"
+        className="mt-6 inline-flex items-center gap-2 rounded-xl bg-secondary px-6 py-3 text-xs font-bold text-white shadow-md hover:bg-secondary/90"
       >
         <span>Khám phá các hải sản khác</span>
         <Icon name="arrow-right" size="xs" />
@@ -81,12 +80,6 @@ export function ProductDetailContainer({ productId, initialProduct }: ProductDet
     refetch,
     galleryImages,
     relatedProducts,
-    isCartOpen,
-    setIsCartOpen,
-    cartItems,
-    setCartItems,
-    handleAddToCart,
-    handleBuyNow,
     handleAddRelatedToCart,
   } = useProductDetailState({ productId, initialProduct });
 
@@ -109,45 +102,41 @@ export function ProductDetailContainer({ productId, initialProduct }: ProductDet
     return <ProductDetailNotFound />;
   }
 
+  const categoryName = product.category?.name ?? product.categoryName ?? 'Hải Sản';
+  const categorySlug = product.category?.slug ?? product.categorySlug ?? 'all';
+
   return (
-    <div className="flex min-h-screen flex-col bg-background">
-      <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-6 sm:px-6">
+    <div className="min-h-screen bg-background">
+      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8">
         <ProductDetailBreadcrumb
-          categoryName={product.categoryName ?? 'Hải sản'}
-          categorySlug={product.categorySlug ?? 'hai-san'}
+          categoryName={categoryName}
+          categorySlug={categorySlug}
           productName={product.name}
         />
 
-        <div className="space-y-12">
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-12">
-            <ProductGallery
-              images={galleryImages}
-              productName={product.name}
-              badges={product.featured ? ['Nổi bật', 'Tươi sống'] : ['Tươi sống']}
-            />
-            <ProductPurchasePanel
-              product={product}
-              onAddToCart={handleAddToCart}
-              onBuyNow={handleBuyNow}
-            />
+        <div className="mt-6 grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-12">
+          <div className="lg:col-span-6">
+            <ProductGallery images={galleryImages} productName={product.name} />
           </div>
 
-          <ProductTabs product={product} />
-
-          <RelatedProductsSection products={relatedProducts} onAddToCart={handleAddRelatedToCart} />
+          <div className="lg:col-span-6">
+            <ProductPurchasePanel product={product} />
+          </div>
         </div>
-      </main>
 
-      <CartDrawer
-        isOpen={isCartOpen}
-        onClose={() => {
-          setIsCartOpen(false);
-        }}
-        initialItems={cartItems}
-        onUpdateItems={(newItems) => {
-          setCartItems(newItems);
-        }}
-      />
+        <div className="mt-12">
+          <ProductTabs product={product} />
+        </div>
+
+        {relatedProducts.length > 0 && (
+          <div className="mt-16">
+            <RelatedProductsSection
+              products={relatedProducts}
+              onAddToCart={handleAddRelatedToCart}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 }
