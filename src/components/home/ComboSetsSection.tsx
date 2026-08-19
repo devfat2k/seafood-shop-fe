@@ -51,9 +51,9 @@ export function ComboSetsSection({ combos = [], onAddToCart }: ComboSetsSectionP
             >
               {/* Left Image */}
               <div className="relative min-h-[200px] w-full overflow-hidden bg-muted sm:min-h-[260px] sm:w-1/2">
-                {combo.image ? (
+                {(combo.imageUrl ?? combo.image) ? (
                   <Image
-                    src={combo.image}
+                    src={combo.imageUrl ?? combo.image}
                     alt={combo.title}
                     fill
                     unoptimized
@@ -61,7 +61,7 @@ export function ComboSetsSection({ combos = [], onAddToCart }: ComboSetsSectionP
                   />
                 ) : (
                   <div className="flex h-full w-full items-center justify-center bg-muted text-muted-foreground">
-                    <Icon name="fish" size="lg" />
+                    <Icon name="fish" size="xl" />
                   </div>
                 )}
                 {combo.tag && (

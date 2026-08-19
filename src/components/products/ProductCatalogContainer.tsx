@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { Icon } from '@/components/common/Icon';
 import { ProductCard } from '@/components/products/ProductCard';
 import { ProductCatalogEmpty } from '@/components/products/ProductCatalogEmpty';
@@ -15,9 +16,15 @@ import type { Category, PageResponse, Product } from '@/types/api';
 type ProductCatalogContainerProps = {
   initialPageData?: PageResponse<Product>;
   initialCategories?: Category[];
+  initialCategory?: string;
+  initialSearch?: string;
+  initialPage?: number;
+  initialSort?: string;
 };
 
 export function ProductCatalogContainer(props: ProductCatalogContainerProps) {
+  const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
+
   const {
     viewMode,
     setViewMode,
@@ -28,6 +35,8 @@ export function ProductCatalogContainer(props: ProductCatalogContainerProps) {
     shownRange,
     sortBy,
     setSortBy,
+    searchQuery,
+    setSearchQuery,
     filters,
     setFilters,
     filterCategories,
@@ -40,7 +49,12 @@ export function ProductCatalogContainer(props: ProductCatalogContainerProps) {
     handleAddToCart,
     handleOpenQuickView,
     handleResetFilters,
-  } = useProductCatalogState(props.initialPageData, props.initialCategories);
+  } = useProductCatalogState(props.initialPageData, props.initialCategories, {
+    initialCategory: props.initialCategory,
+    initialSearch: props.initialSearch,
+    initialPage: props.initialPage,
+    initialSort: props.initialSort,
+  });
 
   const renderProductsList = () => {
     if (isLoading) {
@@ -91,12 +105,16 @@ export function ProductCatalogContainer(props: ProductCatalogContainerProps) {
 
   return (
     <div className="min-h-screen bg-background">
-      <ProductHeaderBanner totalProducts={totalElements} />
+      <ProductHeaderBanner
+        totalProducts={totalElements}
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+      />
 
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12">
         <div className="flex flex-col gap-8 lg:flex-row">
-          {/* Left Sidebar Filter */}
-          <aside className="w-full shrink-0 lg:w-64">
+          {/* Desktop Left Sidebar Filter */}
+          <aside className="hidden w-64 shrink-0 lg:block">
             <ProductSidebarFilter
               categoryList={filterCategories}
               filters={filters}
@@ -109,7 +127,7 @@ export function ProductCatalogContainer(props: ProductCatalogContainerProps) {
           </aside>
 
           {/* Right Product Grid & Content */}
-          <main className="flex-1">
+          <main className="flex-1 space-y-6">
             <ProductListToolbar
               totalCount={totalElements}
               shownRange={shownRange}
@@ -117,14 +135,44 @@ export function ProductCatalogContainer(props: ProductCatalogContainerProps) {
               onViewModeChange={setViewMode}
               sortBy={sortBy}
               onSortChange={setSortBy}
+              onToggleMobileFilter={() => {
+                setMobileFilterOpen(!mobileFilterOpen);
+              }}
             />
+
+            {/* Mobile Filter Drawer / Toggleable section */}
+            {mobileFilterOpen && (
+              <div className="rounded-2xl border border-border bg-card p-4 lg:hidden">
+                <div className="mb-3 flex items-center justify-between">
+                  <span className="font-heading text-sm font-bold text-foreground">Bộ Lọc</span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMobileFilterOpen(false);
+                    }}
+                    className="text-xs text-muted-foreground hover:text-foreground"
+                  >
+                    Đóng
+                  </button>
+                </div>
+                <ProductSidebarFilter
+                  categoryList={filterCategories}
+                  filters={filters}
+                  onFilterChange={(newFilters) => {
+                    setFilters(newFilters);
+                    setCurrentPage(1);
+                  }}
+                  onResetFilters={handleResetFilters}
+                />
+              </div>
+            )}
 
             {/* 3 UI States */}
             {renderProductsList()}
 
             {/* Pagination */}
             {totalPages > 1 && (
-              <div className="mt-10">
+              <div className="pt-6">
                 <ProductPagination
                   currentPage={currentPage}
                   totalPages={totalPages}

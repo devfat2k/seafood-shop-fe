@@ -5,8 +5,8 @@ import { Icon } from '@/components/common/Icon';
 export type CategoryFilterItem = {
   id: number | string;
   name: string;
-  slug: string;
-  count?: number;
+  slug?: string | null;
+  count?: number | null;
 };
 
 export type FilterState = {
@@ -25,25 +25,6 @@ type ProductSidebarFilterProps = {
   onResetFilters: () => void;
 };
 
-const DEFAULT_CATEGORIES: CategoryFilterItem[] = [
-  { id: 'cat-tom', name: 'Tôm Hùm & Tôm Biển', slug: 'tom-cua', count: 18 },
-  { id: 'cat-cua', name: 'Cua Huỳnh Đế & Ghẹ', slug: 'cua-ghe', count: 14 },
-  { id: 'cat-muc', name: 'Mực Nháy & Bạch Tuộc', slug: 'muc-tuoi', count: 22 },
-  {
-    id: 'cat-ca',
-    name: 'Cá Biển Cắt Lát & 1 Nắng',
-    slug: 'ca-mot-nang',
-    count: 16,
-  },
-  { id: 'cat-oc', name: 'Nghêu, Sò & Ốc Hương', slug: 'so-oc', count: 28 },
-  {
-    id: 'cat-combo',
-    name: 'Combo Đại Tiệc & Lẩu',
-    slug: 'combo-set',
-    count: 8,
-  },
-];
-
 const PRICE_PRESETS = [
   { label: 'Tất cả mức giá', min: 0, max: 10_000_000 },
   { label: 'Dưới 300.000₫', min: 0, max: 300_000 },
@@ -53,13 +34,13 @@ const PRICE_PRESETS = [
 ];
 
 export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
-  const { filters, categoryList = DEFAULT_CATEGORIES, onFilterChange, onResetFilters } = props;
+  const { filters, categoryList = [], onFilterChange, onResetFilters } = props;
 
-  const toggleCategory = (slug: string) => {
-    const exists = filters.categories.includes(slug);
+  const toggleCategory = (catId: string) => {
+    const exists = filters.categories.includes(catId);
     const updated = exists
-      ? filters.categories.filter((c) => c !== slug)
-      : [...filters.categories, slug];
+      ? filters.categories.filter((id) => id !== catId)
+      : [...filters.categories, catId];
 
     onFilterChange({
       ...filters,
@@ -67,10 +48,10 @@ export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
     });
   };
 
-  const removeCategoryTag = (slug: string) => {
+  const removeCategoryTag = (catId: string) => {
     onFilterChange({
       ...filters,
-      categories: filters.categories.filter((c) => c !== slug),
+      categories: filters.categories.filter((id) => id !== catId),
     });
   };
 
@@ -81,9 +62,7 @@ export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
     filters.categories.length > 0 ||
     filters.minPrice > 0 ||
     filters.maxPrice < 10_000_000 ||
-    filters.onlyInStock ||
-    filters.fastShippingOnly ||
-    filters.cleanPrepOnly;
+    filters.onlyInStock;
 
   return (
     <aside className="w-full space-y-6 rounded-2xl border border-border bg-card p-5 shadow-xs">
@@ -104,26 +83,26 @@ export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
         )}
       </div>
 
-      {/* Applied Filter Chips */}
+      {/* Applied Category Filter Chips */}
       {filters.categories.length > 0 && (
         <div className="space-y-2 border-b border-border pb-4">
           <span className="text-[11px] font-bold text-muted-foreground uppercase">
             Đang chọn ({filters.categories.length})
           </span>
           <div className="flex flex-wrap gap-1.5">
-            {filters.categories.map((slug) => {
-              const cat = categoryList.find((c) => c.slug === slug);
+            {filters.categories.map((catId) => {
+              const cat = categoryList.find((c) => String(c.id) === catId);
               return (
                 <span
-                  key={slug}
+                  key={catId}
                   className="inline-flex items-center gap-1.5 rounded-full bg-secondary/10 px-2.5 py-1 text-xs font-semibold text-secondary"
                 >
-                  <span>{cat?.name ?? slug}</span>
+                  <span>{cat?.name ?? `Danh mục #${catId}`}</span>
                   <button
                     type="button"
-                    aria-label={`Xoá lọc ${cat?.name}`}
+                    aria-label={`Xoá lọc ${cat?.name ?? catId}`}
                     onClick={() => {
-                      removeCategoryTag(slug);
+                      removeCategoryTag(catId);
                     }}
                     className="rounded-full p-0.5 hover:bg-secondary/20"
                   >
@@ -141,7 +120,8 @@ export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
         <h4 className="font-heading text-sm font-bold text-foreground">Danh Mục Hải Sản</h4>
         <div className="space-y-1">
           {categoryList.map((cat) => {
-            const isChecked = filters.categories.includes(cat.slug);
+            const catIdStr = String(cat.id);
+            const isChecked = filters.categories.includes(catIdStr);
             return (
               <label
                 key={cat.id}
@@ -153,7 +133,7 @@ export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
                     checked={isChecked}
                     aria-label={`Lọc danh mục ${cat.name}`}
                     onChange={() => {
-                      toggleCategory(cat.slug);
+                      toggleCategory(catIdStr);
                     }}
                     className="h-4 w-4 rounded-md border-border text-secondary accent-secondary focus:ring-secondary"
                   />
@@ -163,7 +143,7 @@ export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
                     {cat.name}
                   </span>
                 </div>
-                {cat.count !== undefined && cat.count > 0 && (
+                {cat.count !== undefined && cat.count !== null && cat.count > 0 && (
                   <span className="rounded-full bg-muted px-2 py-0.5 text-[10px] font-semibold text-muted-foreground">
                     {cat.count}
                   </span>
@@ -172,6 +152,31 @@ export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
             );
           })}
         </div>
+      </div>
+
+      {/* In Stock Toggle */}
+      <div className="border-t border-border pt-4">
+        <label className="flex cursor-pointer items-center justify-between rounded-xl px-2.5 py-2 text-xs transition-colors hover:bg-muted/60">
+          <div className="flex items-center gap-2.5">
+            <input
+              type="checkbox"
+              checked={filters.onlyInStock}
+              aria-label="Chỉ sản phẩm còn hàng"
+              onChange={(e) => {
+                onFilterChange({
+                  ...filters,
+                  onlyInStock: e.target.checked,
+                });
+              }}
+              className="h-4 w-4 rounded-md border-border text-secondary accent-secondary focus:ring-secondary"
+            />
+            <span
+              className={`font-medium ${filters.onlyInStock ? 'font-bold text-foreground' : 'text-muted-foreground'}`}
+            >
+              Chỉ sản phẩm còn hàng (sống tại bể)
+            </span>
+          </div>
+        </label>
       </div>
 
       {/* Price Range Presets */}

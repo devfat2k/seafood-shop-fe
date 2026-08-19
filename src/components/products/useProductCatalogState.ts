@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { toast } from 'sonner';
 import type { ProductCardItem } from '@/components/products/productCardTypes';
 import type { CategoryFilterItem, FilterState } from '@/components/products/ProductSidebarFilter';
@@ -12,98 +12,144 @@ import type { Category, PageResponse, Product } from '@/types/api';
 
 const ITEMS_PER_PAGE = 9;
 
-function mapSortToApi(sortBy: string): string {
-  if (sortBy === 'price-asc') {
-    return 'price,asc';
-  }
-  if (sortBy === 'price-desc') {
-    return 'price,desc';
-  }
-  if (sortBy === 'popular') {
-    return 'createdAt,desc';
-  }
-  return 'createdAt,desc';
-}
-
 function getProductBadges(p: Product): string[] {
   if (p.featured) {
     return ['NỔI BẬT'];
   }
-  if (p.stock > 0) {
+  if ((p.stock ?? 0) > 0) {
     return ['TƯƠI SỐNG'];
   }
   return ['TẠM HẾT'];
 }
 
+function getCategoryInfo(p: Product): { name: string; slug: string } {
+  const name = p.category?.categoryName ?? p.category?.name ?? p.categoryName ?? 'Hải Sản';
+  const slug = p.category?.slug ?? p.categorySlug ?? '';
+  return { name, slug };
+}
+
 export function mapProductToCardItem(p: Product): ProductCardItem {
-  const categoryName = p.category?.categoryName ?? p.category?.name ?? p.categoryName ?? 'Hải Sản';
-  const categorySlug = p.category?.slug ?? p.categorySlug ?? '';
+  const cat = getCategoryInfo(p);
+  const price = p.price ?? 0;
+  const originalPrice = p.originalPrice ?? Math.round(price * 1.15);
+  const image = p.imageUrl ?? p.images?.[0] ?? '';
 
   return {
     id: p.id,
     name: p.name,
-    category: categoryName,
-    categorySlug,
+    category: cat.name,
+    categorySlug: cat.slug,
     badges: getProductBadges(p),
     spec: p.spec ?? p.description ?? '',
-    price: p.price,
-    originalPrice: p.originalPrice ?? Math.round(p.price * 1.15),
+    price,
+    originalPrice,
     unit: p.unit ?? 'kg',
     origin: p.origin ?? 'Cảng cá Phan Thiết',
     rating: p.rating ?? 4.9,
     salesCount: p.reviewCount ?? 120,
-    inStock: p.active && p.stock > 0,
-    image: p.imageUrl ?? p.images?.[0] ?? '',
+    inStock: (p.active ?? true) && (p.stock ?? 0) > 0,
+    image,
   };
 }
 
 export const INITIAL_FILTERS: FilterState = {
   categories: [],
   minPrice: 0,
-  maxPrice: 5_000_000,
+  maxPrice: 10_000_000,
   onlyInStock: false,
   fastShippingOnly: false,
   cleanPrepOnly: false,
 };
 
+type UseProductCatalogOptions = {
+  initialCategory?: string;
+  initialSearch?: string;
+  initialPage?: number;
+  initialSort?: string;
+};
+
+function resolveCategoryIds(categoryKeys: string[], categories: Category[]): number[] | undefined {
+  if (categoryKeys.length === 0) {
+    return undefined;
+  }
+  const ids: number[] = [];
+  for (const key of categoryKeys) {
+    const parsed = Number(key);
+    if (!Number.isNaN(parsed) && parsed > 0) {
+      ids.push(parsed);
+    } else {
+      const found = categories.find((c) => c.slug === key);
+      if (found) {
+        ids.push(found.id);
+      }
+    }
+  }
+  return ids.length > 0 ? ids : undefined;
+}
+
+function mapToQuickView(p: ProductCardItem): QuickViewProduct {
+  return {
+    id: String(p.id),
+    name: p.name,
+    badge: p.badges?.[0] ?? 'CẢNG PHAN THIẾT',
+    price: `${p.price.toLocaleString('vi-VN')}₫`,
+    originalPrice: p.originalPrice ? `${p.originalPrice.toLocaleString('vi-VN')}₫` : undefined,
+    rating: p.rating ?? 4.9,
+    reviewsCount: p.salesCount ?? 120,
+    origin: p.origin ?? 'Cảng cá Phan Thiết',
+    description: p.spec ?? 'Hải sản tươi sống loại 1 cập bến mỗi sáng.',
+    image: p.image ?? '',
+    weights: p.unit ? [`1 ${p.unit}`, `2 ${p.unit}`] : ['500g', '1kg'],
+  };
+}
+
 export function useProductCatalogState(
   initialPageData?: PageResponse<Product>,
   initialCategories?: Category[],
+  options?: UseProductCatalogOptions,
 ) {
   const { addItem: addCartItem } = useCartStore();
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
-  const [currentPage, setCurrentPage] = useState(1);
-  const [sortBy, setSortBy] = useState('popular');
+  const [currentPage, setCurrentPage] = useState(options?.initialPage ?? 1);
+  const [sortBy, setSortBy] = useState(options?.initialSort ?? 'createdAt,desc');
+  const [searchQuery, setSearchQuery] = useState(options?.initialSearch ?? '');
+  const [debouncedSearch, setDebouncedSearch] = useState(options?.initialSearch ?? '');
   const [quickViewProduct, setQuickViewProduct] = useState<QuickViewProduct | null>(null);
-  const [filters, setFilters] = useState<FilterState>(INITIAL_FILTERS);
+
+  const [filters, setFilters] = useState<FilterState>({
+    ...INITIAL_FILTERS,
+    categories: options?.initialCategory ? [options.initialCategory] : [],
+  });
 
   const { data: categories = [] } = useCategoriesQuery(initialCategories);
 
-  const selectedCategoryIds = useMemo(() => {
-    if (filters.categories.length === 0) {
-      return null;
-    }
-    const ids: number[] = [];
-    for (const slugOrId of filters.categories) {
-      const match = categories.find((c) => c.slug === slugOrId || String(c.id) === slugOrId);
-      if (match) {
-        ids.push(match.id);
-      }
-    }
-    return ids.length > 0 ? ids : null;
-  }, [filters.categories, categories]);
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearch(searchQuery.trim());
+      setCurrentPage(1);
+    }, 400);
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [searchQuery]);
+
+  const selectedCategoryIds = useMemo(
+    () => resolveCategoryIds(filters.categories, categories),
+    [filters.categories, categories],
+  );
 
   const queryParams = useMemo(
     () => ({
       page: currentPage - 1,
       size: ITEMS_PER_PAGE,
-      sort: mapSortToApi(sortBy),
-      categoryId: selectedCategoryIds ?? undefined,
+      sort: sortBy,
+      search: debouncedSearch || undefined,
+      categoryId: selectedCategoryIds,
       minPrice: filters.minPrice > 0 ? filters.minPrice : undefined,
-      maxPrice: filters.maxPrice < 5_000_000 ? filters.maxPrice : undefined,
+      maxPrice: filters.maxPrice < 10_000_000 ? filters.maxPrice : undefined,
       inStock: filters.onlyInStock ? true : undefined,
     }),
-    [currentPage, sortBy, filters, selectedCategoryIds],
+    [currentPage, sortBy, debouncedSearch, selectedCategoryIds, filters],
   );
 
   const {
@@ -111,12 +157,7 @@ export function useProductCatalogState(
     isLoading,
     isError,
     refetch,
-  } = useProductsQuery(
-    queryParams,
-    currentPage === 1 && !selectedCategoryIds && filters.minPrice === 0
-      ? initialPageData
-      : undefined,
-  );
+  } = useProductsQuery(queryParams, currentPage === 1 ? initialPageData : undefined);
 
   const totalPages = pageData?.totalPages ?? 1;
   const totalElements = pageData?.totalElements ?? 0;
@@ -126,16 +167,14 @@ export function useProductCatalogState(
   );
 
   const filterCategories: CategoryFilterItem[] = useMemo(
-    () => [
-      { id: 'all', name: 'Tất cả hải sản', slug: 'all', count: totalElements },
-      ...categories.map((c) => ({
+    () =>
+      categories.map((c) => ({
         id: c.id,
-        name: c.name ?? c.categoryName ?? 'Danh mục',
+        name: c.categoryName ?? c.name ?? `Danh mục #${c.id}`,
         slug: c.slug ?? String(c.id),
-        count: c.productCount ?? 0,
+        count: c.productCount ?? undefined,
       })),
-    ],
-    [categories, totalElements],
+    [categories],
   );
 
   const shownStart = totalElements === 0 ? 0 : (currentPage - 1) * ITEMS_PER_PAGE + 1;
@@ -154,24 +193,9 @@ export function useProductCatalogState(
     toast.success(`Đã thêm "${product.name}" vào giỏ hàng!`);
   };
 
-  const handleOpenQuickView = (p: ProductCardItem) => {
-    setQuickViewProduct({
-      id: String(p.id),
-      name: p.name,
-      badge: p.badges?.[0] ?? 'CẢNG PHAN THIẾT',
-      price: `${p.price.toLocaleString('vi-VN')}₫`,
-      originalPrice: p.originalPrice ? `${p.originalPrice.toLocaleString('vi-VN')}₫` : undefined,
-      rating: p.rating ?? 4.9,
-      reviewsCount: p.salesCount ?? 120,
-      origin: p.origin ?? 'Cảng cá Phan Thiết',
-      description: p.spec ?? 'Hải sản tươi sống loại 1 cập bến mỗi sáng.',
-      image: p.image ?? '',
-      weights: p.unit ? [`1 ${p.unit}`, `2 ${p.unit}`] : ['500g', '1kg'],
-    });
-  };
-
   const handleResetFilters = () => {
     setFilters(INITIAL_FILTERS);
+    setSearchQuery('');
     setCurrentPage(1);
   };
 
@@ -185,6 +209,8 @@ export function useProductCatalogState(
     shownRange,
     sortBy,
     setSortBy,
+    searchQuery,
+    setSearchQuery,
     filters,
     setFilters,
     filterCategories,
@@ -195,7 +221,9 @@ export function useProductCatalogState(
     quickViewProduct,
     setQuickViewProduct,
     handleAddToCart,
-    handleOpenQuickView,
+    handleOpenQuickView: (p: ProductCardItem) => {
+      setQuickViewProduct(mapToQuickView(p));
+    },
     handleResetFilters,
   };
 }

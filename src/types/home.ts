@@ -1,66 +1,79 @@
 import type { Category, Product } from './api';
 
 export type HeroSlideProductCard = {
-  image: string;
-  imageAlt: string;
-  comboBadge: string;
-  discountBadge: string;
-  originalPrice: string;
-  salePrice: string;
-  title: string;
-  subtitle: string;
+  imageUrl?: string | null;
+  image?: string | null;
+  imageAlt?: string | null;
+  comboBadge?: string | null;
+  discountBadge?: string | null;
+  originalPrice?: string | number | null;
+  salePrice?: string | number | null;
+  title?: string | null;
+  subtitle?: string | null;
 };
 
 export type HeroSlide = {
   id: number | string;
-  badgeText?: string;
-  badgeIcon?: string;
-  badge?: {
-    text: string;
-    icon: string;
-  };
-  titlePrefix: string;
-  titleHighlight: string;
-  titleSuffix: string;
-  description: string;
-  primaryCtaLabel?: string;
-  primaryCtaHref?: string;
-  primaryCtaIcon?: string;
+  title?: string | null;
+  subtitle?: string | null;
+  imageUrl?: string | null;
+  image?: string | null;
+  ctaText?: string | null;
+  ctaLink?: string | null;
+  sortOrder?: number | null;
+  isActive?: boolean | null;
+  badgeText?: string | null;
+  badgeIcon?: string | null;
+  badge?:
+    | {
+        text: string;
+        icon?: string;
+      }
+    | string
+    | null;
+  titlePrefix?: string | null;
+  titleHighlight?: string | null;
+  titleSuffix?: string | null;
+  description?: string | null;
+  primaryCtaLabel?: string | null;
+  primaryCtaHref?: string | null;
+  primaryCtaIcon?: string | null;
   primaryCta?: {
     label: string;
     href: string;
-    icon: string;
-  };
+    icon?: string;
+  } | null;
   secondaryCta?: {
     label: string;
     href: string;
-    icon: string;
-  };
-  cardImageUrl?: string;
-  cardOriginalPrice?: number;
-  cardSalePrice?: number;
-  cardTitle?: string;
-  cardSubtitle?: string;
-  productCard?: HeroSlideProductCard;
+    icon?: string;
+  } | null;
+  cardImageUrl?: string | null;
+  cardOriginalPrice?: number | null;
+  cardSalePrice?: number | null;
+  cardTitle?: string | null;
+  cardSubtitle?: string | null;
+  productCard?: HeroSlideProductCard | null;
 };
 
 export type CategoryItem = Category;
 
 export type DailyArrival = {
   id: number | string;
-  productId?: number;
-  boatCode?: string;
-  date?: string;
-  time?: string;
-  badge?: string;
-  title?: string;
-  description?: string;
-  weight?: string;
-  origin?: string;
-  price?: number | string;
-  originalPrice?: number | string;
-  image?: string;
-  imageAlt?: string;
+  productId?: number | null;
+  boatCode?: string | null;
+  date?: string | null;
+  time?: string | null;
+  badge?: string | null;
+  title?: string | null;
+  description?: string | null;
+  weight?: string | null;
+  origin?: string | null;
+  price?: number | string | null;
+  originalPrice?: number | string | null;
+  image?: string | null;
+  imageUrl?: string | null;
+  imageAlt?: string | null;
 };
 
 export type FeaturedProductTab = {
@@ -79,6 +92,7 @@ export type ComboSet = {
   ctaText: string;
   href: string;
   image: string;
+  imageUrl?: string;
   theme?: 'light' | 'dark';
   badgeType?: 'gold' | 'green' | 'orange';
   isBreakout?: boolean;

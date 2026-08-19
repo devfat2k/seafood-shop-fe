@@ -98,10 +98,10 @@ export function ProductListToolbar(props: ProductListToolbarProps) {
               }}
               className="appearance-none rounded-xl border border-border bg-background py-2 pr-8 pl-3 text-xs font-bold text-foreground transition-colors focus:border-secondary focus:ring-1 focus:ring-secondary focus:outline-none"
             >
-              <option value="newest">✨ Mới nhất cập cảng</option>
-              <option value="popular">🔥 Bán chạy nhất</option>
-              <option value="price-asc">💵 Giá: Thấp đến Cao</option>
-              <option value="price-desc">💎 Giá: Cao đến Thấp</option>
+              <option value="createdAt,desc">✨ Mới nhất cập cảng</option>
+              <option value="price,asc">💵 Giá: Thấp đến Cao</option>
+              <option value="price,desc">💎 Giá: Cao đến Thấp</option>
+              <option value="name,asc">🔤 Tên: A đến Z</option>
             </select>
             <span className="pointer-events-none absolute top-1/2 right-2.5 -translate-y-1/2 text-muted-foreground">
               <Icon name="chevron-down" size="xs" />

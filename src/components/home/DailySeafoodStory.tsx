@@ -30,7 +30,7 @@ export function DailySeafoodStory({ arrivals = [], onAddToCart }: DailySeafoodSt
     description: a.description ?? 'Đánh bắt tự nhiên trong ngày, tươi sống bơi bể.',
     price: typeof a.price === 'number' ? a.price : Number(a.price) || 0,
     unit: a.weight ?? 'kg',
-    image: a.image ?? '',
+    image: a.imageUrl ?? a.image ?? '',
     badge: a.badge ?? 'MỚI CẬP BẾN',
   }));
 

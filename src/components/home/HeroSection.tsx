@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { Icon } from '@/components/common/Icon';
 import { Link } from '@/libs/I18nNavigation';
-import type { HeroSlide } from '@/types/home';
+import type { HeroSlide, HomeStats } from '@/types/home';
 
 type SlideDisplayItem = {
   id: string;
@@ -22,10 +22,17 @@ type SlideDisplayItem = {
 
 type HeroSectionProps = {
   slides?: HeroSlide[];
+  stats?: HomeStats;
 };
 
 function getSlideBadge(s: HeroSlide): string {
-  return s.badgeText ?? s.badge?.text ?? '🌊 Hải sản Phan Thiết';
+  if (typeof s.badge === 'string') {
+    return s.badge;
+  }
+  if (s.badge?.text) {
+    return s.badge.text;
+  }
+  return s.badgeText ?? '🌊 Hải sản Phan Thiết';
 }
 
 function getSlideCtas(s: HeroSlide): {
@@ -35,8 +42,8 @@ function getSlideCtas(s: HeroSlide): {
   secondaryHref: string;
 } {
   return {
-    primaryLabel: s.primaryCtaLabel ?? s.primaryCta?.label ?? 'Mua ngay hôm nay',
-    primaryHref: s.primaryCtaHref ?? s.primaryCta?.href ?? '/products',
+    primaryLabel: s.ctaText ?? s.primaryCtaLabel ?? s.primaryCta?.label ?? 'Mua ngay hôm nay',
+    primaryHref: s.ctaLink ?? s.primaryCtaHref ?? s.primaryCta?.href ?? '/products',
     secondaryLabel: s.secondaryCta?.label ?? 'Xem bảng giá',
     secondaryHref: s.secondaryCta?.href ?? '/products',
   };
@@ -45,16 +52,29 @@ function getSlideCtas(s: HeroSlide): {
 function formatHeroSlide(s: HeroSlide): SlideDisplayItem {
   const badgeText = getSlideBadge(s);
   const ctas = getSlideCtas(s);
-  const bgImage = s.cardImageUrl ?? s.productCard?.image ?? '';
+  const bgImage =
+    s.imageUrl ??
+    s.cardImageUrl ??
+    s.productCard?.imageUrl ??
+    s.productCard?.image ??
+    s.image ??
+    '';
+
+  const titlePrefix = s.titlePrefix ?? (s.title ? '' : 'Hải Sản Tươi Sống');
+  const titleHighlight = s.titleHighlight ?? s.title ?? 'Cập Cảng Hôm Nay';
+  const titleSuffix = s.titleSuffix ?? '';
+  const description =
+    s.description ??
+    s.subtitle ??
+    'Đánh bắt tự nhiên trong ngày, giao nhanh chuỗi lạnh 2H tại TP.HCM.';
 
   return {
     id: String(s.id),
     badgeText,
-    titlePrefix: s.titlePrefix ?? 'Hải Sản Tươi Sống',
-    titleHighlight: s.titleHighlight ?? 'Cập Cảng Hôm Nay',
-    titleSuffix: s.titleSuffix ?? '',
-    description:
-      s.description ?? 'Đánh bắt tự nhiên trong ngày, giao nhanh chuỗi lạnh 2H tại TP.HCM.',
+    titlePrefix,
+    titleHighlight,
+    titleSuffix,
+    description,
     primaryLabel: ctas.primaryLabel,
     primaryHref: ctas.primaryHref,
     secondaryLabel: ctas.secondaryLabel,
@@ -63,7 +83,7 @@ function formatHeroSlide(s: HeroSlide): SlideDisplayItem {
   };
 }
 
-export function HeroSection({ slides = [] }: HeroSectionProps) {
+export function HeroSection({ slides = [], stats }: HeroSectionProps) {
   const [currentIdx, setCurrentIdx] = useState<number>(0);
 
   const activeSlides: SlideDisplayItem[] = slides.map((s) => formatHeroSlide(s));
@@ -85,6 +105,9 @@ export function HeroSection({ slides = [] }: HeroSectionProps) {
   if (!slide) {
     return null;
   }
+
+  const deliveredCount = stats?.totalOrdersDelivered ?? 1250;
+  const ratingScore = stats?.averageRating ?? 5;
 
   return (
     <section className="relative w-full overflow-hidden bg-foreground text-white">
@@ -118,7 +141,7 @@ export function HeroSection({ slides = [] }: HeroSectionProps) {
 
           {/* Heading */}
           <h1 className="font-heading text-3xl leading-tight font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
-            <span>{slide.titlePrefix} </span>
+            {slide.titlePrefix && <span>{slide.titlePrefix} </span>}
             <span className="text-primary">{slide.titleHighlight}</span>
             {slide.titleSuffix && <span> {slide.titleSuffix}</span>}
           </h1>
@@ -149,45 +172,68 @@ export function HeroSection({ slides = [] }: HeroSectionProps) {
           </div>
         </div>
 
-        {/* Carousel Slide Indicators & Arrows */}
-        {activeSlides.length > 1 && (
-          <div className="mt-8 flex items-center justify-between border-t border-white/10 pt-6 sm:mt-12">
-            <div className="flex items-center gap-2">
-              {activeSlides.map((s, idx) => (
-                <button
-                  key={s.id}
-                  type="button"
-                  onClick={() => {
-                    setCurrentIdx(idx);
-                  }}
-                  aria-label={`Chuyển đến banner ${idx + 1}`}
-                  className={`h-2 rounded-full transition-all ${
-                    idx === currentIdx ? 'w-8 bg-primary' : 'w-2 bg-white/40 hover:bg-white/70'
-                  }`}
-                />
-              ))}
+        {/* Live Stats Pill & Carousel Indicators */}
+        <div className="mt-8 flex flex-col gap-4 border-t border-white/10 pt-6 sm:mt-12 sm:flex-row sm:items-center sm:justify-between">
+          {/* Live Stats Pill from API */}
+          <div className="flex flex-wrap items-center gap-4 text-xs font-semibold text-white/90">
+            <div className="flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3.5 py-1.5 backdrop-blur-xs">
+              <Icon name="shield-check" size="xs" className="text-tertiary" />
+              <span>
+                <strong className="font-bold text-white">
+                  {deliveredCount.toLocaleString('vi-VN')}+
+                </strong>{' '}
+                đơn đã giao
+              </span>
             </div>
-
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={handlePrev}
-                aria-label="Banner trước"
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-white/30 bg-white/10 text-white backdrop-blur-xs transition-all hover:bg-white/25"
-              >
-                <Icon name="chevron-left" size="sm" />
-              </button>
-              <button
-                type="button"
-                onClick={handleNext}
-                aria-label="Banner tiếp theo"
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-white/30 bg-white/10 text-white backdrop-blur-xs transition-all hover:bg-white/25"
-              >
-                <Icon name="chevron-right" size="sm" />
-              </button>
+            <div className="flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3.5 py-1.5 backdrop-blur-xs">
+              <Icon name="star" size="xs" className="fill-amber-400 text-amber-400" />
+              <span>
+                <strong className="font-bold text-white">{ratingScore.toFixed(1)}</strong> / 5.0
+                Đánh giá
+              </span>
             </div>
           </div>
-        )}
+
+          {/* Carousel Slide Indicators & Arrows */}
+          {activeSlides.length > 1 && (
+            <div className="flex items-center justify-between gap-4 sm:justify-end">
+              <div className="flex items-center gap-2">
+                {activeSlides.map((s, idx) => (
+                  <button
+                    key={s.id}
+                    type="button"
+                    onClick={() => {
+                      setCurrentIdx(idx);
+                    }}
+                    aria-label={`Chuyển đến banner ${idx + 1}`}
+                    className={`h-2 rounded-full transition-all ${
+                      idx === currentIdx ? 'w-8 bg-primary' : 'w-2 bg-white/40 hover:bg-white/70'
+                    }`}
+                  />
+                ))}
+              </div>
+
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={handlePrev}
+                  aria-label="Banner trước"
+                  className="flex h-9 w-9 items-center justify-center rounded-full border border-white/30 bg-white/10 text-white backdrop-blur-xs transition-all hover:bg-white/25"
+                >
+                  <Icon name="chevron-left" size="sm" />
+                </button>
+                <button
+                  type="button"
+                  onClick={handleNext}
+                  aria-label="Banner tiếp theo"
+                  className="flex h-9 w-9 items-center justify-center rounded-full border border-white/30 bg-white/10 text-white backdrop-blur-xs transition-all hover:bg-white/25"
+                >
+                  <Icon name="chevron-right" size="sm" />
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </section>
   );
