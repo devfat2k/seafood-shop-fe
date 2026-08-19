@@ -124,7 +124,7 @@ export function DailySeafoodStory({ arrivals = [], onAddToCart }: DailySeafoodSt
                     <span>{item.boatCode}</span>
                   </div>
 
-                  <h3 className="mt-1 line-clamp-2 min-h-[38px] font-heading text-sm font-bold text-foreground transition-colors group-hover:text-primary">
+                  <h3 className="mt-1 line-clamp-2 min-h-[38px] font-sans text-sm font-bold text-foreground transition-colors group-hover:text-primary">
                     <Link href={`/products/${item.id}`}>{item.name}</Link>
                   </h3>
 
@@ -137,7 +137,7 @@ export function DailySeafoodStory({ arrivals = [], onAddToCart }: DailySeafoodSt
               {/* Price & CTA */}
               <div className="mt-4 flex items-center justify-between border-t border-border/60 pt-3">
                 <div>
-                  <span className="font-heading text-base font-bold text-primary sm:text-lg">
+                  <span className="font-sans text-base font-bold text-primary sm:text-lg">
                     {item.price > 0 ? `${item.price.toLocaleString('vi-VN')}₫` : 'Theo thời giá'}
                   </span>
                   <span className="text-[10px] text-muted-foreground">/{item.unit}</span>

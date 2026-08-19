@@ -1,21 +1,21 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { BentoCategories } from "@/components/home/BentoCategories";
-import { ComboSetsSection } from "@/components/home/ComboSetsSection";
-import { DailySeafoodStory } from "@/components/home/DailySeafoodStory";
-import { FeaturedProducts } from "@/components/home/FeaturedProducts";
-import { HeroSection } from "@/components/home/HeroSection";
-import { HomePageEmpty } from "@/components/home/HomePageEmpty";
-import { HomePageError } from "@/components/home/HomePageError";
-import { HomePageSkeleton } from "@/components/home/HomePageSkeleton";
-import { MarqueeStrip } from "@/components/home/MarqueeStrip";
-import { SocialProofSection } from "@/components/home/SocialProofSection";
-import { UspSection } from "@/components/home/UspSection";
-import type { QuickViewProduct } from "@/components/products/QuickViewModal";
-import { QuickViewModal } from "@/components/products/QuickViewModal";
-import { useHomeQuery } from "@/libs/queries/home";
-import type { HomePageData } from "@/types/home";
+import { useState } from 'react';
+import { BentoCategories } from '@/components/home/BentoCategories';
+import { ComboSetsSection } from '@/components/home/ComboSetsSection';
+import { DailySeafoodStory } from '@/components/home/DailySeafoodStory';
+import { FeaturedProducts } from '@/components/home/FeaturedProducts';
+import { HeroSection } from '@/components/home/HeroSection';
+import { HomePageEmpty } from '@/components/home/HomePageEmpty';
+import { HomePageError } from '@/components/home/HomePageError';
+import { HomePageSkeleton } from '@/components/home/HomePageSkeleton';
+import { SocialProofSection } from '@/components/home/SocialProofSection';
+import { UspSection } from '@/components/home/UspSection';
+import type { QuickViewProduct } from '@/components/products/QuickViewModal';
+import { QuickViewModal } from '@/components/products/QuickViewModal';
+import { useHomeQuery } from '@/libs/queries/home';
+import { useCartStore } from '@/libs/stores/cart';
+import type { HomePageData } from '@/types/home';
 
 type HomePageContentProps = {
   data?: HomePageData | null;
@@ -25,25 +25,37 @@ type QuickViewInput = {
   id: string | number;
   name: string;
   price: number;
+  originalPrice?: number;
   image?: string;
   badges?: string[];
   spec?: string;
+  category?: string;
+  origin?: string;
+  description?: string;
+  weights?: string[];
+  featured?: boolean;
 };
 
 function mapToQuickView(p: QuickViewInput): QuickViewProduct {
+  const badge = p.badges?.[0] ?? (p.featured ? 'NỔI BẬT' : 'TƯƠI SỐNG');
   return {
     id: String(p.id),
     name: p.name,
-    badge: p.badges?.[0] ?? "CẢNG PHAN THIẾT",
-    price: `${p.price.toLocaleString("vi-VN")}₫`,
-    originalPrice: `${Math.round(p.price * 1.15).toLocaleString("vi-VN")}₫`,
-    rating: 4.9,
-    reviewsCount: 42,
-    origin: "Cảng cá Phan Thiết, Bình Thuận",
+    badge,
+    price: `${p.price.toLocaleString('vi-VN')}₫`,
+    rawPrice: p.price,
+    originalPrice:
+      p.originalPrice && p.originalPrice > p.price
+        ? `${p.originalPrice.toLocaleString('vi-VN')}₫`
+        : undefined,
+    category: p.category,
+    origin: p.origin ?? 'Cảng cá Phan Thiết, Bình Thuận',
     description:
-      "Hải sản tươi bơi bể, tuyển chọn loại 1 từ đánh bắt rạng sáng. Cam kết 1 đổi 1 nếu không đạt chất lượng tươi sống.",
-    image: p.image ?? "",
-    weights: ["500g / Khay", "1kg / Túi oxy", "Combo 2kg"],
+      p.description ??
+      p.spec ??
+      'Hải sản tươi sống loại 1 được tuyển chọn trực tiếp tại cảng cá Phan Thiết, giao nhanh chuỗi lạnh 2H.',
+    image: p.image ?? '',
+    weights: p.weights && p.weights.length > 0 ? p.weights : ['500g', '1kg', 'Túi oxy sống'],
   };
 }
 
@@ -60,15 +72,28 @@ function checkHasContent(data?: HomePageData | null): boolean {
 
 export function HomePageContent(props: HomePageContentProps) {
   const { data: initialData } = props;
-  const {
-    data: homeData,
-    isLoading,
-    isError,
-    error,
-    refetch,
-  } = useHomeQuery(initialData);
-  const [quickViewProduct, setQuickViewProduct] =
-    useState<QuickViewProduct | null>(null);
+  const { data: homeData, isLoading, isError, error, refetch } = useHomeQuery(initialData);
+  const { addItem, openCart } = useCartStore();
+  const [quickViewProduct, setQuickViewProduct] = useState<QuickViewProduct | null>(null);
+
+  const handleAddToCart = (item: {
+    id: string | number;
+    name: string;
+    price: number;
+    image?: string;
+    weight?: string;
+    quantity?: number;
+  }) => {
+    addItem({
+      id: item.id,
+      name: item.name,
+      price: item.price,
+      image: item.image,
+      weight: item.weight ?? 'Tiêu chuẩn',
+      quantity: item.quantity ?? 1,
+    });
+    openCart();
+  };
 
   if (isLoading && !homeData) {
     return <HomePageSkeleton />;
@@ -100,39 +125,37 @@ export function HomePageContent(props: HomePageContentProps) {
       {/* 1. Hero Section with Live Stats */}
       <HeroSection slides={homeData.heroSlides} stats={homeData.stats} />
 
-      {/* 2. Marquee Strip */}
-      <MarqueeStrip />
-
-      {/* 3. USP Section */}
+      {/* 2. USP Section */}
       <UspSection />
 
-      {/* 4. Bento Grid 8 Categories */}
+      {/* 3. Bento Grid 8 Categories */}
       {homeData.categories && homeData.categories.length > 0 && (
         <BentoCategories categories={homeData.categories} />
       )}
 
-      {/* 5. Daily Seafood Arrivals (Conditional) */}
+      {/* 4. Daily Seafood Arrivals (Conditional) */}
       {homeData.dailyArrivals && homeData.dailyArrivals.length > 0 && (
-        <DailySeafoodStory arrivals={homeData.dailyArrivals} />
+        <DailySeafoodStory arrivals={homeData.dailyArrivals} onAddToCart={handleAddToCart} />
       )}
 
-      {/* 6. Featured Products with Tabs */}
+      {/* 5. Featured Products with Tabs */}
       {homeData.featuredProducts && homeData.featuredProducts.length > 0 && (
         <FeaturedProducts
           products={homeData.featuredProducts}
           tabs={homeData.featuredProductTabs}
+          onAddToCart={handleAddToCart}
           onQuickView={(p) => {
             setQuickViewProduct(mapToQuickView(p));
           }}
         />
       )}
 
-      {/* 7. Combo Sets (Conditional) */}
+      {/* 6. Combo Sets (Conditional) */}
       {homeData.comboSets && homeData.comboSets.length > 0 && (
-        <ComboSetsSection combos={homeData.comboSets} />
+        <ComboSetsSection combos={homeData.comboSets} onAddToCart={handleAddToCart} />
       )}
 
-      {/* 8. Social Proof Reviews (Conditional) */}
+      {/* 7. Social Proof Reviews (Conditional) */}
       {homeData.featuredReviews && homeData.featuredReviews.length > 0 && (
         <SocialProofSection reviews={homeData.featuredReviews} />
       )}
@@ -143,6 +166,16 @@ export function HomePageContent(props: HomePageContentProps) {
         isOpen={quickViewProduct !== null}
         onClose={() => {
           setQuickViewProduct(null);
+        }}
+        onAddToCart={(prod, weight, qty) => {
+          handleAddToCart({
+            id: prod.id,
+            name: prod.name,
+            price: prod.rawPrice ?? (Number(prod.price.replaceAll(/[^\d]/gu, '')) || 0),
+            image: prod.image,
+            weight,
+            quantity: qty,
+          });
         }}
       />
     </div>

@@ -17,32 +17,36 @@ type FeaturedProductsProps = {
 };
 
 const TAB_KEYWORDS: Record<string, string[]> = {
-  tom: ['tôm'],
-  'cua-ghe': ['cua', 'ghẹ'],
-  'ca-bien-tuoi': ['cá'],
-  muc: ['mực', 'bạch tuộc'],
-  'so-ngheu-oc': ['sò', 'nghêu', 'ốc'],
-  'hai-san-kho': ['khô', 'ruốc'],
-  'nuoc-mam-gia-vi-bien': ['mắm', 'gia vị', 'muối'],
+  tom: ['tôm', 'shrimp', 'prawn'],
+  'cua-ghe': ['cua', 'ghẹ', 'crab', 'lobster'],
+  'ca-bien-tuoi': ['cá', 'fish'],
+  muc: ['mực', 'bạch tuộc', 'squid', 'octopus'],
+  'so-ngheu-oc': ['sò', 'nghêu', 'ốc', 'clam', 'snail', 'oyster'],
+  'hai-san-kho': ['khô', 'ruốc', 'mực khô', 'tôm khô', 'dried'],
+  'nuoc-mam-gia-vi-bien': ['mắm', 'gia vị', 'muối', 'sauce', 'spice'],
 };
 
 function matchesTab(p: Product, tabSlug: string): boolean {
   if (tabSlug === 'all') {
     return true;
   }
-  const keywords = TAB_KEYWORDS[tabSlug];
-  if (keywords) {
-    const label = (
-      p.categoryLabel ??
-      p.categoryName ??
-      p.category?.name ??
-      p.category?.categoryName ??
-      p.name ??
-      ''
-    ).toLowerCase();
-    return keywords.some((kw) => label.includes(kw));
+  if (p.categorySlug === tabSlug || String(p.categoryId) === tabSlug) {
+    return true;
   }
-  return p.categorySlug === tabSlug || String(p.categoryId) === tabSlug;
+  const keywords = TAB_KEYWORDS[tabSlug];
+  const label = (
+    p.categoryLabel ??
+    p.categoryName ??
+    p.category?.name ??
+    p.category?.categoryName ??
+    p.name ??
+    ''
+  ).toLowerCase();
+
+  if (keywords && keywords.some((kw) => label.includes(kw))) {
+    return true;
+  }
+  return label.includes(tabSlug.toLowerCase().replaceAll('-', ' '));
 }
 
 export function FeaturedProducts(props: FeaturedProductsProps) {
@@ -221,7 +225,7 @@ export function FeaturedProducts(props: FeaturedProductsProps) {
                         </span>
                       </div>
 
-                      <h3 className="mt-1 line-clamp-2 min-h-[38px] font-heading text-xs font-bold text-foreground transition-colors group-hover:text-primary sm:text-sm">
+                      <h3 className="mt-1 line-clamp-2 min-h-[38px] font-sans text-xs font-bold text-foreground transition-colors group-hover:text-primary sm:text-sm">
                         <Link href={`/products/${item.id}`}>{item.name}</Link>
                       </h3>
 
@@ -242,7 +246,7 @@ export function FeaturedProducts(props: FeaturedProductsProps) {
                             {originalPrice.toLocaleString('vi-VN')}₫
                           </span>
                         )}
-                        <span className="font-heading text-sm font-bold text-primary sm:text-base">
+                        <span className="font-sans text-sm font-bold text-primary sm:text-base">
                           {item.price.toLocaleString('vi-VN')}₫
                         </span>
                       </div>

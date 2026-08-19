@@ -1,30 +1,30 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import { Icon } from "@/components/common/Icon";
-import { Link } from "@/libs/I18nNavigation";
-import type { CategoryItem } from "@/types/home";
+import Image from 'next/image';
+import { Icon } from '@/components/common/Icon';
+import { Link } from '@/libs/I18nNavigation';
+import type { CategoryItem } from '@/types/home';
 
 type BentoCategoriesProps = {
   categories?: CategoryItem[];
 };
 
 const BADGE_BG_MAP: Record<string, string> = {
-  hot: "bg-primary text-primary-foreground",
-  fresh: "bg-secondary text-secondary-foreground",
-  dry: "bg-accent text-accent-foreground",
-  number: "bg-foreground text-background",
+  hot: 'bg-primary text-primary-foreground',
+  fresh: 'bg-secondary text-secondary-foreground',
+  dry: 'bg-accent text-accent-foreground',
+  number: 'bg-foreground text-background',
 };
 
 function getBadgeBg(badgeType?: string | null): string {
   if (badgeType && BADGE_BG_MAP[badgeType]) {
     return BADGE_BG_MAP[badgeType];
   }
-  return "bg-primary text-primary-foreground";
+  return 'bg-primary text-primary-foreground';
 }
 
 function MainCategoryCard({ category }: { category: CategoryItem }) {
-  const name = category.name ?? category.categoryName ?? "Hải sản tươi sống";
+  const name = category.name ?? category.categoryName ?? 'Hải sản tươi sống';
   const linkHref = `/products?category=${category.id}`;
   const badgeClass = getBadgeBg(category.badgeType);
 
@@ -53,12 +53,11 @@ function MainCategoryCard({ category }: { category: CategoryItem }) {
 
       <div className="absolute right-6 bottom-6 left-6 space-y-2 text-white">
         <div className="flex items-center gap-2">
-          {category.productCount !== null &&
-            category.productCount !== undefined && (
-              <span className="rounded-full bg-white/20 px-2.5 py-0.5 text-[10px] font-semibold text-white backdrop-blur-xs">
-                {category.productCount} sản phẩm
-              </span>
-            )}
+          {category.productCount !== null && category.productCount !== undefined && (
+            <span className="rounded-full bg-white/20 px-2.5 py-0.5 text-[10px] font-semibold text-white backdrop-blur-xs">
+              {category.productCount} sản phẩm
+            </span>
+          )}
         </div>
         <h3 className="font-heading text-2xl font-bold sm:text-3xl">{name}</h3>
         {category.description && (
@@ -79,7 +78,7 @@ function MainCategoryCard({ category }: { category: CategoryItem }) {
 }
 
 function StandardCategoryCard({ category }: { category: CategoryItem }) {
-  const name = category.name ?? category.categoryName ?? "Hải sản";
+  const name = category.name ?? category.categoryName ?? 'Hải sản';
   const linkHref = `/products?category=${category.id}`;
   const badgeClass = getBadgeBg(category.badgeType);
 
@@ -108,15 +107,12 @@ function StandardCategoryCard({ category }: { category: CategoryItem }) {
 
       <div className="absolute right-4 bottom-4 left-4 space-y-1 text-white">
         <div className="flex items-center justify-between">
-          <h3 className="font-heading text-sm font-bold sm:text-base">
-            {name}
-          </h3>
-          {category.productCount !== null &&
-            category.productCount !== undefined && (
-              <span className="text-[10px] font-medium text-white/75">
-                {category.productCount} SP
-              </span>
-            )}
+          <h3 className="font-sans text-sm font-bold sm:text-base">{name}</h3>
+          {category.productCount !== null && category.productCount !== undefined && (
+            <span className="text-[10px] font-medium text-white/75">
+              {category.productCount} SP
+            </span>
+          )}
         </div>
         <Link
           href={linkHref}
@@ -136,8 +132,7 @@ export function BentoCategories({ categories = [] }: BentoCategoriesProps) {
   }
 
   // Pick the main display category or the first one
-  const mainCategory =
-    categories.find((c) => c.homeDisplayStyle === "main") ?? categories[0];
+  const mainCategory = categories.find((c) => c.homeDisplayStyle === 'main') ?? categories[0];
   const otherCategories = categories.filter((c) => c.id !== mainCategory?.id);
 
   return (
@@ -151,8 +146,7 @@ export function BentoCategories({ categories = [] }: BentoCategoriesProps) {
             Khám Phá Hương Vị Biển Khơi
           </h2>
           <p className="mt-1 text-xs text-muted-foreground sm:text-sm">
-            Tuyển chọn hải sản tươi sống đánh bắt tự nhiên &amp; đặc sản nướng
-            tiệc đậm vị
+            Tuyển chọn hải sản tươi sống đánh bắt tự nhiên &amp; đặc sản nướng tiệc đậm vị
           </p>
         </div>
 

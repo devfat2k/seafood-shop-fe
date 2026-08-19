@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Icon } from '@/components/common/Icon';
 import { Link } from '@/libs/I18nNavigation';
 
@@ -9,14 +9,16 @@ export type QuickViewProduct = {
   id: string | number;
   name: string;
   price: string;
+  rawPrice?: number;
   originalPrice?: string;
-  rating: number;
-  reviewsCount: number;
-  description: string;
+  rating?: number;
+  reviewsCount?: number;
+  description?: string;
   image: string;
-  origin: string;
-  weights: string[];
+  origin?: string;
+  weights?: string[];
   badge?: string;
+  category?: string;
 };
 
 type QuickViewModalProps = {
@@ -32,8 +34,36 @@ export function QuickViewModal({
   onClose,
   onAddToCart,
 }: QuickViewModalProps) {
-  const [selectedWeight, setSelectedWeight] = useState<string>(product?.weights[0] ?? '');
+  const weights = product?.weights && product.weights.length > 0 ? product.weights : ['Tiêu chuẩn'];
+  const [selectedWeight, setSelectedWeight] = useState<string>(weights[0] ?? 'Tiêu chuẩn');
   const [quantity, setQuantity] = useState<number>(1);
+
+  useEffect(() => {
+    if (product?.weights && product.weights.length > 0) {
+      setSelectedWeight(product.weights[0] ?? 'Tiêu chuẩn');
+    } else {
+      setSelectedWeight('Tiêu chuẩn');
+    }
+    setQuantity(1);
+  }, [product]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+      window.addEventListener('keydown', handleKeyDown);
+    }
+
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isOpen, onClose]);
 
   if (!isOpen || !product) {
     return null;
@@ -41,7 +71,7 @@ export function QuickViewModal({
 
   const handleAdd = () => {
     if (onAddToCart) {
-      onAddToCart(product, selectedWeight || (product.weights[0] ?? ''), quantity);
+      onAddToCart(product, selectedWeight, quantity);
     }
     onClose();
   };
@@ -92,20 +122,22 @@ export function QuickViewModal({
           {/* Details & Action */}
           <div className="flex flex-col justify-between p-6">
             <div>
-              <div className="flex items-center gap-1 text-xs text-accent">
-                <Icon name="star" size="xs" />
-                <span className="font-bold text-foreground">{product.rating}</span>
-                <span className="text-muted-foreground">({product.reviewsCount} đánh giá)</span>
-              </div>
+              {product.rating !== undefined && product.rating > 0 && (
+                <div className="flex items-center gap-1 text-xs text-accent">
+                  <Icon name="star" size="xs" />
+                  <span className="font-bold text-foreground">{product.rating}</span>
+                  {product.reviewsCount !== undefined && (
+                    <span className="text-muted-foreground">({product.reviewsCount} đánh giá)</span>
+                  )}
+                </div>
+              )}
 
               <h2 className="mt-2 font-heading text-xl font-bold text-foreground">
                 {product.name}
               </h2>
 
               <div className="mt-2 flex items-baseline gap-2">
-                <span className="font-heading text-2xl font-bold text-primary">
-                  {product.price}
-                </span>
+                <span className="font-sans text-2xl font-bold text-primary">{product.price}</span>
                 {product.originalPrice && (
                   <span className="text-xs text-muted-foreground line-through">
                     {product.originalPrice}
@@ -113,37 +145,43 @@ export function QuickViewModal({
                 )}
               </div>
 
-              <p className="mt-3 line-clamp-3 text-xs leading-relaxed text-muted-foreground">
-                {product.description}
-              </p>
+              {product.description && (
+                <p className="mt-3 line-clamp-3 text-xs leading-relaxed text-muted-foreground">
+                  {product.description}
+                </p>
+              )}
 
-              <div className="mt-4 flex items-center gap-2 text-xs font-semibold text-muted-foreground">
-                <Icon name="map-pin" size="xs" className="text-secondary" />
-                <span>Nguồn gốc: {product.origin}</span>
-              </div>
+              {product.origin && (
+                <div className="mt-4 flex items-center gap-2 text-xs font-semibold text-muted-foreground">
+                  <Icon name="map-pin" size="xs" className="text-secondary" />
+                  <span>Nguồn gốc: {product.origin}</span>
+                </div>
+              )}
 
               {/* Weight Selector */}
-              <div className="mt-4">
-                <span className="text-xs font-bold text-foreground">Chọn quy cách:</span>
-                <div className="mt-2 flex flex-wrap gap-2">
-                  {product.weights.map((w) => (
-                    <button
-                      key={w}
-                      type="button"
-                      onClick={() => {
-                        setSelectedWeight(w);
-                      }}
-                      className={`rounded-lg border px-3 py-1.5 text-xs font-semibold transition-all ${
-                        selectedWeight === w
-                          ? 'border-secondary bg-secondary/10 font-bold text-secondary'
-                          : 'border-border bg-card text-muted-foreground hover:border-secondary/40'
-                      }`}
-                    >
-                      {w}
-                    </button>
-                  ))}
+              {product.weights && product.weights.length > 0 && (
+                <div className="mt-4">
+                  <span className="text-xs font-bold text-foreground">Chọn quy cách:</span>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {product.weights.map((w) => (
+                      <button
+                        key={w}
+                        type="button"
+                        onClick={() => {
+                          setSelectedWeight(w);
+                        }}
+                        className={`rounded-lg border px-3 py-1.5 text-xs font-semibold transition-all ${
+                          selectedWeight === w
+                            ? 'border-secondary bg-secondary/10 font-bold text-secondary'
+                            : 'border-border bg-card text-muted-foreground hover:border-secondary/40'
+                        }`}
+                      >
+                        {w}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
 
               {/* Quantity Stepper */}
               <div className="mt-4 flex items-center gap-4">

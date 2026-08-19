@@ -84,7 +84,7 @@ export function ComboSetsSection({ combos = [], onAddToCart }: ComboSetsSectionP
 
                 <div className="mt-6 flex items-center justify-between border-t border-border/60 pt-4">
                   <div>
-                    <span className="font-heading text-lg font-bold text-primary sm:text-xl">
+                    <span className="font-sans text-lg font-bold text-primary sm:text-xl">
                       {combo.price.toLocaleString('vi-VN')}₫
                     </span>
                     {combo.unit && (
