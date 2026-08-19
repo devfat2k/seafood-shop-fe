@@ -50,6 +50,9 @@ export const categorySchema = z.object({
   badgeType: z.string().nullable().optional(),
   iconName: z.string().nullable().optional(),
   homeDisplayStyle: z.string().nullable().optional(),
+  homeSortOrder: z.number().nullable().optional(),
+  homeIsActive: z.boolean().nullable().optional(),
+  active: z.boolean().optional().default(true),
   productCount: z.number().nullable().optional(),
 });
 
@@ -73,6 +76,7 @@ export const productSchema = z.object({
   categoryName: z.string().nullable().optional(),
   categorySlug: z.string().nullable().optional(),
   category: categorySchema.nullable().optional(),
+  productType: z.enum(['REGULAR', 'COMBO']).optional(),
   tags: z.array(z.string()).optional(),
   weightOptions: z.array(weightOptionSchema).optional(),
   rating: z.number().nullable().optional(),

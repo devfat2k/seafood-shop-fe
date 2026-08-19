@@ -39,8 +39,8 @@ export function ForgotPasswordNewPasswordStep({
             id="fp-newPassword"
             type={showNewPass ? 'text' : 'password'}
             {...register('newPassword')}
-            placeholder="Tối thiểu 6 ký tự"
-            className="w-full rounded-xl border border-border bg-background py-2.5 pr-10 pl-10 text-xs text-foreground placeholder:text-muted-foreground focus:border-secondary focus:ring-2 focus:ring-secondary/20 focus:outline-none"
+            placeholder="Nhập mật khẩu mới (từ 8 ký tự)"
+            className="w-full rounded-xl border border-border bg-background py-2.5 pr-10 pl-10 text-xs text-foreground transition-colors placeholder:text-muted-foreground/70 focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none"
           />
           <Icon
             name="lock"
@@ -52,14 +52,16 @@ export function ForgotPasswordNewPasswordStep({
             onClick={() => {
               setShowNewPass(!showNewPass);
             }}
-            className="absolute top-1/2 right-3 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+            className="absolute top-1/2 right-3 -translate-y-1/2 text-muted-foreground transition-colors hover:text-foreground"
             aria-label={showNewPass ? 'Ẩn mật khẩu mới' : 'Hiện mật khẩu mới'}
           >
             <Icon name={showNewPass ? 'eye-off' : 'eye'} size="sm" />
           </button>
         </div>
         {errors.newPassword && (
-          <p className="mt-1 text-[11px] text-destructive">{errors.newPassword.message}</p>
+          <p className="mt-1 text-[11px] font-medium text-destructive">
+            {errors.newPassword.message}
+          </p>
         )}
       </div>
 
@@ -73,7 +75,7 @@ export function ForgotPasswordNewPasswordStep({
             type={showConfirmPass ? 'text' : 'password'}
             {...register('confirmPassword')}
             placeholder="Nhập lại mật khẩu mới"
-            className="w-full rounded-xl border border-border bg-background py-2.5 pr-10 pl-10 text-xs text-foreground placeholder:text-muted-foreground focus:border-secondary focus:ring-2 focus:ring-secondary/20 focus:outline-none"
+            className="w-full rounded-xl border border-border bg-background py-2.5 pr-10 pl-10 text-xs text-foreground transition-colors placeholder:text-muted-foreground/70 focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none"
           />
           <Icon
             name="lock"
@@ -85,24 +87,35 @@ export function ForgotPasswordNewPasswordStep({
             onClick={() => {
               setShowConfirmPass(!showConfirmPass);
             }}
-            className="absolute top-1/2 right-3 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+            className="absolute top-1/2 right-3 -translate-y-1/2 text-muted-foreground transition-colors hover:text-foreground"
             aria-label={showConfirmPass ? 'Ẩn xác nhận mật khẩu' : 'Hiện xác nhận mật khẩu'}
           >
             <Icon name={showConfirmPass ? 'eye-off' : 'eye'} size="sm" />
           </button>
         </div>
         {errors.confirmPassword && (
-          <p className="mt-1 text-[11px] text-destructive">{errors.confirmPassword.message}</p>
+          <p className="mt-1 text-[11px] font-medium text-destructive">
+            {errors.confirmPassword.message}
+          </p>
         )}
       </div>
 
       <button
         type="submit"
         disabled={isPending}
-        className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3 text-xs font-bold text-white shadow-sm transition-opacity hover:opacity-90 disabled:opacity-50"
+        className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3 text-xs font-bold text-primary-foreground shadow-sm transition-all hover:bg-primary/90 active:scale-[0.98] disabled:opacity-50"
       >
-        {isPending ? 'Đang cập nhật...' : 'Đổi mật khẩu'}
-        <Icon name="check" size="xs" />
+        {isPending ? (
+          <span className="inline-flex items-center gap-2">
+            <span className="h-4 w-4 animate-spin rounded-full border-2 border-primary-foreground border-t-transparent" />
+            <span>Đang cập nhật...</span>
+          </span>
+        ) : (
+          <>
+            <span>Đổi Mật Khẩu Mới</span>
+            <Icon name="check" size="xs" />
+          </>
+        )}
       </button>
     </form>
   );

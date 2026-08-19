@@ -59,7 +59,7 @@ export function AuthLoginForm({
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div>
-        <label htmlFor="login-email" className="block text-xs font-bold text-foreground">
+        <label htmlFor="login-email" className="block text-xs font-semibold text-foreground">
           Địa chỉ Email
         </label>
         <div className="relative mt-1.5">
@@ -69,9 +69,13 @@ export function AuthLoginForm({
             autoComplete="email"
             placeholder="name@example.com"
             {...register('email')}
-            className="w-full rounded-xl border border-border bg-background py-2.5 pr-4 pl-10 text-xs text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none"
+            className="w-full rounded-xl border border-border bg-background py-2.5 pr-4 pl-10 text-xs text-foreground transition-colors placeholder:text-muted-foreground/70 focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none"
           />
-          <Icon name="mail" size="sm" className="absolute top-3 left-3 text-muted-foreground" />
+          <Icon
+            name="mail"
+            size="sm"
+            className="absolute top-1/2 left-3 -translate-y-1/2 text-muted-foreground"
+          />
         </div>
         {errors.email && (
           <p className="mt-1 text-[11px] font-medium text-destructive">{errors.email.message}</p>
@@ -80,13 +84,13 @@ export function AuthLoginForm({
 
       <div>
         <div className="flex items-center justify-between">
-          <label htmlFor="login-password" className="block text-xs font-bold text-foreground">
+          <label htmlFor="login-password" className="block text-xs font-semibold text-foreground">
             Mật khẩu
           </label>
           <button
             type="button"
             onClick={onOpenForgotPassword}
-            className="text-xs font-bold text-secondary hover:underline"
+            className="text-xs font-semibold text-secondary transition-colors hover:underline"
           >
             Quên mật khẩu?
           </button>
@@ -96,18 +100,22 @@ export function AuthLoginForm({
             id="login-password"
             type={showPassword ? 'text' : 'password'}
             autoComplete="current-password"
-            placeholder="••••••••"
+            placeholder="Nhập mật khẩu của bạn"
             {...register('password')}
-            className="w-full rounded-xl border border-border bg-background py-2.5 pr-10 pl-10 text-xs text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none"
+            className="w-full rounded-xl border border-border bg-background py-2.5 pr-10 pl-10 text-xs text-foreground transition-colors placeholder:text-muted-foreground/70 focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none"
           />
-          <Icon name="lock" size="sm" className="absolute top-3 left-3 text-muted-foreground" />
+          <Icon
+            name="lock"
+            size="sm"
+            className="absolute top-1/2 left-3 -translate-y-1/2 text-muted-foreground"
+          />
           <button
             type="button"
-            aria-label="Ẩn hiện mật khẩu"
+            aria-label={showPassword ? 'Ẩn mật khẩu' : 'Hiện mật khẩu'}
             onClick={() => {
               setShowPassword(!showPassword);
             }}
-            className="absolute top-3 right-3 text-muted-foreground hover:text-foreground"
+            className="absolute top-1/2 right-3 -translate-y-1/2 text-muted-foreground transition-colors hover:text-foreground"
           >
             <Icon name={showPassword ? 'eye-off' : 'eye'} size="sm" />
           </button>
@@ -120,12 +128,12 @@ export function AuthLoginForm({
       <button
         type="submit"
         disabled={loginMutation.isPending}
-        className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3 text-xs font-bold text-primary-foreground shadow-md transition-all hover:bg-primary/90 active:scale-98 disabled:opacity-50"
+        className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3 text-xs font-bold text-primary-foreground shadow-sm transition-all hover:bg-primary/90 active:scale-[0.98] disabled:opacity-50"
       >
         {loginMutation.isPending ? (
           <span className="inline-flex items-center gap-2">
             <span className="h-4 w-4 animate-spin rounded-full border-2 border-primary-foreground border-t-transparent" />
-            <span>Đang xử lý...</span>
+            <span>Đang đăng nhập...</span>
           </span>
         ) : (
           <>

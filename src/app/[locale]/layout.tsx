@@ -4,6 +4,7 @@ import { setRequestLocale } from 'next-intl/server';
 import { Be_Vietnam_Pro, Fraunces, JetBrains_Mono } from 'next/font/google';
 import { notFound } from 'next/navigation';
 import Providers from '@/app/providers';
+import { Toaster } from '@/components/ui/sonner';
 import { routing } from '@/libs/I18nRouting';
 import '@/styles/global.css';
 
@@ -82,7 +83,10 @@ export default async function RootLayout(props: {
     >
       <body className="min-h-screen bg-background font-sans text-foreground antialiased">
         <NextIntlClientProvider>
-          <Providers>{props.children}</Providers>
+          <Providers>
+            {props.children}
+            <Toaster richColors position="top-right" />
+          </Providers>
         </NextIntlClientProvider>
       </body>
     </html>

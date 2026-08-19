@@ -47,7 +47,7 @@ export function AuthRegisterForm({ onRegisterSuccess }: AuthRegisterFormProps) {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-3.5">
       <div>
-        <label htmlFor="reg-fullname" className="block text-xs font-bold text-foreground">
+        <label htmlFor="reg-fullname" className="block text-xs font-semibold text-foreground">
           Họ và tên
         </label>
         <div className="relative mt-1">
@@ -56,9 +56,13 @@ export function AuthRegisterForm({ onRegisterSuccess }: AuthRegisterFormProps) {
             type="text"
             placeholder="Nguyễn Văn A"
             {...register('fullName')}
-            className="w-full rounded-xl border border-border bg-background py-2.5 pr-4 pl-10 text-xs text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none"
+            className="w-full rounded-xl border border-border bg-background py-2.5 pr-4 pl-10 text-xs text-foreground transition-colors placeholder:text-muted-foreground/70 focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none"
           />
-          <Icon name="user" size="sm" className="absolute top-3 left-3 text-muted-foreground" />
+          <Icon
+            name="user"
+            size="sm"
+            className="absolute top-1/2 left-3 -translate-y-1/2 text-muted-foreground"
+          />
         </div>
         {errors.fullName && (
           <p className="mt-1 text-[11px] font-medium text-destructive">{errors.fullName.message}</p>
@@ -66,7 +70,7 @@ export function AuthRegisterForm({ onRegisterSuccess }: AuthRegisterFormProps) {
       </div>
 
       <div>
-        <label htmlFor="reg-email" className="block text-xs font-bold text-foreground">
+        <label htmlFor="reg-email" className="block text-xs font-semibold text-foreground">
           Địa chỉ Email
         </label>
         <div className="relative mt-1">
@@ -75,9 +79,13 @@ export function AuthRegisterForm({ onRegisterSuccess }: AuthRegisterFormProps) {
             type="email"
             placeholder="name@example.com"
             {...register('email')}
-            className="w-full rounded-xl border border-border bg-background py-2.5 pr-4 pl-10 text-xs text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none"
+            className="w-full rounded-xl border border-border bg-background py-2.5 pr-4 pl-10 text-xs text-foreground transition-colors placeholder:text-muted-foreground/70 focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none"
           />
-          <Icon name="mail" size="sm" className="absolute top-3 left-3 text-muted-foreground" />
+          <Icon
+            name="mail"
+            size="sm"
+            className="absolute top-1/2 left-3 -translate-y-1/2 text-muted-foreground"
+          />
         </div>
         {errors.email && (
           <p className="mt-1 text-[11px] font-medium text-destructive">{errors.email.message}</p>
@@ -85,7 +93,7 @@ export function AuthRegisterForm({ onRegisterSuccess }: AuthRegisterFormProps) {
       </div>
 
       <div>
-        <label htmlFor="reg-phone" className="block text-xs font-bold text-foreground">
+        <label htmlFor="reg-phone" className="block text-xs font-semibold text-foreground">
           Số điện thoại
         </label>
         <div className="relative mt-1">
@@ -94,9 +102,13 @@ export function AuthRegisterForm({ onRegisterSuccess }: AuthRegisterFormProps) {
             type="tel"
             placeholder="0912345678"
             {...register('phoneNumber')}
-            className="w-full rounded-xl border border-border bg-background py-2.5 pr-4 pl-10 text-xs text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none"
+            className="w-full rounded-xl border border-border bg-background py-2.5 pr-4 pl-10 text-xs text-foreground transition-colors placeholder:text-muted-foreground/70 focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none"
           />
-          <Icon name="phone" size="sm" className="absolute top-3 left-3 text-muted-foreground" />
+          <Icon
+            name="phone"
+            size="sm"
+            className="absolute top-1/2 left-3 -translate-y-1/2 text-muted-foreground"
+          />
         </div>
         {errors.phoneNumber && (
           <p className="mt-1 text-[11px] font-medium text-destructive">
@@ -106,7 +118,7 @@ export function AuthRegisterForm({ onRegisterSuccess }: AuthRegisterFormProps) {
       </div>
 
       <div>
-        <label htmlFor="reg-password" className="block text-xs font-bold text-foreground">
+        <label htmlFor="reg-password" className="block text-xs font-semibold text-foreground">
           Mật khẩu
         </label>
         <div className="relative mt-1">
@@ -115,16 +127,20 @@ export function AuthRegisterForm({ onRegisterSuccess }: AuthRegisterFormProps) {
             type={showPassword ? 'text' : 'password'}
             placeholder="Tối thiểu 8 ký tự"
             {...register('password')}
-            className="w-full rounded-xl border border-border bg-background py-2.5 pr-10 pl-10 text-xs text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none"
+            className="w-full rounded-xl border border-border bg-background py-2.5 pr-10 pl-10 text-xs text-foreground transition-colors placeholder:text-muted-foreground/70 focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none"
           />
-          <Icon name="lock" size="sm" className="absolute top-3 left-3 text-muted-foreground" />
+          <Icon
+            name="lock"
+            size="sm"
+            className="absolute top-1/2 left-3 -translate-y-1/2 text-muted-foreground"
+          />
           <button
             type="button"
-            aria-label="Ẩn hiện mật khẩu"
+            aria-label={showPassword ? 'Ẩn mật khẩu' : 'Hiện mật khẩu'}
             onClick={() => {
               setShowPassword(!showPassword);
             }}
-            className="absolute top-3 right-3 text-muted-foreground hover:text-foreground"
+            className="absolute top-1/2 right-3 -translate-y-1/2 text-muted-foreground transition-colors hover:text-foreground"
           >
             <Icon name={showPassword ? 'eye-off' : 'eye'} size="sm" />
           </button>
@@ -137,7 +153,7 @@ export function AuthRegisterForm({ onRegisterSuccess }: AuthRegisterFormProps) {
       <button
         type="submit"
         disabled={registerMutation.isPending}
-        className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3 text-xs font-bold text-primary-foreground shadow-md transition-all hover:bg-primary/90 active:scale-98 disabled:opacity-50"
+        className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3 text-xs font-bold text-primary-foreground shadow-sm transition-all hover:bg-primary/90 active:scale-[0.98] disabled:opacity-50"
       >
         {registerMutation.isPending ? (
           <span className="inline-flex items-center gap-2">

@@ -34,7 +34,7 @@ export type AuthResponse = {
   refreshToken: string;
   tokenType: string;
   expiresIn: number;
-  user: UserAuthDto;
+  user?: UserAuthDto;
 };
 
 export type UserResponseDto = {

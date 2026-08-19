@@ -32,6 +32,8 @@ export type UserProfile = {
   phoneNumber: string;
   avatarUrl?: string | null;
   isActive?: boolean;
+  active?: boolean;
+  emailVerified?: boolean;
   roles: string[];
   permissions?: string[];
   rank?: string;

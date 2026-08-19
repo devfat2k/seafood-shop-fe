@@ -70,10 +70,8 @@ export function useLoginMutation() {
       }
       return res;
     },
-    onSuccess: (res) => {
-      if (res.data?.user) {
-        void queryClient.invalidateQueries({ queryKey: authQueryKeys.all });
-      }
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: authQueryKeys.all });
     },
   });
 }

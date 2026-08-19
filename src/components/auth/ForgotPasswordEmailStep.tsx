@@ -38,7 +38,7 @@ export function ForgotPasswordEmailStep({
             type="email"
             {...register('email')}
             placeholder="example@gmail.com"
-            className="w-full rounded-xl border border-border bg-background py-2.5 pr-4 pl-10 text-xs text-foreground placeholder:text-muted-foreground focus:border-secondary focus:ring-2 focus:ring-secondary/20 focus:outline-none"
+            className="w-full rounded-xl border border-border bg-background py-2.5 pr-4 pl-10 text-xs text-foreground transition-colors placeholder:text-muted-foreground/70 focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none"
           />
           <Icon
             name="mail"
@@ -54,10 +54,19 @@ export function ForgotPasswordEmailStep({
       <button
         type="submit"
         disabled={isPending}
-        className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3 text-xs font-bold text-white shadow-sm transition-opacity hover:opacity-90 disabled:opacity-50"
+        className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3 text-xs font-bold text-primary-foreground shadow-sm transition-all hover:bg-primary/90 active:scale-[0.98] disabled:opacity-50"
       >
-        {isPending ? 'Đang gửi mã...' : 'Gửi mã xác nhận'}
-        <Icon name="arrow-right" size="xs" />
+        {isPending ? (
+          <span className="inline-flex items-center gap-2">
+            <span className="h-4 w-4 animate-spin rounded-full border-2 border-primary-foreground border-t-transparent" />
+            <span>Đang gửi mã...</span>
+          </span>
+        ) : (
+          <>
+            <span>Gửi Mã Xác Nhận</span>
+            <Icon name="arrow-right" size="xs" />
+          </>
+        )}
       </button>
 
       <div className="text-center">

@@ -32,6 +32,11 @@ export default async function proxy(request: NextRequest) {
     }
   }
 
+  // Tuyến đường /admin độc lập, không đi qua next-intl
+  if (request.nextUrl.pathname.startsWith('/admin')) {
+    return NextResponse.next();
+  }
+
   return handleI18nRouting(request);
 }
 

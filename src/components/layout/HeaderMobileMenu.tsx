@@ -6,6 +6,7 @@ import { navLinks } from '@/components/layout/HeaderNav';
 import { cn } from '@/lib/utils';
 import { Link, usePathname } from '@/libs/I18nNavigation';
 import { useCurrentUserQuery } from '@/libs/queries/auth';
+import { hasAdminRole } from '@/utils/role';
 
 type HeaderMobileMenuProps = {
   isOpen: boolean;
@@ -29,24 +30,27 @@ export function HeaderMobileMenu({ isOpen, onClose, onOpenAuthModal }: HeaderMob
         type="button"
         className="fixed inset-0 animate-in cursor-default bg-black/60 backdrop-blur-xs transition-opacity fade-in"
         onClick={onClose}
-        aria-label="Đóng menu di động"
+        aria-label="Đóng menu"
       />
 
-      {/* Slide-out Sheet */}
-      <div className="fixed inset-y-0 left-0 flex max-w-full">
-        <div className="relative w-screen max-w-xs animate-in bg-card p-6 shadow-2xl slide-in-from-left">
-          <div className="flex items-center justify-between border-b border-border pb-4">
-            <Logo size="sm" />
-            <button
-              type="button"
-              onClick={onClose}
-              className="rounded-full p-2 text-muted-foreground hover:bg-muted hover:text-foreground"
-              aria-label="Đóng menu"
-            >
-              <Icon name="x" size="sm" />
-            </button>
-          </div>
+      {/* Menu Drawer */}
+      <div className="fixed inset-y-0 right-0 flex w-full max-w-xs animate-in flex-col bg-card shadow-2xl duration-300 slide-in-from-right">
+        {/* Drawer Header */}
+        <div className="flex items-center justify-between border-b border-border p-4">
+          <Logo />
+          <button
+            type="button"
+            onClick={onClose}
+            className="flex h-9 w-9 items-center justify-center rounded-xl text-muted-foreground hover:bg-muted hover:text-foreground"
+            aria-label="Đóng menu"
+          >
+            <Icon name="x" size="sm" />
+          </button>
+        </div>
 
+        {/* Drawer Content */}
+        <div className="flex-1 overflow-y-auto p-4">
+          {/* Navigation Links */}
           <nav className="mt-6 flex flex-col gap-2">
             {navLinks.map((link) => {
               const isCurrent =
@@ -67,7 +71,8 @@ export function HeaderMobileMenu({ isOpen, onClose, onOpenAuthModal }: HeaderMob
             })}
           </nav>
 
-          <div className="mt-8 border-t border-border pt-6">
+          {/* User Section */}
+          <div className="mt-6 border-t border-border pt-6">
             {isLoggedIn ? (
               <div className="space-y-2">
                 <Link
@@ -86,6 +91,18 @@ export function HeaderMobileMenu({ isOpen, onClose, onOpenAuthModal }: HeaderMob
                   <Icon name="truck" size="sm" className="text-tertiary" />
                   Đơn hàng của tôi
                 </Link>
+                {hasAdminRole(currentUser?.roles) && (
+                  <a
+                    href="/admin"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={onClose}
+                    className="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium text-primary hover:bg-primary/10"
+                  >
+                    <Icon name="settings" size="sm" className="text-primary" />
+                    Quản trị (Admin)
+                  </a>
+                )}
               </div>
             ) : (
               <button

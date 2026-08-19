@@ -5,6 +5,7 @@ import { Icon } from '@/components/common/Icon';
 import { Link } from '@/libs/I18nNavigation';
 import { useCurrentUserQuery, useLogoutMutation } from '@/libs/queries/auth';
 import { useCartStore } from '@/libs/stores/cart';
+import { hasAdminRole } from '@/utils/role';
 
 type HeaderActionsProps = {
   isCatalogOrSearchPage: boolean;
@@ -29,7 +30,7 @@ export function HeaderActions({
 
   const user = currentUser;
   const isLoggedIn = Boolean(user);
-  const isAdmin = user?.roles?.includes('ROLE_ADMIN');
+  const isAdmin = hasAdminRole(user?.roles);
 
   const handleLogout = async () => {
     setIsUserMenuOpen(false);
@@ -116,8 +117,10 @@ export function HeaderActions({
                 </Link>
 
                 {isAdmin && (
-                  <Link
+                  <a
                     href="/admin"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     onClick={() => {
                       setIsUserMenuOpen(false);
                     }}
@@ -125,7 +128,7 @@ export function HeaderActions({
                   >
                     <Icon name="settings" size="xs" />
                     <span>Quản trị (Admin)</span>
-                  </Link>
+                  </a>
                 )}
 
                 <div className="my-1 border-t border-border" />
