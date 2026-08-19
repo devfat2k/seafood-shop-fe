@@ -67,7 +67,6 @@ export function AccountSidebar(props: AccountSidebarProps) {
 
   return (
     <aside className="space-y-4">
-      {/* 1. Main Profile Card */}
       <div className="overflow-hidden rounded-2xl border border-border bg-card p-6 shadow-sm">
         <div className="flex items-center gap-4">
           <div className="relative shrink-0">
@@ -99,7 +98,7 @@ export function AccountSidebar(props: AccountSidebarProps) {
           <div className="min-w-0 flex-1">
             <h2 className="truncate font-sans text-sm font-bold text-foreground">{displayName}</h2>
             <p className="truncate text-xs text-muted-foreground">{email}</p>
-            <div className="mt-1.5 inline-flex items-center gap-1.5 rounded-full bg-secondary/15 px-2.5 py-0.5 text-[10px] font-bold text-secondary">
+            <div className="mt-1.5 inline-flex items-center gap-1.5 rounded-full bg-secondary/15 px-2.5 py-0.5 text-xs font-bold text-secondary">
               <Icon name="shield-check" size="xs" />
               <span>Đã kích hoạt</span>
             </div>
@@ -107,7 +106,6 @@ export function AccountSidebar(props: AccountSidebarProps) {
         </div>
       </div>
 
-      {/* 2. Menu Navigation Links */}
       <div className="rounded-2xl border border-border bg-card p-2 shadow-sm">
         <nav className="space-y-1">
           {menuItems.map((item) => {

@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { Icon } from '@/components/common/Icon';
 import type { OrderResponse, OrderStatus } from '@/types/order';
+import { formatCurrency } from '@/utils/Helpers';
 
 export function getStatusBadge(status: OrderStatus) {
   switch (status) {
@@ -57,7 +58,7 @@ type OrderCardProps = {
   onOpenCancel: (order: OrderResponse) => void;
 };
 
-export function OrderCard({ order, onOpenTracking, onOpenCancel }: OrderCardProps) {
+export const OrderCard = ({ order, onOpenTracking, onOpenCancel }: OrderCardProps) => {
   const badge = getStatusBadge(order.status);
   const items = order.items ?? [];
   const [firstItem] = items;
@@ -65,7 +66,6 @@ export function OrderCard({ order, onOpenTracking, onOpenCancel }: OrderCardProp
 
   return (
     <div className="rounded-2xl border border-border bg-card p-5 shadow-xs transition-all hover:border-secondary/30 sm:p-6">
-      {/* Top bar */}
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border pb-4">
         <div className="flex items-center gap-3">
           <span className="font-mono text-xs font-bold text-foreground sm:text-sm">
@@ -90,7 +90,6 @@ export function OrderCard({ order, onOpenTracking, onOpenCancel }: OrderCardProp
         </div>
       </div>
 
-      {/* Items Preview */}
       <div className="my-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-3">
           {firstItem?.imageUrl ? (
@@ -121,12 +120,11 @@ export function OrderCard({ order, onOpenTracking, onOpenCancel }: OrderCardProp
         <div className="text-right sm:self-center">
           <span className="block text-xs text-muted-foreground">Tổng thanh toán</span>
           <span className="text-base font-bold text-primary sm:text-lg">
-            {order.totalPrice.toLocaleString('vi-VN')}₫
+            {formatCurrency(order.totalPrice)}
           </span>
         </div>
       </div>
 
-      {/* Bottom Actions */}
       <div className="flex flex-wrap items-center justify-end gap-2 border-t border-border pt-4">
         {order.status === 'PENDING' && (
           <button
@@ -153,4 +151,4 @@ export function OrderCard({ order, onOpenTracking, onOpenCancel }: OrderCardProp
       </div>
     </div>
   );
-}
+};

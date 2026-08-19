@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { getProducts } from '@/libs/api/products';
+import { formatCurrency } from '@/utils/Helpers';
 
 export default function ProductGrid() {
   const { data, isLoading, isError } = useQuery({
@@ -40,7 +41,7 @@ export default function ProductGrid() {
           </CardHeader>
           <CardContent className="p-4 pt-0">
             <p className="text-base font-semibold text-emerald-600">
-              {product.price.toLocaleString('vi-VN')}₫
+              {formatCurrency(product.price)}
             </p>
           </CardContent>
         </Card>

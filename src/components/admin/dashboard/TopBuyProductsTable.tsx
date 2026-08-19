@@ -15,6 +15,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { useTopBuyProductsQuery } from '@/libs/queries/admin/dashboard';
+import { formatCurrency } from '@/utils/Helpers';
 
 export function TopBuyProductsTable() {
   const { data: products, isLoading, isError, refetch } = useTopBuyProductsQuery(6);
@@ -140,7 +141,7 @@ export function TopBuyProductsTable() {
                       </div>
                     </TableCell>
                     <TableCell className="text-right text-xs font-medium text-foreground">
-                      {item.price.toLocaleString('vi-VN')}₫
+                      {formatCurrency(item.price)}
                     </TableCell>
                     <TableCell className="text-right text-xs font-bold text-primary">
                       {item.totalSold ?? 0}

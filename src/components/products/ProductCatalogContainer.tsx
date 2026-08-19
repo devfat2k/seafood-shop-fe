@@ -22,7 +22,7 @@ type ProductCatalogContainerProps = {
   initialSort?: string;
 };
 
-export function ProductCatalogContainer(props: ProductCatalogContainerProps) {
+export const ProductCatalogContainer = (props: ProductCatalogContainerProps) => {
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
 
   const {
@@ -113,7 +113,6 @@ export function ProductCatalogContainer(props: ProductCatalogContainerProps) {
 
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12">
         <div className="flex flex-col gap-8 lg:flex-row">
-          {/* Desktop Left Sidebar Filter */}
           <aside className="hidden w-64 shrink-0 lg:block">
             <ProductSidebarFilter
               categoryList={filterCategories}
@@ -126,7 +125,6 @@ export function ProductCatalogContainer(props: ProductCatalogContainerProps) {
             />
           </aside>
 
-          {/* Right Product Grid & Content */}
           <main className="flex-1 space-y-6">
             <ProductListToolbar
               totalCount={totalElements}
@@ -140,7 +138,6 @@ export function ProductCatalogContainer(props: ProductCatalogContainerProps) {
               }}
             />
 
-            {/* Mobile Filter Drawer / Toggleable section */}
             {mobileFilterOpen && (
               <div className="rounded-2xl border border-border bg-card p-4 lg:hidden">
                 <div className="mb-3 flex items-center justify-between">
@@ -167,10 +164,8 @@ export function ProductCatalogContainer(props: ProductCatalogContainerProps) {
               </div>
             )}
 
-            {/* 3 UI States */}
             {renderProductsList()}
 
-            {/* Pagination */}
             {totalPages > 1 && (
               <div className="pt-6">
                 <ProductPagination
@@ -184,7 +179,6 @@ export function ProductCatalogContainer(props: ProductCatalogContainerProps) {
         </div>
       </div>
 
-      {/* Quick View Modal */}
       <QuickViewModal
         product={quickViewProduct}
         isOpen={quickViewProduct !== null}
@@ -194,4 +188,4 @@ export function ProductCatalogContainer(props: ProductCatalogContainerProps) {
       />
     </div>
   );
-}
+};

@@ -17,12 +17,11 @@ const METHOD_LABEL: Record<PaymentMethod, string> = {
   COD: 'COD',
 };
 
-export function PaymentWaitingOverlay({
+export const PaymentWaitingOverlay = ({
   orderId,
   paymentMethod,
   onConfirmed,
-}: PaymentWaitingOverlayProps) {
-  // Lắng nghe broadcast từ tab payment-result
+}: PaymentWaitingOverlayProps) => {
   useEffect(() => {
     let cleanup: (() => void) | undefined;
 
@@ -49,16 +48,12 @@ export function PaymentWaitingOverlay({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      {/* Backdrop */}
       <div className="absolute inset-0 bg-black/65 backdrop-blur-sm" />
 
-      {/* Card */}
       <div className="relative w-full max-w-md overflow-hidden rounded-3xl border border-border bg-card shadow-2xl">
-        {/* Top accent bar */}
         <div className="h-1.5 w-full bg-gradient-to-r from-primary via-secondary to-accent" />
 
         <div className="p-8">
-          {/* Spinner */}
           <div className="flex justify-center">
             <div className="relative flex h-20 w-20 items-center justify-center">
               <div className="absolute inset-0 animate-spin rounded-full border-4 border-primary/20 border-t-primary" />
@@ -78,18 +73,15 @@ export function PaymentWaitingOverlay({
             mở ở tab mới. Vui lòng hoàn tất giao dịch tại đó.
           </p>
 
-          {/* Auto-detect notice */}
-          <div className="mt-4 flex items-center justify-center gap-1.5 rounded-xl bg-muted/60 px-4 py-2.5 text-[11px] text-muted-foreground">
+          <div className="mt-4 flex items-center justify-center gap-1.5 rounded-xl bg-muted/60 px-4 py-2.5 text-xs text-muted-foreground">
             <Icon name="zap" size="xs" className="shrink-0 text-secondary" />
             <span>Trang này tự động cập nhật khi bạn hoàn tất thanh toán</span>
           </div>
 
-          {/* Order ID */}
-          <p className="mt-4 text-center text-[11px] text-muted-foreground">
+          <p className="mt-4 text-center text-xs text-muted-foreground">
             Mã đơn: <span className="font-mono font-semibold text-foreground">#{orderId}</span>
           </p>
 
-          {/* Actions */}
           <div className="mt-6 flex flex-col gap-2.5">
             <button
               type="button"
@@ -117,4 +109,4 @@ export function PaymentWaitingOverlay({
       </div>
     </div>
   );
-}
+};

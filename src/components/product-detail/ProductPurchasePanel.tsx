@@ -9,6 +9,7 @@ import type { WeightOption } from '@/components/product-detail/ProductWeightSele
 import { useRouter } from '@/libs/I18nNavigation';
 import { useCartStore } from '@/libs/stores/cart';
 import type { Product } from '@/types/api';
+import { formatCurrency } from '@/utils/Helpers';
 
 function getProductWeightOptions(product: Product): WeightOption[] {
   if (product.weightOptions && product.weightOptions.length > 0) {
@@ -18,7 +19,7 @@ function getProductWeightOptions(product: Product): WeightOption[] {
       return {
         id: String(w.id ?? idx),
         label,
-        subLabel: adjustment > 0 ? `+${adjustment.toLocaleString('vi-VN')}₫` : 'Giá chuẩn',
+        subLabel: adjustment > 0 ? `+${formatCurrency(adjustment)}` : 'Giá chuẩn',
         price: product.price + adjustment,
         originalPrice: (product.originalPrice ?? Math.round(product.price * 1.15)) + adjustment,
         stock: product.stock,
@@ -45,7 +46,7 @@ type ProductPurchasePanelProps = {
   product: Product;
 };
 
-export function ProductPurchasePanel({ product }: ProductPurchasePanelProps) {
+export const ProductPurchasePanel = ({ product }: ProductPurchasePanelProps) => {
   const router = useRouter();
   const { addItem: addCartItem } = useCartStore();
   const weightOptions = useMemo(() => getProductWeightOptions(product), [product]);
@@ -88,14 +89,13 @@ export function ProductPurchasePanel({ product }: ProductPurchasePanelProps) {
 
   return (
     <div className="space-y-5 rounded-2xl border border-border bg-card p-6 shadow-sm">
-      {/* Price Header */}
       <div className="flex flex-wrap items-baseline gap-3 border-b border-border pb-4">
         <span className="font-heading text-2xl font-bold text-primary sm:text-3xl">
-          {currentPrice.toLocaleString('vi-VN')}₫
+          {formatCurrency(currentPrice)}
         </span>
         {currentOriginalPrice > currentPrice && (
           <span className="text-sm text-muted-foreground line-through">
-            {currentOriginalPrice.toLocaleString('vi-VN')}₫
+            {formatCurrency(currentOriginalPrice)}
           </span>
         )}
         {discountPercent > 0 && (
@@ -105,14 +105,12 @@ export function ProductPurchasePanel({ product }: ProductPurchasePanelProps) {
         )}
       </div>
 
-      {/* Weight Selector */}
       <ProductWeightSelector
         options={weightOptions}
         selectedId={selectedWeight.id}
         onSelect={setSelectedWeight}
       />
 
-      {/* Quantity Selector */}
       <div>
         <span className="block text-xs font-bold text-foreground">Số Lượng:</span>
         <div className="mt-2 flex items-center gap-3">
@@ -145,7 +143,6 @@ export function ProductPurchasePanel({ product }: ProductPurchasePanelProps) {
         </div>
       </div>
 
-      {/* Action Buttons */}
       <div className="flex flex-col gap-2.5 pt-2 sm:flex-row">
         <button
           type="button"
@@ -171,4 +168,4 @@ export function ProductPurchasePanel({ product }: ProductPurchasePanelProps) {
       <ProductGuarantees />
     </div>
   );
-}
+};

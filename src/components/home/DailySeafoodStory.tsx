@@ -5,6 +5,7 @@ import { toast } from 'sonner';
 import { Icon } from '@/components/common/Icon';
 import { Link } from '@/libs/I18nNavigation';
 import type { DailyArrival } from '@/types/home';
+import { formatCurrency } from '@/utils/Helpers';
 
 type ArrivalItem = {
   id: string;
@@ -22,7 +23,7 @@ type DailySeafoodStoryProps = {
   onAddToCart?: (item: { id: string; name: string; price: number; image: string }) => void;
 };
 
-export function DailySeafoodStory({ arrivals = [], onAddToCart }: DailySeafoodStoryProps) {
+export const DailySeafoodStory = ({ arrivals = [], onAddToCart }: DailySeafoodStoryProps) => {
   const displayArrivals: ArrivalItem[] = arrivals.map((a) => ({
     id: String(a.id),
     boatCode: a.boatCode ?? 'Tàu bến Phan Thiết',
@@ -48,7 +49,7 @@ export function DailySeafoodStory({ arrivals = [], onAddToCart }: DailySeafoodSt
       });
     }
     toast.success(`Đã thêm "${item.name}" vào giỏ hàng!`, {
-      description: `Giá: ${item.price.toLocaleString('vi-VN')}₫/${item.unit}`,
+      description: `Giá: ${formatCurrency(item.price)}/${item.unit}`,
     });
   };
 
@@ -97,20 +98,18 @@ export function DailySeafoodStory({ arrivals = [], onAddToCart }: DailySeafoodSt
                     </div>
                   )}
 
-                  {/* Badge */}
-                  <span className="absolute top-2 left-2 rounded-full bg-primary px-2.5 py-0.5 text-[9px] font-bold text-primary-foreground uppercase shadow-xs">
+                  <span className="absolute top-2 left-2 rounded-full bg-primary px-2.5 py-0.5 text-xs font-bold text-primary-foreground uppercase shadow-xs">
                     {item.badge}
                   </span>
                 </div>
 
-                {/* Info */}
                 <div className="mt-3">
-                  <div className="flex items-center gap-1.5 text-[10px] font-bold text-secondary">
+                  <div className="flex items-center gap-1.5 text-xs font-bold text-secondary">
                     <Icon name="map-pin" size="xs" />
                     <span>{item.boatCode}</span>
                   </div>
 
-                  <h3 className="mt-1 line-clamp-2 min-h-9.5 font-sans text-sm font-bold text-foreground transition-colors group-hover:text-primary">
+                  <h3 className="mt-1 line-clamp-2 min-h-10 font-sans text-sm font-bold text-foreground transition-colors group-hover:text-primary">
                     <Link href={`/products/${item.id}`}>{item.name}</Link>
                   </h3>
 
@@ -123,9 +122,9 @@ export function DailySeafoodStory({ arrivals = [], onAddToCart }: DailySeafoodSt
               <div className="mt-4 flex items-center justify-between border-t border-border/60 pt-3">
                 <div>
                   <span className="font-sans text-base font-bold text-primary sm:text-lg">
-                    {item.price > 0 ? `${item.price.toLocaleString('vi-VN')}₫` : 'Theo thời giá'}
+                    {item.price > 0 ? formatCurrency(item.price) : 'Theo thời giá'}
                   </span>
-                  <span className="text-[10px] text-muted-foreground">/{item.unit}</span>
+                  <span className="text-xs text-muted-foreground">/{item.unit}</span>
                 </div>
 
                 <button
@@ -146,4 +145,4 @@ export function DailySeafoodStory({ arrivals = [], onAddToCart }: DailySeafoodSt
       </div>
     </section>
   );
-}
+};

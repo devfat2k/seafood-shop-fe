@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useRevenueByCategoryQuery } from '@/libs/queries/admin/dashboard';
+import { formatCurrency } from '@/utils/Helpers';
 
 export function RevenueByCategoryCard() {
   const { data: categories, isLoading, isError, refetch } = useRevenueByCategoryQuery();
@@ -79,7 +80,7 @@ export function RevenueByCategoryCard() {
                   <div className="flex items-center justify-between text-xs">
                     <span className="font-semibold text-foreground">{cat.categoryName}</span>
                     <span className="font-medium text-muted-foreground">
-                      {(cat.revenue || 0).toLocaleString('vi-VN')}₫ ({percentage}%)
+                      {formatCurrency(cat.revenue || 0)} ({percentage}%)
                     </span>
                   </div>
 

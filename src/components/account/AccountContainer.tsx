@@ -29,10 +29,8 @@ export function AccountContainer(props: AccountContainerProps) {
 
   return (
     <div className="min-h-screen bg-background pb-16">
-      {/* 1. Account Hero Header Banner */}
-      <section className="relative overflow-hidden bg-gradient-to-r from-foreground via-[#0E5466] to-secondary py-8 text-white sm:py-12">
+      <section className="relative overflow-hidden bg-gradient-to-r from-foreground via-secondary/80 to-secondary py-8 text-white sm:py-12">
         <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
-          {/* Breadcrumb */}
           <nav className="flex items-center gap-2 text-xs text-white/70">
             <Link href="/" className="transition-colors hover:text-white">
               Trang chủ
@@ -56,9 +54,8 @@ export function AccountContainer(props: AccountContainerProps) {
               </p>
             </div>
 
-            {/* Quick Overview Card */}
             <div className="rounded-xl border border-white/20 bg-white/10 p-4 backdrop-blur-md">
-              <span className="block text-[11px] font-semibold text-white/70">Email đăng nhập</span>
+              <span className="block text-xs font-medium text-white/70">Email đăng nhập</span>
               <span className="mt-0.5 block font-mono text-xs font-bold text-white">
                 {userEmail}
               </span>
@@ -67,10 +64,8 @@ export function AccountContainer(props: AccountContainerProps) {
         </div>
       </section>
 
-      {/* 2. Main Content Grid (Sidebar + Dynamic Tab) */}
       <div className="mx-auto mt-8 max-w-7xl px-4 sm:px-6">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
-          {/* Left Column: Account Sidebar (4/12 desktop) */}
           <div className="lg:col-span-4">
             <AccountSidebar
               profile={profile}
@@ -81,7 +76,6 @@ export function AccountContainer(props: AccountContainerProps) {
             />
           </div>
 
-          {/* Right Column: Tab Content (8/12 desktop) */}
           <div className="lg:col-span-8">
             {activeTab === 'profile' && <AccountProfileTab profile={profile} />}
             {activeTab === 'orders' && <AccountOrdersTab />}

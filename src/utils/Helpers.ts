@@ -26,3 +26,14 @@ export const getI18nPath = (url: string, locale: string) => {
 
   return `/${locale}${url}`;
 };
+
+/**
+ * Formats a numeric amount into standard Vietnamese currency string (xxx.xxx₫).
+ * Follows GEMINI.md Rule 4 format convention.
+ * @param amount The numeric monetary value.
+ * @returns Formatted currency string, e.g. "320.000₫".
+ */
+export const formatCurrency = (amount: number): string => {
+  const safeAmount = Number.isFinite(amount) ? Math.round(amount) : 0;
+  return `${new Intl.NumberFormat('vi-VN').format(safeAmount)}₫`;
+};

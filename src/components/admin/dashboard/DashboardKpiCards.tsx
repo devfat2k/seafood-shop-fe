@@ -4,6 +4,7 @@ import { Icon } from '@/components/common/Icon';
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useRevenueInMonthQuery, useTopBuyProductsQuery } from '@/libs/queries/admin/dashboard';
+import { formatCurrency } from '@/utils/Helpers';
 
 export function DashboardKpiCards() {
   const { data: revenueData, isLoading: isRevLoading } = useRevenueInMonthQuery();
@@ -11,7 +12,6 @@ export function DashboardKpiCards() {
 
   const isLoading = isRevLoading || isTopLoading;
 
-  // Tính toán tổng doanh thu gần nhất
   const currentMonthData = revenueData?.at(-1);
   const totalRevenue = currentMonthData?.revenue ?? 0;
   const totalOrders = currentMonthData?.orderCount ?? 0;
@@ -21,7 +21,7 @@ export function DashboardKpiCards() {
   const cards = [
     {
       title: 'Doanh Thu Tháng Này',
-      value: `${totalRevenue.toLocaleString('vi-VN')}₫`,
+      value: formatCurrency(totalRevenue),
       sub: currentMonthData
         ? `Tháng ${currentMonthData.month}/${currentMonthData.year}`
         : 'Tháng hiện tại',

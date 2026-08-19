@@ -20,6 +20,7 @@ import {
 } from '@/libs/queries/admin/content';
 import { useAdminProductsQuery } from '@/libs/queries/admin/products';
 import type { DailyArrival } from '@/types/admin';
+import { formatCurrency } from '@/utils/Helpers';
 import type { AdminDailyArrivalFormValues } from '@/validations/admin';
 import { adminDailyArrivalSchema } from '@/validations/admin';
 
@@ -140,7 +141,7 @@ export function DailyArrivalFormDialog({
             >
               {productsData?.content?.map((p) => (
                 <option key={p.id} value={p.id} className="bg-popover text-foreground">
-                  {p.name} ({p.price.toLocaleString('vi-VN')}₫)
+                  {p.name} ({formatCurrency(p.price)})
                 </option>
               ))}
             </select>

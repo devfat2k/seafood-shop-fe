@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { Icon } from "@/components/common/Icon";
-import { Link } from "@/libs/I18nNavigation";
+import { Icon } from '@/components/common/Icon';
+import { Link } from '@/libs/I18nNavigation';
 
 type ProductHeaderBannerProps = {
   totalProducts?: number;
@@ -10,7 +10,7 @@ type ProductHeaderBannerProps = {
 };
 
 export function ProductHeaderBanner(props: ProductHeaderBannerProps) {
-  const { searchQuery = "", onSearchChange } = props;
+  const { searchQuery = '', onSearchChange } = props;
 
   return (
     <section className="relative overflow-hidden border-b border-border bg-linear-to-br from-foreground via-[#0F5A6E] to-secondary px-4 py-8 text-white sm:px-6 sm:py-12">
@@ -18,17 +18,12 @@ export function ProductHeaderBanner(props: ProductHeaderBannerProps) {
       <div className="pointer-events-none absolute -bottom-24 -left-24 h-96 w-96 rounded-full bg-primary/20 blur-3xl" />
 
       <div className="relative mx-auto max-w-7xl">
-        <nav
-          aria-label="Breadcrumb"
-          className="flex items-center gap-2 text-xs text-white/70"
-        >
+        <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs text-white/70">
           <Link href="/" className="transition-colors hover:text-white">
             Trang chủ
           </Link>
           <Icon name="chevron-right" size="xs" />
-          <span className="font-semibold text-white">
-            Tất cả hải sản tươi sống
-          </span>
+          <span className="font-semibold text-white">Tất cả hải sản tươi sống</span>
         </nav>
 
         {/* Title & Tagline */}
@@ -62,7 +57,7 @@ export function ProductHeaderBanner(props: ProductHeaderBannerProps) {
                 <button
                   type="button"
                   onClick={() => {
-                    onSearchChange("");
+                    onSearchChange('');
                   }}
                   aria-label="Xóa từ khóa tìm kiếm"
                   className="absolute top-1/2 right-3 -translate-y-1/2 text-white/60 hover:text-white"

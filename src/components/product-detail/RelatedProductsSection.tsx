@@ -4,13 +4,14 @@ import Image from 'next/image';
 import { Icon } from '@/components/common/Icon';
 import { Link } from '@/libs/I18nNavigation';
 import type { Product } from '@/types/api';
+import { formatCurrency } from '@/utils/Helpers';
 
 type RelatedProductsSectionProps = {
   products: Product[];
   onAddToCart: (rel: Product, image: string) => void;
 };
 
-export function RelatedProductsSection({ products, onAddToCart }: RelatedProductsSectionProps) {
+export const RelatedProductsSection = ({ products, onAddToCart }: RelatedProductsSectionProps) => {
   if (products.length === 0) {
     return null;
   }
@@ -56,7 +57,7 @@ export function RelatedProductsSection({ products, onAddToCart }: RelatedProduct
                   )}
                 </Link>
                 {rel.featured && (
-                  <span className="absolute top-2.5 left-2.5 rounded-full bg-accent px-2.5 py-0.5 text-[9px] font-bold text-accent-foreground uppercase shadow-xs">
+                  <span className="absolute top-2.5 left-2.5 rounded-full bg-accent px-2.5 py-0.5 text-xs font-bold text-accent-foreground uppercase shadow-xs">
                     NỔI BẬT
                   </span>
                 )}
@@ -64,13 +65,13 @@ export function RelatedProductsSection({ products, onAddToCart }: RelatedProduct
 
               <div className="flex flex-1 flex-col justify-between p-3 sm:p-4">
                 <div>
-                  <span className="text-[10px] font-bold text-secondary uppercase">
+                  <span className="text-xs font-bold text-secondary uppercase">
                     {rel.categoryName ?? 'Hải sản'}
                   </span>
-                  <h3 className="mt-0.5 line-clamp-2 min-h-8.5 font-heading text-xs font-bold text-foreground transition-colors group-hover:text-primary sm:min-h-[40px] sm:text-sm">
+                  <h3 className="mt-0.5 line-clamp-2 min-h-10 font-heading text-xs font-bold text-foreground transition-colors group-hover:text-primary sm:text-sm">
                     <Link href={`/products/${rel.id}`}>{rel.name}</Link>
                   </h3>
-                  <div className="mt-1.5 flex items-center gap-1.5 text-[11px]">
+                  <div className="mt-1.5 flex items-center gap-1.5 text-xs">
                     <span
                       className={`font-bold ${rel.stock > 0 ? 'text-tertiary' : 'text-destructive'}`}
                     >
@@ -84,11 +85,11 @@ export function RelatedProductsSection({ products, onAddToCart }: RelatedProduct
                   <div>
                     {relOriginalPrice > rel.price && (
                       <span className="block text-xs text-muted-foreground line-through">
-                        {relOriginalPrice.toLocaleString('vi-VN')}₫
+                        {formatCurrency(relOriginalPrice)}
                       </span>
                     )}
                     <span className="font-heading text-sm font-bold text-primary sm:text-base">
-                      {rel.price.toLocaleString('vi-VN')}₫
+                      {formatCurrency(rel.price)}
                     </span>
                   </div>
                   <button
@@ -110,4 +111,4 @@ export function RelatedProductsSection({ products, onAddToCart }: RelatedProduct
       </div>
     </section>
   );
-}
+};

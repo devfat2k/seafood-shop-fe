@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { Icon } from '@/components/common/Icon';
 import type { OrderResponse } from '@/types/order';
+import { formatCurrency } from '@/utils/Helpers';
 
 type OrderTrackingModalProps = {
   order: OrderResponse | null;
@@ -45,7 +46,7 @@ const defaultSteps: StepItem[] = [
   },
 ];
 
-function getStepBadgeStyle(s: StepItem): string {
+const getStepBadgeStyle = (s: StepItem): string => {
   if (s.done) {
     return 'bg-tertiary text-white';
   }
@@ -53,9 +54,9 @@ function getStepBadgeStyle(s: StepItem): string {
     return 'animate-pulse bg-secondary text-white ring-4 ring-secondary/20';
   }
   return 'border border-border bg-card text-muted-foreground';
-}
+};
 
-export function OrderTrackingModal({ order, onClose }: OrderTrackingModalProps) {
+export const OrderTrackingModal = ({ order, onClose }: OrderTrackingModalProps) => {
   if (!order) {
     return null;
   }
@@ -103,7 +104,6 @@ export function OrderTrackingModal({ order, onClose }: OrderTrackingModalProps) 
           </button>
         </div>
 
-        {/* 4-Step Progress Stepper */}
         {order.status !== 'CANCELLED' && (
           <div className="my-6 space-y-6">
             <h4 className="font-heading text-xs font-bold tracking-wider text-muted-foreground uppercase">
@@ -125,7 +125,7 @@ export function OrderTrackingModal({ order, onClose }: OrderTrackingModalProps) 
                     >
                       {s.title}
                     </p>
-                    <p className="mt-0.5 text-[11px] text-muted-foreground">{s.description}</p>
+                    <p className="mt-0.5 text-xs text-muted-foreground">{s.description}</p>
                   </div>
                 </div>
               ))}
@@ -133,7 +133,6 @@ export function OrderTrackingModal({ order, onClose }: OrderTrackingModalProps) 
           </div>
         )}
 
-        {/* Order Items List */}
         <div className="border-t border-border pt-4">
           <h4 className="font-heading text-xs font-bold tracking-wider text-muted-foreground uppercase">
             Danh Sách Sản Phẩm ({order.items?.length ?? 0})
@@ -154,27 +153,26 @@ export function OrderTrackingModal({ order, onClose }: OrderTrackingModalProps) 
                   )}
                   <div>
                     <p className="text-xs font-bold text-foreground">{item.productName}</p>
-                    <p className="text-[11px] text-muted-foreground">
-                      Số lượng: {item.quantity} x {item.price.toLocaleString('vi-VN')}₫
+                    <p className="text-xs text-muted-foreground">
+                      Số lượng: {item.quantity} x {formatCurrency(item.price)}
                     </p>
                   </div>
                 </div>
                 <span className="text-xs font-bold text-foreground">
-                  {(item.price * item.quantity).toLocaleString('vi-VN')}₫
+                  {formatCurrency(item.price * item.quantity)}
                 </span>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Summary */}
         <div className="mt-4 flex items-center justify-between border-t border-border pt-4">
           <span className="text-xs text-muted-foreground">Tổng tiền thanh toán:</span>
           <span className="text-base font-bold text-primary sm:text-lg">
-            {order.totalPrice.toLocaleString('vi-VN')}₫
+            {formatCurrency(order.totalPrice)}
           </span>
         </div>
       </div>
     </div>
   );
-}
+};

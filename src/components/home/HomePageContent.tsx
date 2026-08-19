@@ -1,21 +1,22 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { BentoCategories } from "@/components/home/BentoCategories";
-import { ComboSetsSection } from "@/components/home/ComboSetsSection";
-import { DailySeafoodStory } from "@/components/home/DailySeafoodStory";
-import { FeaturedProducts } from "@/components/home/FeaturedProducts";
-import { HeroSection } from "@/components/home/HeroSection";
-import { HomePageEmpty } from "@/components/home/HomePageEmpty";
-import { HomePageError } from "@/components/home/HomePageError";
-import { HomePageSkeleton } from "@/components/home/HomePageSkeleton";
-import { SocialProofSection } from "@/components/home/SocialProofSection";
-import { UspSection } from "@/components/home/UspSection";
-import type { QuickViewProduct } from "@/components/products/QuickViewModal";
-import { QuickViewModal } from "@/components/products/QuickViewModal";
-import { useHomeQuery } from "@/libs/queries/home";
-import { useCartStore } from "@/libs/stores/cart";
-import type { HomePageData } from "@/types/home";
+import { useState } from 'react';
+import { BentoCategories } from '@/components/home/BentoCategories';
+import { ComboSetsSection } from '@/components/home/ComboSetsSection';
+import { DailySeafoodStory } from '@/components/home/DailySeafoodStory';
+import { FeaturedProducts } from '@/components/home/FeaturedProducts';
+import { HeroSection } from '@/components/home/HeroSection';
+import { HomePageEmpty } from '@/components/home/HomePageEmpty';
+import { HomePageError } from '@/components/home/HomePageError';
+import { HomePageSkeleton } from '@/components/home/HomePageSkeleton';
+import { SocialProofSection } from '@/components/home/SocialProofSection';
+import { UspSection } from '@/components/home/UspSection';
+import type { QuickViewProduct } from '@/components/products/QuickViewModal';
+import { QuickViewModal } from '@/components/products/QuickViewModal';
+import { useHomeQuery } from '@/libs/queries/home';
+import { useCartStore } from '@/libs/stores/cart';
+import type { HomePageData } from '@/types/home';
+import { formatCurrency } from '@/utils/Helpers';
 
 type HomePageContentProps = {
   data?: HomePageData | null;
@@ -37,28 +38,23 @@ type QuickViewInput = {
 };
 
 function mapToQuickView(p: QuickViewInput): QuickViewProduct {
-  const badge = p.badges?.[0] ?? (p.featured ? "NỔI BẬT" : "TƯƠI SỐNG");
+  const badge = p.badges?.[0] ?? (p.featured ? 'NỔI BẬT' : 'TƯƠI SỐNG');
   return {
     id: String(p.id),
     name: p.name,
     badge,
-    price: `${p.price.toLocaleString("vi-VN")}₫`,
+    price: formatCurrency(p.price),
     rawPrice: p.price,
     originalPrice:
-      p.originalPrice && p.originalPrice > p.price
-        ? `${p.originalPrice.toLocaleString("vi-VN")}₫`
-        : undefined,
+      p.originalPrice && p.originalPrice > p.price ? formatCurrency(p.originalPrice) : undefined,
     category: p.category,
-    origin: p.origin ?? "Cảng cá Phan Thiết, Bình Thuận",
+    origin: p.origin ?? 'Cảng cá Phan Thiết, Bình Thuận',
     description:
       p.description ??
       p.spec ??
-      "Hải sản tươi sống loại 1 được tuyển chọn trực tiếp tại cảng cá Phan Thiết, giao nhanh chuỗi lạnh 2H.",
-    image: p.image ?? "",
-    weights:
-      p.weights && p.weights.length > 0
-        ? p.weights
-        : ["500g", "1kg", "Túi oxy sống"],
+      'Hải sản tươi sống loại 1 được tuyển chọn trực tiếp tại cảng cá Phan Thiết, giao nhanh chuỗi lạnh 2H.',
+    image: p.image ?? '',
+    weights: p.weights && p.weights.length > 0 ? p.weights : ['500g', '1kg', 'Túi oxy sống'],
   };
 }
 
@@ -75,16 +71,9 @@ function checkHasContent(data?: HomePageData | null): boolean {
 
 export function HomePageContent(props: HomePageContentProps) {
   const { data: initialData } = props;
-  const {
-    data: homeData,
-    isLoading,
-    isError,
-    error,
-    refetch,
-  } = useHomeQuery(initialData);
+  const { data: homeData, isLoading, isError, error, refetch } = useHomeQuery(initialData);
   const { addItem, openCart } = useCartStore();
-  const [quickViewProduct, setQuickViewProduct] =
-    useState<QuickViewProduct | null>(null);
+  const [quickViewProduct, setQuickViewProduct] = useState<QuickViewProduct | null>(null);
 
   const handleAddToCart = (item: {
     id: string | number;
@@ -99,7 +88,7 @@ export function HomePageContent(props: HomePageContentProps) {
       name: item.name,
       price: item.price,
       image: item.image,
-      weight: item.weight ?? "Tiêu chuẩn",
+      weight: item.weight ?? 'Tiêu chuẩn',
       quantity: item.quantity ?? 1,
     });
     openCart();
@@ -146,17 +135,11 @@ export function HomePageContent(props: HomePageContentProps) {
       )}
 
       {homeData.comboSets && homeData.comboSets.length > 0 && (
-        <ComboSetsSection
-          combos={homeData.comboSets}
-          onAddToCart={handleAddToCart}
-        />
+        <ComboSetsSection combos={homeData.comboSets} onAddToCart={handleAddToCart} />
       )}
 
       {homeData.dailyArrivals && homeData.dailyArrivals.length > 0 && (
-        <DailySeafoodStory
-          arrivals={homeData.dailyArrivals}
-          onAddToCart={handleAddToCart}
-        />
+        <DailySeafoodStory arrivals={homeData.dailyArrivals} onAddToCart={handleAddToCart} />
       )}
 
       <UspSection />
@@ -179,9 +162,7 @@ export function HomePageContent(props: HomePageContentProps) {
           handleAddToCart({
             id: prod.id,
             name: prod.name,
-            price:
-              prod.rawPrice ??
-              (Number(prod.price.replaceAll(/[^\d]/gu, "")) || 0),
+            price: prod.rawPrice ?? (Number(prod.price.replaceAll(/[^\d]/gu, '')) || 0),
             image: prod.image,
             weight,
             quantity: qty,
