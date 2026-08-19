@@ -32,6 +32,7 @@ Tailwind v4.
 | Icon | `lucide-react` | SVG tự vẽ/thư viện icon khác |
 | i18n | `next-intl`, string qua `src/locales/` | hardcode chuỗi tiếng Việt trong JSX |
 | className | `cn()` helper (clsx + tailwind-merge) | nối chuỗi className thủ công |
+| Comment/Chú thích | Code tự giải thích (self-documenting), chỉ comment "Why" phức tạp | comment đánh số `{/* 1. Hero */}`, comment hiển nhiên `{/* Image */}` |
 
 ## Cấu trúc thư mục — đặt file đúng chỗ
 

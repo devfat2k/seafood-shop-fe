@@ -21,6 +21,7 @@ description: Nguyên tắc viết code sạch, ngắn gọn, dễ đọc cho d�
    các component.
 8. **Không để lại code chết:** không comment code cũ, không `console.log` khi hoàn
    tất, không import không dùng (khớp với `bun run check:deps` / knip).
+9. **Không viết comment thừa/đánh số:** Cấm tuyệt đối chèn các comment đánh số thứ tự section trong JSX (`{/* 1. Hero */}`, `{/* 2. USP */}`) hoặc chú thích hiển nhiên lặp lại tên code (`{/* Image Container */}`). Code phải tự giải thích bằng tên component/biến rõ ràng.
 
 ## Trước khi báo "xong" một đoạn code, tự hỏi
 

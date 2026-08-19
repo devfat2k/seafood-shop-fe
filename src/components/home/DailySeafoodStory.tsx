@@ -55,16 +55,9 @@ export function DailySeafoodStory({ arrivals = [], onAddToCart }: DailySeafoodSt
   return (
     <section className="bg-card py-10 lg:py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
-        {/* Section Header */}
         <div className="mb-6 flex flex-col justify-between gap-4 sm:mb-10 sm:flex-row sm:items-end">
           <div>
-            <div className="flex items-center gap-2">
-              <span className="flex h-2.5 w-2.5 animate-ping rounded-full bg-tertiary" />
-              <span className="text-xs font-bold tracking-wider text-secondary uppercase">
-                Hải Sản Hôm Nay
-              </span>
-            </div>
-            <h2 className="mt-1.5 font-heading text-2xl font-bold text-foreground sm:text-3xl lg:text-4xl">
+            <h2 className="font-heading text-2xl font-bold text-foreground sm:text-3xl lg:text-4xl">
               Hải Sản Vừa Cập Bến
             </h2>
             <p className="mt-1 text-xs text-muted-foreground sm:text-sm">
@@ -72,29 +65,22 @@ export function DailySeafoodStory({ arrivals = [], onAddToCart }: DailySeafoodSt
             </p>
           </div>
 
-          <div className="flex items-center gap-3">
-            <span className="hidden rounded-full bg-secondary/10 px-3 py-1 text-xs font-bold text-secondary sm:inline-block">
-              📦 Chuỗi lạnh 2H tại TP.HCM
-            </span>
-            <Link
-              href="/products"
-              className="inline-flex items-center gap-1 text-xs font-bold text-primary transition-colors hover:underline"
-            >
-              <span>Xem tất cả</span>
-              <Icon name="arrow-right" size="xs" />
-            </Link>
-          </div>
+          <Link
+            href="/products"
+            className="inline-flex items-center gap-1 text-xs font-bold text-primary transition-colors hover:underline"
+          >
+            <span>Xem tất cả</span>
+            <Icon name="arrow-right" size="xs" />
+          </Link>
         </div>
 
-        {/* Swipe Rail on Mobile / 4-Col Grid on Desktop */}
         <div className="flex snap-x snap-mandatory scrollbar-none gap-4 overflow-x-auto pb-4 sm:grid sm:snap-none sm:grid-cols-2 sm:overflow-visible sm:pb-0 lg:grid-cols-4">
           {displayArrivals.map((item) => (
             <div
               key={item.id}
-              className="group flex max-w-[260px] min-w-[260px] snap-start flex-col justify-between rounded-xl border border-border bg-background p-4 shadow-xs transition-all duration-300 hover:-translate-y-1 hover:border-secondary/40 hover:shadow-md sm:max-w-none sm:min-w-0"
+              className="group flex max-w-65 min-w-65 snap-start flex-col justify-between rounded-xl border border-border bg-background p-4 shadow-xs transition-all duration-300 hover:-translate-y-1 hover:border-secondary/40 hover:shadow-md sm:max-w-none sm:min-w-0"
             >
               <div>
-                {/* Image Container */}
                 <div className="relative aspect-square w-full overflow-hidden rounded-lg bg-muted">
                   {item.image ? (
                     <Image
@@ -124,7 +110,7 @@ export function DailySeafoodStory({ arrivals = [], onAddToCart }: DailySeafoodSt
                     <span>{item.boatCode}</span>
                   </div>
 
-                  <h3 className="mt-1 line-clamp-2 min-h-[38px] font-sans text-sm font-bold text-foreground transition-colors group-hover:text-primary">
+                  <h3 className="mt-1 line-clamp-2 min-h-9.5 font-sans text-sm font-bold text-foreground transition-colors group-hover:text-primary">
                     <Link href={`/products/${item.id}`}>{item.name}</Link>
                   </h3>
 
@@ -134,7 +120,6 @@ export function DailySeafoodStory({ arrivals = [], onAddToCart }: DailySeafoodSt
                 </div>
               </div>
 
-              {/* Price & CTA */}
               <div className="mt-4 flex items-center justify-between border-t border-border/60 pt-3">
                 <div>
                   <span className="font-sans text-base font-bold text-primary sm:text-lg">

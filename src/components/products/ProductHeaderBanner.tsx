@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { Icon } from '@/components/common/Icon';
-import { Link } from '@/libs/I18nNavigation';
+import { Icon } from "@/components/common/Icon";
+import { Link } from "@/libs/I18nNavigation";
 
 type ProductHeaderBannerProps = {
   totalProducts?: number;
@@ -10,22 +10,25 @@ type ProductHeaderBannerProps = {
 };
 
 export function ProductHeaderBanner(props: ProductHeaderBannerProps) {
-  const { totalProducts = 0, searchQuery = '', onSearchChange } = props;
+  const { searchQuery = "", onSearchChange } = props;
 
   return (
-    <section className="relative overflow-hidden border-b border-border bg-gradient-to-br from-foreground via-[#0F5A6E] to-secondary px-4 py-8 text-white sm:px-6 sm:py-12">
-      {/* Decorative ocean light effects */}
+    <section className="relative overflow-hidden border-b border-border bg-linear-to-br from-foreground via-[#0F5A6E] to-secondary px-4 py-8 text-white sm:px-6 sm:py-12">
       <div className="pointer-events-none absolute -top-24 -right-24 h-96 w-96 rounded-full bg-secondary/30 blur-3xl" />
       <div className="pointer-events-none absolute -bottom-24 -left-24 h-96 w-96 rounded-full bg-primary/20 blur-3xl" />
 
       <div className="relative mx-auto max-w-7xl">
-        {/* Breadcrumb */}
-        <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs text-white/70">
+        <nav
+          aria-label="Breadcrumb"
+          className="flex items-center gap-2 text-xs text-white/70"
+        >
           <Link href="/" className="transition-colors hover:text-white">
             Trang chủ
           </Link>
           <Icon name="chevron-right" size="xs" />
-          <span className="font-semibold text-white">Tất cả hải sản tươi sống</span>
+          <span className="font-semibold text-white">
+            Tất cả hải sản tươi sống
+          </span>
         </nav>
 
         {/* Title & Tagline */}
@@ -38,14 +41,8 @@ export function ProductHeaderBanner(props: ProductHeaderBannerProps) {
             <h1 className="mt-2 font-heading text-2xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl">
               Hải Sản Tươi Sống Phan Thiết
             </h1>
-            <p className="mt-2 max-w-2xl text-xs leading-relaxed text-white/80 sm:text-sm">
-              Tuyển chọn hải sản đánh bắt tự nhiên từ bến cảng Phan Thiết, Bình Thuận. Hiện đang có{' '}
-              <strong className="text-accent">{totalProducts} sản phẩm</strong> đạt chuẩn tươi sống
-              bơi bể.
-            </p>
           </div>
 
-          {/* Quick Search Input inside Banner */}
           {onSearchChange && (
             <div className="relative w-full sm:w-80">
               <input
@@ -65,7 +62,7 @@ export function ProductHeaderBanner(props: ProductHeaderBannerProps) {
                 <button
                   type="button"
                   onClick={() => {
-                    onSearchChange('');
+                    onSearchChange("");
                   }}
                   aria-label="Xóa từ khóa tìm kiếm"
                   className="absolute top-1/2 right-3 -translate-y-1/2 text-white/60 hover:text-white"

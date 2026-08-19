@@ -70,7 +70,13 @@ Thiếu 1 trong 3 = task chưa hoàn thành.
 - Không dùng `any`. Type phức tạp chưa rõ → dùng `unknown` + narrow, hoặc hỏi lại user
   thay vì đoán.
 
-## 7. Khi không chắc chắn
+## 7. Cấm tuyệt đối chú thích thừa thãi & đánh số section JSX (No Noise Comments)
+
+- **CẤM TUYỆT ĐỐI** việc chèn các comment đánh số thứ tự hoặc chú thích hiển nhiên trong JSX/code (Ví dụ: `{/* 1. Hero Section */}`, `{/* 2. USP Section */}`, `{/* Image Container */}`, `{/* Price & CTA */}`, `// handle submit`, `// function to fetch data`...).
+- Code PHẢI tự giải thích (Self-documenting) thông qua việc đặt tên component, biến, hàm tường minh và cấu trúc thư mục rõ ràng.
+- Chỉ cho phép comment khi giải thích **lý do kỹ thuật phức tạp (Why, not What)** hoặc ghi chú workaround bắt buộc không thể tránh khỏi.
+
+## 8. Khi không chắc chắn
 
 Nếu spec chưa rõ ràng (chưa có trong `docs/specs/`), hoặc convention chưa có trong
 `docs/conventions/` — PHẢI dừng lại và hỏi user, KHÔNG được tự đoán rồi implement.

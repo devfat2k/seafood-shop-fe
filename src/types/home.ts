@@ -88,6 +88,7 @@ export type ComboSet = {
   title: string;
   description: string;
   price: number;
+  originalPrice?: number;
   unit: string;
   ctaText: string;
   href: string;
