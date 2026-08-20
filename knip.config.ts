@@ -9,17 +9,16 @@ const config: KnipConfig = {
     // Shadcn UI primitives — exports are consumed via composition, not always direct import
     'src/components/ui/*.tsx',
     // Public API contract & queries — intentionally exported for storefront & admin
-    'src/types/*.ts',
-    'src/validations/*.ts',
-    'src/libs/api/*.ts',
-    'src/libs/queries/*.ts',
+    'src/types/**/*.ts',
+    'src/validations/**/*.ts',
+    'src/libs/api/**/*.ts',
+    'src/libs/queries/**/*.ts',
     'src/libs/Logger.ts',
   ],
   // Dependencies to ignore during analysis
   ignoreDependencies: [
     '@swc/helpers',
     'shadcn',
-    'next-themes',
     '@logtape/logtape',
     'lefthook',
     '@faker-js/faker',
