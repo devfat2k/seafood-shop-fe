@@ -3,7 +3,6 @@ import type { KnipConfig } from 'knip';
 const config: KnipConfig = {
   // Files to exclude from Knip analysis
   ignore: [
-    'checkly.config.ts',
     'src/libs/I18n.ts',
     'src/types/I18n.ts',
     // Shadcn UI primitives — exports are consumed via composition, not always direct import
@@ -16,14 +15,7 @@ const config: KnipConfig = {
     'src/libs/Logger.ts',
   ],
   // Dependencies to ignore during analysis
-  ignoreDependencies: [
-    '@swc/helpers',
-    'shadcn',
-    '@logtape/logtape',
-    'lefthook',
-    '@faker-js/faker',
-    'axios',
-  ],
+  ignoreDependencies: ['@swc/helpers', '@logtape/logtape', 'lefthook', '@faker-js/faker', 'axios'],
   // Include custom Playwright test file suffixes
   playwright: {
     entry: ['tests/**/*.@(integ|e2e).ts'],
@@ -31,8 +23,7 @@ const config: KnipConfig = {
   vitest: {
     entry: ['tests/**/*.integ.tsx'],
   },
-  // Binaries to ignore during analysis
-  ignoreBinaries: ['dotenv', 'production'],
+  ignoreBinaries: [],
   compilers: {
     css: (text: string) => [...text.matchAll(/(?<=@)import[^;]+/gu)].join('\n'),
   },

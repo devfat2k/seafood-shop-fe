@@ -1,25 +1,14 @@
 {
-  "RootLayout": {
-    "home_link": "Home",
-    "products_link": "Products",
-    "about_link": "About"
-  },
   "BaseTemplate": {
-    "description": "Starter code for your Nextjs Boilerplate with Tailwind CSS",
+    "description": "Cửa hàng hải sản tươi sống chất lượng cao",
     "footer_text": "© {year} {name}. Made with <author></author>.",
     "main_navigation_label": "Main navigation"
   },
   "Index": {
-    "meta_title": "Hải Sản Phan Thiết",
     "meta_description": "Trang web thương mại điện tử hải sản tươi ngon Phan Thiết"
   },
   "About": {
-    "meta_title": "About",
-    "meta_description": "About page description",
-    "about_paragraph": "Welcome to our About page! We are a team of passionate individuals dedicated to creating amazing software.",
-    "translation_powered_by": "Translation powered by"
-  },
-  "LocaleSwitcher": {
-    "change_language": "Change language"
+    "meta_title": "Về Chúng Tôi",
+    "meta_description": "Thông tin liên hệ, địa chỉ bến cảng và câu chuyện hải sản"
   }
 }

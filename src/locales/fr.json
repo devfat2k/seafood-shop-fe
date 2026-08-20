@@ -1,25 +1,14 @@
 {
-  "RootLayout": {
-    "home_link": "Accueil",
-    "products_link": "Produits",
-    "about_link": "À propos"
-  },
   "BaseTemplate": {
-    "description": "Code de démarrage pour Next.js avec Tailwind CSS",
+    "description": "Magasin de fruits de mer frais de haute qualité",
     "footer_text": "© {year} {name}. Fait avec <author></author>.",
     "main_navigation_label": "Navigation principale"
   },
   "Index": {
-    "meta_title": "Hải Sản Phan Thiết",
     "meta_description": "Site e-commerce de fruits de mer frais"
   },
   "About": {
     "meta_title": "A propos",
-    "meta_description": "A propos description",
-    "about_paragraph": "Bienvenue sur notre page À propos ! Nous sommes une équipe de passionnés et dévoués à la création de logiciels.",
-    "translation_powered_by": "Traduction propulsée par"
-  },
-  "LocaleSwitcher": {
-    "change_language": "Changer de langue"
+    "meta_description": "A propos description"
   }
 }
