@@ -2,6 +2,7 @@ import { createEnv } from '@t3-oss/env-nextjs';
 import * as z from 'zod';
 
 export const Env = createEnv({
+  emptyStringAsUndefined: true,
   server: {
     ARCJET_KEY: z.string().startsWith('ajkey_').optional(),
   },
@@ -19,7 +20,7 @@ export const Env = createEnv({
   shared: {
     NODE_ENV: z.enum(['test', 'development', 'production']).optional(),
   },
-  // You need to destructure all the keys manually
+  // Destructure all keys manually
   runtimeEnv: {
     ARCJET_KEY: process.env.ARCJET_KEY,
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
