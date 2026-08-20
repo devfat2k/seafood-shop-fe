@@ -7,16 +7,13 @@ FROM node:24-alpine AS base
 WORKDIR /app
 RUN apk add --no-cache libc6-compat
 
-# 2. Dependencies stage
-FROM base AS deps
+# 2. Builder stage
+FROM base AS builder
 WORKDIR /app
+
 COPY package.json package-lock.json* ./
 RUN npm ci --ignore-scripts
 
-# 3. Builder stage
-FROM base AS builder
-WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 # Build arguments for build-time environment variables
@@ -32,7 +29,7 @@ ENV NODE_ENV=production
 
 RUN npm run build
 
-# 4. Runner stage (Production container)
+# 3. Runner stage (Production container)
 FROM base AS runner
 WORKDIR /app
 
@@ -52,7 +49,6 @@ COPY --from=builder /app/public ./public
 RUN mkdir .next && chown nextjs:nodejs .next
 
 # Automatically leverage output traces to reduce image size
-# https://nextjs.org/docs/advanced-features/output-file-tracing
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
