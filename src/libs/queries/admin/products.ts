@@ -17,7 +17,9 @@ export function useAdminProductsQuery(
     size?: number;
     search?: string;
     categoryId?: number;
+    productType?: string;
     sort?: string;
+    direction?: 'asc' | 'desc';
   } = {},
 ) {
   return useQuery<PageResponse<Product>>({
@@ -45,6 +47,7 @@ export function useCreateProductMutation() {
     },
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: adminProductKeys.all });
+      void queryClient.invalidateQueries({ queryKey: ['products'] });
     },
   });
 }
@@ -61,6 +64,7 @@ export function useUpdateProductMutation() {
     },
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: adminProductKeys.all });
+      void queryClient.invalidateQueries({ queryKey: ['products'] });
     },
   });
 }
@@ -73,6 +77,7 @@ export function useDeleteProductMutation() {
     },
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: adminProductKeys.all });
+      void queryClient.invalidateQueries({ queryKey: ['products'] });
     },
   });
 }
@@ -91,6 +96,7 @@ export function useAdjustStockMutation() {
     },
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: adminProductKeys.all });
+      void queryClient.invalidateQueries({ queryKey: ['products'] });
     },
   });
 }
@@ -112,6 +118,7 @@ export function useUploadProductImageMutation() {
     },
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: adminProductKeys.all });
+      void queryClient.invalidateQueries({ queryKey: ['products'] });
     },
   });
 }
@@ -124,6 +131,7 @@ export function useToggleFeaturedMutation() {
     },
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: adminProductKeys.all });
+      void queryClient.invalidateQueries({ queryKey: ['products'] });
     },
   });
 }
@@ -136,6 +144,7 @@ export function useComboConfigMutation() {
     },
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: adminProductKeys.all });
+      void queryClient.invalidateQueries({ queryKey: ['products'] });
     },
   });
 }

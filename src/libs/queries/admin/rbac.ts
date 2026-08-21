@@ -75,6 +75,7 @@ export function useAssignUserRolesMutation() {
     },
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: adminRbacKeys.all });
+      void queryClient.invalidateQueries({ queryKey: ['admin-users'] });
     },
   });
 }

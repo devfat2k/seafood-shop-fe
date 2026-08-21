@@ -77,6 +77,7 @@ export const useProductForm = (
         await createMutation.mutateAsync(values);
         toast.success('Tạo sản phẩm mới thành công');
       }
+      form.reset();
       onSuccess();
     } catch (error) {
       toast.error(error instanceof Error ? error.message : 'Thao tác thất bại');

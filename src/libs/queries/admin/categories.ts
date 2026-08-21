@@ -40,6 +40,8 @@ export function useCreateCategoryMutation() {
     },
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: adminCategoryKeys.all });
+      void queryClient.invalidateQueries({ queryKey: ['categories'] });
+      void queryClient.invalidateQueries({ queryKey: ['home'] });
     },
   });
 }
@@ -56,6 +58,8 @@ export function useUpdateCategoryMutation() {
     },
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: adminCategoryKeys.all });
+      void queryClient.invalidateQueries({ queryKey: ['categories'] });
+      void queryClient.invalidateQueries({ queryKey: ['home'] });
     },
   });
 }
@@ -68,6 +72,8 @@ export function useDeleteCategoryMutation() {
     },
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: adminCategoryKeys.all });
+      void queryClient.invalidateQueries({ queryKey: ['categories'] });
+      void queryClient.invalidateQueries({ queryKey: ['home'] });
     },
   });
 }
@@ -89,6 +95,8 @@ export function useUploadCategoryImageMutation() {
     },
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: adminCategoryKeys.all });
+      void queryClient.invalidateQueries({ queryKey: ['categories'] });
+      void queryClient.invalidateQueries({ queryKey: ['home'] });
     },
   });
 }
@@ -101,6 +109,8 @@ export function useCategoryHomeConfigMutation() {
     },
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: adminCategoryKeys.all });
+      void queryClient.invalidateQueries({ queryKey: ['categories'] });
+      void queryClient.invalidateQueries({ queryKey: ['home'] });
     },
   });
 }
