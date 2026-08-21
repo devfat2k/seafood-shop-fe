@@ -19,7 +19,7 @@ import { formatCurrency } from '@/utils/Helpers';
 
 export function TopBuyProductsTable() {
   const { data: products, isLoading, isError, refetch } = useTopBuyProductsQuery(6);
-  const [imageErrors, setImageErrors] = useState<Record<number, boolean>>({});
+  const [imageErrors, setImageErrors] = useState<Record<string | number, boolean>>({});
 
   return (
     <Card className="border-border">
@@ -35,7 +35,6 @@ export function TopBuyProductsTable() {
       </CardHeader>
 
       <CardContent>
-        {/* Loading state */}
         {isLoading && (
           <div className="space-y-3">
             {[1, 2, 3, 4, 5].map((i) => (
@@ -56,7 +55,6 @@ export function TopBuyProductsTable() {
           </div>
         )}
 
-        {/* Error state */}
         {isError && (
           <div className="flex flex-col items-center justify-center py-8 text-center">
             <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-destructive/10 text-destructive">
@@ -80,7 +78,6 @@ export function TopBuyProductsTable() {
           </div>
         )}
 
-        {/* Empty state */}
         {!isLoading && !isError && (!products || products.length === 0) && (
           <div className="flex flex-col items-center justify-center py-10 text-center">
             <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-muted text-muted-foreground">
@@ -95,7 +92,6 @@ export function TopBuyProductsTable() {
           </div>
         )}
 
-        {/* Success Data Table */}
         {!isLoading && !isError && products && products.length > 0 && (
           <Table>
             <TableHeader>
@@ -109,9 +105,10 @@ export function TopBuyProductsTable() {
             </TableHeader>
             <TableBody>
               {products.map((item, index) => {
-                const isImgError = imageErrors[item.id];
+                const itemKey = item.id ?? item.productId ?? `top-product-${index}`;
+                const isImgError = imageErrors[itemKey];
                 return (
-                  <TableRow key={item.id}>
+                  <TableRow key={itemKey}>
                     <TableCell className="text-center text-xs font-bold text-muted-foreground">
                       {index + 1}
                     </TableCell>
@@ -126,7 +123,7 @@ export function TopBuyProductsTable() {
                               className="object-cover"
                               unoptimized
                               onError={() => {
-                                setImageErrors((prev) => ({ ...prev, [item.id]: true }));
+                                setImageErrors((prev) => ({ ...prev, [itemKey]: true }));
                               }}
                             />
                           ) : (

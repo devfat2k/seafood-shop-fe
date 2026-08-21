@@ -91,18 +91,20 @@ export function CategoryFormDialog({
   if (isPending) {
     submitLabel = 'Đang lưu...';
   } else if (isEdit) {
-    submitLabel = 'Cập nhật';
+    submitLabel = 'Lưu thay đổi';
   }
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle>{isEdit ? 'Chỉnh sửa danh mục' : 'Tạo danh mục mới'}</DialogTitle>
-          <DialogDescription>
+          <DialogTitle className="font-heading text-lg font-bold">
+            {isEdit ? 'Chỉnh sửa danh mục' : 'Tạo danh mục mới'}
+          </DialogTitle>
+          <DialogDescription className="text-xs text-muted-foreground">
             {isEdit
-              ? 'Cập nhật thông tin danh mục sản phẩm'
-              : 'Thêm danh mục mới để phân loại hải sản'}
+              ? 'Cập nhật tên và mô tả chi tiết của danh mục sản phẩm'
+              : 'Thêm danh mục mới để phân loại hải sản trên cửa hàng'}
           </DialogDescription>
         </DialogHeader>
 
@@ -114,12 +116,10 @@ export function CategoryFormDialog({
             <Input
               id="cat-name-input"
               placeholder="VD: Tôm & Cua Hoàng Gia"
-              className="mt-1 text-xs"
+              className="mt-1 text-xs sm:text-sm"
               {...register('name')}
             />
-            {errors.name && (
-              <p className="mt-1 text-[11px] text-destructive">{errors.name.message}</p>
-            )}
+            {errors.name && <p className="mt-1 text-xs text-destructive">{errors.name.message}</p>}
           </div>
 
           <div>
@@ -128,29 +128,34 @@ export function CategoryFormDialog({
             </label>
             <textarea
               id="cat-desc-input"
-              rows={3}
-              placeholder="Các loại tôm cua hải sản tươi sống cao cấp..."
-              className="mt-1 flex w-full rounded-md border border-input bg-transparent px-3 py-2 text-xs shadow-xs focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
+              rows={4}
+              placeholder="Các loại tôm cua hải sản tươi sống cao cấp tuyển chọn..."
+              className="mt-1 flex w-full rounded-md border border-input bg-transparent px-3 py-2 text-xs shadow-xs focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none sm:text-sm"
               {...register('description')}
             />
           </div>
 
-          <div className="flex items-center gap-2 pt-1">
+          <div className="flex items-center justify-between rounded-lg border border-border/80 bg-muted/30 p-3">
+            <div>
+              <label
+                htmlFor="catActive"
+                className="cursor-pointer text-xs font-semibold text-foreground"
+              >
+                Kích hoạt danh mục
+              </label>
+              <p className="text-[11px] text-muted-foreground">
+                Cho phép hiển thị danh mục trên storefront
+              </p>
+            </div>
             <input
               type="checkbox"
               id="catActive"
               className="h-4 w-4 rounded border-border text-primary focus:ring-primary"
               {...register('active')}
             />
-            <label
-              htmlFor="catActive"
-              className="cursor-pointer text-xs font-medium text-foreground"
-            >
-              Kích hoạt hiển thị danh mục
-            </label>
           </div>
 
-          <DialogFooter className="mt-4">
+          <DialogFooter className="mt-4 border-t border-border pt-4">
             <Button
               type="button"
               variant="outline"
@@ -159,10 +164,11 @@ export function CategoryFormDialog({
               onClick={() => {
                 onOpenChange(false);
               }}
+              className="text-xs"
             >
               Hủy
             </Button>
-            <Button type="submit" size="sm" disabled={isPending}>
+            <Button type="submit" size="sm" disabled={isPending} className="text-xs font-semibold">
               {submitLabel}
             </Button>
           </DialogFooter>

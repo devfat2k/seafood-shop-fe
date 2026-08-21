@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { Icon } from '@/components/common/Icon';
+import { getCategoryInfo, isProductInStock } from '@/components/products/catalog-utils';
 import type { ProductCardItem } from '@/components/products/ProductCard';
 import { Link } from '@/libs/I18nNavigation';
 import type { Product } from '@/types/api';
@@ -19,14 +20,8 @@ export const FeaturedProductCard = ({
   onAddToCart,
 }: FeaturedProductCardProps) => {
   const image = item.imageUrl ?? item.images?.[0] ?? '';
-  const originalPrice = item.originalPrice ?? Math.round(item.price * 1.15);
-  const inStock = item.active && item.stock > 0;
-  const categoryTitle =
-    item.categoryLabel ??
-    item.categoryName ??
-    item.category?.categoryName ??
-    item.category?.name ??
-    'Hải Sản';
+  const inStock = isProductInStock(item);
+  const categoryTitle = getCategoryInfo(item).name;
 
   return (
     <div className="group flex flex-col justify-between overflow-hidden rounded-xl border border-border bg-card shadow-xs transition-all duration-300 hover:-translate-y-1 hover:border-secondary/40 hover:shadow-md">
@@ -59,7 +54,7 @@ export const FeaturedProductCard = ({
                   price: item.price,
                   image,
                   category: categoryTitle,
-                  badges: item.featured ? ['NỔI BẬT'] : ['TƯƠI SỐNG'],
+                  badges: item.featured || item.isFeatured ? ['NỔI BẬT'] : ['TƯƠI SỐNG'],
                   spec: item.spec ?? item.description ?? '',
                 });
               }}
@@ -73,13 +68,6 @@ export const FeaturedProductCard = ({
         </div>
 
         <div className="p-3 sm:p-4">
-          <div className="flex items-center justify-between text-xs font-bold text-secondary uppercase">
-            <span>{categoryTitle}</span>
-            <span className={inStock ? 'text-tertiary' : 'text-destructive'}>
-              {inStock ? 'Còn hàng' : 'Tạm hết'}
-            </span>
-          </div>
-
           <h3 className="mt-1 line-clamp-2 min-h-10 font-sans text-xs font-bold text-foreground transition-colors group-hover:text-primary sm:text-sm">
             <Link href={`/products/${item.id}`}>{item.name}</Link>
           </h3>
@@ -93,12 +81,7 @@ export const FeaturedProductCard = ({
       <div className="border-t border-border/60 p-3 pt-3 sm:p-4">
         <div className="flex items-center justify-between">
           <div>
-            {originalPrice > item.price && (
-              <span className="block text-xs text-muted-foreground line-through">
-                {formatCurrency(originalPrice)}
-              </span>
-            )}
-            <span className="font-sans text-sm font-bold text-primary sm:text-base">
+            <span className="text-md font-sans font-bold text-primary sm:text-base">
               {formatCurrency(item.price)}
             </span>
           </div>

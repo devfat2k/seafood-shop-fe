@@ -26,17 +26,10 @@ export function ProductHeaderBanner(props: ProductHeaderBannerProps) {
           <span className="font-semibold text-white">Tất cả hải sản tươi sống</span>
         </nav>
 
-        {/* Title & Tagline */}
         <div className="mt-4 flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
-          <div>
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-white/90 backdrop-blur-xs">
-              <span className="h-2 w-2 animate-pulse rounded-full bg-tertiary" />
-              <span>Cập cảng rạng sáng nay • Giao lạnh 2H tại TP.HCM</span>
-            </div>
-            <h1 className="mt-2 font-heading text-2xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl">
-              Hải Sản Tươi Sống Phan Thiết
-            </h1>
-          </div>
+          <h1 className="mt-2 font-heading text-2xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl">
+            Hải Sản Tươi Sống Phan Thiết
+          </h1>
 
           {onSearchChange && (
             <div className="relative w-full sm:w-80">

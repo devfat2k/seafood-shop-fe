@@ -8,16 +8,20 @@ export const adminLoginSchema = z.object({
 
 export const adminProductSchema = z.object({
   name: z.string().min(2, 'Tên sản phẩm tối thiểu 2 ký tự'),
-  description: z.string().optional(),
-  price: z.number().min(1000, 'Giá sản phẩm tối thiểu 1.000₫'),
-  originalPrice: z.number().optional(),
-  stock: z.number().min(0, 'Tồn kho không được âm'),
-  categoryId: z.number().min(1, 'Vui lòng chọn danh mục'),
-  unit: z.string().optional(),
-  spec: z.string().optional(),
-  origin: z.string().optional(),
-  weightOptions: z.array(z.string()).optional(),
-  productType: z.enum(['REGULAR', 'COMBO']),
+  description: z.string().min(1, 'Vui lòng nhập mô tả sản phẩm'),
+  price: z.number({ message: 'Vui lòng nhập giá bán' }).min(1000, 'Giá sản phẩm tối thiểu 1.000₫'),
+  originalPrice: z.number().optional().nullable(),
+  stock: z
+    .number({ message: 'Vui lòng nhập tồn kho' })
+    .int('Tồn kho phải là số nguyên')
+    .min(1, 'Tồn kho tối thiểu là 1'),
+  categoryId: z.number({ message: 'Vui lòng chọn danh mục' }).min(1, 'Vui lòng chọn danh mục'),
+  unit: z.string().optional().nullable(),
+  spec: z.string().optional().nullable(),
+  origin: z.string().optional().nullable(),
+  weightOptions: z.array(z.string()).optional().nullable(),
+  productType: z.enum(['REGULAR', 'COMBO']).optional(),
+  isActive: z.boolean(),
 });
 
 export const adminCategorySchema = z.object({

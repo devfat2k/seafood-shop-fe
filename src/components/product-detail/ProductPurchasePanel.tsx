@@ -6,14 +6,27 @@ import { Icon } from '@/components/common/Icon';
 import { ProductGuarantees } from '@/components/product-detail/ProductGuarantees';
 import { ProductWeightSelector } from '@/components/product-detail/ProductWeightSelector';
 import type { WeightOption } from '@/components/product-detail/ProductWeightSelector';
+import { isProductInStock } from '@/components/products/catalog-utils';
 import { useRouter } from '@/libs/I18nNavigation';
 import { useCartStore } from '@/libs/stores/cart';
 import type { Product } from '@/types/api';
 import { formatCurrency } from '@/utils/Helpers';
 
 function getProductWeightOptions(product: Product): WeightOption[] {
+  const isOutOfStock = typeof product.stock === 'number' && product.stock <= 0;
   if (product.weightOptions && product.weightOptions.length > 0) {
     return product.weightOptions.map((w, idx) => {
+      if (typeof w === 'string') {
+        return {
+          id: `w-${idx}`,
+          label: w,
+          subLabel: 'Giá chuẩn',
+          price: product.price,
+          originalPrice: product.originalPrice ?? Math.round(product.price * 1.15),
+          stock: product.stock ?? 10,
+          disabled: isOutOfStock,
+        };
+      }
       const adjustment = w.priceAdjustment ?? 0;
       const label = w.label ?? w.value ?? 'Quy cách chuẩn';
       return {
@@ -22,8 +35,8 @@ function getProductWeightOptions(product: Product): WeightOption[] {
         subLabel: adjustment > 0 ? `+${formatCurrency(adjustment)}` : 'Giá chuẩn',
         price: product.price + adjustment,
         originalPrice: (product.originalPrice ?? Math.round(product.price * 1.15)) + adjustment,
-        stock: product.stock,
-        disabled: product.stock <= 0,
+        stock: product.stock ?? 10,
+        disabled: isOutOfStock,
       };
     });
   }
@@ -33,11 +46,11 @@ function getProductWeightOptions(product: Product): WeightOption[] {
     {
       id: 'default-weight',
       label: specLabel,
-      subLabel: product.stock > 0 ? 'Còn hàng tại bến' : 'Tạm hết hàng',
+      subLabel: isOutOfStock ? 'Tạm hết hàng' : 'Còn hàng tại bể',
       price: product.price,
       originalPrice: product.originalPrice ?? Math.round(product.price * 1.15),
-      stock: product.stock,
-      disabled: product.stock <= 0,
+      stock: product.stock ?? 10,
+      disabled: isOutOfStock,
     },
   ];
 }
@@ -57,12 +70,12 @@ export const ProductPurchasePanel = ({ product }: ProductPurchasePanelProps) => 
       subLabel: 'Giá chuẩn',
       price: product.price,
       originalPrice: product.originalPrice ?? Math.round(product.price * 1.15),
-      stock: product.stock,
+      stock: product.stock ?? 10,
     },
   );
   const [quantity, setQuantity] = useState(1);
 
-  const isInStock = product.active && product.stock > 0;
+  const isInStock = isProductInStock(product);
   const currentPrice = selectedWeight.price;
   const currentOriginalPrice = selectedWeight.originalPrice;
   const discountPercent =
@@ -128,7 +141,11 @@ export const ProductPurchasePanel = ({ product }: ProductPurchasePanelProps) => 
             <span className="w-8 text-center text-sm font-bold text-foreground">{quantity}</span>
             <button
               type="button"
-              disabled={quantity >= product.stock}
+              disabled={
+                typeof product.stock === 'number' && product.stock > 0
+                  ? quantity >= product.stock
+                  : false
+              }
               onClick={() => {
                 setQuantity((prev) => prev + 1);
               }}

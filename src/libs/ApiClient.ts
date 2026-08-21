@@ -1,4 +1,4 @@
-/* eslint-disable promise/avoid-new, promise/prefer-await-to-callbacks, @typescript-eslint/no-unsafe-type-assertion, @typescript-eslint/no-base-to-string */
+/* eslint-disable @typescript-eslint/no-unsafe-type-assertion, @typescript-eslint/no-base-to-string, typescript/no-unsafe-type-assertion, typescript/no-base-to-string, promise/avoid-new, promise/prefer-await-to-callbacks */
 import { Env } from '@/libs/Env';
 
 const BASE_URL = Env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:8085';
@@ -198,7 +198,9 @@ async function request<T = unknown>(
           flushQueue(null);
           clearTokens();
           if (typeof window !== 'undefined') {
-            window.location.href = '/login';
+            window.location.href = window.location.pathname.startsWith('/admin')
+              ? '/admin/login'
+              : '/';
           }
           throw new ApiError('Session expired', 401, data);
         } finally {

@@ -11,7 +11,7 @@ type ProductGalleryProps = {
 };
 
 export function ProductGallery(props: ProductGalleryProps) {
-  const { images = [], productName, badges = ['Mới cập bến', 'Hot Sale'] } = props;
+  const { images = [], productName } = props;
   const [activeImageIndex, setActiveImageIndex] = useState(0);
 
   const currentImage = images[activeImageIndex] ?? images[0] ?? '';
@@ -32,7 +32,6 @@ export function ProductGallery(props: ProductGalleryProps) {
 
   return (
     <div className="space-y-4">
-      {/* Khung ảnh chính lớn */}
       <div className="group relative aspect-square w-full overflow-hidden rounded-2xl border border-border bg-card shadow-xs">
         {currentImage ? (
           <Image
@@ -49,25 +48,6 @@ export function ProductGallery(props: ProductGalleryProps) {
           </div>
         )}
 
-        {/* Badges góc trên trái */}
-        {badges.length > 0 && (
-          <div className="absolute top-4 left-4 flex flex-col gap-2">
-            {badges.map((badge, idx) => (
-              <span
-                key={idx}
-                className={`rounded-full px-3 py-1 text-xs font-bold tracking-wider uppercase shadow-xs ${
-                  idx === 0
-                    ? 'bg-primary text-primary-foreground'
-                    : 'bg-accent text-accent-foreground'
-                }`}
-              >
-                {badge}
-              </span>
-            ))}
-          </div>
-        )}
-
-        {/* Zoom lens instruction */}
         {currentImage && (
           <div className="pointer-events-none absolute right-4 bottom-4 flex items-center gap-1.5 rounded-lg bg-black/60 px-3 py-1.5 text-xs text-white opacity-0 backdrop-blur-xs transition-opacity duration-300 group-hover:opacity-100">
             <Icon name="search" size="xs" />

@@ -35,33 +35,46 @@ describe('Admin Validations', () => {
     it('should validate correct product creation payload', () => {
       const result = adminProductSchema.safeParse({
         name: 'Cua Gạch Cà Mau',
+        description: 'Cua gạch Cà Mau loại 1 dây trói không trọng lượng',
         price: 450_000,
         stock: 20,
         categoryId: 1,
-        unit: 'kg',
-        productType: 'REGULAR',
+        isActive: true,
       });
       expect(result.success).toBeTruthy();
+    });
+
+    it('should reject product without description', () => {
+      const result = adminProductSchema.safeParse({
+        name: 'Cua Gạch Cà Mau',
+        price: 450_000,
+        stock: 20,
+        categoryId: 1,
+        isActive: true,
+      });
+      expect(result.success).toBeFalsy();
     });
 
     it('should reject product price less than 1000', () => {
       const result = adminProductSchema.safeParse({
         name: 'Cua Gạch',
+        description: 'Mô tả cua gạch',
         price: 500,
         stock: 10,
         categoryId: 1,
-        productType: 'REGULAR',
+        isActive: true,
       });
       expect(result.success).toBeFalsy();
     });
 
-    it('should reject negative stock value', () => {
+    it('should reject stock value less than 1', () => {
       const result = adminProductSchema.safeParse({
         name: 'Tôm Sú',
+        description: 'Mô tả tôm sú',
         price: 300_000,
-        stock: -5,
+        stock: 0,
         categoryId: 2,
-        productType: 'REGULAR',
+        isActive: true,
       });
       expect(result.success).toBeFalsy();
     });

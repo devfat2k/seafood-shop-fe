@@ -3,11 +3,21 @@ import type { QuickViewProduct } from '@/components/products/QuickViewModal';
 import type { Category, Product } from '@/types/api';
 import { formatCurrency } from '@/utils/Helpers';
 
+export const isProductInStock = (p: Product): boolean => {
+  if (!p.active || (p.isActive !== undefined && !p.isActive)) {
+    return false;
+  }
+  if (typeof p.stock === 'number' && p.stock <= 0) {
+    return false;
+  }
+  return true;
+};
+
 export const getProductBadges = (p: Product): string[] => {
-  if (p.featured) {
+  if (p.featured || p.isFeatured) {
     return ['NỔI BẬT'];
   }
-  if ((p.stock ?? 0) > 0) {
+  if (isProductInStock(p)) {
     return ['TƯƠI SỐNG'];
   }
   return ['TẠM HẾT'];
@@ -36,9 +46,9 @@ export const mapProductToCardItem = (p: Product): ProductCardItem => {
     originalPrice,
     unit: p.unit ?? 'kg',
     origin: p.origin ?? 'Cảng cá Phan Thiết',
-    rating: p.rating ?? 4.9,
+    rating: p.rating ?? p.averageRating ?? 4.9,
     salesCount: p.reviewCount ?? 120,
-    inStock: (p.active ?? true) && (p.stock ?? 0) > 0,
+    inStock: isProductInStock(p),
     image,
   };
 };

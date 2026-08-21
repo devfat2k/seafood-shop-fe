@@ -22,7 +22,6 @@ export function RevenueByCategoryCard() {
       </CardHeader>
 
       <CardContent>
-        {/* Loading */}
         {isLoading && (
           <div className="space-y-4">
             {[1, 2, 3, 4].map((i) => (
@@ -37,7 +36,6 @@ export function RevenueByCategoryCard() {
           </div>
         )}
 
-        {/* Error */}
         {isError && (
           <div className="flex flex-col items-center justify-center py-8 text-center">
             <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-destructive/10 text-destructive">
@@ -59,7 +57,6 @@ export function RevenueByCategoryCard() {
           </div>
         )}
 
-        {/* Empty */}
         {!isLoading && !isError && (!categories || categories.length === 0) && (
           <div className="flex flex-col items-center justify-center py-8 text-center">
             <p className="text-xs text-muted-foreground">
@@ -68,23 +65,24 @@ export function RevenueByCategoryCard() {
           </div>
         )}
 
-        {/* Data list */}
         {!isLoading && !isError && categories && categories.length > 0 && (
           <div className="space-y-4">
-            {categories.map((cat) => {
+            {categories.map((cat, index) => {
               const percentage =
                 totalRevenue > 0 ? Math.round(((cat.revenue || 0) / totalRevenue) * 100) : 0;
+              const itemKey =
+                cat.categoryId ?? cat.id ?? cat.categoryName ?? cat.name ?? `category-${index}`;
+              const displayName = cat.categoryName ?? cat.name ?? `Danh mục #${index + 1}`;
 
               return (
-                <div key={cat.categoryId} className="space-y-1.5">
+                <div key={itemKey} className="space-y-1.5">
                   <div className="flex items-center justify-between text-xs">
-                    <span className="font-semibold text-foreground">{cat.categoryName}</span>
+                    <span className="font-semibold text-foreground">{displayName}</span>
                     <span className="font-medium text-muted-foreground">
                       {formatCurrency(cat.revenue || 0)} ({percentage}%)
                     </span>
                   </div>
 
-                  {/* Progress bar */}
                   <div className="h-2 w-full overflow-hidden rounded-full bg-muted">
                     <div
                       className="h-full rounded-full bg-primary transition-all duration-500"
