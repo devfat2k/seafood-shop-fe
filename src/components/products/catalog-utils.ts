@@ -14,26 +14,47 @@ export const isProductInStock = (p: Product): boolean => {
 };
 
 export const getProductBadges = (p: Product): string[] => {
+  const badges: string[] = [];
+  if (!isProductInStock(p)) {
+    badges.push('TẠM HẾT');
+    return badges;
+  }
   if (p.featured || p.isFeatured) {
-    return ['NỔI BẬT'];
+    badges.push('NỔI BẬT');
   }
-  if (isProductInStock(p)) {
-    return ['TƯƠI SỐNG'];
+  if (p.tags && p.tags.length > 0) {
+    for (const tag of p.tags) {
+      if (tag && !badges.includes(tag)) {
+        badges.push(tag);
+      }
+    }
   }
-  return ['TẠM HẾT'];
+  return badges;
 };
 
 export const getCategoryInfo = (p: Product): { name: string; slug: string } => {
-  const name = p.category?.categoryName ?? p.category?.name ?? p.categoryName ?? 'Hải Sản';
+  const name = p.category?.categoryName ?? p.category?.name ?? p.categoryName ?? '';
   const slug = p.category?.slug ?? p.categorySlug ?? '';
   return { name, slug };
+};
+
+const getProductRating = (p: Product): number | undefined => {
+  if (p.rating && p.rating > 0) {
+    return p.rating;
+  }
+  if (p.averageRating && p.averageRating > 0) {
+    return p.averageRating;
+  }
+  return undefined;
 };
 
 export const mapProductToCardItem = (p: Product): ProductCardItem => {
   const cat = getCategoryInfo(p);
   const price = p.price ?? 0;
-  const originalPrice = p.originalPrice ?? Math.round(price * 1.15);
+  const originalPrice = p.originalPrice && p.originalPrice > price ? p.originalPrice : undefined;
   const image = p.imageUrl ?? p.images?.[0] ?? '';
+  const rating = getProductRating(p);
+  const salesCount = p.reviewCount && p.reviewCount > 0 ? p.reviewCount : undefined;
 
   return {
     id: p.id,
@@ -41,13 +62,13 @@ export const mapProductToCardItem = (p: Product): ProductCardItem => {
     category: cat.name,
     categorySlug: cat.slug,
     badges: getProductBadges(p),
-    spec: p.spec ?? p.description ?? '',
+    spec: p.spec ?? undefined,
     price,
     originalPrice,
-    unit: p.unit ?? 'kg',
-    origin: p.origin ?? 'Cảng cá Phan Thiết',
-    rating: p.rating ?? p.averageRating ?? 4.9,
-    salesCount: p.reviewCount ?? 120,
+    unit: p.unit ?? undefined,
+    origin: p.origin ?? undefined,
+    rating,
+    salesCount,
     inStock: isProductInStock(p),
     image,
   };
@@ -78,13 +99,13 @@ export const resolveCategoryIds = (
 export const mapToQuickView = (p: ProductCardItem): QuickViewProduct => ({
   id: String(p.id),
   name: p.name,
-  badge: p.badges?.[0] ?? 'CẢNG PHAN THIẾT',
+  badge: p.badges?.[0],
   price: formatCurrency(p.price),
   originalPrice: p.originalPrice ? formatCurrency(p.originalPrice) : undefined,
-  rating: p.rating ?? 4.9,
-  reviewsCount: p.salesCount ?? 120,
-  origin: p.origin ?? 'Cảng cá Phan Thiết',
-  description: p.spec ?? 'Hải sản tươi sống loại 1 cập bến mỗi sáng.',
+  rating: p.rating,
+  reviewsCount: p.salesCount,
+  origin: p.origin,
+  description: p.spec,
   image: p.image ?? '',
-  weights: p.unit ? [`1 ${p.unit}`, `2 ${p.unit}`] : ['500g', '1kg'],
+  weights: p.unit ? [`1 ${p.unit}`, `2 ${p.unit}`] : undefined,
 });

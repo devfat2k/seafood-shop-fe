@@ -66,7 +66,6 @@ export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
 
   return (
     <aside className="w-full space-y-6 rounded-2xl border border-border bg-card p-5 shadow-xs">
-      {/* Header */}
       <div className="flex items-center justify-between border-b border-border pb-4">
         <div className="flex items-center gap-2">
           <Icon name="sliders-horizontal" size="sm" className="text-secondary" />
@@ -83,7 +82,6 @@ export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
         )}
       </div>
 
-      {/* Applied Category Filter Chips */}
       {filters.categories.length > 0 && (
         <div className="space-y-2 border-b border-border pb-4">
           <span className="text-[11px] font-bold text-muted-foreground uppercase">
@@ -115,7 +113,6 @@ export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
         </div>
       )}
 
-      {/* Category Filter */}
       <div className="space-y-3">
         <h4 className="font-heading text-sm font-bold text-foreground">Danh Mục Hải Sản</h4>
         <div className="space-y-1">
@@ -154,7 +151,6 @@ export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
         </div>
       </div>
 
-      {/* In Stock Toggle */}
       <div className="border-t border-border pt-4">
         <label className="flex cursor-pointer items-center justify-between rounded-xl px-2.5 py-2 text-xs transition-colors hover:bg-muted/60">
           <div className="flex items-center gap-2.5">
@@ -179,7 +175,6 @@ export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
         </label>
       </div>
 
-      {/* Price Range Presets */}
       <div className="space-y-3 border-t border-border pt-4">
         <h4 className="font-heading text-sm font-bold text-foreground">Khoảng Giá</h4>
         <div className="space-y-1">
@@ -210,7 +205,6 @@ export function ProductSidebarFilter(props: ProductSidebarFilterProps) {
         </div>
       </div>
 
-      {/* Trust Guarantee Mini Box */}
       <div className="rounded-xl border border-tertiary/30 bg-tertiary/5 p-3.5 text-xs">
         <div className="flex items-center gap-1.5 font-bold text-tertiary">
           <Icon name="shield-check" size="xs" />

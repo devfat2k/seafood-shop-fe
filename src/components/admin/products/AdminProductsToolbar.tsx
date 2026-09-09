@@ -30,7 +30,6 @@ export function AdminProductsToolbar({
   return (
     <div className="space-y-3 pb-2">
       <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-        {/* Search input */}
         <div className="relative flex-1">
           <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-muted-foreground">
             <Icon name="search" size="xs" />
@@ -55,9 +54,7 @@ export function AdminProductsToolbar({
           )}
         </div>
 
-        {/* Filters */}
         <div className="flex flex-wrap items-center gap-2">
-          {/* Category filter */}
           <select
             value={categoryFilter ?? ''}
             onChange={(e) => {
@@ -74,7 +71,6 @@ export function AdminProductsToolbar({
             ))}
           </select>
 
-          {/* Type filter */}
           <select
             value={productTypeFilter ?? ''}
             onChange={(e) => {

@@ -7,4 +7,4 @@ export const createVnpayUrlSchema = z.object({
 
 export type CreateVnpayUrlRequest = z.infer<typeof createVnpayUrlSchema>;
 
-export type PaymentMethod = 'COD' | 'VNPAY' | 'MOMO' | 'ZALOPAY';
+export type PaymentMethod = 'COD' | 'VNPAY' | 'MOMO' | 'ZALOPAY' | 'QR_BANK';

@@ -63,19 +63,27 @@ export const AdminOrdersTable = ({
           {orders.map((order) => {
             const badge = getStatusBadge(order.status);
             const nextStatuses = NEXT_STATUS[order.status] ?? [];
+            const orderDate = order.orderDate ?? order.createdAt;
+            const total = order.totalPrice ?? order.totalAmount ?? 0;
+            const displayCode = order.code?.startsWith('#')
+              ? order.code
+              : `#${order.code ?? (order.id ? `DH-${order.id}` : 'ORD')}`;
+
             return (
               <TableRow key={order.id} className="transition-colors hover:bg-muted/40">
                 <TableCell className="font-mono text-sm font-bold text-foreground">
-                  {order.code}
+                  {displayCode}
                 </TableCell>
                 <TableCell className="text-xs text-muted-foreground">
-                  {new Date(order.orderDate).toLocaleDateString('vi-VN', {
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                  })}
+                  {orderDate
+                    ? new Date(orderDate).toLocaleDateString('vi-VN', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                      })
+                    : '—'}
                 </TableCell>
                 <TableCell className="text-center">
                   <Badge className={`px-2.5 py-0.5 text-xs font-semibold ${badge.color}`}>
@@ -83,7 +91,7 @@ export const AdminOrdersTable = ({
                   </Badge>
                 </TableCell>
                 <TableCell className="text-right font-heading text-sm font-bold text-primary">
-                  {formatCurrency(order.totalPrice)}
+                  {formatCurrency(total)}
                 </TableCell>
                 <TableCell className="text-center text-xs font-medium text-muted-foreground">
                   {order.paymentMethod ?? 'COD'}

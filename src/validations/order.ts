@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const checkoutFormSchema = z.object({
-  paymentMethod: z.enum(['COD', 'VNPAY', 'MOMO', 'ZALOPAY'], {
+  paymentMethod: z.enum(['COD', 'VNPAY', 'MOMO', 'ZALOPAY', 'QR_BANK'], {
     message: 'Vui lòng chọn phương thức thanh toán',
   }),
   note: z.string().max(500, 'Ghi chú không được vượt quá 500 ký tự').optional().or(z.literal('')),

@@ -23,14 +23,15 @@ export type ProductCardProps<T extends ProductCardItem = ProductCardItem> = {
 };
 
 export function getBadgeStyle(badge: string): { bg: string; text: string } {
-  if (badge.includes('🟢') || badge.includes('Còn hàng') || badge.includes('TƯƠI SỐNG')) {
-    return { bg: 'bg-tertiary/15 border-tertiary/30', text: 'text-tertiary' };
+  const upper = badge.toUpperCase();
+  if (upper.includes('TẠM HẾT') || upper.includes('HẾT HÀNG')) {
+    return { bg: 'bg-muted/90 border-border', text: 'text-muted-foreground' };
   }
-  if (badge.includes('HOT') || badge.includes('BÁN CHẠY')) {
+  if (upper.includes('NỔI BẬT') || upper.includes('HOT') || upper.includes('BÁN CHẠY')) {
+    return { bg: 'bg-accent/15 border-accent/30', text: 'text-accent' };
+  }
+  if (upper.includes('GIẢM') || upper.includes('SALE')) {
     return { bg: 'bg-primary/15 border-primary/30', text: 'text-primary' };
-  }
-  if (badge.includes('SALE') || badge.includes('Giảm') || badge.includes('Nổi bật')) {
-    return { bg: 'bg-accent/20 border-accent/40', text: 'text-accent' };
   }
   return { bg: 'bg-secondary/15 border-secondary/30', text: 'text-secondary' };
 }

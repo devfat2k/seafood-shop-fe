@@ -25,14 +25,12 @@ export function ProductListToolbar(props: ProductListToolbarProps) {
 
   return (
     <div className="flex flex-col gap-4 rounded-2xl border border-border bg-card p-3.5 shadow-xs sm:flex-row sm:items-center sm:justify-between sm:p-4">
-      {/* Total Count and Mobile Filter Trigger */}
       <div className="flex items-center justify-between gap-3">
         <p className="text-xs text-muted-foreground sm:text-sm">
           Hiển thị <span className="font-bold text-foreground">{shownRange}</span> trên tổng số{' '}
           <strong className="font-heading font-bold text-primary">{totalCount}</strong> hải sản
         </p>
 
-        {/* Mobile Filter Button */}
         {onToggleMobileFilter && (
           <button
             type="button"
@@ -45,9 +43,7 @@ export function ProductListToolbar(props: ProductListToolbarProps) {
         )}
       </div>
 
-      {/* Right: View Mode Switcher & Sort Dropdown */}
       <div className="flex items-center justify-between gap-3 sm:justify-end">
-        {/* View Mode Toggle */}
         {onViewModeChange && (
           <div className="flex items-center rounded-xl border border-border bg-muted/40 p-0.5">
             <button
@@ -81,7 +77,6 @@ export function ProductListToolbar(props: ProductListToolbarProps) {
           </div>
         )}
 
-        {/* Sort Dropdown */}
         <div className="flex items-center gap-2">
           <label
             htmlFor="sort-dropdown"

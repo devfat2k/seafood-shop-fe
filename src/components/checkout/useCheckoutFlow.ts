@@ -14,14 +14,14 @@ import type { UserAddress } from '@/types/user';
 export const useCheckoutFlow = () => {
   const router = useRouter();
   const { items, subtotal, clearCart } = useCartStore();
+  const [currentStep, setCurrentStep] = useState<1 | 2 | 3>(1);
   const [note, setNote] = useState('');
   const [selectedMethod, setSelectedMethod] = useState<PaymentMethod>('VNPAY');
   const [selectedAddress, setSelectedAddress] = useState<UserAddress | null>(null);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-  const [waitingPayment, setWaitingPayment] = useState<{
-    orderId: number | string;
-    method: PaymentMethod;
-  } | null>(null);
+  const [createdOrder, setCreatedOrder] = useState<{ id: number; totalAmount: number } | null>(
+    null,
+  );
 
   const { data: userProfile, isLoading: isUserLoading } = useCurrentUserQuery();
   const { data: addresses = [], isLoading: isAddressesLoading } = useAddressesQuery();
@@ -32,6 +32,18 @@ export const useCheckoutFlow = () => {
 
   const activeAddress =
     selectedAddress ?? addresses.find((a: UserAddress) => a.defaultAddress) ?? addresses[0] ?? null;
+
+  const handleNextToPayment = () => {
+    if (!activeAddress) {
+      toast.error('Vui lòng chọn hoặc thêm địa chỉ nhận hàng');
+      return;
+    }
+    setCurrentStep(2);
+  };
+
+  const handleNextToConfirm = () => {
+    setCurrentStep(3);
+  };
 
   const handlePlaceOrder = async () => {
     if (!userProfile) {
@@ -52,8 +64,10 @@ export const useCheckoutFlow = () => {
 
     try {
       const orderItems = items.map((item) => {
-        const rawId = item.productId ?? Number(String(item.id).split('-')[0]);
-        const cleanId = typeof rawId === 'number' && !Number.isNaN(rawId) ? rawId : 1;
+        const cleanId =
+          item.productId ??
+          (typeof item.id === 'number' ? item.id : Number(String(item.id).split('-')[0])) ||
+          1;
         return {
           productId: cleanId,
           quantity: item.quantity,
@@ -78,16 +92,19 @@ export const useCheckoutFlow = () => {
 
         if (paymentRes.data?.paymentUrl) {
           clearCart();
-          const newTab = window.open(paymentRes.data.paymentUrl, '_blank');
-          if (newTab) {
-            toast.success('Cổng thanh toán VNPAY đã mở ở tab mới!');
-            setWaitingPayment({ orderId: orderData.id, method: selectedMethod });
-          } else {
-            toast.info('Trình duyệt đã chặn tab mới. Đang chuyển hướng...');
-            window.location.href = paymentRes.data.paymentUrl;
-          }
+          window.location.href = paymentRes.data.paymentUrl;
           return;
         }
+      }
+
+      if (selectedMethod === 'QR_BANK') {
+        clearCart();
+        setCreatedOrder({
+          id: orderData.id,
+          totalAmount: orderData.totalAmount ?? subtotal,
+        });
+        toast.success('Đơn hàng đã được tạo thành công! Vui lòng quét mã QR để thanh toán.');
+        return;
       }
 
       clearCart();
@@ -102,18 +119,20 @@ export const useCheckoutFlow = () => {
     }
   };
 
-  const handlePaymentConfirmed = (status: 'success' | 'failed') => {
-    if (!waitingPayment) {
+  const handleQrConfirmed = () => {
+    if (!createdOrder) {
       return;
     }
-    const { orderId, method } = waitingPayment;
-    setWaitingPayment(null);
-    router.push(`/payment-result?orderId=${orderId}&status=${status}&paymentMethod=${method}`);
+    router.push(
+      `/payment-result?orderId=${createdOrder.id}&status=pending_qr&paymentMethod=QR_BANK`,
+    );
   };
 
   return {
     items,
     subtotal,
+    currentStep,
+    setCurrentStep,
     note,
     setNote,
     selectedMethod,
@@ -126,8 +145,10 @@ export const useCheckoutFlow = () => {
     isSubmitting,
     isAuthModalOpen,
     setIsAuthModalOpen,
-    waitingPayment,
+    createdOrder,
+    handleNextToPayment,
+    handleNextToConfirm,
     handlePlaceOrder,
-    handlePaymentConfirmed,
+    handleQrConfirmed,
   };
 };

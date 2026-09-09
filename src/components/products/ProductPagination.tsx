@@ -37,7 +37,6 @@ export function ProductPagination(props: ProductPaginationProps) {
 
   return (
     <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-border/80 pt-6">
-      {/* Nút Trang Trước */}
       <button
         type="button"
         disabled={safeCurrentPage <= 1}
@@ -52,7 +51,6 @@ export function ProductPagination(props: ProductPaginationProps) {
         <span>Trang trước</span>
       </button>
 
-      {/* Danh sách số trang */}
       <div className="flex items-center gap-1.5">
         {pages.map((page, idx) => {
           if (typeof page === 'string') {
@@ -84,7 +82,6 @@ export function ProductPagination(props: ProductPaginationProps) {
         })}
       </div>
 
-      {/* Nút Trang Sau */}
       <button
         type="button"
         disabled={safeCurrentPage >= totalPages}

@@ -28,7 +28,6 @@ export function SocialProofSection({ reviews = [] }: SocialProofSectionProps) {
           <span className="text-xs text-muted-foreground sm:hidden">Vuốt ngang →</span>
         </div>
 
-        {/* Swipe Rail on Mobile / 3-col Grid on Desktop */}
         <div className="flex snap-x snap-mandatory scrollbar-none gap-4 overflow-x-auto pb-4 sm:grid sm:snap-none sm:grid-cols-3 sm:overflow-visible sm:pb-0">
           {reviews.map((rev) => (
             <div

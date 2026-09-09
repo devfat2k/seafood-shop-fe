@@ -56,7 +56,6 @@ export function ProductGallery(props: ProductGalleryProps) {
         )}
       </div>
 
-      {/* Dải Thumbnails bên dưới */}
       {images.length > 1 && (
         <div className="flex items-center gap-3">
           <button
@@ -68,7 +67,6 @@ export function ProductGallery(props: ProductGalleryProps) {
             <Icon name="chevron-left" size="sm" />
           </button>
 
-          {/* Thumbnails grid */}
           <div className="grid flex-1 grid-cols-4 gap-3">
             {images.slice(0, 4).map((img, idx) => {
               const isActive = idx === activeImageIndex;

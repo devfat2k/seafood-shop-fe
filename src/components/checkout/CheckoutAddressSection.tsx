@@ -112,23 +112,29 @@ export function CheckoutAddressSection({
             const isSelected =
               selectedAddress?.id === addr.id || (!selectedAddress && addr.defaultAddress);
             return (
-              <button
+              <div
                 key={addr.id}
-                type="button"
+                role="button"
+                tabIndex={0}
                 aria-label={`Chọn địa chỉ nhận hàng của ${addr.recipientName}`}
                 onClick={() => {
-                  void handleSetDefault(addr);
+                  onSelectAddress(addr);
                 }}
-                className={`w-full cursor-pointer rounded-xl border p-4 text-left transition-all ${
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    onSelectAddress(addr);
+                  }
+                }}
+                className={`w-full cursor-pointer rounded-2xl border p-4 text-left transition-all ${
                   isSelected
-                    ? 'border-secondary bg-secondary/5 ring-1 ring-secondary'
+                    ? 'border-secondary bg-secondary/5 ring-2 ring-secondary/20 shadow-xs'
                     : 'border-border bg-background hover:border-muted-foreground/30'
                 }`}
               >
                 <div className="flex items-start justify-between">
                   <div className="space-y-1">
                     <div className="flex items-center gap-2">
-                      <span className="text-xs font-bold text-foreground">
+                      <span className="text-xs font-bold text-foreground sm:text-sm">
                         {addr.recipientName}
                       </span>
                       <span className="text-xs text-muted-foreground">• {addr.phone}</span>
@@ -143,7 +149,7 @@ export function CheckoutAddressSection({
                         </span>
                       )}
                     </div>
-                    <p className="text-xs text-muted-foreground">
+                    <p className="text-xs text-muted-foreground leading-relaxed">
                       {addr.addressDetail}, {addr.ward}, {addr.district}, {addr.province}
                     </p>
                   </div>
@@ -153,11 +159,11 @@ export function CheckoutAddressSection({
                       checked={isSelected}
                       readOnly
                       aria-label={`Chọn địa chỉ ${addr.recipientName} - ${addr.addressDetail}`}
-                      className="h-4 w-4 text-secondary focus:ring-secondary"
+                      className="h-4 w-4 text-secondary focus:ring-secondary cursor-pointer"
                     />
                   </div>
                 </div>
-              </button>
+              </div>
             );
           })}
         </div>

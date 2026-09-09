@@ -57,7 +57,6 @@ export function HeaderSearch({ isMobileOverlayOpen, onCloseMobileOverlay }: Head
 
   return (
     <>
-      {/* Desktop Search Bar */}
       <form
         ref={searchContainerRef}
         onSubmit={handleSearchSubmit}
@@ -96,7 +95,6 @@ export function HeaderSearch({ isMobileOverlayOpen, onCloseMobileOverlay }: Head
         />
       </form>
 
-      {/* Mobile Search Overlay */}
       {isMobileOverlayOpen && (
         <div className="fixed inset-x-0 top-0 z-50 flex items-center gap-3 border-b border-border bg-card p-4 shadow-md md:hidden">
           <form onSubmit={handleSearchSubmit} className="relative flex-1">

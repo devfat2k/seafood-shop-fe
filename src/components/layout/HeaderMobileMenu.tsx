@@ -25,7 +25,6 @@ export function HeaderMobileMenu({ isOpen, onClose, onOpenAuthModal }: HeaderMob
 
   return (
     <div className="fixed inset-0 z-50 overflow-hidden lg:hidden">
-      {/* Backdrop */}
       <button
         type="button"
         className="fixed inset-0 animate-in cursor-default bg-black/60 backdrop-blur-xs transition-opacity fade-in"
@@ -33,9 +32,7 @@ export function HeaderMobileMenu({ isOpen, onClose, onOpenAuthModal }: HeaderMob
         aria-label="Đóng menu"
       />
 
-      {/* Menu Drawer */}
       <div className="fixed inset-y-0 right-0 flex w-full max-w-xs animate-in flex-col bg-card shadow-2xl duration-300 slide-in-from-right">
-        {/* Drawer Header */}
         <div className="flex items-center justify-between border-b border-border p-4">
           <Logo />
           <button
@@ -48,9 +45,7 @@ export function HeaderMobileMenu({ isOpen, onClose, onOpenAuthModal }: HeaderMob
           </button>
         </div>
 
-        {/* Drawer Content */}
         <div className="flex-1 overflow-y-auto p-4">
-          {/* Navigation Links */}
           <nav className="mt-6 flex flex-col gap-2">
             {navLinks.map((link) => {
               const isCurrent =
@@ -71,7 +66,6 @@ export function HeaderMobileMenu({ isOpen, onClose, onOpenAuthModal }: HeaderMob
             })}
           </nav>
 
-          {/* User Section */}
           <div className="mt-6 border-t border-border pt-6">
             {isLoggedIn ? (
               <div className="space-y-2">

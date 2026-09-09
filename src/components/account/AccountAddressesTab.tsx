@@ -129,7 +129,6 @@ export function AccountAddressesTab() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <h2 className="font-heading text-lg font-bold text-foreground sm:text-xl">
@@ -151,10 +150,8 @@ export function AccountAddressesTab() {
         </button>
       </div>
 
-      {/* 3 UI States */}
       {renderContent()}
 
-      {/* Add Dialog */}
       <AddressFormDialog
         isOpen={isAddDialogOpen}
         onClose={() => {

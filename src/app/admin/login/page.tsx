@@ -47,7 +47,6 @@ export default function AdminLoginPage() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-muted/40 p-4 sm:p-6">
       <div className="w-full max-w-md rounded-2xl border border-border bg-card p-6 shadow-xl sm:p-8">
-        {/* Branding header */}
         <div className="mb-6 flex flex-col items-center text-center">
           <div className="mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary text-white shadow-md">
             <Icon name="fish" size="xl" />
@@ -60,7 +59,6 @@ export default function AdminLoginPage() {
           </p>
         </div>
 
-        {/* Login form */}
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-1.5">
             <label className="text-xs font-semibold text-foreground" htmlFor="email">

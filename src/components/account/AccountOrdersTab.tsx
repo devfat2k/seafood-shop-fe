@@ -43,9 +43,10 @@ export function AccountOrdersTab() {
     }
     try {
       await cancelOrderMutation.mutateAsync(cancelTargetOrder.id);
-      toast.success(
-        `Đã hủy thành công đơn hàng #${cancelTargetOrder.code || cancelTargetOrder.id}`,
-      );
+      const displayCode = cancelTargetOrder.code?.startsWith('#')
+        ? cancelTargetOrder.code
+        : `#${cancelTargetOrder.code ?? cancelTargetOrder.id}`;
+      toast.success(`Đã hủy thành công đơn hàng ${displayCode}`);
       setCancelTargetOrder(null);
     } catch (error: unknown) {
       const msg = error instanceof Error ? error.message : 'Hủy đơn hàng thất bại';
@@ -118,7 +119,6 @@ export function AccountOrdersTab() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div>
         <h2 className="font-heading text-lg font-bold text-foreground sm:text-xl">
           Đơn Hàng Của Tôi
@@ -128,7 +128,6 @@ export function AccountOrdersTab() {
         </p>
       </div>
 
-      {/* Filter Tabs */}
       <div className="flex flex-wrap gap-2 border-b border-border pb-3">
         {ORDER_TABS.map((tab) => (
           <button
@@ -148,10 +147,8 @@ export function AccountOrdersTab() {
         ))}
       </div>
 
-      {/* 3 UI States */}
       {renderContent()}
 
-      {/* Tracking Modal */}
       <OrderTrackingModal
         order={selectedOrder}
         onClose={() => {
@@ -159,7 +156,6 @@ export function AccountOrdersTab() {
         }}
       />
 
-      {/* Cancel Confirmation Dialog */}
       <CancelOrderDialog
         order={cancelTargetOrder}
         onClose={() => {

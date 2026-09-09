@@ -9,7 +9,6 @@ export function Footer() {
     <footer className="border-t border-secondary/20 bg-foreground pt-12 pb-8 text-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
-          {/* Cột 1: Thông tin thương hiệu */}
           <div className="space-y-3">
             <Link href="/">
               <Logo textColor="text-white" showSubtext={false} />
@@ -33,7 +32,6 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Cột 2: Hỗ trợ khách hàng */}
           <div>
             <h4 className="font-heading text-sm font-bold tracking-wider text-accent uppercase">
               Hỗ trợ khách hàng
@@ -67,7 +65,6 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Cột 3: Danh mục nổi bật */}
           <div>
             <h4 className="font-heading text-sm font-bold tracking-wider text-accent uppercase">
               Danh mục nổi bật
@@ -116,7 +113,6 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Cột 4: Cam kết chuỗi lạnh & Liên hệ */}
           <div>
             <h4 className="font-heading text-sm font-bold tracking-wider text-accent uppercase">
               Liên hệ trực tiếp
@@ -130,7 +126,6 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Bottom bar & Payment badges */}
         <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-6 text-xs text-white/60 sm:flex-row">
           <p>© 2026 Hải Sản Phan Thiết Premium. Bảo lưu mọi quyền.</p>
           <div className="flex items-center gap-2 text-[10px] font-bold tracking-wider text-white/80">

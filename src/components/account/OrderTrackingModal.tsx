@@ -1,81 +1,27 @@
 'use client';
 
-import Image from 'next/image';
 import { Icon } from '@/components/common/Icon';
 import type { OrderResponse } from '@/types/order';
 import { formatCurrency } from '@/utils/Helpers';
+import { OrderTrackingItemList } from './OrderTrackingItemList';
+import { OrderTrackingRecipient } from './OrderTrackingRecipient';
+import { OrderTrackingTimeline } from './OrderTrackingTimeline';
 
 type OrderTrackingModalProps = {
   order: OrderResponse | null;
   onClose: () => void;
 };
 
-type StepItem = {
-  step: number;
-  title: string;
-  description: string;
-  done: boolean;
-  current?: boolean;
-};
-
-const defaultSteps: StepItem[] = [
-  {
-    step: 1,
-    title: 'Đặt hàng thành công',
-    description: 'Đơn hàng đã được tiếp nhận tại hệ thống cảng cá Phan Thiết',
-    done: true,
-  },
-  {
-    step: 2,
-    title: 'Đã chuẩn bị & đóng gói oxy',
-    description: 'Hải sản tươi sống đã được đóng gói chuyên dụng',
-    done: true,
-  },
-  {
-    step: 3,
-    title: 'Đang giao hàng',
-    description: 'Shipper đang giao hải sản đến địa chỉ của bạn',
-    done: false,
-    current: true,
-  },
-  {
-    step: 4,
-    title: 'Giao hàng thành công',
-    description: 'Khách hàng nhận & kiểm tra hải sản trước khi thanh toán',
-    done: false,
-  },
-];
-
-const getStepBadgeStyle = (s: StepItem): string => {
-  if (s.done) {
-    return 'bg-tertiary text-white';
-  }
-  if (s.current) {
-    return 'animate-pulse bg-secondary text-white ring-4 ring-secondary/20';
-  }
-  return 'border border-border bg-card text-muted-foreground';
-};
-
-export const OrderTrackingModal = ({ order, onClose }: OrderTrackingModalProps) => {
+export function OrderTrackingModal({ order, onClose }: OrderTrackingModalProps) {
   if (!order) {
     return null;
   }
 
-  const steps = defaultSteps.map((step) => {
-    if (order.status === 'DONE') {
-      return { ...step, done: true, current: false };
-    }
-    if (order.status === 'SHIPPED') {
-      return { ...step, done: step.step <= 2, current: step.step === 3 };
-    }
-    if (order.status === 'CONFIRMED') {
-      return { ...step, done: step.step === 1, current: step.step === 2 };
-    }
-    if (order.status === 'PENDING') {
-      return { ...step, done: false, current: step.step === 1 };
-    }
-    return step;
-  });
+  const displayCode = order.code?.startsWith('#')
+    ? order.code
+    : `#${order.code ?? (order.id ? `DH-${order.id}` : 'ORD')}`;
+  const items = order.items ?? order.orderItems ?? [];
+  const totalPrice = order.totalPrice ?? order.totalAmount ?? 0;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -90,9 +36,7 @@ export const OrderTrackingModal = ({ order, onClose }: OrderTrackingModalProps) 
         <div className="flex items-center justify-between border-b border-border pb-4">
           <div>
             <span className="text-xs font-semibold text-secondary">Chi Tiết Đơn Hàng</span>
-            <h3 className="font-heading text-lg font-bold text-foreground">
-              #{order.code || `ORD-${order.id}`}
-            </h3>
+            <h3 className="font-heading text-lg font-bold text-foreground">{displayCode}</h3>
           </div>
           <button
             type="button"
@@ -104,75 +48,22 @@ export const OrderTrackingModal = ({ order, onClose }: OrderTrackingModalProps) 
           </button>
         </div>
 
-        {order.status !== 'CANCELLED' && (
-          <div className="my-6 space-y-6">
-            <h4 className="font-heading text-xs font-bold tracking-wider text-muted-foreground uppercase">
-              Tiến Trình Giao Hàng
-            </h4>
-            <div className="relative space-y-6 pl-6 before:absolute before:top-2 before:bottom-2 before:left-2.5 before:w-0.5 before:bg-border">
-              {steps.map((s) => (
-                <div key={s.step} className="relative flex items-start gap-4">
-                  <div
-                    className={`absolute -left-6 flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold ${getStepBadgeStyle(s)}`}
-                  >
-                    {s.done ? <Icon name="check" size="xs" /> : s.step}
-                  </div>
-                  <div>
-                    <p
-                      className={`text-xs font-bold ${
-                        s.current ? 'text-secondary' : 'text-foreground'
-                      }`}
-                    >
-                      {s.title}
-                    </p>
-                    <p className="mt-0.5 text-xs text-muted-foreground">{s.description}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+        <OrderTrackingRecipient
+          addressSnapshot={order.shippingAddressSnapshot}
+          paymentMethod={order.paymentMethod}
+        />
 
-        <div className="border-t border-border pt-4">
-          <h4 className="font-heading text-xs font-bold tracking-wider text-muted-foreground uppercase">
-            Danh Sách Sản Phẩm ({order.items?.length ?? 0})
-          </h4>
-          <div className="mt-3 divide-y divide-border/60">
-            {(order.items ?? []).map((item) => (
-              <div key={item.id} className="flex items-center justify-between py-3">
-                <div className="flex items-center gap-3">
-                  {item.imageUrl && (
-                    <Image
-                      src={item.imageUrl}
-                      alt={item.productName}
-                      width={48}
-                      height={48}
-                      unoptimized
-                      className="h-12 w-12 rounded-lg border border-border object-cover"
-                    />
-                  )}
-                  <div>
-                    <p className="text-xs font-bold text-foreground">{item.productName}</p>
-                    <p className="text-xs text-muted-foreground">
-                      Số lượng: {item.quantity} x {formatCurrency(item.price)}
-                    </p>
-                  </div>
-                </div>
-                <span className="text-xs font-bold text-foreground">
-                  {formatCurrency(item.price * item.quantity)}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
+        <OrderTrackingTimeline status={order.status} />
+
+        <OrderTrackingItemList items={items} />
 
         <div className="mt-4 flex items-center justify-between border-t border-border pt-4">
           <span className="text-xs text-muted-foreground">Tổng tiền thanh toán:</span>
           <span className="text-base font-bold text-primary sm:text-lg">
-            {formatCurrency(order.totalPrice)}
+            {formatCurrency(totalPrice)}
           </span>
         </div>
       </div>
     </div>
   );
-};
+}

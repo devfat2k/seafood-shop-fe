@@ -77,15 +77,32 @@ export function useProductCatalogState(
       maxPrice: filters.maxPrice < 10_000_000 ? filters.maxPrice : undefined,
       inStock: filters.onlyInStock ? true : undefined,
     }),
-    [currentPage, sortBy, debouncedSearch, selectedCategoryIds, filters],
+    [
+      currentPage,
+      sortBy,
+      debouncedSearch,
+      selectedCategoryIds,
+      filters.minPrice,
+      filters.maxPrice,
+      filters.onlyInStock,
+    ],
   );
+
+  const isInitialParams =
+    currentPage === (options?.initialPage ?? 1) &&
+    !debouncedSearch &&
+    filters.categories.length === 0 &&
+    filters.minPrice === 0 &&
+    filters.maxPrice === 10_000_000 &&
+    !filters.onlyInStock &&
+    sortBy === (options?.initialSort ?? 'createdAt,desc');
 
   const {
     data: pageData,
     isLoading,
     isError,
     refetch,
-  } = useProductsQuery(queryParams, currentPage === 1 ? initialPageData : undefined);
+  } = useProductsQuery(queryParams, isInitialParams ? initialPageData : undefined);
 
   const totalPages = pageData?.totalPages ?? 1;
   const totalElements = pageData?.totalElements ?? 0;

@@ -39,7 +39,6 @@ export function HeaderActions({
 
   return (
     <div className="flex items-center gap-2 sm:gap-3">
-      {/* Mobile Search Toggle */}
       {!isCatalogOrSearchPage && (
         <button
           type="button"
@@ -51,7 +50,6 @@ export function HeaderActions({
         </button>
       )}
 
-      {/* Cart Button with badge */}
       <button
         type="button"
         onClick={openCart}
@@ -66,7 +64,6 @@ export function HeaderActions({
         )}
       </button>
 
-      {/* User Account / Auth Actions */}
       {isLoggedIn && user ? (
         <div className="relative">
           <button

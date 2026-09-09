@@ -25,7 +25,6 @@ export function SearchHeaderBar(props: SearchHeaderBarProps) {
 
   return (
     <div className="space-y-4">
-      {/* Search Input Bar */}
       <form onSubmit={handleSubmit} className="relative flex w-full items-center">
         <div className="relative flex-1">
           <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-muted-foreground">
@@ -61,7 +60,6 @@ export function SearchHeaderBar(props: SearchHeaderBarProps) {
         </button>
       </form>
 
-      {/* Query Stats & Context */}
       <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border pb-4 text-xs sm:text-sm">
         <div>
           {initialQuery ? (
