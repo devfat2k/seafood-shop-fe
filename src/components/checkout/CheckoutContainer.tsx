@@ -5,7 +5,8 @@ import { CheckoutAddressSection } from '@/components/checkout/CheckoutAddressSec
 import { CheckoutItemsSummary } from '@/components/checkout/CheckoutItemsSummary';
 import { CheckoutOrderSummary } from '@/components/checkout/CheckoutOrderSummary';
 import { CheckoutPaymentMethod } from '@/components/checkout/CheckoutPaymentMethod';
-import { PaymentWaitingOverlay } from '@/components/checkout/PaymentWaitingOverlay';
+import { CheckoutQrBankStep } from '@/components/checkout/CheckoutQrBankStep';
+import { CheckoutStepWizard } from '@/components/checkout/CheckoutStepWizard';
 import { Icon } from '@/components/common/Icon';
 import { Link } from '@/libs/I18nNavigation';
 import { useCheckoutFlow } from './useCheckoutFlow';
@@ -111,7 +112,7 @@ export const CheckoutContainer = () => {
             onClick={() => {
               setIsAuthModalOpen(true);
             }}
-            className="rounded-xl bg-secondary px-4 py-2 text-xs font-bold text-white shadow-xs hover:bg-secondary/90 cursor-pointer"
+            className="cursor-pointer rounded-xl bg-secondary px-4 py-2 text-xs font-bold text-white shadow-xs hover:bg-secondary/90"
           >
             Đăng Nhập
           </button>
@@ -121,7 +122,7 @@ export const CheckoutContainer = () => {
       {!createdOrder && (
         <CheckoutStepWizard
           currentStep={currentStep}
-          onStepClick={(step) => {
+          onStepClick={(step: 1 | 2 | 3) => {
             setCurrentStep(step);
           }}
         />
@@ -146,13 +147,19 @@ export const CheckoutContainer = () => {
                 />
 
                 <div className="rounded-2xl border border-border bg-card p-6 shadow-xs">
-                  <label htmlFor="checkout-note" className="block text-xs font-bold text-foreground">
+                  <label
+                    htmlFor="checkout-note"
+                    className="block text-xs font-bold text-foreground"
+                  >
                     Ghi chú giao nhận hải sản
                   </label>
                   <textarea
                     id="checkout-note"
+                    aria-label="Ghi chú giao nhận hải sản"
                     value={note}
-                    onChange={(e) => setNote(e.target.value)}
+                    onChange={(e) => {
+                      setNote(e.target.value);
+                    }}
                     placeholder="Ví dụ: Giao trước 11h30 trưa, đóng thùng oxy, gọi trước 15 phút..."
                     rows={2}
                     className="mt-2 w-full rounded-xl border border-border bg-background p-3 text-xs text-foreground placeholder:text-muted-foreground focus:border-secondary focus:ring-1 focus:ring-secondary focus:outline-none"
@@ -163,7 +170,7 @@ export const CheckoutContainer = () => {
                   <button
                     type="button"
                     onClick={handleNextToPayment}
-                    className="flex items-center gap-2 rounded-xl bg-primary px-8 py-3.5 text-xs font-bold text-white shadow-lg shadow-primary/20 transition-all hover:bg-primary/90 active:scale-98 sm:text-sm cursor-pointer"
+                    className="flex cursor-pointer items-center gap-2 rounded-xl bg-primary px-8 py-3.5 text-xs font-bold text-white shadow-lg shadow-primary/20 transition-all hover:bg-primary/90 active:scale-98 sm:text-sm"
                   >
                     <span>Tiếp tục: Chọn phương thức thanh toán</span>
                     <Icon name="arrow-right" size="sm" />
@@ -184,8 +191,10 @@ export const CheckoutContainer = () => {
                 <div className="flex items-center justify-between">
                   <button
                     type="button"
-                    onClick={() => setCurrentStep(1)}
-                    className="flex items-center gap-1.5 rounded-xl border border-border bg-card px-5 py-3 text-xs font-bold text-muted-foreground hover:text-foreground cursor-pointer"
+                    onClick={() => {
+                      setCurrentStep(1);
+                    }}
+                    className="flex cursor-pointer items-center gap-1.5 rounded-xl border border-border bg-card px-5 py-3 text-xs font-bold text-muted-foreground hover:text-foreground"
                   >
                     <Icon name="arrow-left" size="xs" />
                     <span>Quay lại địa chỉ</span>
@@ -194,7 +203,7 @@ export const CheckoutContainer = () => {
                   <button
                     type="button"
                     onClick={handleNextToConfirm}
-                    className="flex items-center gap-2 rounded-xl bg-primary px-8 py-3.5 text-xs font-bold text-white shadow-lg shadow-primary/20 transition-all hover:bg-primary/90 active:scale-98 sm:text-sm cursor-pointer"
+                    className="flex cursor-pointer items-center gap-2 rounded-xl bg-primary px-8 py-3.5 text-xs font-bold text-white shadow-lg shadow-primary/20 transition-all hover:bg-primary/90 active:scale-98 sm:text-sm"
                   >
                     <span>Tiếp tục: Xác nhận đơn hàng</span>
                     <Icon name="arrow-right" size="sm" />
@@ -216,8 +225,10 @@ export const CheckoutContainer = () => {
                 <div className="flex items-center justify-between">
                   <button
                     type="button"
-                    onClick={() => setCurrentStep(2)}
-                    className="flex items-center gap-1.5 rounded-xl border border-border bg-card px-5 py-3 text-xs font-bold text-muted-foreground hover:text-foreground cursor-pointer"
+                    onClick={() => {
+                      setCurrentStep(2);
+                    }}
+                    className="flex cursor-pointer items-center gap-1.5 rounded-xl border border-border bg-card px-5 py-3 text-xs font-bold text-muted-foreground hover:text-foreground"
                   >
                     <Icon name="arrow-left" size="xs" />
                     <span>Đổi phương thức thanh toán</span>

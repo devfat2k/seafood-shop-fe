@@ -2,6 +2,7 @@ import type { ProductCardItem } from '@/components/products/productCardTypes';
 import type { QuickViewProduct } from '@/components/products/QuickViewModal';
 import type { Category, Product } from '@/types/api';
 import { formatCurrency } from '@/utils/Helpers';
+import { normalizeImageUrl } from '@/utils/image';
 
 export const isProductInStock = (p: Product): boolean => {
   if (!p.active || (p.isActive !== undefined && !p.isActive)) {
@@ -52,7 +53,7 @@ export const mapProductToCardItem = (p: Product): ProductCardItem => {
   const cat = getCategoryInfo(p);
   const price = p.price ?? 0;
   const originalPrice = p.originalPrice && p.originalPrice > price ? p.originalPrice : undefined;
-  const image = p.imageUrl ?? p.images?.[0] ?? '';
+  const image = normalizeImageUrl(p.imageUrl ?? p.images?.[0] ?? '');
   const rating = getProductRating(p);
   const salesCount = p.reviewCount && p.reviewCount > 0 ? p.reviewCount : undefined;
 

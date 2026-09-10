@@ -31,6 +31,41 @@ type UseProductCatalogOptions = {
   initialSort?: string;
 };
 
+const buildQueryParams = (
+  currentPage: number,
+  sortBy: string,
+  debouncedSearch: string,
+  selectedCategoryIds: number[] | undefined,
+  filters: FilterState,
+) => ({
+  page: currentPage - 1,
+  size: ITEMS_PER_PAGE,
+  sort: sortBy,
+  search: debouncedSearch || undefined,
+  categoryId: selectedCategoryIds,
+  minPrice: filters.minPrice > 0 ? filters.minPrice : undefined,
+  maxPrice: filters.maxPrice < 10_000_000 ? filters.maxPrice : undefined,
+  inStock: filters.onlyInStock ? true : undefined,
+});
+
+const checkIsInitialParams = (
+  currentPage: number,
+  debouncedSearch: string,
+  filters: FilterState,
+  sortBy: string,
+  options?: UseProductCatalogOptions,
+): boolean => {
+  const isDefaultPage = currentPage === (options?.initialPage ?? 1);
+  const isDefaultSort = sortBy === (options?.initialSort ?? 'createdAt,desc');
+  const hasNoFilters =
+    filters.categories.length === 0 &&
+    filters.minPrice === 0 &&
+    filters.maxPrice === 10_000_000 &&
+    !filters.onlyInStock;
+
+  return isDefaultPage && !debouncedSearch && isDefaultSort && hasNoFilters;
+};
+
 export function useProductCatalogState(
   initialPageData?: PageResponse<Product>,
   initialCategories?: Category[],
@@ -67,35 +102,17 @@ export function useProductCatalogState(
   );
 
   const queryParams = useMemo(
-    () => ({
-      page: currentPage - 1,
-      size: ITEMS_PER_PAGE,
-      sort: sortBy,
-      search: debouncedSearch || undefined,
-      categoryId: selectedCategoryIds,
-      minPrice: filters.minPrice > 0 ? filters.minPrice : undefined,
-      maxPrice: filters.maxPrice < 10_000_000 ? filters.maxPrice : undefined,
-      inStock: filters.onlyInStock ? true : undefined,
-    }),
-    [
-      currentPage,
-      sortBy,
-      debouncedSearch,
-      selectedCategoryIds,
-      filters.minPrice,
-      filters.maxPrice,
-      filters.onlyInStock,
-    ],
+    () => buildQueryParams(currentPage, sortBy, debouncedSearch, selectedCategoryIds, filters),
+    [currentPage, sortBy, debouncedSearch, selectedCategoryIds, filters],
   );
 
-  const isInitialParams =
-    currentPage === (options?.initialPage ?? 1) &&
-    !debouncedSearch &&
-    filters.categories.length === 0 &&
-    filters.minPrice === 0 &&
-    filters.maxPrice === 10_000_000 &&
-    !filters.onlyInStock &&
-    sortBy === (options?.initialSort ?? 'createdAt,desc');
+  const isInitialParams = checkIsInitialParams(
+    currentPage,
+    debouncedSearch,
+    filters,
+    sortBy,
+    options,
+  );
 
   const {
     data: pageData,

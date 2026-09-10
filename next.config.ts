@@ -38,6 +38,22 @@ const baseConfig: NextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'pub-2b46d3c416734df8807474e64c55b5cb.r2.dev',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.r2.dev',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.cloudflarestorage.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.pexels.com',
+      },
+      {
+        protocol: 'https',
         hostname: 'lh3.googleusercontent.com',
       },
     ],

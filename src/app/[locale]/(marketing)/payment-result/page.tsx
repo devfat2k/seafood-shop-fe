@@ -5,7 +5,31 @@ import { Suspense } from 'react';
 import { PaymentFailedState } from '@/components/checkout/payment-result/PaymentFailedState';
 import { PaymentSuccessState } from '@/components/checkout/payment-result/PaymentSuccessState';
 import { useOrderDetailQuery } from '@/libs/queries/orders';
+import type { OrderResponse } from '@/types/order';
 import { formatCurrency } from '@/utils/Helpers';
+
+const getDisplayTotal = (order?: OrderResponse | null) => {
+  if (order?.totalPrice) {
+    return formatCurrency(order.totalPrice);
+  }
+  if (order?.totalAmount) {
+    return formatCurrency(order.totalAmount);
+  }
+  return '0₫';
+};
+
+const getDisplayPaymentMethod = (orderMethod?: string, paramMethod?: string | null) => {
+  if (orderMethod) {
+    return orderMethod;
+  }
+  if (paramMethod === 'COD') {
+    return 'Tiền mặt khi nhận hàng (COD)';
+  }
+  if (paramMethod === 'QR_BANK') {
+    return 'Chuyển khoản VietQR 24/7';
+  }
+  return 'Cổng VNPAY (Thẻ / QR)';
+};
 
 function PaymentResultContent() {
   const searchParams = useSearchParams();
@@ -20,18 +44,8 @@ function PaymentResultContent() {
   const { data: order } = useOrderDetailQuery(orderId ?? '', Boolean(orderId));
 
   const displayOrderCode = order?.code ?? (orderId ? `#ORD-${orderId}` : '#SF-89241');
-  const displayTotal = order?.totalPrice
-    ? formatCurrency(order.totalPrice)
-    : order?.totalAmount
-      ? formatCurrency(order.totalAmount)
-      : '0₫';
-  const displayPaymentMethod =
-    order?.paymentMethod ??
-    (paymentMethodParam === 'COD'
-      ? 'Tiền mặt khi nhận hàng (COD)'
-      : paymentMethodParam === 'QR_BANK'
-        ? 'Chuyển khoản VietQR 24/7'
-        : 'Cổng VNPAY (Thẻ / QR)');
+  const displayTotal = getDisplayTotal(order);
+  const displayPaymentMethod = getDisplayPaymentMethod(order?.paymentMethod, paymentMethodParam);
 
   return (
     <div className="min-h-[80vh] bg-background py-10 lg:py-16">

@@ -64,19 +64,23 @@ export const useCheckoutFlow = () => {
 
     try {
       const orderItems = items.map((item) => {
-        const cleanId =
-          item.productId ??
-          (typeof item.id === 'number' ? item.id : Number(String(item.id).split('-')[0])) ||
-          1;
+        const idFallback = typeof item.id === 'number' ? item.id : Number(item.id.split('-')[0]);
+        const cleanId = item.productId ?? (idFallback || 1);
         return {
           productId: cleanId,
           quantity: item.quantity,
         };
       });
 
+      const backendPaymentMethod = selectedMethod === 'QR_BANK' ? 'COD' : selectedMethod;
+      const orderNote =
+        selectedMethod === 'QR_BANK'
+          ? `[Chuyển khoản VietQR] ${note.trim()}`.trim()
+          : note.trim() || undefined;
+
       const orderRes = await createOrderMutation.mutateAsync({
-        paymentMethod: selectedMethod,
-        note: note.trim() || undefined,
+        paymentMethod: backendPaymentMethod,
+        note: orderNote,
         items: orderItems,
       });
 

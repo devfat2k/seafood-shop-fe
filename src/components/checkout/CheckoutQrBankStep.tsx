@@ -18,6 +18,11 @@ const BANK_INFO = {
   accountName: 'HAI SAN PHAN THIET',
 };
 
+const handleCopy = (text: string, label: string) => {
+  void navigator.clipboard.writeText(text);
+  toast.success(`Đã sao chép ${label}!`);
+};
+
 export const CheckoutQrBankStep = ({
   orderId,
   totalAmount,
@@ -38,11 +43,6 @@ export const CheckoutQrBankStep = ({
   const minutes = Math.floor(secondsLeft / 60);
   const seconds = secondsLeft % 60;
   const formattedTime = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-
-  const handleCopy = (text: string, label: string) => {
-    void navigator.clipboard.writeText(text);
-    toast.success(`Đã sao chép ${label}!`);
-  };
 
   const qrUrl = `https://img.vietqr.io/image/MB-0345678901-compact2.png?amount=${totalAmount}&addInfo=${encodeURIComponent(transferMemo)}&accountName=${encodeURIComponent(BANK_INFO.accountName)}`;
 
@@ -75,12 +75,12 @@ export const CheckoutQrBankStep = ({
           <div className="mt-3 flex items-center gap-1.5 text-xs font-bold text-secondary">
             <Icon name="clock" size="xs" />
             <span>Mã QR hết hạn sau: </span>
-            <span className="font-mono text-primary font-bold">{formattedTime}</span>
+            <span className="font-mono font-bold text-primary">{formattedTime}</span>
           </div>
         </div>
 
         <div className="w-full max-w-md space-y-3">
-          <div className="rounded-2xl border border-border bg-background p-4 space-y-2.5">
+          <div className="space-y-2.5 rounded-2xl border border-border bg-background p-4">
             <div className="flex items-center justify-between text-xs">
               <span className="text-muted-foreground">Ngân hàng:</span>
               <span className="font-bold text-foreground">{BANK_INFO.bankName}</span>
@@ -89,12 +89,14 @@ export const CheckoutQrBankStep = ({
             <div className="flex items-center justify-between text-xs">
               <span className="text-muted-foreground">Số tài khoản:</span>
               <div className="flex items-center gap-2">
-                <span className="font-mono font-bold text-secondary text-sm">
+                <span className="font-mono text-sm font-bold text-secondary">
                   {BANK_INFO.accountNo}
                 </span>
                 <button
                   type="button"
-                  onClick={() => handleCopy(BANK_INFO.accountNo, 'Số tài khoản')}
+                  onClick={() => {
+                    handleCopy(BANK_INFO.accountNo, 'Số tài khoản');
+                  }}
                   className="rounded-md bg-muted px-2 py-0.5 text-[11px] font-semibold text-foreground hover:bg-secondary/20"
                 >
                   Sao chép
@@ -107,15 +109,17 @@ export const CheckoutQrBankStep = ({
               <span className="font-bold text-foreground">{BANK_INFO.accountName}</span>
             </div>
 
-            <div className="flex items-center justify-between text-xs border-t border-border/60 pt-2">
+            <div className="flex items-center justify-between border-t border-border/60 pt-2 text-xs">
               <span className="text-muted-foreground">Số tiền:</span>
               <div className="flex items-center gap-2">
-                <span className="font-heading font-bold text-primary text-base">
+                <span className="font-heading text-base font-bold text-primary">
                   {formatCurrency(totalAmount)}
                 </span>
                 <button
                   type="button"
-                  onClick={() => handleCopy(String(totalAmount), 'Số tiền')}
+                  onClick={() => {
+                    handleCopy(String(totalAmount), 'Số tiền');
+                  }}
                   className="rounded-md bg-muted px-2 py-0.5 text-[11px] font-semibold text-foreground hover:bg-secondary/20"
                 >
                   Sao chép
@@ -126,12 +130,14 @@ export const CheckoutQrBankStep = ({
             <div className="flex items-center justify-between text-xs">
               <span className="text-muted-foreground">Nội dung CK:</span>
               <div className="flex items-center gap-2">
-                <span className="font-mono font-bold text-foreground bg-accent/15 px-2 py-0.5 rounded">
+                <span className="rounded bg-accent/15 px-2 py-0.5 font-mono font-bold text-foreground">
                   {transferMemo}
                 </span>
                 <button
                   type="button"
-                  onClick={() => handleCopy(transferMemo, 'Nội dung chuyển khoản')}
+                  onClick={() => {
+                    handleCopy(transferMemo, 'Nội dung chuyển khoản');
+                  }}
                   className="rounded-md bg-muted px-2 py-0.5 text-[11px] font-semibold text-foreground hover:bg-secondary/20"
                 >
                   Sao chép

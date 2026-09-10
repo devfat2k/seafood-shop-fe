@@ -13,6 +13,26 @@ const STEPS = [
   { id: 3 as const, label: 'Xác nhận đơn hàng', icon: 'check-circle' as const },
 ];
 
+const getBadgeClass = (isCompleted: boolean, isCurrent: boolean) => {
+  if (isCompleted) {
+    return 'bg-tertiary text-white shadow-sm';
+  }
+  if (isCurrent) {
+    return 'bg-secondary text-white shadow-md shadow-secondary/20 ring-4 ring-secondary/15';
+  }
+  return 'bg-muted text-muted-foreground';
+};
+
+const getLabelClass = (isCompleted: boolean, isCurrent: boolean) => {
+  if (isCurrent) {
+    return 'text-foreground';
+  }
+  if (isCompleted) {
+    return 'text-foreground/80';
+  }
+  return 'text-muted-foreground';
+};
+
 export const CheckoutStepWizard = ({ currentStep, onStepClick }: CheckoutStepWizardProps) => (
   <div className="mb-8 rounded-3xl border border-border/80 bg-card p-4 shadow-sm sm:p-6">
     <div className="flex items-center justify-between">
@@ -36,13 +56,10 @@ export const CheckoutStepWizard = ({ currentStep, onStepClick }: CheckoutStepWiz
               }`}
             >
               <div
-                className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl text-xs font-bold transition-all duration-300 sm:h-10 sm:w-10 sm:text-sm ${
-                  isCompleted
-                    ? 'bg-tertiary text-white shadow-sm'
-                    : isCurrent
-                      ? 'bg-secondary text-white shadow-md shadow-secondary/20 ring-4 ring-secondary/15'
-                      : 'bg-muted text-muted-foreground'
-                }`}
+                className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl text-xs font-bold transition-all duration-300 sm:h-10 sm:w-10 sm:text-sm ${getBadgeClass(
+                  isCompleted,
+                  isCurrent,
+                )}`}
               >
                 {isCompleted ? <Icon name="check" size="xs" /> : <span>0{step.id}</span>}
               </div>
@@ -52,13 +69,7 @@ export const CheckoutStepWizard = ({ currentStep, onStepClick }: CheckoutStepWiz
                   Bước 0{step.id}
                 </span>
                 <span
-                  className={`block text-xs font-bold ${
-                    isCurrent
-                      ? 'text-foreground'
-                      : isCompleted
-                        ? 'text-foreground/80'
-                        : 'text-muted-foreground'
-                  }`}
+                  className={`block text-xs font-bold ${getLabelClass(isCompleted, isCurrent)}`}
                 >
                   {step.label}
                 </span>

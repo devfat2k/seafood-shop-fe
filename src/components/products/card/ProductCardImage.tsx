@@ -35,7 +35,7 @@ export const ProductCardImage = ({
             onError={() => {
               setImageError(true);
             }}
-            className="object-contain p-2 drop-shadow-[0_8px_16px_rgba(11,74,92,0.18)] transition-all duration-500 group-hover:scale-108 group-hover:-translate-y-1 group-hover:drop-shadow-[0_14px_24px_rgba(11,74,92,0.28)]"
+            className="object-contain p-2 drop-shadow-[0_8px_16px_rgba(11,74,92,0.18)] transition-all duration-500 group-hover:-translate-y-1 group-hover:scale-108 group-hover:drop-shadow-[0_14px_24px_rgba(11,74,92,0.28)]"
           />
         ) : (
           <div className="flex h-full w-full flex-col items-center justify-center rounded-xl bg-secondary/5 text-muted-foreground/60">

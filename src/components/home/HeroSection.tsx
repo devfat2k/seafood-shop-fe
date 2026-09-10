@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import { useState } from 'react';
 import { Icon } from '@/components/common/Icon';
 import { Link } from '@/libs/I18nNavigation';
@@ -47,7 +46,7 @@ export const HeroSection = ({ slides = [] }: HeroSectionProps) => {
           <div className="space-y-4 sm:space-y-6 lg:col-span-7">
             {slide.badgeText && (
               <div className="inline-flex items-center gap-2 rounded-full border border-secondary/20 bg-secondary/10 px-3.5 py-1 text-xs font-bold text-secondary">
-                <span className="h-2 w-2 rounded-full bg-secondary animate-pulse" />
+                <span className="h-2 w-2 animate-pulse rounded-full bg-secondary" />
                 <span>{slide.badgeText}</span>
               </div>
             )}
@@ -55,7 +54,9 @@ export const HeroSection = ({ slides = [] }: HeroSectionProps) => {
             <h1 className="font-heading text-3xl leading-[1.18] font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
               {slide.titlePrefix && <span>{slide.titlePrefix} </span>}
               <span className="text-primary">{slide.titleHighlight}</span>
-              {slide.titleSuffix && <span className="block text-foreground">{slide.titleSuffix}</span>}
+              {slide.titleSuffix && (
+                <span className="block text-foreground">{slide.titleSuffix}</span>
+              )}
             </h1>
 
             <p className="max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">

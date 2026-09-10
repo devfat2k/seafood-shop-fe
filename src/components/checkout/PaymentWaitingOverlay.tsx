@@ -15,6 +15,7 @@ const METHOD_LABEL: Record<PaymentMethod, string> = {
   MOMO: 'MoMo',
   ZALOPAY: 'ZaloPay',
   COD: 'COD',
+  QR_BANK: 'Chuyển khoản VietQR',
 };
 
 export const PaymentWaitingOverlay = ({

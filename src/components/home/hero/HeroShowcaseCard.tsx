@@ -34,7 +34,9 @@ export const HeroShowcaseCard = ({ slide }: HeroShowcaseCardProps) => (
 
       <div className="mt-4 flex items-center justify-between">
         <div>
-          <h3 className="font-heading text-base font-bold text-foreground">{slide.titleHighlight}</h3>
+          <h3 className="font-heading text-base font-bold text-foreground">
+            {slide.titleHighlight}
+          </h3>
           <p className="text-xs text-muted-foreground">Cảng cá Phan Thiết, Bình Thuận</p>
         </div>
 

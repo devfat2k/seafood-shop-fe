@@ -4,11 +4,7 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 import { AddressFormDialog } from '@/components/account/AddressFormDialog';
 import { Icon } from '@/components/common/Icon';
-import {
-  useAddressesQuery,
-  useCreateAddressMutation,
-  useSetDefaultAddressMutation,
-} from '@/libs/queries/users';
+import { useAddressesQuery, useCreateAddressMutation } from '@/libs/queries/users';
 import type { UserAddress } from '@/types/user';
 import type { AddressFormValues } from '@/validations/user';
 
@@ -24,7 +20,6 @@ export function CheckoutAddressSection({
   const [isAddOpen, setIsAddOpen] = useState(false);
   const { data: addresses = [], isLoading } = useAddressesQuery();
   const createAddressMutation = useCreateAddressMutation();
-  const setDefaultAddressMutation = useSetDefaultAddressMutation();
 
   const handleCreateAddress = async (values: AddressFormValues) => {
     try {
@@ -36,17 +31,6 @@ export function CheckoutAddressSection({
       setIsAddOpen(false);
     } catch (error: unknown) {
       const msg = error instanceof Error ? error.message : 'Thêm địa chỉ thất bại';
-      toast.error(msg);
-    }
-  };
-
-  const handleSetDefault = async (addr: UserAddress) => {
-    try {
-      await setDefaultAddressMutation.mutateAsync(addr.id);
-      onSelectAddress(addr);
-      toast.success('Đã cập nhật địa chỉ giao hàng');
-    } catch (error: unknown) {
-      const msg = error instanceof Error ? error.message : 'Không thể chọn địa chỉ';
       toast.error(msg);
     }
   };
@@ -112,22 +96,16 @@ export function CheckoutAddressSection({
             const isSelected =
               selectedAddress?.id === addr.id || (!selectedAddress && addr.defaultAddress);
             return (
-              <div
+              <button
                 key={addr.id}
-                role="button"
-                tabIndex={0}
+                type="button"
                 aria-label={`Chọn địa chỉ nhận hàng của ${addr.recipientName}`}
                 onClick={() => {
                   onSelectAddress(addr);
                 }}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    onSelectAddress(addr);
-                  }
-                }}
                 className={`w-full cursor-pointer rounded-2xl border p-4 text-left transition-all ${
                   isSelected
-                    ? 'border-secondary bg-secondary/5 ring-2 ring-secondary/20 shadow-xs'
+                    ? 'border-secondary bg-secondary/5 shadow-xs ring-2 ring-secondary/20'
                     : 'border-border bg-background hover:border-muted-foreground/30'
                 }`}
               >
@@ -149,21 +127,21 @@ export function CheckoutAddressSection({
                         </span>
                       )}
                     </div>
-                    <p className="text-xs text-muted-foreground leading-relaxed">
+                    <p className="text-xs leading-relaxed text-muted-foreground">
                       {addr.addressDetail}, {addr.ward}, {addr.district}, {addr.province}
                     </p>
                   </div>
                   <div className="pt-1">
-                    <input
-                      type="radio"
-                      checked={isSelected}
-                      readOnly
-                      aria-label={`Chọn địa chỉ ${addr.recipientName} - ${addr.addressDetail}`}
-                      className="h-4 w-4 text-secondary focus:ring-secondary cursor-pointer"
-                    />
+                    <span
+                      className={`flex h-4 w-4 items-center justify-center rounded-full border transition-colors ${
+                        isSelected ? 'border-secondary' : 'border-border'
+                      }`}
+                    >
+                      {isSelected && <span className="h-2 w-2 rounded-full bg-secondary" />}
+                    </span>
                   </div>
                 </div>
-              </div>
+              </button>
             );
           })}
         </div>
