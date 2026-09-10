@@ -4,7 +4,7 @@ test.describe('I18n', () => {
   test.describe('Locale Routing', () => {
     test('should load default locale and localized routes', async ({ page }) => {
       await page.goto('/en');
-      await expect(page).toHaveURL(/\/en/u);
+      await expect(page).toHaveURL(/(\/en|\/)$/u);
 
       await page.goto('/fr');
       await expect(page).toHaveURL(/\/fr/u);

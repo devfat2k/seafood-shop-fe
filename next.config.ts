@@ -6,7 +6,7 @@ import createNextIntlPlugin from 'next-intl/plugin';
 
 // Define the base Next.js configuration
 const baseConfig: NextConfig = {
-  output: process.env.VERCEL === '1' ? undefined : 'standalone',
+  output: process.env.NEXT_OUTPUT === 'standalone' ? 'standalone' : undefined,
   devIndicators: {
     position: 'bottom-right',
   },
