@@ -24,43 +24,54 @@ export const useProductForm = (
     defaultValues: {
       name: '',
       description: '',
-      price: 0,
+      price: undefined,
       originalPrice: undefined,
-      stock: 0,
+      stock: undefined,
       categoryId: 1,
       unit: 'kg',
       spec: '',
       origin: '',
+      weightOptions: [],
       productType: 'REGULAR',
+      isActive: true,
     },
   });
 
   useEffect(() => {
     if (productToEdit) {
+      const weightOpts =
+        productToEdit.weightOptions
+          ?.map((opt) => (typeof opt === 'string' ? opt : (opt.label ?? opt.value ?? '')))
+          .filter(Boolean) ?? [];
+
       form.reset({
         name: productToEdit.name,
         description: productToEdit.description ?? '',
         price: productToEdit.price,
         originalPrice: productToEdit.originalPrice ?? undefined,
-        stock: productToEdit.stock,
-        categoryId: productToEdit.categoryId ?? 1,
+        stock: productToEdit.stock ?? undefined,
+        categoryId: productToEdit.categoryId ?? categories?.[0]?.id ?? 1,
         unit: productToEdit.unit ?? 'kg',
         spec: productToEdit.spec ?? '',
         origin: productToEdit.origin ?? '',
+        weightOptions: weightOpts,
         productType: productToEdit.productType ?? 'REGULAR',
+        isActive: productToEdit.active ?? true,
       });
     } else {
       form.reset({
         name: '',
         description: '',
-        price: 0,
+        price: undefined,
         originalPrice: undefined,
-        stock: 0,
+        stock: undefined,
         categoryId: categories?.[0]?.id ?? 1,
         unit: 'kg',
         spec: '',
         origin: '',
+        weightOptions: [],
         productType: 'REGULAR',
+        isActive: true,
       });
     }
   }, [productToEdit, form, categories]);

@@ -60,23 +60,30 @@ type OrderCardProps = {
 
 export const OrderCard = ({ order, onOpenTracking, onOpenCancel }: OrderCardProps) => {
   const badge = getStatusBadge(order.status);
-  const items = order.items ?? [];
+  const items = order.items ?? order.orderItems ?? [];
   const [firstItem] = items;
   const otherItemsCount = Math.max(0, items.length - 1);
+  const total = order.totalPrice ?? order.totalAmount ?? 0;
+  const orderDate = order.orderDate ?? order.createdAt;
+  const displayCode = order.code?.startsWith('#')
+    ? order.code
+    : `#${order.code ?? (order.id ? `DH-${order.id}` : 'ORD')}`;
 
   return (
     <div className="rounded-2xl border border-border bg-card p-5 shadow-xs transition-all hover:border-secondary/30 sm:p-6">
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border pb-4">
         <div className="flex items-center gap-3">
           <span className="font-mono text-xs font-bold text-foreground sm:text-sm">
-            #{order.code || `ORD-${order.id}`}
+            {displayCode}
           </span>
           <span className="text-xs text-muted-foreground">
-            {order.orderDate
-              ? new Date(order.orderDate).toLocaleDateString('vi-VN', {
+            {orderDate
+              ? new Date(orderDate).toLocaleDateString('vi-VN', {
                   day: '2-digit',
                   month: '2-digit',
                   year: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit',
                 })
               : 'Gần đây'}
           </span>
@@ -120,7 +127,7 @@ export const OrderCard = ({ order, onOpenTracking, onOpenCancel }: OrderCardProp
         <div className="text-right sm:self-center">
           <span className="block text-xs text-muted-foreground">Tổng thanh toán</span>
           <span className="text-base font-bold text-primary sm:text-lg">
-            {formatCurrency(order.totalPrice)}
+            {formatCurrency(total)}
           </span>
         </div>
       </div>

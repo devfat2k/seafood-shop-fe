@@ -6,7 +6,7 @@ import createNextIntlPlugin from 'next-intl/plugin';
 
 // Define the base Next.js configuration
 const baseConfig: NextConfig = {
-  output: process.env.VERCEL === '1' ? undefined : 'standalone',
+  output: process.env.NEXT_OUTPUT === 'standalone' ? 'standalone' : undefined,
   devIndicators: {
     position: 'bottom-right',
   },
@@ -35,6 +35,22 @@ const baseConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'res.cloudinary.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'pub-2b46d3c416734df8807474e64c55b5cb.r2.dev',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.r2.dev',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.cloudflarestorage.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.pexels.com',
       },
       {
         protocol: 'https',

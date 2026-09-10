@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { Icon } from '@/components/common/Icon';
+import { isProductInStock } from '@/components/products/catalog-utils';
 import type { ProductCardItem } from '@/components/products/ProductCard';
 import { Link } from '@/libs/I18nNavigation';
 import type { Product } from '@/types/api';
@@ -39,7 +40,7 @@ export const FeaturedProducts = ({
   }
 
   const handleAddToCartClick = (item: Product) => {
-    if (!item.active || item.stock <= 0) {
+    if (!isProductInStock(item)) {
       toast.error('Sản phẩm tạm thời hết hàng tại bến.');
       return;
     }
@@ -65,9 +66,6 @@ export const FeaturedProducts = ({
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="mb-6 flex flex-col justify-between gap-4 sm:mb-8 sm:flex-row sm:items-end">
           <div>
-            <span className="text-xs font-bold tracking-wider text-secondary uppercase">
-              Sản Phẩm Bán Chạy
-            </span>
             <h2 className="mt-1 font-heading text-2xl font-bold text-foreground sm:text-3xl lg:text-4xl">
               Hải Sản Nổi Bật
             </h2>

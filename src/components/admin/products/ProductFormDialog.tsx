@@ -32,25 +32,27 @@ export const ProductFormDialog = ({
   if (isPending) {
     submitLabel = 'Đang lưu...';
   } else if (isEdit) {
-    submitLabel = 'Cập nhật';
+    submitLabel = 'Lưu thay đổi';
   }
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-lg">
+      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-2xl md:max-w-3xl">
         <DialogHeader>
-          <DialogTitle>{isEdit ? 'Chỉnh sửa sản phẩm' : 'Thêm sản phẩm mới'}</DialogTitle>
-          <DialogDescription>
+          <DialogTitle className="font-heading text-lg font-bold sm:text-xl">
+            {isEdit ? 'Chỉnh sửa sản phẩm' : 'Thêm sản phẩm mới'}
+          </DialogTitle>
+          <DialogDescription className="text-xs text-muted-foreground">
             {isEdit
-              ? 'Cập nhật thông tin chi tiết của sản phẩm hải sản'
-              : 'Điền đầy đủ thông tin để tạo sản phẩm mới trên hệ thống'}
+              ? 'Cập nhật thông tin chi tiết của sản phẩm hải sản trên hệ thống'
+              : 'Điền đầy đủ thông tin để tạo sản phẩm mới trên hệ thống cửa hàng'}
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <ProductFormFields form={form} categories={categories} />
 
-          <DialogFooter className="mt-4">
+          <DialogFooter className="mt-6 border-t border-border pt-4">
             <Button
               type="button"
               variant="outline"
@@ -59,10 +61,11 @@ export const ProductFormDialog = ({
               onClick={() => {
                 onOpenChange(false);
               }}
+              className="text-xs"
             >
-              Hủy
+              Hủy bỏ
             </Button>
-            <Button type="submit" size="sm" disabled={isPending}>
+            <Button type="submit" size="sm" disabled={isPending} className="text-xs font-semibold">
               {submitLabel}
             </Button>
           </DialogFooter>

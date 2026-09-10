@@ -4,6 +4,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { adminApi } from '@/libs/AdminApiClient';
 import type { AdminOrderStatus, UpdateOrderStatusRequest } from '@/types/admin';
 import type { ApiResponse, PageResponse } from '@/types/api';
+import { normalizeOrderPage } from '@/types/order';
 import type { OrderResponse } from '@/types/order';
 
 export const adminOrderKeys = {
@@ -24,11 +25,14 @@ export function useAdminOrdersQuery(
   return useQuery<PageResponse<OrderResponse>>({
     queryKey: adminOrderKeys.list(params),
     queryFn: async () => {
-      const res = await adminApi.get<ApiResponse<PageResponse<OrderResponse>>>('/admin/orders', {
+      const res = await adminApi.get<ApiResponse<PageResponse<unknown>>>('/admin/orders', {
         params,
       });
       if (res.data?.success && res.data.data) {
-        return res.data.data;
+        const normalized = normalizeOrderPage(res.data.data);
+        if (normalized) {
+          return normalized;
+        }
       }
       throw new Error(res.data?.message ?? 'Không thể tải danh sách đơn hàng');
     },
@@ -43,12 +47,15 @@ export function useAdminOrdersByUserQuery(
   return useQuery<PageResponse<OrderResponse>>({
     queryKey: adminOrderKeys.byUser(userId, params),
     queryFn: async () => {
-      const res = await adminApi.get<ApiResponse<PageResponse<OrderResponse>>>(
+      const res = await adminApi.get<ApiResponse<PageResponse<unknown>>>(
         `/admin/orders/${userId}`,
         { params },
       );
       if (res.data?.success && res.data.data) {
-        return res.data.data;
+        const normalized = normalizeOrderPage(res.data.data);
+        if (normalized) {
+          return normalized;
+        }
       }
       throw new Error(res.data?.message ?? 'Không thể tải đơn hàng của người dùng');
     },

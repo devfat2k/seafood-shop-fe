@@ -1,4 +1,5 @@
-/* eslint-disable promise/avoid-new, promise/prefer-await-to-callbacks, @typescript-eslint/no-unsafe-type-assertion, @typescript-eslint/no-base-to-string */
+/* eslint-disable promise/avoid-new, promise/prefer-await-to-callbacks */
+/* oxlint-disable typescript/no-unsafe-type-assertion, typescript/no-base-to-string */
 import { Env } from '@/libs/Env';
 
 const BASE_URL = Env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:8085';
@@ -117,9 +118,14 @@ async function request<T = unknown>(
     });
 
     const contentType = res.headers.get('content-type');
+    const rawText = await res.text();
+    const normalizedText = rawText.replaceAll(
+      /https:\/\/?(?:[a-zA-Z0-9_-]+\.)?r2\.cloudflarestorage\.com\/mini-ecommerce-storage\//gu,
+      'https://pub-2b46d3c416734df8807474e64c55b5cb.r2.dev/',
+    );
     const data: T = contentType?.includes('application/json')
-      ? ((await res.json()) as T)
-      : ((await res.text()) as unknown as T);
+      ? (JSON.parse(normalizedText) as T)
+      : (normalizedText as unknown as T);
 
     if (!res.ok) {
       if (res.status === 401 && !isRetry) {
@@ -198,7 +204,9 @@ async function request<T = unknown>(
           flushQueue(null);
           clearTokens();
           if (typeof window !== 'undefined') {
-            window.location.href = '/login';
+            window.location.href = window.location.pathname.startsWith('/admin')
+              ? '/admin/login'
+              : '/';
           }
           throw new ApiError('Session expired', 401, data);
         } finally {

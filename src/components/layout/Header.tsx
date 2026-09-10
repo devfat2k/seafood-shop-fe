@@ -25,7 +25,6 @@ export function Header() {
     <>
       <header className="sticky top-0 z-40 w-full border-b border-border bg-card/95 shadow-xs backdrop-blur-md transition-all">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:h-20 sm:px-6">
-          {/* Left: Mobile Trigger + Logo + Desktop Nav */}
           <div className="flex items-center gap-3 sm:gap-8">
             <div className="flex items-center lg:hidden">
               <button
@@ -47,7 +46,6 @@ export function Header() {
             <HeaderNav />
           </div>
 
-          {/* Center / Search Bar for non-catalog pages */}
           {!isCatalogOrSearchPage && (
             <div className="hidden max-w-md flex-1 px-4 lg:block">
               <HeaderSearch
@@ -59,7 +57,6 @@ export function Header() {
             </div>
           )}
 
-          {/* Header Right Actions */}
           <HeaderActions
             isCatalogOrSearchPage={isCatalogOrSearchPage}
             onOpenMobileSearch={() => {
@@ -72,7 +69,6 @@ export function Header() {
         </div>
       </header>
 
-      {/* Global Slide-out Menus & Modals */}
       <HeaderMobileMenu
         isOpen={isMobileMenuOpen}
         onClose={() => {

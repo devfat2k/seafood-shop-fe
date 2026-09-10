@@ -15,10 +15,10 @@ const config: KnipConfig = {
     'src/libs/Logger.ts',
   ],
   // Dependencies to ignore during analysis
-  ignoreDependencies: ['@swc/helpers', '@logtape/logtape', 'lefthook', '@faker-js/faker', 'axios'],
+  ignoreDependencies: ['@swc/helpers', '@logtape/logtape', '@faker-js/faker', 'axios', 'lefthook'],
   // Include custom Playwright test file suffixes
   playwright: {
-    entry: ['tests/**/*.@(integ|e2e).ts'],
+    entry: ['tests/**/*.e2e.ts'],
   },
   vitest: {
     entry: ['tests/**/*.integ.tsx'],

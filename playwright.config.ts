@@ -12,9 +12,9 @@ const baseURL = `http://localhost:${PORT}`;
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig<ChromaticConfig>({
-  testDir: './tests',
-  // Look for files with the .integ.js or .e2e.js extension
-  testMatch: '*.@(integ|e2e).?(c|m)[jt]s?(x)',
+  testDir: './tests/e2e',
+  // Look for files with the .e2e.ts extension
+  testMatch: '**/*.e2e.ts',
   // Timeout per test
   timeout: 30 * 1000,
   // Fail the build on CI if you accidentally left test.only in the source code.

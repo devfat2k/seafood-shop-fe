@@ -1,5 +1,6 @@
 'use client';
 
+import { toast } from 'sonner';
 import { Icon } from '@/components/common/Icon';
 import { useCartStore } from '@/libs/stores/cart';
 import type { CartItem } from '@/libs/stores/cart';
@@ -21,10 +22,26 @@ export const CartDrawer = (props: CartDrawerProps) => {
     closeCart,
     updateQuantity,
     removeItem,
+    restoreItem,
   } = useCartStore();
 
   const isVisible = props.isOpen ?? storeIsOpen;
   const handleClose = props.onClose ?? closeCart;
+
+  const handleRemoveWithUndo = (id: string | number) => {
+    const target = items.find((i) => i.id === id);
+    removeItem(id);
+    if (target) {
+      toast.success(`Đã xoá "${target.name}" khỏi giỏ`, {
+        action: {
+          label: 'Hoàn tác',
+          onClick: () => {
+            restoreItem(target);
+          },
+        },
+      });
+    }
+  };
 
   if (!isVisible) {
     return null;
@@ -89,7 +106,7 @@ export const CartDrawer = (props: CartDrawerProps) => {
                     key={item.id}
                     item={item}
                     onUpdateQuantity={updateQuantity}
-                    onRemoveItem={removeItem}
+                    onRemoveItem={handleRemoveWithUndo}
                   />
                 ))}
               </div>

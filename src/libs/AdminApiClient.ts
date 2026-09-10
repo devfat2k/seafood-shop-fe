@@ -1,4 +1,4 @@
-/* eslint-disable promise/avoid-new, promise/prefer-await-to-callbacks, no-use-before-define, @typescript-eslint/no-unsafe-type-assertion, @typescript-eslint/no-base-to-string */
+/* eslint-disable @typescript-eslint/no-unsafe-type-assertion, @typescript-eslint/no-base-to-string, typescript/no-unsafe-type-assertion, typescript/no-base-to-string, promise/avoid-new, promise/prefer-await-to-callbacks, no-use-before-define */
 import { Env } from '@/libs/Env';
 
 const BASE_URL = Env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:8085';

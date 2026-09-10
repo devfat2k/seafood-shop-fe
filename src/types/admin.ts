@@ -1,6 +1,6 @@
-// ─── Dashboard Analytics ───────────────────────────────────
 export type TopBuyProduct = {
-  id: number;
+  id?: number;
+  productId?: number;
   name: string;
   price: number;
   imageUrl?: string | null;
@@ -10,8 +10,10 @@ export type TopBuyProduct = {
 };
 
 export type RevenueByCategory = {
-  categoryId: number;
-  categoryName: string;
+  categoryId?: number;
+  id?: number;
+  categoryName?: string;
+  name?: string;
   revenue: number;
   orderCount?: number;
   percentage?: number;
@@ -113,16 +115,17 @@ export type UpdateOrderStatusRequest = {
 // ─── Products ──────────────────────────────────────────────
 export type CreateProductRequest = {
   name: string;
-  description?: string;
+  description: string;
   price: number;
-  originalPrice?: number;
+  originalPrice?: number | null;
   stock: number;
   categoryId: number;
-  unit?: string;
-  spec?: string;
-  origin?: string;
-  weightOptions?: string[];
-  productType?: 'REGULAR' | 'COMBO';
+  unit?: string | null;
+  spec?: string | null;
+  origin?: string | null;
+  weightOptions?: string[] | null;
+  productType?: 'REGULAR' | 'COMBO' | null;
+  isActive: boolean;
 };
 
 export type UpdateProductRequest = Partial<CreateProductRequest>;

@@ -45,7 +45,6 @@ export function SearchFilterToolbar(props: SearchFilterToolbarProps) {
 
   return (
     <div className="space-y-4 rounded-2xl border border-border bg-card p-4 shadow-xs sm:p-6">
-      {/* Category Pills Slider */}
       <div>
         <span className="mb-2 block text-xs font-bold text-foreground">Danh mục hải sản:</span>
         <div className="flex scrollbar-none gap-2 overflow-x-auto pb-1">
@@ -85,9 +84,7 @@ export function SearchFilterToolbar(props: SearchFilterToolbarProps) {
         </div>
       </div>
 
-      {/* Row 2: Price range filter pills & Sort dropdown */}
       <div className="flex flex-wrap items-center justify-between gap-4 border-t border-border/60 pt-4">
-        {/* Price range pills */}
         <div className="flex scrollbar-none items-center gap-2 overflow-x-auto">
           <span className="shrink-0 text-xs font-bold text-foreground">Khoảng giá:</span>
           <div className="flex gap-1.5">
@@ -114,7 +111,6 @@ export function SearchFilterToolbar(props: SearchFilterToolbarProps) {
           </div>
         </div>
 
-        {/* Sort & Reset Actions */}
         <div className="flex items-center gap-3">
           {hasActiveFilters && (
             <button

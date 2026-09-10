@@ -1,9 +1,16 @@
 import { api } from '@/libs/ApiClient';
 import type { ApiResponse, PageResponse } from '@/types/api';
+import { normalizeOrder, normalizeOrderPage } from '@/types/order';
 import type { CreateOrderRequest, OrderResponse } from '@/types/order';
 
 export async function createOrder(data: CreateOrderRequest): Promise<ApiResponse<OrderResponse>> {
   const res = await api.post<ApiResponse<OrderResponse>>('/orders', data);
+  if (res.data?.data) {
+    return {
+      ...res.data,
+      data: normalizeOrder(res.data.data),
+    };
+  }
   return res.data;
 }
 
@@ -12,10 +19,10 @@ export async function getMyOrders(
   size = 10,
 ): Promise<PageResponse<OrderResponse> | null> {
   try {
-    const res = await api.get<ApiResponse<PageResponse<OrderResponse>>>(
+    const res = await api.get<ApiResponse<PageResponse<unknown>>>(
       `/orders/my-orders?page=${page}&size=${size}`,
     );
-    return res.data?.data ?? null;
+    return normalizeOrderPage(res.data?.data ?? null);
   } catch (error) {
     console.error('Failed to fetch my orders:', error);
     return null;
@@ -24,8 +31,8 @@ export async function getMyOrders(
 
 export async function getOrderDetail(id: number | string): Promise<OrderResponse | null> {
   try {
-    const res = await api.get<ApiResponse<OrderResponse>>(`/orders/${id}`);
-    return res.data?.data ?? null;
+    const res = await api.get<ApiResponse<unknown>>(`/orders/${id}`);
+    return res.data?.data ? normalizeOrder(res.data.data) : null;
   } catch (error) {
     console.error('Failed to fetch order detail:', error);
     return null;
@@ -39,10 +46,10 @@ export async function getMyOrdersByStatus(
   size = 10,
 ): Promise<PageResponse<OrderResponse> | null> {
   try {
-    const res = await api.get<ApiResponse<PageResponse<OrderResponse>>>(
+    const res = await api.get<ApiResponse<PageResponse<unknown>>>(
       `/orders/me/${userId}?status=${status}&page=${page}&size=${size}`,
     );
-    return res.data?.data ?? null;
+    return normalizeOrderPage(res.data?.data ?? null);
   } catch (error) {
     console.error('Failed to fetch orders by status:', error);
     return null;

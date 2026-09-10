@@ -5,7 +5,6 @@ export function AboutContactContent() {
   return (
     <div className="min-h-screen bg-background py-8 sm:py-12">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
-        {/* Header Banner */}
         <div className="mb-10 text-center sm:mb-14">
           <h1 className="mt-3 font-heading text-3xl font-bold text-foreground sm:text-4xl lg:text-5xl">
             Liên Hệ Với Chúng Tôi

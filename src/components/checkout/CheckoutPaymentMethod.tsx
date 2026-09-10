@@ -13,14 +13,21 @@ const PAYMENT_OPTIONS: {
   name: string;
   badge?: string;
   description: string;
-  icon: 'credit-card' | 'shield-check' | 'shopping-bag' | 'sparkles';
+  icon: 'credit-card' | 'shield-check' | 'shopping-bag' | 'sparkles' | 'qr-code';
 }[] = [
   {
     id: 'VNPAY',
     name: 'Cổng VNPAY (QR Pay / Thẻ ATM / Visa Master)',
     badge: 'Khuyên Dùng',
-    description: 'Thanh toán trực tuyến bảo mật, quét mã QR ngân hàng hoặc ví điện tử',
+    description: 'Thanh toán trực tuyến bảo mật, quét mã QR ngân hàng hoặc thẻ thanh toán',
     icon: 'credit-card',
+  },
+  {
+    id: 'QR_BANK',
+    name: 'Chuyển khoản Ngân hàng 24/7 (VietQR)',
+    badge: 'Tiện Lợi',
+    description: 'Quét mã VietQR tự động điền số tiền và nội dung đơn hàng, xác nhận tức thì',
+    icon: 'sparkles',
   },
   {
     id: 'COD',
@@ -30,13 +37,13 @@ const PAYMENT_OPTIONS: {
   },
   {
     id: 'MOMO',
-    name: 'Ví MoMo',
-    description: 'Thanh toán qua ứng dụng Ví điện tử MoMo',
+    name: 'Ví điện tử MoMo',
+    description: 'Thanh toán qua ứng dụng Ví MoMo',
     icon: 'sparkles',
   },
   {
     id: 'ZALOPAY',
-    name: 'Ví ZaloPay',
+    name: 'Ví điện tử ZaloPay',
     description: 'Thanh toán bảo mật nhanh chóng qua ZaloPay',
     icon: 'shopping-bag',
   },

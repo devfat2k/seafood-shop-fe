@@ -39,7 +39,8 @@ export function CancelOrderDialog({
               Xác Nhận Hủy Đơn Hàng?
             </h3>
             <p className="text-xs text-muted-foreground">
-              Đơn hàng #{order.code || order.id} sẽ bị hủy và không thể khôi phục.
+              Đơn hàng {order.code?.startsWith('#') ? order.code : `#${order.code ?? order.id}`} sẽ
+              bị hủy và không thể khôi phục.
             </p>
           </div>
         </div>

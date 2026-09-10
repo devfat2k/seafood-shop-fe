@@ -67,8 +67,10 @@ export const productSchema = z.object({
   imageUrl: z.string().nullable().optional(),
   images: z.array(z.string()).nullable().optional(),
   active: z.boolean().optional().default(true),
+  isActive: z.boolean().optional(),
   featured: z.boolean().nullable().optional(),
-  stock: z.preprocess((val) => val ?? 0, z.coerce.number()),
+  isFeatured: z.boolean().nullable().optional(),
+  stock: z.coerce.number().nullable().optional(),
   unit: z.string().nullable().optional(),
   origin: z.string().nullable().optional(),
   spec: z.string().nullable().optional(),
@@ -79,8 +81,12 @@ export const productSchema = z.object({
   category: categorySchema.nullable().optional(),
   productType: z.enum(['REGULAR', 'COMBO']).nullable().optional(),
   tags: z.array(z.string()).nullable().optional(),
-  weightOptions: z.array(weightOptionSchema).nullable().optional(),
+  weightOptions: z
+    .array(z.union([z.string(), weightOptionSchema]))
+    .nullable()
+    .optional(),
   rating: z.number().nullable().optional(),
+  averageRating: z.number().nullable().optional(),
   reviewCount: z.number().nullable().optional(),
   createdAt: z.string().nullable().optional(),
   updatedAt: z.string().nullable().optional(),

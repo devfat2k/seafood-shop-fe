@@ -128,11 +128,21 @@ export const cartStore = {
   },
 
   removeItem(id: string | number) {
+    const targetItem = state.items.find((item) => item.id === id);
     state = {
       ...state,
       items: state.items.filter((item) => item.id !== id),
     };
     emitChange();
+    return targetItem;
+  },
+
+  restoreItem(item: CartItem) {
+    const exists = state.items.some((i) => i.id === item.id);
+    if (!exists) {
+      state = { ...state, items: [...state.items, item] };
+      emitChange();
+    }
   },
 
   clearCart() {
@@ -174,8 +184,9 @@ export function useCartStore() {
     updateQuantity: (id: string | number, delta: number) => {
       cartStore.updateQuantity(id, delta);
     },
-    removeItem: (id: string | number) => {
-      cartStore.removeItem(id);
+    removeItem: (id: string | number) => cartStore.removeItem(id),
+    restoreItem: (item: CartItem) => {
+      cartStore.restoreItem(item);
     },
     clearCart: () => {
       cartStore.clearCart();

@@ -5,7 +5,8 @@ import { CheckoutAddressSection } from '@/components/checkout/CheckoutAddressSec
 import { CheckoutItemsSummary } from '@/components/checkout/CheckoutItemsSummary';
 import { CheckoutOrderSummary } from '@/components/checkout/CheckoutOrderSummary';
 import { CheckoutPaymentMethod } from '@/components/checkout/CheckoutPaymentMethod';
-import { PaymentWaitingOverlay } from '@/components/checkout/PaymentWaitingOverlay';
+import { CheckoutQrBankStep } from '@/components/checkout/CheckoutQrBankStep';
+import { CheckoutStepWizard } from '@/components/checkout/CheckoutStepWizard';
 import { Icon } from '@/components/common/Icon';
 import { Link } from '@/libs/I18nNavigation';
 import { useCheckoutFlow } from './useCheckoutFlow';
@@ -14,6 +15,8 @@ export const CheckoutContainer = () => {
   const {
     items,
     subtotal,
+    currentStep,
+    setCurrentStep,
     note,
     setNote,
     selectedMethod,
@@ -26,9 +29,11 @@ export const CheckoutContainer = () => {
     isSubmitting,
     isAuthModalOpen,
     setIsAuthModalOpen,
-    waitingPayment,
+    createdOrder,
+    handleNextToPayment,
+    handleNextToConfirm,
     handlePlaceOrder,
-    handlePaymentConfirmed,
+    handleQrConfirmed,
   } = useCheckoutFlow();
 
   if (isUserLoading || isAddressesLoading) {
@@ -48,7 +53,7 @@ export const CheckoutContainer = () => {
     );
   }
 
-  if (items.length === 0) {
+  if (items.length === 0 && !createdOrder) {
     return (
       <div className="mx-auto max-w-2xl px-4 py-16 text-center sm:px-6 sm:py-24">
         <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-secondary/15 text-secondary">
@@ -74,7 +79,7 @@ export const CheckoutContainer = () => {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12">
-      <div className="mb-8">
+      <div className="mb-6">
         <div className="flex items-center gap-2 text-xs font-semibold text-secondary">
           <Link href="/products" className="hover:underline">
             Cửa hàng
@@ -88,7 +93,7 @@ export const CheckoutContainer = () => {
       </div>
 
       {!userProfile && (
-        <div className="mb-8 flex items-center justify-between rounded-2xl border border-secondary/30 bg-secondary/10 p-4 sm:p-5">
+        <div className="mb-6 flex items-center justify-between rounded-2xl border border-secondary/30 bg-secondary/10 p-4 sm:p-5">
           <div className="flex items-center gap-3">
             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-secondary text-white">
               <Icon name="user" size="sm" />
@@ -98,7 +103,7 @@ export const CheckoutContainer = () => {
                 Bạn chưa đăng nhập tài khoản
               </p>
               <p className="text-xs text-muted-foreground">
-                Đăng nhập để theo dõi hành trình đơn hàng và nhận ưu đãi tích điểm
+                Đăng nhập để theo dõi hành trình đơn hàng và nhận ưu đãi chuỗi lạnh
               </p>
             </div>
           </div>
@@ -107,47 +112,142 @@ export const CheckoutContainer = () => {
             onClick={() => {
               setIsAuthModalOpen(true);
             }}
-            className="rounded-xl bg-secondary px-4 py-2 text-xs font-bold text-white shadow-xs hover:bg-secondary/90"
+            className="cursor-pointer rounded-xl bg-secondary px-4 py-2 text-xs font-bold text-white shadow-xs hover:bg-secondary/90"
           >
             Đăng Nhập
           </button>
         </div>
       )}
 
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-        <div className="space-y-6 lg:col-span-2">
-          <CheckoutAddressSection
-            selectedAddress={selectedAddress}
-            onSelectAddress={(addr) => {
-              setSelectedAddress(addr);
-            }}
-          />
+      {!createdOrder && (
+        <CheckoutStepWizard
+          currentStep={currentStep}
+          onStepClick={(step: 1 | 2 | 3) => {
+            setCurrentStep(step);
+          }}
+        />
+      )}
 
-          <CheckoutItemsSummary
-            items={items}
-            note={note}
-            onNoteChange={(val) => {
-              setNote(val);
-            }}
-          />
+      {createdOrder ? (
+        <CheckoutQrBankStep
+          orderId={createdOrder.id}
+          totalAmount={createdOrder.totalAmount}
+          onPaymentConfirmed={handleQrConfirmed}
+        />
+      ) : (
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+          <div className="space-y-6 lg:col-span-2">
+            {currentStep === 1 && (
+              <>
+                <CheckoutAddressSection
+                  selectedAddress={selectedAddress}
+                  onSelectAddress={(addr) => {
+                    setSelectedAddress(addr);
+                  }}
+                />
 
-          <CheckoutPaymentMethod
-            selectedMethod={selectedMethod}
-            onSelectMethod={(m) => {
-              setSelectedMethod(m);
-            }}
-          />
+                <div className="rounded-2xl border border-border bg-card p-6 shadow-xs">
+                  <label
+                    htmlFor="checkout-note"
+                    className="block text-xs font-bold text-foreground"
+                  >
+                    Ghi chú giao nhận hải sản
+                  </label>
+                  <textarea
+                    id="checkout-note"
+                    aria-label="Ghi chú giao nhận hải sản"
+                    value={note}
+                    onChange={(e) => {
+                      setNote(e.target.value);
+                    }}
+                    placeholder="Ví dụ: Giao trước 11h30 trưa, đóng thùng oxy, gọi trước 15 phút..."
+                    rows={2}
+                    className="mt-2 w-full rounded-xl border border-border bg-background p-3 text-xs text-foreground placeholder:text-muted-foreground focus:border-secondary focus:ring-1 focus:ring-secondary focus:outline-none"
+                  />
+                </div>
+
+                <div className="flex justify-end">
+                  <button
+                    type="button"
+                    onClick={handleNextToPayment}
+                    className="flex cursor-pointer items-center gap-2 rounded-xl bg-primary px-8 py-3.5 text-xs font-bold text-white shadow-lg shadow-primary/20 transition-all hover:bg-primary/90 active:scale-98 sm:text-sm"
+                  >
+                    <span>Tiếp tục: Chọn phương thức thanh toán</span>
+                    <Icon name="arrow-right" size="sm" />
+                  </button>
+                </div>
+              </>
+            )}
+
+            {currentStep === 2 && (
+              <>
+                <CheckoutPaymentMethod
+                  selectedMethod={selectedMethod}
+                  onSelectMethod={(m) => {
+                    setSelectedMethod(m);
+                  }}
+                />
+
+                <div className="flex items-center justify-between">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setCurrentStep(1);
+                    }}
+                    className="flex cursor-pointer items-center gap-1.5 rounded-xl border border-border bg-card px-5 py-3 text-xs font-bold text-muted-foreground hover:text-foreground"
+                  >
+                    <Icon name="arrow-left" size="xs" />
+                    <span>Quay lại địa chỉ</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={handleNextToConfirm}
+                    className="flex cursor-pointer items-center gap-2 rounded-xl bg-primary px-8 py-3.5 text-xs font-bold text-white shadow-lg shadow-primary/20 transition-all hover:bg-primary/90 active:scale-98 sm:text-sm"
+                  >
+                    <span>Tiếp tục: Xác nhận đơn hàng</span>
+                    <Icon name="arrow-right" size="sm" />
+                  </button>
+                </div>
+              </>
+            )}
+
+            {currentStep === 3 && (
+              <>
+                <CheckoutItemsSummary
+                  items={items}
+                  note={note}
+                  onNoteChange={(val) => {
+                    setNote(val);
+                  }}
+                />
+
+                <div className="flex items-center justify-between">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setCurrentStep(2);
+                    }}
+                    className="flex cursor-pointer items-center gap-1.5 rounded-xl border border-border bg-card px-5 py-3 text-xs font-bold text-muted-foreground hover:text-foreground"
+                  >
+                    <Icon name="arrow-left" size="xs" />
+                    <span>Đổi phương thức thanh toán</span>
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+
+          <div className="lg:col-span-1">
+            <CheckoutOrderSummary
+              subtotal={subtotal}
+              isSubmitting={isSubmitting}
+              onPlaceOrder={() => void handlePlaceOrder()}
+              disabled={!userProfile || !selectedAddress}
+            />
+          </div>
         </div>
-
-        <div className="lg:col-span-1">
-          <CheckoutOrderSummary
-            subtotal={subtotal}
-            isSubmitting={isSubmitting}
-            onPlaceOrder={() => void handlePlaceOrder()}
-            disabled={!userProfile || !selectedAddress}
-          />
-        </div>
-      </div>
+      )}
 
       <AuthModal
         isOpen={isAuthModalOpen}
@@ -155,14 +255,6 @@ export const CheckoutContainer = () => {
           setIsAuthModalOpen(false);
         }}
       />
-
-      {waitingPayment && (
-        <PaymentWaitingOverlay
-          orderId={waitingPayment.orderId}
-          paymentMethod={waitingPayment.method}
-          onConfirmed={handlePaymentConfirmed}
-        />
-      )}
     </div>
   );
 };
