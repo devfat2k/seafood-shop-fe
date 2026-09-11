@@ -10,7 +10,12 @@ export async function getHomePageData(): Promise<HomePageData | null> {
     }
     return null;
   } catch (error) {
-    console.error('Failed to fetch home page data:', error);
+    if (process.env.NODE_ENV === 'development') {
+      console.warn(
+        '[Home API] Backend unavailable during SSR, fallback to client:',
+        error instanceof Error ? error.message : String(error),
+      );
+    }
     return null;
   }
 }

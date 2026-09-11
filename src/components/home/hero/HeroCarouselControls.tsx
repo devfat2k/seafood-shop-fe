@@ -23,7 +23,7 @@ export const HeroCarouselControls = ({
   }
 
   return (
-    <div className="mt-8 flex items-center justify-between border-t border-white/10 pt-4 sm:mt-12 sm:pt-6">
+    <div className="mt-8 flex items-center justify-between border-t border-white/10 pt-4 sm:mt-10 sm:pt-6">
       <div className="flex items-center gap-2">
         {slides.map((s, idx) => (
           <button
@@ -33,8 +33,10 @@ export const HeroCarouselControls = ({
               onSelectIdx(idx);
             }}
             aria-label={`Chuyển đến banner ${idx + 1}`}
-            className={`h-2 rounded-full transition-all ${
-              idx === currentIdx ? 'w-8 bg-primary' : 'w-2.5 bg-white/40 hover:bg-white/70'
+            className={`h-2 rounded-full transition-all duration-300 ${
+              idx === currentIdx
+                ? 'w-9 bg-accent shadow-md shadow-accent/40'
+                : 'w-2.5 bg-white/25 hover:bg-white/50'
             }`}
           />
         ))}
@@ -45,7 +47,7 @@ export const HeroCarouselControls = ({
           type="button"
           onClick={onPrev}
           aria-label="Banner trước"
-          className="flex h-9 w-9 items-center justify-center rounded-full border border-white/30 bg-white/10 text-white backdrop-blur-xs transition-all hover:bg-white/25 active:scale-95"
+          className="flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white shadow-xs backdrop-blur-md transition-all hover:border-white/35 hover:bg-white/25 active:scale-95"
         >
           <Icon name="chevron-left" size="sm" />
         </button>
@@ -53,7 +55,7 @@ export const HeroCarouselControls = ({
           type="button"
           onClick={onNext}
           aria-label="Banner tiếp theo"
-          className="flex h-9 w-9 items-center justify-center rounded-full border border-white/30 bg-white/10 text-white backdrop-blur-xs transition-all hover:bg-white/25 active:scale-95"
+          className="flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white shadow-xs backdrop-blur-md transition-all hover:border-white/35 hover:bg-white/25 active:scale-95"
         >
           <Icon name="chevron-right" size="sm" />
         </button>

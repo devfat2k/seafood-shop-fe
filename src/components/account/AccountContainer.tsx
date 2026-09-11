@@ -1,12 +1,15 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AccountAddressesTab } from '@/components/account/AccountAddressesTab';
 import { AccountOrdersTab } from '@/components/account/AccountOrdersTab';
 import { AccountProfileTab } from '@/components/account/AccountProfileTab';
 import { AccountSecurityTab } from '@/components/account/AccountSecurityTab';
 import { AccountSidebar } from '@/components/account/AccountSidebar';
 import type { AccountTab } from '@/components/account/AccountSidebar';
+import { AccountSkeleton } from '@/components/account/AccountSkeleton';
+import { AccountUnauthorizedState } from '@/components/account/AccountUnauthorizedState';
+import { AuthModal } from '@/components/auth/AuthModal';
 import { Icon } from '@/components/common/Icon';
 import { Link } from '@/libs/I18nNavigation';
 import { useCurrentUserQuery } from '@/libs/queries/auth';
@@ -20,12 +23,42 @@ type AccountContainerProps = {
 export function AccountContainer(props: AccountContainerProps) {
   const { defaultTab = 'profile', initialProfile } = props;
   const [activeTab, setActiveTab] = useState<AccountTab>(defaultTab);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
-  const { data: currentUser } = useCurrentUserQuery();
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  const { data: currentUser, isLoading } = useCurrentUserQuery();
   const profile = currentUser ?? initialProfile;
 
+  const hasToken = isMounted ? Boolean(localStorage.getItem('accessToken')) : true;
+
+  if (!isMounted || (hasToken && isLoading)) {
+    return <AccountSkeleton />;
+  }
+
+  if (!hasToken || (!profile && !isLoading)) {
+    return (
+      <div className="min-h-screen bg-background">
+        <AccountUnauthorizedState
+          onOpenLogin={() => {
+            setIsAuthModalOpen(true);
+          }}
+        />
+        <AuthModal
+          isOpen={isAuthModalOpen}
+          onClose={() => {
+            setIsAuthModalOpen(false);
+          }}
+        />
+      </div>
+    );
+  }
+
   const displayName = profile?.fullName ?? 'Khách Hàng Hải Sản';
-  const userEmail = profile?.email ?? 'khachhang@haisanphanthiet.vn';
+  const userEmail = profile?.email ?? '';
 
   return (
     <div className="min-h-screen bg-background pb-16">

@@ -13,7 +13,7 @@ export function ProductHeaderBanner(props: ProductHeaderBannerProps) {
   const { searchQuery = '', onSearchChange } = props;
 
   return (
-    <section className="relative overflow-hidden border-b border-border bg-linear-to-br from-foreground via-[#0F5A6E] to-secondary px-4 py-8 text-white sm:px-6 sm:py-12">
+    <section className="relative overflow-hidden border-b border-border bg-linear-to-br from-foreground via-secondary/80 to-secondary px-4 py-8 text-white sm:px-6 sm:py-12">
       <div className="pointer-events-none absolute -top-24 -right-24 h-96 w-96 rounded-full bg-secondary/30 blur-3xl" />
       <div className="pointer-events-none absolute -bottom-24 -left-24 h-96 w-96 rounded-full bg-primary/20 blur-3xl" />
 
