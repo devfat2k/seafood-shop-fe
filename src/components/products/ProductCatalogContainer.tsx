@@ -47,6 +47,7 @@ export const ProductCatalogContainer = (props: ProductCatalogContainerProps) => 
     quickViewProduct,
     setQuickViewProduct,
     handleAddToCart,
+    handleQuickViewAddToCart,
     handleOpenQuickView,
     handleResetFilters,
   } = useProductCatalogState(props.initialPageData, props.initialCategories, {
@@ -185,6 +186,7 @@ export const ProductCatalogContainer = (props: ProductCatalogContainerProps) => 
         onClose={() => {
           setQuickViewProduct(null);
         }}
+        onAddToCart={handleQuickViewAddToCart}
       />
     </div>
   );

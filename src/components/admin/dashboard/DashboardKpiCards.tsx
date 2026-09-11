@@ -43,10 +43,10 @@ export function DashboardKpiCards() {
       color: 'text-amber-500 bg-amber-500/10',
     },
     {
-      title: 'Hệ Thống & Bộ Nhớ Đệm',
-      value: 'Sẵn sàng',
-      sub: 'Redis Cache & API v1.2.0',
-      iconName: 'shield-check',
+      title: 'Giá Trị Đơn Trung Bình',
+      value: totalOrders > 0 ? formatCurrency(Math.round(totalRevenue / totalOrders)) : '0₫',
+      sub: totalOrders > 0 ? 'AOV trung bình mỗi đơn' : 'Chưa có đơn hàng',
+      iconName: 'shopping-bag',
       color: 'text-emerald-500 bg-emerald-500/10',
     },
   ];

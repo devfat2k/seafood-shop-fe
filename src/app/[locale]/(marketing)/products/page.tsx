@@ -94,7 +94,12 @@ export default async function ProductsPage(props: ProductsPageProps) {
       initialCategories = categoriesRes.value;
     }
   } catch (error) {
-    console.error('Failed to load initial products/categories on server:', error);
+    if (process.env.NODE_ENV === 'development') {
+      console.warn(
+        '[Products Page] Failed to load initial products/categories on server:',
+        error instanceof Error ? error.message : String(error),
+      );
+    }
   }
 
   return (

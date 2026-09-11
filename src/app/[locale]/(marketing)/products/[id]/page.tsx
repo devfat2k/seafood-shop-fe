@@ -41,7 +41,12 @@ export default async function ProductDetailPage(props: ProductDetailPageProps) {
   try {
     initialProduct = await getProduct(id);
   } catch (error) {
-    console.error(`Failed to fetch product ${id} on server:`, error);
+    if (process.env.NODE_ENV === 'development') {
+      console.warn(
+        `[Product Detail] Failed to fetch product ${id} on server:`,
+        error instanceof Error ? error.message : String(error),
+      );
+    }
   }
 
   return <ProductDetailContainer productId={id} initialProduct={initialProduct} />;

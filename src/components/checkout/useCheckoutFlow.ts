@@ -6,7 +6,7 @@ import { useRouter } from '@/libs/I18nNavigation';
 import { useCurrentUserQuery } from '@/libs/queries/auth';
 import { useCreateOrderMutation } from '@/libs/queries/orders';
 import { useCreatePaymentUrlMutation } from '@/libs/queries/payments';
-import { useAddressesQuery } from '@/libs/queries/users';
+import { useAddressesQuery, useSetDefaultAddressMutation } from '@/libs/queries/users';
 import { useCartStore } from '@/libs/stores/cart';
 import type { PaymentMethod } from '@/types/payment';
 import type { UserAddress } from '@/types/user';
@@ -27,8 +27,12 @@ export const useCheckoutFlow = () => {
   const { data: addresses = [], isLoading: isAddressesLoading } = useAddressesQuery();
   const createOrderMutation = useCreateOrderMutation();
   const createPaymentUrlMutation = useCreatePaymentUrlMutation();
+  const setDefaultAddressMutation = useSetDefaultAddressMutation();
 
-  const isSubmitting = createOrderMutation.isPending || createPaymentUrlMutation.isPending;
+  const isSubmitting =
+    createOrderMutation.isPending ||
+    createPaymentUrlMutation.isPending ||
+    setDefaultAddressMutation.isPending;
 
   const activeAddress =
     selectedAddress ?? addresses.find((a: UserAddress) => a.defaultAddress) ?? addresses[0] ?? null;
@@ -63,6 +67,10 @@ export const useCheckoutFlow = () => {
     }
 
     try {
+      if (!activeAddress.defaultAddress) {
+        await setDefaultAddressMutation.mutateAsync(activeAddress.id);
+      }
+
       const orderItems = items.map((item) => {
         const idFallback = typeof item.id === 'number' ? item.id : Number(item.id.split('-')[0]);
         const cleanId = item.productId ?? (idFallback || 1);

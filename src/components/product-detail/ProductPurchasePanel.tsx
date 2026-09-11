@@ -83,6 +83,16 @@ export const ProductPurchasePanel = ({ product }: ProductPurchasePanelProps) => 
       ? Math.round(((currentOriginalPrice - currentPrice) / currentOriginalPrice) * 100)
       : 0;
 
+  const getStockStatusText = () => {
+    if (!isInStock) {
+      return 'Tạm hết hàng';
+    }
+    if (typeof product.stock === 'number') {
+      return `Còn ${product.stock} sản phẩm tại bể`;
+    }
+    return 'Còn hàng tại bể';
+  };
+
   const handleAddToCart = () => {
     addCartItem({
       id: `${product.id}-${selectedWeight.id}`,
@@ -154,9 +164,7 @@ export const ProductPurchasePanel = ({ product }: ProductPurchasePanelProps) => 
               +
             </button>
           </div>
-          <span className="text-xs text-muted-foreground">
-            {isInStock ? `Còn ${product.stock} sản phẩm tại bể` : 'Tạm hết hàng'}
-          </span>
+          <span className="text-xs text-muted-foreground">{getStockStatusText()}</span>
         </div>
       </div>
 

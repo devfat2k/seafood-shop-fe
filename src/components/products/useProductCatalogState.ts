@@ -155,6 +155,18 @@ export function useProductCatalogState(
     toast.success(`Đã thêm "${product.name}" vào giỏ hàng!`);
   };
 
+  const handleQuickViewAddToCart = (prod: QuickViewProduct, weight: string, quantity: number) => {
+    addCartItem({
+      id: prod.id,
+      name: prod.name,
+      price: prod.rawPrice ?? (Number(prod.price.replaceAll(/[^\d]/gu, '')) || 0),
+      image: prod.image,
+      weight,
+      quantity,
+    });
+    toast.success(`Đã thêm "${prod.name}" vào giỏ hàng!`);
+  };
+
   const handleResetFilters = () => {
     setFilters(INITIAL_FILTERS);
     setSearchQuery('');
@@ -183,6 +195,7 @@ export function useProductCatalogState(
     quickViewProduct,
     setQuickViewProduct,
     handleAddToCart,
+    handleQuickViewAddToCart,
     handleOpenQuickView: (p: ProductCardItem) => {
       setQuickViewProduct(mapToQuickView(p));
     },

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Icon } from '@/components/common/Icon';
 import { Link } from '@/libs/I18nNavigation';
 import type { HeroSlide, HomeStats } from '@/types/home';
@@ -16,8 +16,24 @@ type HeroSectionProps = {
 
 export const HeroSection = ({ slides = [] }: HeroSectionProps) => {
   const [currentIdx, setCurrentIdx] = useState<number>(0);
+  const [isPaused, setIsPaused] = useState<boolean>(false);
 
   const activeSlides: SlideDisplayItem[] = slides.map((s) => formatHeroSlide(s));
+
+  useEffect(() => {
+    const timer =
+      activeSlides.length > 1 && !isPaused
+        ? setInterval(() => {
+            setCurrentIdx((prev) => (prev === activeSlides.length - 1 ? 0 : prev + 1));
+          }, 6000)
+        : null;
+
+    return () => {
+      if (timer) {
+        clearInterval(timer);
+      }
+    };
+  }, [activeSlides.length, isPaused]);
 
   if (activeSlides.length === 0) {
     return null;
@@ -38,35 +54,50 @@ export const HeroSection = ({ slides = [] }: HeroSectionProps) => {
   }
 
   return (
-    <section className="relative w-full overflow-hidden border-b border-border/60 bg-background py-10 sm:py-16 lg:py-20">
-      <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_top_right,var(--tw-gradient-stops))] from-secondary/10 via-background to-background" />
+    <section
+      onMouseEnter={() => {
+        setIsPaused(true);
+      }}
+      onMouseLeave={() => {
+        setIsPaused(false);
+      }}
+      className="relative w-full overflow-hidden border-b border-white/10 bg-gradient-to-br from-[#062933] via-[#0B4A5C] to-[#041D24] py-10 text-white sm:py-16 lg:py-20"
+    >
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute -top-32 -left-20 h-[550px] w-[550px] rounded-full bg-[#0F7C8C]/30 blur-[130px]" />
+        <div className="absolute -right-20 -bottom-32 h-[500px] w-[500px] rounded-full bg-[#FF6B4A]/20 blur-[130px]" />
+        <div className="absolute top-1/2 left-1/2 h-[400px] w-[400px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/15 blur-[120px]" />
+        <div className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.06)_1px,transparent_1px)] [background-size:32px_32px]" />
+      </div>
 
-      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
-        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-12">
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-14">
           <div className="space-y-4 sm:space-y-6 lg:col-span-7">
             {slide.badgeText && (
-              <div className="inline-flex items-center gap-2 rounded-full border border-secondary/20 bg-secondary/10 px-3.5 py-1 text-xs font-bold text-secondary">
-                <span className="h-2 w-2 animate-pulse rounded-full bg-secondary" />
+              <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-bold text-accent shadow-xs backdrop-blur-md">
+                <span className="h-2 w-2 animate-pulse rounded-full bg-accent" />
                 <span>{slide.badgeText}</span>
               </div>
             )}
 
-            <h1 className="font-heading text-3xl leading-[1.18] font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-              {slide.titlePrefix && <span>{slide.titlePrefix} </span>}
-              <span className="text-primary">{slide.titleHighlight}</span>
-              {slide.titleSuffix && (
-                <span className="block text-foreground">{slide.titleSuffix}</span>
+            <h1 className="font-heading text-3xl leading-[1.12] font-black tracking-tight text-white sm:text-5xl lg:text-6xl">
+              {slide.titlePrefix && (
+                <span className="block text-white/95">{slide.titlePrefix}</span>
               )}
+              <span className="bg-gradient-to-r from-[#FF7A59] via-[#FFA44A] to-[#FFD166] bg-clip-text text-transparent">
+                {slide.titleHighlight}
+              </span>
+              {slide.titleSuffix && <span className="block text-white">{slide.titleSuffix}</span>}
             </h1>
 
-            <p className="max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+            <p className="max-w-xl text-sm leading-relaxed text-white/80 sm:text-base">
               {slide.description}
             </p>
 
             <div className="flex flex-wrap items-center gap-3 pt-2 sm:gap-4 sm:pt-3">
               <Link
                 href={slide.primaryHref}
-                className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3.5 text-xs font-bold text-white shadow-lg shadow-primary/25 transition-all hover:bg-primary/90 hover:shadow-xl active:scale-95 sm:text-sm"
+                className="inline-flex items-center justify-center gap-2.5 rounded-xl bg-primary px-8 py-4 text-sm font-extrabold text-white shadow-xl shadow-primary/35 transition-all hover:scale-105 hover:bg-primary/90 hover:shadow-2xl hover:shadow-primary/50 active:scale-95 sm:text-base"
               >
                 <span>{slide.primaryLabel}</span>
                 <Icon name="arrow-right" size="sm" />
@@ -75,11 +106,30 @@ export const HeroSection = ({ slides = [] }: HeroSectionProps) => {
               {slide.secondaryLabel && (
                 <Link
                   href={slide.secondaryHref}
-                  className="inline-flex items-center justify-center gap-2 rounded-xl border-2 border-secondary bg-card px-6 py-3 text-xs font-bold text-secondary shadow-xs transition-all hover:bg-secondary/10 active:scale-95 sm:text-sm"
+                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/25 bg-white/10 px-7 py-4 text-sm font-bold text-white shadow-xs backdrop-blur-md transition-all hover:border-white/40 hover:bg-white/20 active:scale-95 sm:text-base"
                 >
                   <span>{slide.secondaryLabel}</span>
                 </Link>
               )}
+            </div>
+
+            <div className="grid grid-cols-2 gap-3 pt-3 sm:grid-cols-4 sm:gap-4 sm:pt-4">
+              <div className="rounded-xl border border-white/15 bg-white/10 p-3 text-center backdrop-blur-md">
+                <div className="text-base font-black text-accent sm:text-lg">⭐ 4.9/5</div>
+                <div className="text-[11px] text-white/70">2.500+ khách hàng</div>
+              </div>
+              <div className="rounded-xl border border-white/15 bg-white/10 p-3 text-center backdrop-blur-md">
+                <div className="text-base font-black text-white sm:text-lg">⚡ 2 Giờ</div>
+                <div className="text-[11px] text-white/70">Giao sống bơi oxy</div>
+              </div>
+              <div className="rounded-xl border border-white/15 bg-white/10 p-3 text-center backdrop-blur-md">
+                <div className="text-base font-black text-tertiary sm:text-lg">🛡️ 1 Đổi 1</div>
+                <div className="text-[11px] text-white/70">Bao ăn tận nơi</div>
+              </div>
+              <div className="rounded-xl border border-white/15 bg-white/10 p-3 text-center backdrop-blur-md">
+                <div className="text-base font-black text-white sm:text-lg">⚓ 04:00 AM</div>
+                <div className="text-[11px] text-white/70">Cập cảng mỗi ngày</div>
+              </div>
             </div>
           </div>
 

@@ -20,15 +20,20 @@ export function Footer() {
             </p>
 
             <div className="flex items-center gap-2 pt-2">
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-primary">
-                <Icon name="sparkles" size="xs" />
-              </span>
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-primary">
+              <a
+                href="tel:19006868"
+                aria-label="Hotline 1900 6868"
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-primary"
+              >
                 <Icon name="phone" size="xs" />
-              </span>
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-primary">
+              </a>
+              <a
+                href="mailto:lienhe@haisanphanthiet.vn"
+                aria-label="Email lienhe@haisanphanthiet.vn"
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-primary"
+              >
                 <Icon name="mail" size="xs" />
-              </span>
+              </a>
             </div>
           </div>
 
@@ -38,28 +43,23 @@ export function Footer() {
             </h4>
             <ul className="mt-3 space-y-2 text-xs text-white/80">
               <li>
-                <Link href="/policy/shipping" className="transition-colors hover:text-white">
-                  Chính sách giao hàng 2h
-                </Link>
-              </li>
-              <li>
-                <Link href="/policy/refund" className="transition-colors hover:text-white">
-                  Cam kết 1 đổi 1 nếu không tươi
-                </Link>
-              </li>
-              <li>
-                <Link href="/guide" className="transition-colors hover:text-white">
-                  Hướng dẫn mua hàng online
-                </Link>
-              </li>
-              <li>
-                <Link href="/tracking" className="transition-colors hover:text-white">
-                  Kiểm tra đơn hàng
-                </Link>
-              </li>
-              <li>
                 <Link href="/contact" className="transition-colors hover:text-white">
                   Liên hệ &amp; Góp ý
+                </Link>
+              </li>
+              <li>
+                <Link href="/about" className="transition-colors hover:text-white">
+                  Về Hải Sản Phan Thiết
+                </Link>
+              </li>
+              <li>
+                <Link href="/account" className="transition-colors hover:text-white">
+                  Tra cứu &amp; Quản lý đơn hàng
+                </Link>
+              </li>
+              <li>
+                <Link href="/products" className="transition-colors hover:text-white">
+                  Tất cả sản phẩm tươi sống
                 </Link>
               </li>
             </ul>

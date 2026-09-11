@@ -14,13 +14,13 @@ export const ProductCardPrice = ({ price, originalPrice, unit }: ProductCardPric
   return (
     <div>
       <div className="flex items-baseline gap-1">
-        <span className="font-heading text-base font-bold text-primary sm:text-lg">
+        <span className="font-heading text-lg font-black text-primary tabular-nums sm:text-xl">
           {formatCurrency(price)}
         </span>
-        {unit && <span className="text-xs font-medium text-muted-foreground">/{unit}</span>}
+        <span className="text-xs font-medium text-muted-foreground">/{unit ?? 'kg'}</span>
       </div>
       {hasDiscount && originalPrice && (
-        <span className="block text-xs text-muted-foreground line-through">
+        <span className="block text-xs text-muted-foreground/60 tabular-nums line-through">
           {formatCurrency(originalPrice)}
         </span>
       )}

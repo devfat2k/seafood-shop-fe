@@ -32,22 +32,40 @@ export const ProductCardList = <T extends ProductCardItem>(props: ProductCardPro
   const metaLabel = category || (origin ? `Nguồn gốc: ${origin}` : 'Hải sản');
   const specText = spec ?? origin;
 
+  const cardBadge = product.badges?.[0] ?? (isInStock ? 'TƯƠI SỐNG' : 'TẠM HẾT');
+
   return (
-    <div className="group flex flex-col gap-4 rounded-2xl border border-border/80 bg-card p-3.5 shadow-xs transition-all duration-300 hover:-translate-y-0.5 hover:border-secondary/40 hover:shadow-lg hover:shadow-secondary/5 sm:flex-row sm:items-center sm:p-4">
+    <div className="group flex flex-col gap-4 rounded-2xl border border-border/60 bg-card p-3.5 shadow-[0_2px_8px_rgba(11,74,92,0.04)] transition-all duration-300 hover:-translate-y-0.5 hover:border-secondary/30 hover:shadow-[0_12px_24px_-4px_rgba(11,74,92,0.1)] sm:flex-row sm:items-center sm:p-4">
       <div className="w-full shrink-0 sm:w-44">
-        <ProductCardImage id={id} name={name} image={image} discountPercent={discountPercent} />
+        <ProductCardImage
+          id={id}
+          name={name}
+          image={image}
+          badge={cardBadge}
+          origin={origin}
+          discountPercent={discountPercent}
+          onQuickView={
+            onQuickView
+              ? () => {
+                  onQuickView(product);
+                }
+              : undefined
+          }
+        />
       </div>
 
       <div className="flex flex-1 flex-col justify-between">
         <div>
           <div className="flex items-center justify-between text-xs text-muted-foreground">
-            <span className="font-semibold text-secondary">{metaLabel}</span>
+            <span className="text-[11px] font-semibold tracking-wide text-secondary uppercase">
+              {metaLabel}
+            </span>
             {hasRating && (
               <div className="flex items-center gap-1 font-semibold text-foreground">
                 <Icon name="star" size="xs" className="fill-accent text-accent" />
-                <span>{rating}</span>
+                <span className="text-xs">{rating}</span>
                 {salesCount && (
-                  <span className="text-muted-foreground">({salesCount} đánh giá)</span>
+                  <span className="text-[11px] text-muted-foreground">({salesCount} đánh giá)</span>
                 )}
               </div>
             )}
@@ -60,11 +78,11 @@ export const ProductCardList = <T extends ProductCardItem>(props: ProductCardPro
           </Link>
 
           {specText && (
-            <p className="mt-1 line-clamp-2 text-xs text-muted-foreground">{specText}</p>
+            <p className="mt-1 line-clamp-2 text-xs text-muted-foreground/80">{specText}</p>
           )}
         </div>
 
-        <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-border/60 pt-3">
+        <div className="mt-4 flex flex-wrap items-center justify-between gap-3 pt-1">
           <ProductCardPrice price={price} originalPrice={originalPrice} unit={unit} />
 
           <div className="flex items-center gap-2">

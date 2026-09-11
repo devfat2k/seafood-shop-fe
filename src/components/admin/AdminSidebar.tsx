@@ -41,6 +41,7 @@ const NAV_GROUPS: NavGroup[] = [
     items: [
       { label: 'Người dùng', href: '/admin/users', iconName: 'user' },
       { label: 'Phân quyền RBAC', href: '/admin/rbac', iconName: 'shield-check' },
+      { label: 'Hệ thống & Cache', href: '/admin/system', iconName: 'server' },
     ],
   },
 ];

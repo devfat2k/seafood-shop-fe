@@ -1,4 +1,4 @@
-/* eslint-disable promise/avoid-new, promise/prefer-await-to-callbacks */
+/* eslint-disable no-use-before-define, promise/avoid-new, promise/prefer-await-to-callbacks */
 /* oxlint-disable typescript/no-unsafe-type-assertion, typescript/no-base-to-string */
 import { Env } from '@/libs/Env';
 
@@ -65,7 +65,9 @@ const flushQueue = (token: string | null) => {
 
 function buildUrl(endpoint: string, params?: Record<string, unknown>): string {
   const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
-  const fullUrl = `${BASE_URL}/api/v1${cleanEndpoint}`;
+  const fullUrl = cleanEndpoint.startsWith('/api/v1')
+    ? `${BASE_URL}${cleanEndpoint}`
+    : `${BASE_URL}/api/v1${cleanEndpoint}`;
 
   if (!params) {
     return fullUrl;
@@ -93,6 +95,95 @@ function buildUrl(endpoint: string, params?: Record<string, unknown>): string {
   return url.toString();
 }
 
+async function handleTokenRefresh<T>(
+  endpoint: string,
+  options: RequestInit & { params?: Record<string, unknown> },
+  customHeaders: Record<string, string> | undefined,
+  data: unknown,
+): Promise<ApiResponseData<T>> {
+  if (isRefreshing) {
+    // eslint-disable-next-line promise/avoid-new
+    return await new Promise<ApiResponseData<T>>((resolve, reject) => {
+      refreshQueue.push((newToken) => {
+        if (!newToken) {
+          reject(new ApiError('Unauthorized', 401, data));
+          return;
+        }
+        const mergedHeaders: Record<string, string> = {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${newToken}`,
+        };
+        if (customHeaders) {
+          Object.assign(mergedHeaders, customHeaders);
+        }
+        request<T>(
+          endpoint,
+          {
+            ...options,
+            headers: mergedHeaders,
+          },
+          true,
+        )
+          .then(resolve)
+          .catch(reject);
+      });
+    });
+  }
+
+  isRefreshing = true;
+  try {
+    const refreshToken = getRefreshToken();
+    if (!refreshToken) {
+      throw new Error('No refresh token available');
+    }
+
+    const refreshRes = await fetch(`${BASE_URL}/api/v1/auth/refresh-token`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ refreshToken }),
+    });
+
+    if (!refreshRes.ok) {
+      throw new Error('Refresh token failed');
+    }
+
+    const refreshData = (await refreshRes.json()) as {
+      data: { accessToken: string; refreshToken: string };
+    };
+    const newAccess = refreshData.data.accessToken;
+    const newRefresh = refreshData.data.refreshToken;
+
+    setTokens(newAccess, newRefresh);
+    flushQueue(newAccess);
+
+    const retryHeaders: Record<string, string> = {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${newAccess}`,
+    };
+    if (customHeaders) {
+      Object.assign(retryHeaders, customHeaders);
+    }
+
+    return await request<T>(
+      endpoint,
+      {
+        ...options,
+        headers: retryHeaders,
+      },
+      true,
+    );
+  } catch {
+    flushQueue(null);
+    clearTokens();
+    if (typeof window !== 'undefined') {
+      window.location.href = window.location.pathname.startsWith('/admin') ? '/admin/login' : '/';
+    }
+    throw new ApiError('Session expired', 401, data);
+  } finally {
+    isRefreshing = false;
+  }
+}
+
 async function request<T = unknown>(
   endpoint: string,
   options: RequestInit & { params?: Record<string, unknown> } = {},
@@ -107,14 +198,25 @@ async function request<T = unknown>(
     ...(customHeaders as Record<string, string>),
   };
 
+  if (fetchOptions.body instanceof FormData) {
+    delete headers['Content-Type'];
+  }
+
   if (token && !headers.Authorization) {
     headers.Authorization = `Bearer ${token}`;
   }
 
   try {
+    const signal =
+      fetchOptions.signal ??
+      (typeof AbortSignal !== 'undefined' && 'timeout' in AbortSignal
+        ? AbortSignal.timeout(10_000)
+        : undefined);
+
     const res = await fetch(url, {
       ...fetchOptions,
       headers,
+      signal,
     });
 
     const contentType = res.headers.get('content-type');
@@ -129,89 +231,12 @@ async function request<T = unknown>(
 
     if (!res.ok) {
       if (res.status === 401 && !isRetry) {
-        if (isRefreshing) {
-          // eslint-disable-next-line promise/avoid-new
-          return await new Promise<ApiResponseData<T>>((resolve, reject) => {
-            refreshQueue.push((newToken) => {
-              if (!newToken) {
-                reject(new ApiError('Unauthorized', 401, data));
-                return;
-              }
-              const mergedHeaders: Record<string, string> = {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${newToken}`,
-              };
-              if (customHeaders) {
-                Object.assign(mergedHeaders, customHeaders);
-              }
-              request<T>(
-                endpoint,
-                {
-                  ...options,
-                  headers: mergedHeaders,
-                },
-                true,
-              )
-                .then(resolve)
-                .catch(reject);
-            });
-          });
-        }
-
-        isRefreshing = true;
-        try {
-          const refreshToken = getRefreshToken();
-          if (!refreshToken) {
-            throw new Error('No refresh token available');
-          }
-
-          const refreshRes = await fetch(`${BASE_URL}/api/v1/auth/refresh-token`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ refreshToken }),
-          });
-
-          if (!refreshRes.ok) {
-            throw new Error('Refresh token failed');
-          }
-
-          const refreshData = (await refreshRes.json()) as {
-            data: { accessToken: string; refreshToken: string };
-          };
-          const newAccess = refreshData.data.accessToken;
-          const newRefresh = refreshData.data.refreshToken;
-
-          setTokens(newAccess, newRefresh);
-          flushQueue(newAccess);
-
-          const retryHeaders: Record<string, string> = {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${newAccess}`,
-          };
-          if (customHeaders) {
-            Object.assign(retryHeaders, customHeaders);
-          }
-
-          return await request<T>(
-            endpoint,
-            {
-              ...options,
-              headers: retryHeaders,
-            },
-            true,
-          );
-        } catch {
-          flushQueue(null);
-          clearTokens();
-          if (typeof window !== 'undefined') {
-            window.location.href = window.location.pathname.startsWith('/admin')
-              ? '/admin/login'
-              : '/';
-          }
-          throw new ApiError('Session expired', 401, data);
-        } finally {
-          isRefreshing = false;
-        }
+        return await handleTokenRefresh<T>(
+          endpoint,
+          options,
+          customHeaders as Record<string, string> | undefined,
+          data,
+        );
       }
 
       throw new ApiError(`HTTP Error ${res.status}: ${res.statusText}`, res.status, data);
@@ -226,8 +251,21 @@ async function request<T = unknown>(
     if (error instanceof ApiError) {
       throw error;
     }
-    throw new ApiError(error instanceof Error ? error.message : 'Network request failed', 0);
+    const message = error instanceof Error ? error.message : 'Network request failed';
+    const causeMessage =
+      error instanceof Error && error.cause instanceof Error ? `: ${error.cause.message}` : '';
+    throw new ApiError(`${message}${causeMessage}`, 0);
   }
+}
+
+function serializeBody(data?: unknown): BodyInit | undefined {
+  if (data instanceof FormData) {
+    return data;
+  }
+  if (data === undefined) {
+    return undefined;
+  }
+  return JSON.stringify(data);
 }
 
 export const api = {
@@ -242,7 +280,7 @@ export const api = {
   ): Promise<ApiResponseData<T>> {
     return await request<T>(url, {
       method: 'POST',
-      body: data === undefined ? undefined : JSON.stringify(data),
+      body: serializeBody(data),
       ...config,
     });
   },
@@ -254,7 +292,7 @@ export const api = {
   ): Promise<ApiResponseData<T>> {
     return await request<T>(url, {
       method: 'PUT',
-      body: data === undefined ? undefined : JSON.stringify(data),
+      body: serializeBody(data),
       ...config,
     });
   },
@@ -270,7 +308,7 @@ export const api = {
   ): Promise<ApiResponseData<T>> {
     return await request<T>(url, {
       method: 'PATCH',
-      body: data === undefined ? undefined : JSON.stringify(data),
+      body: serializeBody(data),
       ...config,
     });
   },

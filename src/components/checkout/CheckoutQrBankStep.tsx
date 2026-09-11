@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { Icon } from '@/components/common/Icon';
+import { cn } from '@/lib/utils';
 import { formatCurrency } from '@/utils/Helpers';
 
 type CheckoutQrBankStepProps = {
@@ -43,6 +44,11 @@ export const CheckoutQrBankStep = ({
   const minutes = Math.floor(secondsLeft / 60);
   const seconds = secondsLeft % 60;
   const formattedTime = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+  const isExpired = secondsLeft === 0;
+
+  const handleResetTimer = () => {
+    setSecondsLeft(15 * 60);
+  };
 
   const qrUrl = `https://img.vietqr.io/image/MB-0345678901-compact2.png?amount=${totalAmount}&addInfo=${encodeURIComponent(transferMemo)}&accountName=${encodeURIComponent(BANK_INFO.accountName)}`;
 
@@ -69,13 +75,37 @@ export const CheckoutQrBankStep = ({
               alt="Mã QR Chuyển Khoản"
               fill
               unoptimized
-              className="object-contain"
+              className={cn('object-contain', isExpired && 'opacity-20 blur-xs')}
             />
+            {isExpired && (
+              <div className="absolute inset-0 flex flex-col items-center justify-center bg-background/80 p-4 text-center">
+                <Icon name="alert-circle" size="lg" className="text-destructive" />
+                <p className="mt-2 text-xs font-bold text-destructive">Mã QR đã hết hạn</p>
+                <button
+                  type="button"
+                  onClick={handleResetTimer}
+                  className="mt-3 inline-flex items-center gap-1 rounded-lg bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground hover:bg-primary/90"
+                >
+                  <Icon name="rotate-ccw" size="xs" />
+                  <span>Tạo lại mã</span>
+                </button>
+              </div>
+            )}
           </div>
-          <div className="mt-3 flex items-center gap-1.5 text-xs font-bold text-secondary">
-            <Icon name="clock" size="xs" />
-            <span>Mã QR hết hạn sau: </span>
-            <span className="font-mono font-bold text-primary">{formattedTime}</span>
+          <div className="mt-3 flex items-center gap-1.5 text-xs font-bold">
+            <Icon
+              name="clock"
+              size="xs"
+              className={isExpired ? 'text-destructive' : 'text-secondary'}
+            />
+            {isExpired ? (
+              <span className="text-destructive">Mã QR đã hết hạn</span>
+            ) : (
+              <>
+                <span className="text-secondary">Mã QR hết hạn sau: </span>
+                <span className="font-mono font-bold text-primary">{formattedTime}</span>
+              </>
+            )}
           </div>
         </div>
 
@@ -159,7 +189,8 @@ export const CheckoutQrBankStep = ({
           <button
             type="button"
             onClick={onPaymentConfirmed}
-            className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3.5 text-xs font-bold text-white shadow-lg shadow-primary/25 transition-all hover:bg-primary/90 active:scale-95 sm:text-sm"
+            disabled={isExpired}
+            className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3.5 text-xs font-bold text-white shadow-lg shadow-primary/25 transition-all hover:bg-primary/90 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm"
           >
             <Icon name="check-circle" size="sm" />
             <span>Tôi Đã Chuyển Khoản Xong</span>

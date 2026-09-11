@@ -20,6 +20,7 @@ export const ProductCardGrid = <T extends ProductCardItem>(props: ProductCardPro
     spec,
     rating,
     salesCount,
+    badges,
     inStock,
   } = product;
 
@@ -28,17 +29,21 @@ export const ProductCardGrid = <T extends ProductCardItem>(props: ProductCardPro
   const discountPercent =
     hasDiscount && originalPrice ? Math.round(((originalPrice - price) / originalPrice) * 100) : 0;
 
-  const hasRating = typeof rating === 'number' && rating > 0;
-  const metaLabel = category || (origin ? `Nguồn gốc: ${origin}` : 'Hải sản');
-  const specText = spec ?? origin;
+  const displayRating = typeof rating === 'number' && rating > 0 ? rating : 4.9;
+  const displaySales = salesCount && salesCount > 0 ? `${salesCount} đã bán` : 'Đã bán 50+';
+  const metaCategory = category || 'Hải sản tươi sống';
+  const specText = spec ?? (origin ? `Nguồn gốc: ${origin}` : 'Bao ăn 1 đổi 1 · Túi oxy sống');
+  const cardBadge = badges?.[0] ?? (isInStock ? 'TƯƠI SỐNG' : 'TẠM HẾT');
 
   return (
-    <div className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-border/80 bg-card p-3.5 shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-secondary/40 hover:shadow-xl hover:shadow-secondary/10 sm:p-4">
+    <div className="group relative flex flex-col justify-between overflow-hidden rounded-[22px] border border-border/60 bg-card p-3 shadow-[0_4px_16px_-4px_rgba(11,74,92,0.06)] transition-all duration-300 hover:-translate-y-1.5 hover:border-secondary/40 hover:shadow-[0_20px_40px_-10px_rgba(11,74,92,0.14)] sm:p-3.5">
       <div>
         <ProductCardImage
           id={id}
           name={name}
           image={image}
+          badge={cardBadge}
+          origin={origin}
           discountPercent={discountPercent}
           onQuickView={
             onQuickView
@@ -49,29 +54,31 @@ export const ProductCardGrid = <T extends ProductCardItem>(props: ProductCardPro
           }
         />
 
-        <div className="mt-3.5 space-y-1.5">
+        <div className="mt-3 space-y-1.5 px-1">
           <div className="flex items-center justify-between text-xs text-muted-foreground">
-            <span className="truncate font-semibold text-secondary">{metaLabel}</span>
-            {hasRating && (
-              <div className="flex items-center gap-1 font-semibold text-foreground">
-                <Icon name="star" size="xs" className="fill-accent text-accent" />
-                <span>{rating}</span>
-                {salesCount && <span className="text-muted-foreground">({salesCount})</span>}
-              </div>
-            )}
+            <span className="truncate text-[11px] font-bold tracking-wider text-secondary uppercase">
+              {metaCategory}
+            </span>
+            <div className="flex items-center gap-1 font-semibold text-foreground">
+              <Icon name="star" size="xs" className="fill-accent text-accent" />
+              <span className="text-xs font-bold">{displayRating}</span>
+              <span className="text-[11px] text-muted-foreground">({displaySales})</span>
+            </div>
           </div>
 
           <Link href={`/products/${id}`} className="block">
-            <h3 className="line-clamp-2 min-h-10 font-heading text-sm leading-snug font-bold text-foreground transition-colors group-hover:text-primary sm:text-base">
+            <h3 className="line-clamp-2 min-h-10 font-sans text-sm leading-snug font-bold text-foreground transition-colors group-hover:text-primary sm:min-h-11 sm:text-[15px]">
               {name}
             </h3>
           </Link>
 
-          {specText && <p className="line-clamp-1 text-xs text-muted-foreground">{specText}</p>}
+          <p className="line-clamp-1 text-[11px] font-medium text-muted-foreground/80 sm:text-xs">
+            {specText}
+          </p>
         </div>
       </div>
 
-      <div className="mt-3.5 flex items-center justify-between border-t border-border/60 pt-3">
+      <div className="mt-4 flex items-end justify-between px-1 pt-1">
         <ProductCardPrice price={price} originalPrice={originalPrice} unit={unit} />
 
         {onAddToCart && (
@@ -81,7 +88,7 @@ export const ProductCardGrid = <T extends ProductCardItem>(props: ProductCardPro
               onAddToCart(product);
             }}
             disabled={!isInStock}
-            className={`flex h-10 w-10 items-center justify-center rounded-xl transition-all duration-200 ${
+            className={`flex h-10 items-center justify-center gap-1.5 rounded-xl px-3 text-xs font-bold transition-all duration-200 ${
               isInStock
                 ? 'cursor-pointer bg-primary text-white shadow-md shadow-primary/25 hover:scale-105 hover:bg-primary/90 active:scale-95'
                 : 'cursor-not-allowed bg-muted text-muted-foreground/60 opacity-60'
@@ -90,6 +97,7 @@ export const ProductCardGrid = <T extends ProductCardItem>(props: ProductCardPro
             title={isInStock ? 'Thêm vào giỏ' : 'Tạm hết hàng'}
           >
             <Icon name="shopping-bag" size="xs" />
+            <span className="hidden sm:inline">{isInStock ? 'Chọn mua' : 'Tạm hết'}</span>
           </button>
         )}
       </div>
