@@ -1,56 +1,56 @@
 export const CACHE_PARTITIONS = [
   {
-    name: 'Hero Banners',
+    name: 'Banner Quảng Cáo',
     key: 'home:banners',
-    desc: 'Băng rôn quảng cáo đầu trang chủ',
+    desc: 'Banner quảng cáo khuyến mãi đầu trang chủ',
   },
   {
-    name: 'Hải Sản Cập Bến',
+    name: 'Hải Sản Mới Về',
     key: 'home:daily-arrivals',
-    desc: 'Hàng tươi sống về trong ngày',
+    desc: 'Hải sản tươi sống mới về theo từng ngày',
   },
   {
-    name: 'Danh Mục Bento',
+    name: 'Danh Mục Nổi Bật',
     key: 'home:categories',
-    desc: 'Danh mục hải sản nổi bật trang chủ',
+    desc: 'Các nhóm hải sản được làm nổi bật trên trang chủ',
   },
   {
     name: 'Top Bán Chạy',
     key: 'home:top-buy',
-    desc: 'Bảng xếp hạng sản phẩm bán nhiều nhất',
+    desc: 'Danh sách các mặt hàng bán chạy nhất cửa hàng',
   },
   {
     name: 'Combo Tiệc Hải Sản',
     key: 'home:combos',
-    desc: 'Các gói combo lẩu, nướng và gia đình',
+    desc: 'Các set tiệc lẩu, nướng và gia đình tiết kiệm',
   },
   {
-    name: 'Hải Sản Cao Cấp',
+    name: 'Hải Sản Nhập Khẩu',
     key: 'home:luxury',
-    desc: 'Cua hoàng đế, tôm hùm bông, bào ngư',
+    desc: 'Cua hoàng đế, tôm hùm bông, bào ngư cao cấp',
   },
 ];
 
 export const SYSTEM_SERVICES = [
   {
-    name: 'Backend REST API',
+    name: 'Máy chủ cửa hàng (Backend)',
     version: 'v1.2.0',
-    status: 'Hoạt động bình thường',
-    protocol: 'HTTPS / Spring Boot',
+    status: 'Hoạt động ổn định',
+    protocol: 'Xử lý dữ liệu & đơn hàng',
     isHealthy: true,
   },
   {
-    name: 'Bộ Nhớ Đệm Redis',
-    version: 'In-Memory Key-Value',
+    name: 'Hệ thống tăng tốc tải trang',
+    version: 'Tự động đồng bộ',
     status: 'Đã kết nối',
-    protocol: 'Redis Protocol',
+    protocol: 'Tối ưu trải nghiệm khách mua',
     isHealthy: true,
   },
   {
-    name: 'Storefront Web App',
-    version: 'Next.js 16 + React 19',
-    status: 'Sẵn sàng phục vụ',
-    protocol: 'HTTP/2 App Router',
+    name: 'Giao diện website cửa hàng',
+    version: 'Phiên bản mới nhất',
+    status: 'Sẵn sàng phục vụ khách',
+    protocol: 'Cửa hàng trực tuyến 24/7',
     isHealthy: true,
   },
 ];

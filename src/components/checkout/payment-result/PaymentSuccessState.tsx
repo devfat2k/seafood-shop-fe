@@ -28,8 +28,8 @@ export const PaymentSuccessState = ({
       Cảm Ơn Bạn Đã Đặt Hàng!
     </h1>
     <p className="mt-2 text-xs text-muted-foreground sm:text-sm">
-      Đơn hàng hải sản tươi sống của bạn đã được tiếp nhận và đang được chuẩn bị đóng thùng oxy giao
-      hỏa tốc.
+      Đơn hàng hải sản tươi sống của bạn đã được tiếp nhận. Chi tiết đơn hàng và thông tin giao nhận
+      đã được tự động gửi về email đăng ký của bạn.
     </p>
 
     <div className="mt-8 space-y-4 rounded-2xl border border-border bg-muted/40 p-6 text-left">
@@ -56,10 +56,18 @@ export const PaymentSuccessState = ({
       </div>
 
       <div className="flex items-center justify-between text-xs text-muted-foreground">
+        <span>Xác nhận qua email:</span>
+        <span className="flex items-center gap-1 font-semibold text-tertiary">
+          <Icon name="check" size="xs" />
+          Đã gửi chi tiết đơn về email
+        </span>
+      </div>
+
+      <div className="flex items-center justify-between text-xs text-muted-foreground">
         <span>Thời gian giao dự kiến:</span>
-        <span className="flex items-center gap-1 font-bold text-tertiary">
-          <Icon name="clock" size="xs" />
-          Đóng gói và giao sớm nhất
+        <span className="flex items-center gap-1 font-bold text-foreground">
+          <Icon name="clock" size="xs" className="text-secondary" />
+          Đóng gói thùng oxy và giao sớm nhất
         </span>
       </div>
     </div>

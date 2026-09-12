@@ -1,44 +1,58 @@
 'use client';
 
+import { useMemo } from 'react';
 import { Icon } from '@/components/common/Icon';
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useRevenueInMonthQuery, useTopBuyProductsQuery } from '@/libs/queries/admin/dashboard';
+import { useAdminOrdersQuery } from '@/libs/queries/admin/orders';
 import { formatCurrency } from '@/utils/Helpers';
+import { parseRevenueInMonth } from './dashboard-utils';
 
 export function DashboardKpiCards() {
   const { data: revenueData, isLoading: isRevLoading } = useRevenueInMonthQuery();
   const { data: topBuyData, isLoading: isTopLoading } = useTopBuyProductsQuery(5);
+  const { data: ordersData, isLoading: isOrdersLoading } = useAdminOrdersQuery({
+    page: 0,
+    size: 100,
+  });
 
-  const isLoading = isRevLoading || isTopLoading;
+  const isLoading = isRevLoading || isTopLoading || isOrdersLoading;
 
-  const currentMonthData = revenueData?.at(-1);
-  const totalRevenue = currentMonthData?.revenue ?? 0;
-  const totalOrders = currentMonthData?.orderCount ?? 0;
+  const latestMonthData = useMemo(() => {
+    if (!revenueData || revenueData.length === 0) {
+      return null;
+    }
+    return revenueData
+      .map(parseRevenueInMonth)
+      .toSorted((a, b) => (a.year === b.year ? b.month - a.month : b.year - a.year))[0];
+  }, [revenueData]);
+
+  const totalRevenue = latestMonthData?.revenue ?? 0;
+  const totalOrders = ordersData?.totalElements ?? 0;
 
   const topProduct = topBuyData?.[0];
+  const topProductSold = topProduct ? (topProduct.mostBuy ?? topProduct.totalSold ?? 0) : 0;
 
   const cards = [
     {
       title: 'Doanh Thu Tháng Này',
       value: formatCurrency(totalRevenue),
-      sub: currentMonthData
-        ? `Tháng ${currentMonthData.month}/${currentMonthData.year}`
-        : 'Tháng hiện tại',
+      sub: latestMonthData ? latestMonthData.fullMonth : 'Tháng hiện tại',
       iconName: 'sparkles',
       color: 'text-primary bg-primary/10',
     },
     {
       title: 'Tổng Đơn Hàng',
       value: totalOrders.toLocaleString('vi-VN'),
-      sub: 'Đơn hàng hoàn tất trong tháng',
+      sub: totalOrders > 0 ? `${totalOrders} đơn hàng trên hệ thống` : 'Chưa có đơn hàng',
       iconName: 'truck',
       color: 'text-secondary bg-secondary/10',
     },
     {
       title: 'Sản Phẩm Bán Chạy Nhất',
       value: topProduct?.name ?? 'Chưa có',
-      sub: topProduct ? `Đã bán: ${topProduct.totalSold ?? 0}` : 'Chưa có số liệu',
+      sub: topProduct ? `Đã bán: ${topProductSold} phần/kg` : 'Chưa có số liệu',
       iconName: 'fish',
       color: 'text-amber-500 bg-amber-500/10',
     },

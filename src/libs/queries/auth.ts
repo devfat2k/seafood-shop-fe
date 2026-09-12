@@ -72,6 +72,7 @@ export function useLoginMutation() {
     },
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: authQueryKeys.all });
+      void queryClient.invalidateQueries({ queryKey: ['users'] });
     },
   });
 }
@@ -102,6 +103,7 @@ export function useVerifyOtpMutation() {
     onSuccess: (res) => {
       if (res.data?.accessToken) {
         void queryClient.invalidateQueries({ queryKey: authQueryKeys.all });
+        void queryClient.invalidateQueries({ queryKey: ['users'] });
       }
     },
   });
@@ -151,6 +153,7 @@ export function useLogoutMutation() {
     onSettled: () => {
       queryClient.setQueryData(authQueryKeys.me(), null);
       void queryClient.invalidateQueries({ queryKey: authQueryKeys.all });
+      void queryClient.invalidateQueries({ queryKey: ['users'] });
     },
   });
 }

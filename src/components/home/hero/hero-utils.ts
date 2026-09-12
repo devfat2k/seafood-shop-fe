@@ -30,7 +30,7 @@ export const getSlideBadge = (s: HeroSlide): string => {
   if (s.badge?.text) {
     return s.badge.text;
   }
-  return s.badgeText ?? '🌊 Hải sản Phan Thiết';
+  return s.badgeText ?? 'Hải sản Phan Thiết';
 };
 
 export const getSlideCtas = (s: HeroSlide) => ({

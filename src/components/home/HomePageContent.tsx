@@ -9,8 +9,8 @@ import { HeroSection } from '@/components/home/HeroSection';
 import { HomePageEmpty } from '@/components/home/HomePageEmpty';
 import { HomePageError } from '@/components/home/HomePageError';
 import { HomePageSkeleton } from '@/components/home/HomePageSkeleton';
+import { MarqueeUspStrip } from '@/components/home/MarqueeUspStrip';
 import { SocialProofSection } from '@/components/home/SocialProofSection';
-import { UspSection } from '@/components/home/UspSection';
 import type { QuickViewProduct } from '@/components/products/QuickViewModal';
 import { QuickViewModal } from '@/components/products/QuickViewModal';
 import { useHomeQuery } from '@/libs/queries/home';
@@ -122,6 +122,15 @@ export function HomePageContent(props: HomePageContentProps) {
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <HeroSection slides={homeData.heroSlides} stats={homeData.stats} />
+      <MarqueeUspStrip />
+
+      {homeData.categories && homeData.categories.length > 0 && (
+        <BentoCategories categories={homeData.categories} />
+      )}
+
+      {homeData.dailyArrivals && homeData.dailyArrivals.length > 0 && (
+        <DailySeafoodStory arrivals={homeData.dailyArrivals} onAddToCart={handleAddToCart} />
+      )}
 
       {homeData.featuredProducts && homeData.featuredProducts.length > 0 && (
         <FeaturedProducts
@@ -136,16 +145,6 @@ export function HomePageContent(props: HomePageContentProps) {
 
       {homeData.comboSets && homeData.comboSets.length > 0 && (
         <ComboSetsSection combos={homeData.comboSets} onAddToCart={handleAddToCart} />
-      )}
-
-      {homeData.dailyArrivals && homeData.dailyArrivals.length > 0 && (
-        <DailySeafoodStory arrivals={homeData.dailyArrivals} onAddToCart={handleAddToCart} />
-      )}
-
-      <UspSection />
-
-      {homeData.categories && homeData.categories.length > 0 && (
-        <BentoCategories categories={homeData.categories} />
       )}
 
       {homeData.featuredReviews && homeData.featuredReviews.length > 0 && (

@@ -50,9 +50,11 @@ export default function AdminDailyArrivalsPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="font-heading text-lg font-bold text-foreground">Hải sản cập bến</h2>
+          <h2 className="font-heading text-lg font-bold text-foreground">
+            Hải Sản Mới Về Trong Ngày
+          </h2>
           <p className="text-xs text-muted-foreground">
-            Quản lý danh sách hải sản tươi cập bến theo từng ngày
+            Quản lý danh sách hải sản tươi sống vừa cập bến theo từng ngày
           </p>
         </div>
         <Button

@@ -53,12 +53,12 @@ export function ProductImageDialog({ open, onOpenChange, product }: ProductImage
         id: product.id,
         file: selectedFile,
       });
-      toast.success('Upload ảnh sản phẩm thành công');
+      toast.success('Tải ảnh sản phẩm lên thành công');
       setSelectedFile(null);
       setPreviewUrl(null);
       onOpenChange(false);
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Upload ảnh thất bại');
+      toast.error(error instanceof Error ? error.message : 'Tải ảnh lên thất bại');
     }
   };
 
@@ -66,7 +66,7 @@ export function ProductImageDialog({ open, onOpenChange, product }: ProductImage
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Upload hình ảnh sản phẩm</DialogTitle>
+          <DialogTitle>Tải lên hình ảnh sản phẩm</DialogTitle>
           <DialogDescription>
             Cập nhật hình ảnh đại diện cho{' '}
             <span className="font-semibold text-foreground">{product.name}</span>

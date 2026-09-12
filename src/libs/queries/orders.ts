@@ -75,6 +75,10 @@ export function useCreateOrderMutation() {
     },
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: orderQueryKeys.all });
+      void queryClient.invalidateQueries({ queryKey: ['admin-orders'] });
+      void queryClient.invalidateQueries({ queryKey: ['admin-dashboard'] });
+      void queryClient.invalidateQueries({ queryKey: ['admin-products'] });
+      void queryClient.invalidateQueries({ queryKey: ['products'] });
     },
   });
 }
@@ -92,6 +96,10 @@ export function useCancelOrderMutation() {
     },
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: orderQueryKeys.all });
+      void queryClient.invalidateQueries({ queryKey: ['admin-orders'] });
+      void queryClient.invalidateQueries({ queryKey: ['admin-dashboard'] });
+      void queryClient.invalidateQueries({ queryKey: ['admin-products'] });
+      void queryClient.invalidateQueries({ queryKey: ['products'] });
     },
   });
 }

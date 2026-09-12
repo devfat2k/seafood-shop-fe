@@ -5,7 +5,13 @@ import { formatCurrency } from '@/utils/Helpers';
 import { normalizeImageUrl } from '@/utils/image';
 
 export const isProductInStock = (p: Product): boolean => {
-  if (!p.active || (p.isActive !== undefined && !p.isActive)) {
+  if (p.active !== undefined && p.active !== null && !p.active) {
+    return false;
+  }
+  if (p.isActive !== undefined && p.isActive !== null && !p.isActive) {
+    return false;
+  }
+  if (p.inStock !== undefined && p.inStock !== null && !p.inStock) {
     return false;
   }
   if (typeof p.stock === 'number' && p.stock <= 0) {
@@ -25,7 +31,7 @@ export const getProductBadges = (p: Product): string[] => {
   }
   if (p.tags && p.tags.length > 0) {
     for (const tag of p.tags) {
-      if (tag && !badges.includes(tag)) {
+      if (tag && tag !== 'TẠM HẾT' && !badges.includes(tag)) {
         badges.push(tag);
       }
     }

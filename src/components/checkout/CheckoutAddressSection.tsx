@@ -11,19 +11,42 @@ import type { AddressFormValues } from '@/validations/user';
 type CheckoutAddressSectionProps = {
   selectedAddress: UserAddress | null;
   onSelectAddress: (addr: UserAddress) => void;
+  isAuthenticated: boolean;
+  onRequireAuth: () => void;
 };
 
 export function CheckoutAddressSection({
   selectedAddress,
   onSelectAddress,
+  isAuthenticated,
+  onRequireAuth,
 }: CheckoutAddressSectionProps) {
   const [isAddOpen, setIsAddOpen] = useState(false);
   const { data: addresses = [], isLoading } = useAddressesQuery();
   const createAddressMutation = useCreateAddressMutation();
 
+  const handleOpenAdd = () => {
+    if (!isAuthenticated) {
+      toast.info('Vui lòng đăng nhập để thêm địa chỉ giao hàng');
+      onRequireAuth();
+      return;
+    }
+    setIsAddOpen(true);
+  };
+
   const handleCreateAddress = async (values: AddressFormValues) => {
+    if (!isAuthenticated) {
+      toast.info('Vui lòng đăng nhập để thêm địa chỉ giao hàng');
+      onRequireAuth();
+      return;
+    }
+
     try {
-      const res = await createAddressMutation.mutateAsync(values);
+      const isFirst = addresses.length === 0;
+      const res = await createAddressMutation.mutateAsync({
+        ...values,
+        defaultAddress: isFirst || values.defaultAddress,
+      });
       if (res.data) {
         onSelectAddress(res.data);
       }
@@ -44,6 +67,108 @@ export function CheckoutAddressSection({
     );
   }
 
+  const renderAddressList = () => {
+    if (!isAuthenticated) {
+      return (
+        <div className="mt-4 rounded-xl border border-dashed border-secondary/40 bg-secondary/5 p-5 text-center">
+          <Icon name="lock" size="md" className="mx-auto text-secondary" />
+          <p className="mt-2 text-xs font-bold text-foreground">
+            Bạn cần đăng nhập tài khoản để chọn hoặc thêm địa chỉ nhận hàng
+          </p>
+          <p className="mt-1 text-[11px] text-muted-foreground">
+            Đăng nhập hoặc tạo tài khoản nhanh bằng OTP để lưu sổ địa chỉ giao hàng tươi sống
+          </p>
+          <button
+            type="button"
+            onClick={onRequireAuth}
+            className="mt-3 inline-flex items-center gap-1.5 rounded-xl bg-primary px-5 py-2 text-xs font-bold text-white shadow-xs hover:opacity-90 active:scale-98"
+          >
+            <Icon name="lock" size="xs" />
+            <span>Đăng Nhập / Đăng Ký Ngay</span>
+          </button>
+        </div>
+      );
+    }
+
+    if (addresses.length === 0) {
+      return (
+        <div className="mt-4 rounded-xl border border-dashed border-amber-300 bg-amber-50/60 p-4 text-center dark:bg-amber-950/20">
+          <Icon name="alert-triangle" size="md" className="mx-auto text-amber-600" />
+          <p className="mt-2 text-xs font-bold text-amber-900 dark:text-amber-200">
+            Bạn chưa có địa chỉ giao hàng nào
+          </p>
+          <p className="mt-1 text-[11px] text-amber-700 dark:text-amber-300">
+            Vui lòng thêm địa chỉ để hệ thống lưu thông tin giao nhận hải sản
+          </p>
+          <button
+            type="button"
+            onClick={handleOpenAdd}
+            className="mt-3 rounded-xl bg-primary px-4 py-2 text-xs font-bold text-white shadow-xs hover:opacity-90"
+          >
+            + Thêm Địa Chỉ Nhận Hàng
+          </button>
+        </div>
+      );
+    }
+
+    return (
+      <div className="mt-4 space-y-3">
+        {addresses.map((addr: UserAddress) => {
+          const isSelected =
+            selectedAddress?.id === addr.id || (!selectedAddress && addr.defaultAddress);
+          return (
+            <button
+              key={addr.id}
+              type="button"
+              aria-label={`Chọn địa chỉ nhận hàng của ${addr.recipientName}`}
+              onClick={() => {
+                onSelectAddress(addr);
+              }}
+              className={`w-full cursor-pointer rounded-2xl border p-4 text-left transition-all ${
+                isSelected
+                  ? 'border-secondary bg-secondary/5 shadow-xs ring-2 ring-secondary/20'
+                  : 'border-border bg-background hover:border-muted-foreground/30'
+              }`}
+            >
+              <div className="flex items-start justify-between">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-bold text-foreground sm:text-sm">
+                      {addr.recipientName}
+                    </span>
+                    <span className="text-xs text-muted-foreground">• {addr.phone}</span>
+                    {addr.tag && (
+                      <span className="rounded-md bg-muted px-2 py-0.5 text-[10px] font-semibold text-muted-foreground">
+                        {addr.tag}
+                      </span>
+                    )}
+                    {addr.defaultAddress && (
+                      <span className="rounded-md bg-tertiary/15 px-2 py-0.5 text-[10px] font-bold text-tertiary">
+                        Mặc định
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-xs leading-relaxed text-muted-foreground">
+                    {addr.addressDetail}, {addr.ward}, {addr.district}, {addr.province}
+                  </p>
+                </div>
+                <div className="pt-1">
+                  <span
+                    className={`flex h-4 w-4 items-center justify-center rounded-full border transition-colors ${
+                      isSelected ? 'border-secondary' : 'border-border'
+                    }`}
+                  >
+                    {isSelected && <span className="h-2 w-2 rounded-full bg-secondary" />}
+                  </span>
+                </div>
+              </div>
+            </button>
+          );
+        })}
+      </div>
+    );
+  };
+
   return (
     <div className="rounded-2xl border border-border bg-card p-6 shadow-xs">
       <div className="flex items-center justify-between border-b border-border pb-4">
@@ -61,9 +186,7 @@ export function CheckoutAddressSection({
 
         <button
           type="button"
-          onClick={() => {
-            setIsAddOpen(true);
-          }}
+          onClick={handleOpenAdd}
           className="flex items-center gap-1 text-xs font-bold text-secondary hover:underline"
         >
           <Icon name="plus" size="xs" />
@@ -71,81 +194,7 @@ export function CheckoutAddressSection({
         </button>
       </div>
 
-      {addresses.length === 0 ? (
-        <div className="mt-4 rounded-xl border border-dashed border-amber-300 bg-amber-50/60 p-4 text-center dark:bg-amber-950/20">
-          <Icon name="alert-triangle" size="md" className="mx-auto text-amber-600" />
-          <p className="mt-2 text-xs font-bold text-amber-900 dark:text-amber-200">
-            Bạn chưa có địa chỉ giao hàng nào
-          </p>
-          <p className="mt-1 text-[11px] text-amber-700 dark:text-amber-300">
-            Vui lòng thêm địa chỉ để hệ thống lưu thông tin giao nhận hải sản
-          </p>
-          <button
-            type="button"
-            onClick={() => {
-              setIsAddOpen(true);
-            }}
-            className="mt-3 rounded-xl bg-primary px-4 py-2 text-xs font-bold text-white shadow-xs hover:opacity-90"
-          >
-            + Thêm Địa Chỉ Nhận Hàng
-          </button>
-        </div>
-      ) : (
-        <div className="mt-4 space-y-3">
-          {addresses.map((addr: UserAddress) => {
-            const isSelected =
-              selectedAddress?.id === addr.id || (!selectedAddress && addr.defaultAddress);
-            return (
-              <button
-                key={addr.id}
-                type="button"
-                aria-label={`Chọn địa chỉ nhận hàng của ${addr.recipientName}`}
-                onClick={() => {
-                  onSelectAddress(addr);
-                }}
-                className={`w-full cursor-pointer rounded-2xl border p-4 text-left transition-all ${
-                  isSelected
-                    ? 'border-secondary bg-secondary/5 shadow-xs ring-2 ring-secondary/20'
-                    : 'border-border bg-background hover:border-muted-foreground/30'
-                }`}
-              >
-                <div className="flex items-start justify-between">
-                  <div className="space-y-1">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs font-bold text-foreground sm:text-sm">
-                        {addr.recipientName}
-                      </span>
-                      <span className="text-xs text-muted-foreground">• {addr.phone}</span>
-                      {addr.tag && (
-                        <span className="rounded-md bg-muted px-2 py-0.5 text-[10px] font-semibold text-muted-foreground">
-                          {addr.tag}
-                        </span>
-                      )}
-                      {addr.defaultAddress && (
-                        <span className="rounded-md bg-tertiary/15 px-2 py-0.5 text-[10px] font-bold text-tertiary">
-                          Mặc định
-                        </span>
-                      )}
-                    </div>
-                    <p className="text-xs leading-relaxed text-muted-foreground">
-                      {addr.addressDetail}, {addr.ward}, {addr.district}, {addr.province}
-                    </p>
-                  </div>
-                  <div className="pt-1">
-                    <span
-                      className={`flex h-4 w-4 items-center justify-center rounded-full border transition-colors ${
-                        isSelected ? 'border-secondary' : 'border-border'
-                      }`}
-                    >
-                      {isSelected && <span className="h-2 w-2 rounded-full bg-secondary" />}
-                    </span>
-                  </div>
-                </div>
-              </button>
-            );
-          })}
-        </div>
-      )}
+      {renderAddressList()}
 
       <AddressFormDialog
         isOpen={isAddOpen}

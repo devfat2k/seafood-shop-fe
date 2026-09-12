@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { Icon } from '@/components/common/Icon';
 import type { Product } from '@/types/api';
 import { ProductDescriptionTab } from './tabs/ProductDescriptionTab';
 import { ProductReviewsTab } from './tabs/ProductReviewsTab';
@@ -10,53 +11,48 @@ type ProductTabsProps = {
   product: Product;
 };
 
+type TabKey = 'description' | 'specs' | 'reviews';
+
 export const ProductTabs = ({ product }: ProductTabsProps) => {
-  const [activeTab, setActiveTab] = useState<'description' | 'specs' | 'reviews'>('description');
+  const [activeTab, setActiveTab] = useState<TabKey>('description');
   const reviewCount = product.reviewCount ?? 48;
   const rating = product.rating ?? 4.9;
 
+  const tabs: { key: TabKey; label: string; icon: string }[] = [
+    { key: 'description', label: 'Câu chuyện & Món ngon', icon: 'sparkles' },
+    { key: 'specs', label: 'Thông số & Bảo quản', icon: 'sliders-horizontal' },
+    { key: 'reviews', label: `Đánh giá thực tế (${reviewCount})`, icon: 'star' },
+  ];
+
   return (
-    <div className="mt-12 overflow-hidden rounded-2xl border border-border bg-card shadow-xs">
-      <div className="flex scrollbar-none overflow-x-auto border-b border-border bg-background">
-        <button
-          type="button"
-          onClick={() => {
-            setActiveTab('description');
-          }}
-          className={`px-6 py-4 text-xs font-bold whitespace-nowrap transition-all sm:px-8 sm:text-sm ${
-            activeTab === 'description'
-              ? 'border-b-2 border-primary text-primary'
-              : 'border-b-2 border-transparent text-muted-foreground hover:text-foreground'
-          }`}
-        >
-          Mô tả sản phẩm
-        </button>
-        <button
-          type="button"
-          onClick={() => {
-            setActiveTab('specs');
-          }}
-          className={`px-6 py-4 text-xs font-bold whitespace-nowrap transition-all sm:px-8 sm:text-sm ${
-            activeTab === 'specs'
-              ? 'border-b-2 border-primary text-primary'
-              : 'border-b-2 border-transparent text-muted-foreground hover:text-foreground'
-          }`}
-        >
-          Thông số kỹ thuật
-        </button>
-        <button
-          type="button"
-          onClick={() => {
-            setActiveTab('reviews');
-          }}
-          className={`px-6 py-4 text-xs font-bold whitespace-nowrap transition-all sm:px-8 sm:text-sm ${
-            activeTab === 'reviews'
-              ? 'border-b-2 border-primary text-primary'
-              : 'border-b-2 border-transparent text-muted-foreground hover:text-foreground'
-          }`}
-        >
-          Đánh giá thực tế ({reviewCount})
-        </button>
+    <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-xs">
+      <div className="flex border-b border-border bg-muted/20">
+        {tabs.map((tab) => {
+          const isActive = activeTab === tab.key;
+          return (
+            <button
+              key={tab.key}
+              type="button"
+              onClick={() => {
+                setActiveTab(tab.key);
+              }}
+              className={`flex items-center gap-2 px-4 py-3.5 text-xs font-bold transition-all sm:px-6 sm:py-4 sm:text-sm ${
+                isActive
+                  ? 'border-b-2 border-primary bg-card text-primary'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              <Icon
+                name={tab.icon}
+                size="xs"
+                className={
+                  isActive && tab.key === 'reviews' ? 'fill-accent text-accent' : undefined
+                }
+              />
+              <span>{tab.label}</span>
+            </button>
+          );
+        })}
       </div>
 
       <div className="p-6 sm:p-8">

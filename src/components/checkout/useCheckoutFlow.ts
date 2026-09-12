@@ -38,6 +38,11 @@ export const useCheckoutFlow = () => {
     selectedAddress ?? addresses.find((a: UserAddress) => a.defaultAddress) ?? addresses[0] ?? null;
 
   const handleNextToPayment = () => {
+    if (!userProfile) {
+      toast.info('Vui lòng đăng nhập để tiếp tục thanh toán');
+      setIsAuthModalOpen(true);
+      return;
+    }
     if (!activeAddress) {
       toast.error('Vui lòng chọn hoặc thêm địa chỉ nhận hàng');
       return;
@@ -46,13 +51,18 @@ export const useCheckoutFlow = () => {
   };
 
   const handleNextToConfirm = () => {
+    if (!userProfile) {
+      toast.info('Vui lòng đăng nhập để tiếp tục');
+      setIsAuthModalOpen(true);
+      return;
+    }
     setCurrentStep(3);
   };
 
   const handlePlaceOrder = async () => {
     if (!userProfile) {
       setIsAuthModalOpen(true);
-      toast.error('Vui lòng đăng nhập để tiến hành đặt hàng');
+      toast.info('Vui lòng đăng nhập để tiến hành đặt hàng');
       return;
     }
 
@@ -120,7 +130,7 @@ export const useCheckoutFlow = () => {
       }
 
       clearCart();
-      toast.success('Đặt hàng thành công!');
+      toast.success('Đặt hàng thành công! Email xác nhận đã được gửi đến hộp thư của bạn.');
       router.push(
         `/payment-result?orderId=${orderData.id}&status=success&paymentMethod=${selectedMethod}`,
       );

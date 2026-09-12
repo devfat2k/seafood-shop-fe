@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-type-assertion, @typescript-eslint/no-base-to-string, typescript/no-unsafe-type-assertion, typescript/no-base-to-string */
+/* eslint-disable @typescript-eslint/no-unsafe-type-assertion, @typescript-eslint/no-base-to-string */
 import { z } from 'zod';
 import type { PageResponse } from '@/types/api';
 

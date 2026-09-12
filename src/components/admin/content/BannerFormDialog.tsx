@@ -97,7 +97,7 @@ export function BannerFormDialog({ open, onOpenChange, bannerToEdit }: BannerFor
           id: bannerId,
           file: selectedFile,
         });
-        toast.success('Upload ảnh banner thành công');
+        toast.success('Tải lên ảnh banner thành công');
       }
 
       onOpenChange(false);
@@ -126,8 +126,8 @@ export function BannerFormDialog({ open, onOpenChange, bannerToEdit }: BannerFor
           <DialogTitle>{isEdit ? 'Chỉnh sửa Banner' : 'Thêm Banner Mới'}</DialogTitle>
           <DialogDescription>
             {isEdit
-              ? 'Cập nhật nội dung hiển thị của Hero Banner trên Storefront'
-              : 'Tạo Hero Banner mới quảng bá chương trình hoặc sản phẩm'}
+              ? 'Cập nhật nội dung hiển thị banner quảng cáo trên trang chủ cửa hàng'
+              : 'Tạo banner mới quảng bá chương trình ưu đãi hoặc sản phẩm nổi bật'}
           </DialogDescription>
         </DialogHeader>
 
@@ -149,7 +149,7 @@ export function BannerFormDialog({ open, onOpenChange, bannerToEdit }: BannerFor
 
           <div>
             <label htmlFor="banner-sub-input" className="text-xs font-semibold text-foreground">
-              Phụ đề (Subtitle)
+              Phụ đề giới thiệu
             </label>
             <Input
               id="banner-sub-input"
@@ -162,7 +162,7 @@ export function BannerFormDialog({ open, onOpenChange, bannerToEdit }: BannerFor
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label htmlFor="banner-cta-input" className="text-xs font-semibold text-foreground">
-                Chữ trên nút CTA
+                Chữ trên nút bấm
               </label>
               <Input
                 id="banner-cta-input"
@@ -174,7 +174,7 @@ export function BannerFormDialog({ open, onOpenChange, bannerToEdit }: BannerFor
 
             <div>
               <label htmlFor="banner-link-input" className="text-xs font-semibold text-foreground">
-                Liên kết nút (Link)
+                Đường dẫn liên kết
               </label>
               <Input
                 id="banner-link-input"

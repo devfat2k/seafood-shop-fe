@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Icon } from '@/components/common/Icon';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -15,11 +15,26 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { useTopBuyProductsQuery } from '@/libs/queries/admin/dashboard';
+import { useAdminProductsQuery } from '@/libs/queries/admin/products';
 import { formatCurrency } from '@/utils/Helpers';
 
 export function TopBuyProductsTable() {
   const { data: products, isLoading, isError, refetch } = useTopBuyProductsQuery(6);
+  const { data: catalogData } = useAdminProductsQuery({ page: 0, size: 100 });
   const [imageErrors, setImageErrors] = useState<Record<string | number, boolean>>({});
+
+  const productCatalogMap = useMemo(() => {
+    const map = new Map<string, { imageUrl?: string | null; stock?: number | null }>();
+    for (const prod of catalogData?.content ?? []) {
+      if (prod.name) {
+        map.set(prod.name.trim().toLowerCase(), {
+          imageUrl: prod.imageUrl,
+          stock: prod.stock,
+        });
+      }
+    }
+    return map;
+  }, [catalogData]);
 
   return (
     <Card className="border-border">
@@ -107,6 +122,11 @@ export function TopBuyProductsTable() {
               {products.map((item, index) => {
                 const itemKey = item.id ?? item.productId ?? `top-product-${index}`;
                 const isImgError = imageErrors[itemKey];
+                const catalogMatch = productCatalogMap.get(item.name.trim().toLowerCase());
+                const displayImage = item.imageUrl ?? catalogMatch?.imageUrl;
+                const displayStock = item.stock ?? catalogMatch?.stock ?? '—';
+                const soldCount = item.mostBuy ?? item.totalSold ?? 0;
+
                 return (
                   <TableRow key={itemKey}>
                     <TableCell className="text-center text-xs font-bold text-muted-foreground">
@@ -115,9 +135,9 @@ export function TopBuyProductsTable() {
                     <TableCell>
                       <div className="flex items-center gap-3">
                         <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-lg bg-muted">
-                          {item.imageUrl && !isImgError ? (
+                          {displayImage && !isImgError ? (
                             <Image
-                              src={item.imageUrl}
+                              src={displayImage}
                               alt={item.name}
                               fill
                               className="object-cover"
@@ -141,10 +161,10 @@ export function TopBuyProductsTable() {
                       {formatCurrency(item.price)}
                     </TableCell>
                     <TableCell className="text-right text-xs font-bold text-primary">
-                      {item.totalSold ?? 0}
+                      {soldCount}
                     </TableCell>
                     <TableCell className="text-right text-xs text-muted-foreground">
-                      {item.stock ?? '—'}
+                      {displayStock}
                     </TableCell>
                   </TableRow>
                 );

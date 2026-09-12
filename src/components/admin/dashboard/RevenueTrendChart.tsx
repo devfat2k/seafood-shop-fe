@@ -8,8 +8,10 @@ import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/
 import type { ChartConfig } from '@/components/ui/chart';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useRevenueInMonthQuery } from '@/libs/queries/admin/dashboard';
+import { useAdminOrdersQuery } from '@/libs/queries/admin/orders';
 import { formatCurrency } from '@/utils/Helpers';
 import { ChartFeedbackStates } from './ChartFeedbackStates';
+import { computeMonthlyOrderCounts, parseRevenueInMonth } from './dashboard-utils';
 
 const chartConfig = {
   revenue: {
@@ -35,22 +37,46 @@ function formatYAxisValue(val: number, mode: MetricMode): string {
 }
 
 export function RevenueTrendChart() {
-  const { data, isLoading, isError, refetch } = useRevenueInMonthQuery();
+  const {
+    data,
+    isLoading: isRevLoading,
+    isError: isRevError,
+    refetch: refetchRev,
+  } = useRevenueInMonthQuery();
+  const {
+    data: ordersData,
+    isLoading: isOrdersLoading,
+    isError: isOrdersError,
+    refetch: refetchOrders,
+  } = useAdminOrdersQuery({ page: 0, size: 100 });
+
+  const isLoading = isRevLoading || isOrdersLoading;
+  const isError = isRevError || isOrdersError;
+  const handleRetry = React.useCallback(() => {
+    void refetchRev();
+    void refetchOrders();
+  }, [refetchRev, refetchOrders]);
+
   const [mode, setMode] = React.useState<MetricMode>('revenue');
 
   const chartData = React.useMemo(() => {
     if (!data || data.length === 0) {
       return [];
     }
-    return [...data]
-      .toSorted((a, b) => (a.year === b.year ? a.month - b.month : a.year - b.year))
-      .map((item) => ({
-        monthLabel: `T${item.month}/${item.year.toString().slice(-2)}`,
-        fullMonth: `Tháng ${item.month}/${item.year}`,
-        revenue: item.revenue ?? 0,
-        orderCount: item.orderCount ?? 0,
-      }));
-  }, [data]);
+
+    const orderCounts = computeMonthlyOrderCounts(ordersData?.content ?? []);
+
+    return data
+      .map((item) => {
+        const parsed = parseRevenueInMonth(item);
+        const countFromOrders = orderCounts[`${parsed.year}-${parsed.month}`] ?? 0;
+        return {
+          ...parsed,
+          orderCount: item.orderCount && item.orderCount > 0 ? item.orderCount : countFromOrders,
+        };
+      })
+      .toSorted((a, b) => (a.year === b.year ? a.month - b.month : a.year - a.year));
+  }, [data, ordersData]);
 
   return (
     <Card className="border-border">
@@ -97,9 +123,7 @@ export function RevenueTrendChart() {
           emptyTitle="Chưa có dữ liệu xu hướng doanh thu"
           emptySubtitle="Số liệu sẽ tự động biểu diễn khi có các đơn hàng hoàn tất"
           emptyIcon="sparkles"
-          onRetry={() => {
-            void refetch();
-          }}
+          onRetry={handleRetry}
           skeleton={
             <div className="space-y-4 py-6">
               <div className="flex justify-between">

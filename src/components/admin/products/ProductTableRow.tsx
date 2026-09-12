@@ -200,7 +200,7 @@ export const ProductTableRow = ({
                 className="cursor-pointer gap-2 text-xs"
               >
                 <Icon name="camera" size="xs" />
-                <span>Upload hình ảnh</span>
+                <span>Tải lên hình ảnh</span>
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => {

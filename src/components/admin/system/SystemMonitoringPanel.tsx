@@ -18,9 +18,9 @@ export function SystemMonitoringPanel() {
       await evictMutation.mutateAsync();
       const now = new Date();
       setLastEvicted(now.toLocaleTimeString('vi-VN'));
-      toast.success('Đã xóa sạch bộ nhớ đệm Redis trang chủ thành công!');
+      toast.success('Đã đồng bộ toàn bộ dữ liệu mới nhất lên trang chủ cửa hàng!');
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Xóa bộ nhớ đệm thất bại');
+      toast.error(error instanceof Error ? error.message : 'Đồng bộ dữ liệu thất bại');
     }
   };
 
@@ -31,10 +31,11 @@ export function SystemMonitoringPanel() {
           <CardHeader className="flex flex-col gap-2 pb-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <CardTitle className="text-sm font-bold sm:text-base">
-                Quản Lý Bộ Nhớ Đệm (Redis Cache)
+                Đồng Bộ Hiển Thị Trang Chủ
               </CardTitle>
               <p className="mt-0.5 text-xs text-muted-foreground">
-                Xóa sạch bộ nhớ đệm trang chủ để người dùng thấy ngay thay đổi sản phẩm và danh mục
+                Đồng bộ ngay các thay đổi về giá, sản phẩm, danh mục và banner lên website để khách
+                hàng thấy ngay
               </p>
             </div>
 
@@ -51,7 +52,7 @@ export function SystemMonitoringPanel() {
                 size="xs"
                 className={evictMutation.isPending ? 'animate-spin' : ''}
               />
-              {evictMutation.isPending ? 'Đang xóa...' : 'Xóa Toàn Bộ Cache'}
+              {evictMutation.isPending ? 'Đang đồng bộ...' : 'Đồng Bộ Lên Cửa Hàng Ngay'}
             </Button>
           </CardHeader>
 
@@ -59,19 +60,21 @@ export function SystemMonitoringPanel() {
             <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-border/80 bg-muted/30 p-3.5 text-xs">
               <div className="flex items-center gap-2">
                 <span className="flex h-2 w-2 animate-pulse rounded-full bg-emerald-500" />
-                <span className="font-semibold text-foreground">Trạng thái Cache:</span>
-                <span className="text-muted-foreground">Đang phân phối dữ liệu tốc độ cao</span>
+                <span className="font-semibold text-foreground">Trạng thái hiển thị:</span>
+                <span className="text-muted-foreground">
+                  Dữ liệu đang được phân phối ổn định tới khách mua
+                </span>
               </div>
               {lastEvicted && (
                 <span className="font-mono text-muted-foreground">
-                  Lần xóa gần nhất: {lastEvicted}
+                  Đồng bộ gần nhất: {lastEvicted}
                 </span>
               )}
             </div>
 
             <div className="space-y-2">
               <p className="text-xs font-semibold text-foreground">
-                Các phân vùng Cache đang áp dụng:
+                Các khu vực nội dung được đồng bộ:
               </p>
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 {CACHE_PARTITIONS.map((partition) => (
@@ -81,8 +84,11 @@ export function SystemMonitoringPanel() {
                   >
                     <div className="flex items-center justify-between gap-2">
                       <span className="text-xs font-bold text-foreground">{partition.name}</span>
-                      <Badge variant="outline" className="font-mono text-[10px]">
-                        {partition.key}
+                      <Badge
+                        variant="outline"
+                        className="border-emerald-200 text-[10px] font-medium text-emerald-600 dark:border-emerald-800/40 dark:text-emerald-400"
+                      >
+                        Đã kết nối
                       </Badge>
                     </div>
                     <p className="mt-1 text-[11px] text-muted-foreground">{partition.desc}</p>

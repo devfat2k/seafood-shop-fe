@@ -43,8 +43,9 @@ export const ComboStandardCard = ({ combo, onOrder }: ComboStandardCardProps) =>
           </span>
         )}
 
-        <span className="absolute right-3 bottom-3 rounded-md bg-background/90 px-2 py-0.5 text-xs font-bold text-foreground shadow-xs backdrop-blur-xs">
-          👥 {servings}
+        <span className="absolute right-3 bottom-3 inline-flex items-center gap-1 rounded-md bg-background/90 px-2 py-0.5 text-xs font-bold text-foreground shadow-xs backdrop-blur-xs">
+          <Icon name="users" size="xs" className="text-secondary" />
+          <span>{servings}</span>
         </span>
       </div>
 

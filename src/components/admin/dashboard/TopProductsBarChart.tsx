@@ -26,7 +26,7 @@ export function TopProductsBarChart() {
     }
     return products.map((item) => {
       const shortName = item.name.length > 18 ? `${item.name.slice(0, 18)}...` : item.name;
-      const sold = item.totalSold ?? 0;
+      const sold = item.mostBuy ?? item.totalSold ?? 0;
       const price = item.price ?? 0;
       return {
         name: item.name,
