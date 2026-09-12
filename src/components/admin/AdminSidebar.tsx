@@ -19,7 +19,7 @@ type NavGroup = {
 const NAV_GROUPS: NavGroup[] = [
   {
     groupTitle: 'Tổng Quan',
-    items: [{ label: 'Dashboard', href: '/admin/dashboard', iconName: 'grid' }],
+    items: [{ label: 'Bảng điều khiển', href: '/admin/dashboard', iconName: 'grid' }],
   },
   {
     groupTitle: 'Kinh Doanh',
@@ -32,16 +32,16 @@ const NAV_GROUPS: NavGroup[] = [
   {
     groupTitle: 'Nội Dung & Tiếp Thị',
     items: [
-      { label: 'Hero Banners', href: '/admin/content/banners', iconName: 'camera' },
-      { label: 'Cập bến ngày', href: '/admin/content/daily-arrivals', iconName: 'clock' },
+      { label: 'Banner quảng cáo', href: '/admin/content/banners', iconName: 'camera' },
+      { label: 'Hải sản mới về', href: '/admin/content/daily-arrivals', iconName: 'clock' },
     ],
   },
   {
     groupTitle: 'Hệ Thống',
     items: [
       { label: 'Người dùng', href: '/admin/users', iconName: 'user' },
-      { label: 'Phân quyền RBAC', href: '/admin/rbac', iconName: 'shield-check' },
-      { label: 'Hệ thống & Cache', href: '/admin/system', iconName: 'server' },
+      { label: 'Phân quyền người dùng', href: '/admin/rbac', iconName: 'shield-check' },
+      { label: 'Đồng bộ & Hệ thống', href: '/admin/system', iconName: 'server' },
     ],
   },
 ];

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-type-assertion */
 'use client';
 
 import { Icon } from '@/components/common/Icon';
@@ -16,7 +17,6 @@ export function OrderTrackingRecipient({
 
   if (typeof addressSnapshot === 'string') {
     try {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion, typescript/no-unsafe-type-assertion
       parsed = JSON.parse(addressSnapshot) as ShippingAddressSnapshot;
     } catch {
       parsed = null;

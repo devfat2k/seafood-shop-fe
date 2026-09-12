@@ -16,7 +16,7 @@ type SystemPermissionsTableProps = {
 export const SystemPermissionsTable = ({ permissions }: SystemPermissionsTableProps) => (
   <Card className="border-border">
     <CardHeader className="pb-3">
-      <CardTitle className="text-sm font-bold">Toàn bộ Permissions hệ thống</CardTitle>
+      <CardTitle className="text-sm font-bold">Danh mục quyền hạn chi tiết</CardTitle>
     </CardHeader>
     <CardContent>
       <Table>

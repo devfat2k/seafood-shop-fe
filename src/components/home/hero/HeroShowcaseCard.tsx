@@ -22,7 +22,7 @@ function HeroShowcaseMedia({ bgImage, imageAlt, badgeText, discountBadge }: Show
   const [imgError, setImgError] = useState(false);
 
   return (
-    <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-[#072F3A]/60 shadow-2xl sm:rounded-3xl">
+    <div className="relative aspect-4/3 w-full overflow-hidden rounded-2xl bg-[#072F3A]/60 shadow-2xl sm:rounded-3xl">
       {bgImage && !imgError ? (
         <Image
           src={bgImage}
@@ -48,7 +48,7 @@ function HeroShowcaseMedia({ bgImage, imageAlt, badgeText, discountBadge }: Show
       {/* Floating Badges inside image */}
       <div className="absolute top-3 left-3 flex items-center gap-1.5 rounded-full border border-white/20 bg-black/40 px-3.5 py-1 text-xs font-bold text-white shadow-md backdrop-blur-md sm:top-4 sm:left-4">
         <span className="h-2 w-2 animate-ping rounded-full bg-accent" />
-        <span>🌊 {badgeText}</span>
+        <span>{badgeText}</span>
       </div>
 
       {discountBadge && (
@@ -89,23 +89,29 @@ function HeroShowcaseInfo({
   const hasDiscount = Boolean(originalPrice && salePrice && originalPrice > salePrice);
 
   return (
-    <div className="mt-4 flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
+    <div className="mt-4 flex min-h-[72px] flex-col justify-between gap-3 sm:min-h-[76px] sm:flex-row sm:items-center">
       <div className="min-w-0 flex-1">
         <h3 className="truncate font-heading text-lg font-bold text-white sm:text-xl">{title}</h3>
         <p className="mt-0.5 line-clamp-1 text-xs text-white/70 sm:text-sm">{subtitle}</p>
 
-        {salePrice !== undefined && (
-          <div className="mt-2 flex items-baseline gap-2.5">
-            <span className="font-heading text-xl font-black text-accent tabular-nums sm:text-2xl">
-              {formatCurrency(salePrice)}
+        <div className="mt-1.5 flex h-7 items-baseline gap-2.5">
+          {salePrice === undefined ? (
+            <span className="text-xs font-semibold text-accent/90 sm:text-sm">
+              Giá tươi cập cảng hôm nay
             </span>
-            {hasDiscount && originalPrice !== undefined && (
-              <span className="text-xs text-white/50 tabular-nums line-through sm:text-sm">
-                {formatCurrency(originalPrice)}
+          ) : (
+            <>
+              <span className="font-heading text-xl font-black text-accent tabular-nums sm:text-2xl">
+                {formatCurrency(salePrice)}
               </span>
-            )}
-          </div>
-        )}
+              {hasDiscount && originalPrice !== undefined && (
+                <span className="text-xs text-white/50 tabular-nums line-through sm:text-sm">
+                  {formatCurrency(originalPrice)}
+                </span>
+              )}
+            </>
+          )}
+        </div>
       </div>
 
       <Link

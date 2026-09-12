@@ -8,21 +8,8 @@ import type { ProductCardItem, ProductCardProps } from './productCardTypes';
 
 export const ProductCardGrid = <T extends ProductCardItem>(props: ProductCardProps<T>) => {
   const { product, onAddToCart, onQuickView } = props;
-  const {
-    id,
-    name,
-    price,
-    originalPrice,
-    unit,
-    image,
-    category,
-    origin,
-    spec,
-    rating,
-    salesCount,
-    badges,
-    inStock,
-  } = product;
+  const { id, name, price, originalPrice, unit, image, category, origin, rating, badges, inStock } =
+    product;
 
   const isInStock = inStock !== false;
   const hasDiscount = Boolean(originalPrice && originalPrice > price);
@@ -30,13 +17,11 @@ export const ProductCardGrid = <T extends ProductCardItem>(props: ProductCardPro
     hasDiscount && originalPrice ? Math.round(((originalPrice - price) / originalPrice) * 100) : 0;
 
   const displayRating = typeof rating === 'number' && rating > 0 ? rating : 4.9;
-  const displaySales = salesCount && salesCount > 0 ? `${salesCount} đã bán` : 'Đã bán 50+';
   const metaCategory = category || 'Hải sản tươi sống';
-  const specText = spec ?? (origin ? `Nguồn gốc: ${origin}` : 'Bao ăn 1 đổi 1 · Túi oxy sống');
-  const cardBadge = badges?.[0] ?? (isInStock ? 'TƯƠI SỐNG' : 'TẠM HẾT');
+  const cardBadge = isInStock ? (badges?.find((b) => b !== 'TẠM HẾT') ?? 'TƯƠI SỐNG') : 'TẠM HẾT';
 
   return (
-    <div className="group relative flex flex-col justify-between overflow-hidden rounded-[22px] border border-border/60 bg-card p-3 shadow-[0_4px_16px_-4px_rgba(11,74,92,0.06)] transition-all duration-300 hover:-translate-y-1.5 hover:border-secondary/40 hover:shadow-[0_20px_40px_-10px_rgba(11,74,92,0.14)] sm:p-3.5">
+    <div className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-border/70 bg-card p-4 shadow-[0_4px_16px_-4px_rgba(11,74,92,0.06)] transition-all duration-300 hover:-translate-y-1.5 hover:border-secondary/40 hover:shadow-[0_20px_40px_-10px_rgba(11,74,92,0.14)]">
       <div>
         <ProductCardImage
           id={id}
@@ -62,7 +47,6 @@ export const ProductCardGrid = <T extends ProductCardItem>(props: ProductCardPro
             <div className="flex items-center gap-1 font-semibold text-foreground">
               <Icon name="star" size="xs" className="fill-accent text-accent" />
               <span className="text-xs font-bold">{displayRating}</span>
-              <span className="text-[11px] text-muted-foreground">({displaySales})</span>
             </div>
           </div>
 
@@ -71,10 +55,6 @@ export const ProductCardGrid = <T extends ProductCardItem>(props: ProductCardPro
               {name}
             </h3>
           </Link>
-
-          <p className="line-clamp-1 text-[11px] font-medium text-muted-foreground/80 sm:text-xs">
-            {specText}
-          </p>
         </div>
       </div>
 

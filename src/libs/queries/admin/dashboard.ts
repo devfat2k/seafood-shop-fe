@@ -24,7 +24,8 @@ export function useTopBuyProductsQuery(limit = 10) {
       }
       return [];
     },
-    staleTime: 2 * 60 * 1000,
+    staleTime: 20 * 1000,
+    refetchOnWindowFocus: true,
   });
 }
 
@@ -40,7 +41,8 @@ export function useRevenueByCategoryQuery() {
       }
       return [];
     },
-    staleTime: 2 * 60 * 1000,
+    staleTime: 20 * 1000,
+    refetchOnWindowFocus: true,
   });
 }
 
@@ -56,7 +58,8 @@ export function useRevenueInMonthQuery() {
       }
       return [];
     },
-    staleTime: 2 * 60 * 1000,
+    staleTime: 20 * 1000,
+    refetchOnWindowFocus: true,
   });
 }
 

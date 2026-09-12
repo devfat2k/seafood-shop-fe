@@ -91,7 +91,7 @@ export function CategoryHomeConfigDialog({
         id: category.id,
         data: values,
       });
-      toast.success('Cập nhật cấu hình Bento Grid thành công');
+      toast.success('Cập nhật cấu hình hiển thị trang chủ thành công');
       onOpenChange(false);
     } catch (error) {
       toast.error(error instanceof Error ? error.message : 'Cập nhật cấu hình thất bại');
@@ -104,13 +104,13 @@ export function CategoryHomeConfigDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Cấu hình Bento Grid / Trang Chủ</DialogTitle>
+          <DialogTitle>Cấu hình Hiển thị Trang Chủ</DialogTitle>
           <DialogDescription>
             Tùy biến cách hiển thị danh mục{' '}
             <span className="font-semibold text-foreground">
               {category.name ?? category.categoryName}
             </span>{' '}
-            trên Bento Grid Storefront
+            trên khu vực nổi bật của trang chủ cửa hàng
           </DialogDescription>
         </DialogHeader>
 
@@ -159,7 +159,7 @@ export function CategoryHomeConfigDialog({
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label htmlFor="cat-display-select" className="text-xs font-semibold text-foreground">
-                Kiểu hiển thị Bento
+                Kiểu hiển thị nổi bật
               </label>
               <select
                 id="cat-display-select"
@@ -167,20 +167,20 @@ export function CategoryHomeConfigDialog({
                 {...register('homeDisplayStyle')}
               >
                 <option value="main" className="bg-popover text-foreground">
-                  Main (Ô lớn nổi bật)
+                  Ô lớn nổi bật
                 </option>
                 <option value="card" className="bg-popover text-foreground">
-                  Card (Thẻ vừa chuẩn)
+                  Thẻ vừa chuẩn
                 </option>
                 <option value="icon" className="bg-popover text-foreground">
-                  Icon (Nút tròn nhỏ)
+                  Nút biểu tượng nhỏ
                 </option>
               </select>
             </div>
 
             <div>
               <label htmlFor="cat-icon-input" className="text-xs font-semibold text-foreground">
-                Icon Lucide Name
+                Tên biểu tượng (Icon)
               </label>
               <Input
                 id="cat-icon-input"
@@ -216,7 +216,7 @@ export function CategoryHomeConfigDialog({
                 htmlFor="homeIsActive"
                 className="cursor-pointer text-xs font-medium text-foreground"
               >
-                Ghim lên Bento Trang chủ
+                Ghim nổi bật lên trang chủ
               </label>
             </div>
           </div>
@@ -234,7 +234,7 @@ export function CategoryHomeConfigDialog({
               Hủy
             </Button>
             <Button type="submit" size="sm" disabled={isPending}>
-              {isPending ? 'Đang lưu...' : 'Lưu cấu hình Bento'}
+              {isPending ? 'Đang lưu...' : 'Lưu cấu hình trang chủ'}
             </Button>
           </DialogFooter>
         </form>

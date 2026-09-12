@@ -1,5 +1,7 @@
 'use client';
 
+import { Icon } from '@/components/common/Icon';
+
 export type WeightOption = {
   id: string;
   label: string;
@@ -9,16 +11,6 @@ export type WeightOption = {
   stock: number;
   disabled?: boolean;
 };
-
-function getWeightButtonClass(isSelected: boolean, isDisabled?: boolean): string {
-  if (isSelected) {
-    return 'border-2 border-primary bg-card font-bold text-foreground shadow-xs';
-  }
-  if (isDisabled) {
-    return 'cursor-not-allowed border border-border bg-muted/50 text-muted-foreground';
-  }
-  return 'border border-border bg-card text-foreground hover:border-secondary';
-}
 
 type ProductWeightSelectorProps = {
   options: WeightOption[];
@@ -32,11 +24,18 @@ export function ProductWeightSelector({
   onSelect,
 }: ProductWeightSelectorProps) {
   return (
-    <div>
-      <span className="block text-xs font-bold text-foreground">Chọn Quy Cách / Trọng Lượng:</span>
-      <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-3">
+    <div className="space-y-2.5">
+      <div className="flex items-center justify-between">
+        <span className="text-xs font-bold tracking-wide text-foreground uppercase">
+          Quy cách & Trọng lượng:
+        </span>
+        <span className="text-[11px] font-medium text-secondary">Sơ chế theo yêu cầu</span>
+      </div>
+
+      <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-3">
         {options.map((opt) => {
           const isSelected = selectedId === opt.id;
+
           return (
             <button
               key={opt.id}
@@ -45,13 +44,27 @@ export function ProductWeightSelector({
               onClick={() => {
                 onSelect(opt);
               }}
-              className={`flex flex-col items-start rounded-xl p-2.5 text-left transition-all ${getWeightButtonClass(
-                isSelected,
-                opt.disabled,
-              )}`}
+              className={`relative flex flex-col items-start justify-between rounded-xl p-3 text-left transition-all ${
+                isSelected
+                  ? 'border-2 border-primary bg-primary/5 shadow-xs ring-1 ring-primary/20'
+                  : 'border border-border bg-card hover:border-secondary/60 hover:bg-secondary/5'
+              } ${opt.disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
             >
-              <span className="text-xs font-bold">{opt.label}</span>
-              <span className="mt-0.5 text-[10px] text-muted-foreground">{opt.subLabel}</span>
+              <div className="flex w-full items-start justify-between gap-1">
+                <span
+                  className={`text-xs leading-tight font-bold ${
+                    isSelected ? 'text-primary' : 'text-foreground'
+                  }`}
+                >
+                  {opt.label}
+                </span>
+                {isSelected && (
+                  <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-primary text-white">
+                    <Icon name="check" size="xs" />
+                  </span>
+                )}
+              </div>
+              <span className="mt-1.5 text-[11px] text-muted-foreground">{opt.subLabel}</span>
             </button>
           );
         })}

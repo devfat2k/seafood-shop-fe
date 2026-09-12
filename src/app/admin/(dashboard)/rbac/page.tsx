@@ -49,11 +49,9 @@ export default function AdminRbacPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="font-heading text-lg font-bold text-foreground">
-            Phân quyền & Vai trò (RBAC)
-          </h2>
+          <h2 className="font-heading text-lg font-bold text-foreground">Phân Quyền Người Dùng</h2>
           <p className="text-xs text-muted-foreground">
-            Quản lý vai trò hệ thống và phân quyền chi tiết cho từng vai trò
+            Quản lý vai trò nhân viên và phân quyền chức năng trong cửa hàng
           </p>
         </div>
         <Button
@@ -64,13 +62,13 @@ export default function AdminRbacPage() {
           className="text-xs font-semibold"
         >
           <Icon name="plus" size="xs" className="mr-1.5" />
-          Thêm vai trò (Role)
+          Thêm vai trò mới
         </Button>
       </div>
 
       <Card className="border-border">
         <CardHeader className="pb-3">
-          <CardTitle className="text-sm font-bold">Danh sách Vai trò</CardTitle>
+          <CardTitle className="text-sm font-bold">Danh sách vai trò & quyền hạn</CardTitle>
         </CardHeader>
         <CardContent>
           {isLoading && (

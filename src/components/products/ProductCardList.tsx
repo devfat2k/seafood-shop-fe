@@ -32,8 +32,6 @@ export const ProductCardList = <T extends ProductCardItem>(props: ProductCardPro
   const metaLabel = category || (origin ? `Nguồn gốc: ${origin}` : 'Hải sản');
   const specText = spec ?? origin;
 
-  const cardBadge = product.badges?.[0] ?? (isInStock ? 'TƯƠI SỐNG' : 'TẠM HẾT');
-
   return (
     <div className="group flex flex-col gap-4 rounded-2xl border border-border/60 bg-card p-3.5 shadow-[0_2px_8px_rgba(11,74,92,0.04)] transition-all duration-300 hover:-translate-y-0.5 hover:border-secondary/30 hover:shadow-[0_12px_24px_-4px_rgba(11,74,92,0.1)] sm:flex-row sm:items-center sm:p-4">
       <div className="w-full shrink-0 sm:w-44">
@@ -41,7 +39,6 @@ export const ProductCardList = <T extends ProductCardItem>(props: ProductCardPro
           id={id}
           name={name}
           image={image}
-          badge={cardBadge}
           origin={origin}
           discountPercent={discountPercent}
           onQuickView={

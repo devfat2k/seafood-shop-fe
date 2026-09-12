@@ -31,6 +31,16 @@ type AdminCategoriesTableProps = {
   onDelete: (cat: Category) => void;
 };
 
+const getDisplayStyleLabel = (style?: string) => {
+  if (style === 'main') {
+    return 'Ô lớn';
+  }
+  if (style === 'card') {
+    return 'Thẻ vừa';
+  }
+  return 'Nút icon';
+};
+
 export const AdminCategoriesTable = ({
   categories,
   deletingId,
@@ -53,7 +63,7 @@ export const AdminCategoriesTable = ({
             </TableHead>
             <TableHead className="min-w-[200px] text-xs font-bold uppercase">Mô Tả</TableHead>
             <TableHead className="text-center text-xs font-bold uppercase">
-              Hiển Thị Home (Bento)
+              Nổi Bật Trang Chủ
             </TableHead>
             <TableHead className="text-right text-xs font-bold uppercase">Thao Tác</TableHead>
           </TableRow>
@@ -106,18 +116,18 @@ export const AdminCategoriesTable = ({
                     onClick={() => {
                       onConfigHome(cat);
                     }}
-                    title="Cấu hình hiển thị Bento Grid trên trang chủ"
+                    title="Cấu hình hiển thị nổi bật trên trang chủ"
                   >
                     {cat.homeDisplayStyle ? (
                       <Badge
                         variant="outline"
                         className="cursor-pointer border-primary px-2 py-0.5 text-xs font-semibold text-primary shadow-2xs hover:bg-primary/10"
                       >
-                        Bento: {cat.homeDisplayStyle}
+                        {getDisplayStyleLabel(cat.homeDisplayStyle)}
                       </Badge>
                     ) : (
                       <span className="cursor-pointer rounded-lg border border-dashed border-border px-2.5 py-1 text-xs text-muted-foreground hover:bg-muted hover:text-foreground">
-                        + Thiết lập Bento
+                        + Hiện trang chủ
                       </span>
                     )}
                   </button>
@@ -149,7 +159,7 @@ export const AdminCategoriesTable = ({
                           className="cursor-pointer gap-2 text-xs text-primary"
                         >
                           <Icon name="sparkles" size="xs" />
-                          <span>Cấu hình Bento Grid</span>
+                          <span>Cấu hình hiển thị trang chủ</span>
                         </DropdownMenuItem>
                         <DropdownMenuItem
                           onClick={() => {
@@ -158,7 +168,7 @@ export const AdminCategoriesTable = ({
                           className="cursor-pointer gap-2 text-xs"
                         >
                           <Icon name="camera" size="xs" />
-                          <span>Upload ảnh danh mục</span>
+                          <span>Tải lên ảnh danh mục</span>
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem

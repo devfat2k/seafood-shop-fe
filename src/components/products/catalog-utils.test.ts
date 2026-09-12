@@ -32,6 +32,21 @@ describe('catalog-utils', () => {
       stock: 10,
     };
     expect(isProductInStock(inactiveProduct)).toBeFalsy();
+
+    const homeApiProduct: Product = {
+      id: 4,
+      name: 'Set Tiệc Hoàng Gia',
+      price: 1_650_000,
+    };
+    expect(isProductInStock(homeApiProduct)).toBeTruthy();
+
+    const explicitOutOfStockProduct: Product = {
+      id: 5,
+      name: 'Cá Tuyết',
+      price: 900_000,
+      inStock: false,
+    };
+    expect(isProductInStock(explicitOutOfStockProduct)).toBeFalsy();
   });
 
   it('getProductBadges only returns real badges without fake defaults', () => {

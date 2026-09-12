@@ -20,6 +20,8 @@ type CheckoutStepContentProps = {
   onNextToPayment: () => void;
   onNextToConfirm: () => void;
   onStepChange: (step: 1 | 2 | 3) => void;
+  isAuthenticated: boolean;
+  onRequireAuth: () => void;
 };
 
 export function CheckoutStepContent({
@@ -34,6 +36,8 @@ export function CheckoutStepContent({
   onNextToPayment,
   onNextToConfirm,
   onStepChange,
+  isAuthenticated,
+  onRequireAuth,
 }: CheckoutStepContentProps) {
   if (currentStep === 1) {
     return (
@@ -41,6 +45,8 @@ export function CheckoutStepContent({
         <CheckoutAddressSection
           selectedAddress={selectedAddress}
           onSelectAddress={onSelectAddress}
+          isAuthenticated={isAuthenticated}
+          onRequireAuth={onRequireAuth}
         />
 
         <div className="rounded-2xl border border-border bg-card p-6 shadow-xs">

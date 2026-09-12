@@ -4,6 +4,7 @@ import { Icon } from '@/components/common/Icon';
 import { ProductDetailBreadcrumb } from '@/components/product-detail/ProductDetailBreadcrumb';
 import { ProductDetailSkeleton } from '@/components/product-detail/ProductDetailSkeleton';
 import { ProductGallery } from '@/components/product-detail/ProductGallery';
+import { ProductMobileStickyBar } from '@/components/product-detail/ProductMobileStickyBar';
 import { ProductPurchasePanel } from '@/components/product-detail/ProductPurchasePanel';
 import { ProductTabs } from '@/components/product-detail/ProductTabs';
 import { RelatedProductsSection } from '@/components/product-detail/RelatedProductsSection';
@@ -107,7 +108,7 @@ export function ProductDetailContainer({ productId, initialProduct }: ProductDet
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8">
+      <div className="mx-auto max-w-7xl px-4 pt-6 pb-24 sm:px-6 sm:pt-8 sm:pb-16">
         <ProductDetailBreadcrumb
           categoryName={categoryName}
           categorySlug={categorySlug}
@@ -137,6 +138,8 @@ export function ProductDetailContainer({ productId, initialProduct }: ProductDet
           </div>
         )}
       </div>
+
+      <ProductMobileStickyBar product={product} />
     </div>
   );
 }

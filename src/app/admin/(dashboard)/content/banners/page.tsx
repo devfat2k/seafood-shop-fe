@@ -51,9 +51,11 @@ export default function AdminBannersPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="font-heading text-lg font-bold text-foreground">Hero Banners</h2>
+          <h2 className="font-heading text-lg font-bold text-foreground">
+            Banner Quảng Cáo Trang Chủ
+          </h2>
           <p className="text-xs text-muted-foreground">
-            Quản lý các banner hiển thị trên trang chủ Storefront
+            Quản lý các banner hình ảnh và chương trình khuyến mãi hiển thị trên trang chủ cửa hàng
           </p>
         </div>
         <Button
@@ -65,13 +67,13 @@ export default function AdminBannersPage() {
           className="text-xs font-semibold"
         >
           <Icon name="plus" size="xs" className="mr-1.5" />
-          Thêm Banner
+          Thêm Banner Mới
         </Button>
       </div>
 
       <Card className="border-border">
         <CardHeader className="pb-3">
-          <CardTitle className="text-sm font-bold">Danh sách Banners</CardTitle>
+          <CardTitle className="text-sm font-bold">Danh sách Banner quảng cáo</CardTitle>
         </CardHeader>
         <CardContent>
           {isLoading && (

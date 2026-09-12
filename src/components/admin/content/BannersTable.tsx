@@ -36,7 +36,9 @@ export const BannersTable = ({
           <TableHead className="min-w-[200px] text-xs font-bold uppercase">
             Tiêu Đề / Mô Tả
           </TableHead>
-          <TableHead className="min-w-[160px] text-xs font-bold uppercase">Link CTA</TableHead>
+          <TableHead className="min-w-[160px] text-xs font-bold uppercase">
+            Liên Kết Nút Bấm
+          </TableHead>
           <TableHead className="text-center text-xs font-bold uppercase">Thứ Tự</TableHead>
           <TableHead className="text-center text-xs font-bold uppercase">Trạng Thái</TableHead>
           <TableHead className="text-right text-xs font-bold uppercase">Thao Tác</TableHead>

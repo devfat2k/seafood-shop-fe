@@ -14,7 +14,7 @@ export function SocialProofSection({ reviews = [] }: SocialProofSectionProps) {
   }
 
   return (
-    <section className="bg-card py-10 lg:py-16">
+    <section className="border-t border-border/40 bg-background py-10 lg:py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="mb-6 flex items-center justify-between sm:mb-10">
           <div>
@@ -32,7 +32,7 @@ export function SocialProofSection({ reviews = [] }: SocialProofSectionProps) {
           {reviews.map((rev) => (
             <div
               key={rev.id}
-              className="flex max-w-[260px] min-w-[260px] snap-start flex-col justify-between rounded-xl border border-border bg-background p-4 shadow-xs transition-all duration-300 hover:border-secondary/40 hover:shadow-md sm:max-w-none sm:min-w-0 sm:p-6"
+              className="flex max-w-[260px] min-w-[260px] snap-start flex-col justify-between rounded-2xl border border-border/70 bg-card p-4 shadow-xs transition-all duration-300 hover:border-secondary/40 hover:shadow-md sm:max-w-none sm:min-w-0 sm:p-6"
             >
               <div>
                 <div className="flex items-center gap-1 text-accent">

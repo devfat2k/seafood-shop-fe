@@ -1,10 +1,13 @@
 'use client';
 
+import { useQueryClient } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
 import { PaymentFailedState } from '@/components/checkout/payment-result/PaymentFailedState';
 import { PaymentSuccessState } from '@/components/checkout/payment-result/PaymentSuccessState';
-import { useOrderDetailQuery } from '@/libs/queries/orders';
+import { adminDashboardKeys } from '@/libs/queries/admin/dashboard';
+import { adminOrderKeys } from '@/libs/queries/admin/orders';
+import { orderQueryKeys, useOrderDetailQuery } from '@/libs/queries/orders';
 import type { OrderResponse } from '@/types/order';
 import { formatCurrency } from '@/utils/Helpers';
 
@@ -32,6 +35,7 @@ const getDisplayPaymentMethod = (orderMethod?: string, paramMethod?: string | nu
 };
 
 function PaymentResultContent() {
+  const queryClient = useQueryClient();
   const searchParams = useSearchParams();
   const rawStatus = searchParams?.get('status')?.toLowerCase() ?? 'success';
   const orderId = searchParams?.get('orderId');
@@ -40,6 +44,16 @@ function PaymentResultContent() {
 
   const isSuccess = rawStatus === 'success' || rawStatus === '00';
   const isPendingQr = rawStatus === 'pending_qr';
+
+  useEffect(() => {
+    if (isSuccess || isPendingQr) {
+      void queryClient.invalidateQueries({ queryKey: orderQueryKeys.all });
+      void queryClient.invalidateQueries({ queryKey: adminOrderKeys.all });
+      void queryClient.invalidateQueries({ queryKey: adminDashboardKeys.all });
+      void queryClient.invalidateQueries({ queryKey: ['admin-products'] });
+      void queryClient.invalidateQueries({ queryKey: ['products'] });
+    }
+  }, [isSuccess, isPendingQr, queryClient]);
 
   const { data: order } = useOrderDetailQuery(orderId ?? '', Boolean(orderId));
 

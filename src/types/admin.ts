@@ -5,6 +5,7 @@ export type TopBuyProduct = {
   price: number;
   imageUrl?: string | null;
   totalSold?: number;
+  mostBuy?: number;
   totalRevenue?: number;
   stock?: number;
 };
@@ -20,8 +21,8 @@ export type RevenueByCategory = {
 };
 
 export type RevenueInMonth = {
-  month: number;
-  year: number;
+  month: number | string | number[];
+  year?: number;
   revenue: number;
   orderCount?: number;
 };

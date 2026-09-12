@@ -32,7 +32,7 @@ export const ComboSetsSection = ({ combos = [], onAddToCart }: ComboSetsSectionP
   const standardCombos = hasSpotlight ? combos.slice(1) : combos;
 
   return (
-    <section id="combo-section" className="bg-background py-10 lg:py-16">
+    <section id="combo-section" className="border-t border-border/40 bg-card py-10 lg:py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="mx-auto mb-8 max-w-2xl text-center sm:mb-12">
           <h2 className="font-heading text-2xl font-bold text-foreground sm:text-3xl lg:text-4xl">

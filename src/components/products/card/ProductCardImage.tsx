@@ -25,11 +25,10 @@ export const ProductCardImage = ({
   onQuickView,
 }: ProductCardImageProps) => {
   const [imageError, setImageError] = useState(false);
-  const displayBadge = badge ?? 'TƯƠI SỐNG';
   const displayOrigin = origin ?? 'Phan Thiết';
 
   return (
-    <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-muted/40 shadow-xs sm:aspect-square">
+    <div className="relative aspect-4/3 w-full overflow-hidden rounded-2xl bg-muted/40 shadow-xs sm:aspect-square">
       <Link href={`/products/${id}`} className="relative block h-full w-full">
         {image && !imageError ? (
           <Image
@@ -53,16 +52,14 @@ export const ProductCardImage = ({
         )}
       </Link>
 
-      {/* Gradient shadow overlay for badge readability */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-14 bg-gradient-to-b from-black/40 to-transparent" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-black/40 to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-14 bg-linear-to-b from-black/40 to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-linear-to-t from-black/40 to-transparent" />
 
-      {/* Top badges */}
       <div className="absolute top-2.5 left-2.5 flex flex-wrap items-center gap-1.5 sm:top-3 sm:left-3">
-        {displayBadge && (
+        {badge && (
           <span className="inline-flex items-center gap-1 rounded-full border border-white/25 bg-black/40 px-2.5 py-0.5 text-[10px] font-bold text-white shadow-xs backdrop-blur-md sm:text-[11px]">
             <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-            <span>{displayBadge}</span>
+            <span>{badge}</span>
           </span>
         )}
 
@@ -73,7 +70,6 @@ export const ProductCardImage = ({
         )}
       </div>
 
-      {/* Quick view button */}
       {onQuickView && (
         <button
           type="button"
@@ -86,7 +82,6 @@ export const ProductCardImage = ({
         </button>
       )}
 
-      {/* Bottom origin badge */}
       {displayOrigin && (
         <div className="absolute bottom-2.5 left-2.5 flex items-center gap-1 rounded-md bg-black/40 px-2 py-0.5 text-[10px] font-medium text-white/90 backdrop-blur-md">
           <Icon name="map-pin" size="xs" className="h-2.5 w-2.5 text-accent" />

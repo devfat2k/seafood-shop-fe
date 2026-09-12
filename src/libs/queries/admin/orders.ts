@@ -2,6 +2,7 @@
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { adminApi } from '@/libs/AdminApiClient';
+import { adminDashboardKeys } from '@/libs/queries/admin/dashboard';
 import type { AdminOrderStatus, UpdateOrderStatusRequest } from '@/types/admin';
 import type { ApiResponse, PageResponse } from '@/types/api';
 import { normalizeOrderPage } from '@/types/order';
@@ -36,7 +37,8 @@ export function useAdminOrdersQuery(
       }
       throw new Error(res.data?.message ?? 'Không thể tải danh sách đơn hàng');
     },
-    staleTime: 30 * 1000,
+    staleTime: 20 * 1000,
+    refetchOnWindowFocus: true,
   });
 }
 
@@ -60,7 +62,8 @@ export function useAdminOrdersByUserQuery(
       throw new Error(res.data?.message ?? 'Không thể tải đơn hàng của người dùng');
     },
     enabled: Boolean(userId),
-    staleTime: 30 * 1000,
+    staleTime: 20 * 1000,
+    refetchOnWindowFocus: true,
   });
 }
 
@@ -83,6 +86,8 @@ export function useUpdateOrderStatusMutation() {
     },
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: adminOrderKeys.all });
+      void queryClient.invalidateQueries({ queryKey: adminDashboardKeys.all });
+      void queryClient.invalidateQueries({ queryKey: ['orders'] });
     },
   });
 }

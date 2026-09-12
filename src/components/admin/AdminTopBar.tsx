@@ -16,14 +16,15 @@ import { useAdminCurrentUserQuery, useAdminLogoutMutation } from '@/libs/queries
 import { useEvictCacheMutation } from '@/libs/queries/admin/dashboard';
 
 const PATH_BREADCRUMBS: Record<string, { parent: string; title: string }> = {
-  '/admin/dashboard': { parent: 'Hệ Thống', title: 'Tổng Quan Kinh Doanh' },
+  '/admin/dashboard': { parent: 'Hệ Thống', title: 'Bảng Điều Khiển' },
   '/admin/products': { parent: 'Kinh Doanh', title: 'Quản Lý Sản Phẩm' },
   '/admin/categories': { parent: 'Kinh Doanh', title: 'Quản Lý Danh Mục' },
   '/admin/orders': { parent: 'Kinh Doanh', title: 'Quản Lý Đơn Hàng' },
   '/admin/users': { parent: 'Hệ Thống', title: 'Quản Lý Người Dùng' },
-  '/admin/content/banners': { parent: 'Nội Dung', title: 'Hero Banners' },
-  '/admin/content/daily-arrivals': { parent: 'Nội Dung', title: 'Hải Sản Cập Bến Hôm Nay' },
-  '/admin/rbac': { parent: 'Hệ Thống', title: 'Phân Quyền & Vai Trò (RBAC)' },
+  '/admin/content/banners': { parent: 'Nội Dung', title: 'Banner Quảng Cáo' },
+  '/admin/content/daily-arrivals': { parent: 'Nội Dung', title: 'Hải Sản Mới Về Hôm Nay' },
+  '/admin/rbac': { parent: 'Hệ Thống', title: 'Phân Quyền Người Dùng' },
+  '/admin/system': { parent: 'Hệ Thống', title: 'Đồng Bộ & Trạng Thái Hệ Thống' },
 };
 
 type AdminTopBarProps = {
@@ -46,9 +47,9 @@ export function AdminTopBar({ isCollapsed, onToggleCollapse }: AdminTopBarProps)
   const handleEvictCache = async () => {
     try {
       await evictCacheMutation.mutateAsync();
-      toast.success('Đã xóa sạch Redis Cache trang chủ thành công!');
+      toast.success('Đã đồng bộ hiển thị lên trang chủ thành công!');
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Không thể xóa cache');
+      toast.error(error instanceof Error ? error.message : 'Không thể đồng bộ dữ liệu');
     }
   };
 
@@ -96,14 +97,14 @@ export function AdminTopBar({ isCollapsed, onToggleCollapse }: AdminTopBarProps)
           }}
           disabled={evictCacheMutation.isPending}
           className="h-9 gap-1.5 rounded-xl border-border bg-background px-3 text-xs font-semibold text-foreground shadow-xs hover:bg-muted"
-          title="Xóa cache Redis trang chủ để cập nhật dữ liệu mới nhất"
+          title="Đồng bộ lại dữ liệu hiển thị mới nhất lên trang chủ cửa hàng"
         >
           <Icon
             name="sparkles"
             size="xs"
             className={evictCacheMutation.isPending ? 'animate-spin' : 'text-primary'}
           />
-          <span className="hidden md:inline">Xóa Cache Redis</span>
+          <span className="hidden md:inline">Đồng bộ trang chủ</span>
         </Button>
 
         <div className="border-l border-border pl-2 sm:pl-3">
@@ -116,7 +117,7 @@ export function AdminTopBar({ isCollapsed, onToggleCollapse }: AdminTopBarProps)
                 <span className="max-w-[130px] truncate text-xs font-semibold text-foreground">
                   {user?.fullName ?? 'Quản trị viên'}
                 </span>
-                <span className="text-[10px] font-bold text-primary">ROLE_ADMIN</span>
+                <span className="text-[10px] font-bold text-primary">Quản trị viên</span>
               </div>
               <Icon
                 name="chevron-down"

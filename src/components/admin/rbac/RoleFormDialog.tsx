@@ -55,20 +55,21 @@ export function RoleFormDialog({ open, onOpenChange }: RoleFormDialogProps) {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Tạo vai trò mới (Role)</DialogTitle>
+          <DialogTitle>Tạo vai trò mới</DialogTitle>
           <DialogDescription>
-            Định nghĩa vai trò người dùng trong hệ thống (VD: ROLE_MODERATOR, ROLE_EDITOR)
+            Phân loại chức vụ hoặc vị trí công việc cho nhân sự (VD: QUAN_LY_KHO,
+            NHAN_VIEN_DON_HANG)
           </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
             <label htmlFor="role-name-input" className="text-xs font-semibold text-foreground">
-              Tên vai trò *
+              Mã vai trò *
             </label>
             <Input
               id="role-name-input"
-              placeholder="VD: ROLE_MODERATOR"
+              placeholder="VD: QUAN_LY_KHO"
               className="mt-1 text-xs uppercase"
               {...register('name')}
             />

@@ -53,12 +53,12 @@ export function CategoryImageDialog({ open, onOpenChange, category }: CategoryIm
         id: category.id,
         file: selectedFile,
       });
-      toast.success('Upload ảnh danh mục thành công');
+      toast.success('Tải lên ảnh danh mục thành công');
       setSelectedFile(null);
       setPreviewUrl(null);
       onOpenChange(false);
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Upload ảnh thất bại');
+      toast.error(error instanceof Error ? error.message : 'Tải lên ảnh thất bại');
     }
   };
 
@@ -66,7 +66,7 @@ export function CategoryImageDialog({ open, onOpenChange, category }: CategoryIm
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Upload hình ảnh danh mục</DialogTitle>
+          <DialogTitle>Tải lên hình ảnh danh mục</DialogTitle>
           <DialogDescription>
             Cập nhật hình ảnh đại diện cho danh mục{' '}
             <span className="font-semibold text-foreground">

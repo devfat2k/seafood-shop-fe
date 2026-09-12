@@ -40,13 +40,15 @@ export const ComboSpotlightCard = ({ combo, onOrder }: ComboSpotlightCardProps) 
             <span className={`rounded-full px-3 py-1 text-xs font-bold shadow-xs ${badgeClass}`}>
               {combo.tag || 'COMBO TIỆC VIP'}
             </span>
-            <span className="rounded-full bg-foreground/80 px-3 py-1 text-xs font-bold text-white shadow-xs backdrop-blur-xs">
-              ⭐ BÁN CHẠY #1
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-foreground/85 px-3 py-1 text-xs font-bold text-white shadow-xs backdrop-blur-xs">
+              <Icon name="star" size="xs" className="fill-accent text-accent" />
+              <span>BÁN CHẠY #1</span>
             </span>
           </div>
 
-          <div className="absolute bottom-3 left-3 rounded-lg bg-background/90 px-3 py-1 text-xs font-bold text-foreground shadow-xs backdrop-blur-xs">
-            👥 Khẩu phần: {servings}
+          <div className="absolute bottom-3 left-3 flex items-center gap-1.5 rounded-lg bg-background/90 px-3 py-1 text-xs font-bold text-foreground shadow-xs backdrop-blur-xs">
+            <Icon name="users" size="xs" className="text-secondary" />
+            <span>Khẩu phần: {servings}</span>
           </div>
         </div>
 

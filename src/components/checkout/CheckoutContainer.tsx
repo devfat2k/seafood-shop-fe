@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useRef } from 'react';
 import { AuthModal } from '@/components/auth/AuthModal';
 import { CheckoutEmptyCart } from '@/components/checkout/CheckoutEmptyCart';
 import { CheckoutGuestBanner } from '@/components/checkout/CheckoutGuestBanner';
@@ -36,6 +37,14 @@ export const CheckoutContainer = () => {
     handleQrConfirmed,
   } = useCheckoutFlow();
 
+  const hasPromptedAuth = useRef(false);
+  useEffect(() => {
+    if (!isUserLoading && !userProfile && items.length > 0 && !hasPromptedAuth.current) {
+      hasPromptedAuth.current = true;
+      setIsAuthModalOpen(true);
+    }
+  }, [isUserLoading, userProfile, items.length, setIsAuthModalOpen]);
+
   if (isUserLoading || isAddressesLoading) {
     return <CheckoutSkeleton />;
   }
@@ -43,6 +52,11 @@ export const CheckoutContainer = () => {
   if (items.length === 0 && !createdOrder) {
     return <CheckoutEmptyCart />;
   }
+
+  const isAuthenticated = Boolean(userProfile);
+  const handleOpenAuth = () => {
+    setIsAuthModalOpen(true);
+  };
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12">
@@ -59,13 +73,7 @@ export const CheckoutContainer = () => {
         </h1>
       </div>
 
-      {!userProfile && (
-        <CheckoutGuestBanner
-          onOpenLogin={() => {
-            setIsAuthModalOpen(true);
-          }}
-        />
-      )}
+      {!isAuthenticated && <CheckoutGuestBanner onOpenLogin={handleOpenAuth} />}
 
       {!createdOrder && (
         <CheckoutStepWizard
@@ -105,6 +113,8 @@ export const CheckoutContainer = () => {
               onStepChange={(s) => {
                 setCurrentStep(s);
               }}
+              isAuthenticated={isAuthenticated}
+              onRequireAuth={handleOpenAuth}
             />
           </div>
 
@@ -113,7 +123,9 @@ export const CheckoutContainer = () => {
               subtotal={subtotal}
               isSubmitting={isSubmitting}
               onPlaceOrder={() => void handlePlaceOrder()}
-              disabled={!userProfile || !selectedAddress}
+              disabled={!isAuthenticated || !selectedAddress}
+              isAuthenticated={isAuthenticated}
+              onRequireAuth={handleOpenAuth}
             />
           </div>
         </div>
@@ -122,6 +134,9 @@ export const CheckoutContainer = () => {
       <AuthModal
         isOpen={isAuthModalOpen}
         onClose={() => {
+          setIsAuthModalOpen(false);
+        }}
+        onLoginSuccess={() => {
           setIsAuthModalOpen(false);
         }}
       />

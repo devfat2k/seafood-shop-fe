@@ -1,7 +1,7 @@
 import { SystemMonitoringPanel } from '@/components/admin/system/SystemMonitoringPanel';
 
 export const metadata = {
-  title: 'Quản Lý Hệ Thống & Bộ Nhớ Đệm | Admin Portal',
+  title: 'Đồng Bộ & Trạng Thái Hệ Thống | Seafood Shop Admin',
 };
 
 export default function AdminSystemPage() {
@@ -9,10 +9,10 @@ export default function AdminSystemPage() {
     <div className="space-y-6">
       <div>
         <h1 className="font-heading text-xl font-bold text-foreground sm:text-2xl">
-          Hệ Thống & Bộ Nhớ Đệm
+          Đồng Bộ & Trạng Thái Hệ Thống
         </h1>
         <p className="mt-1 text-xs text-muted-foreground sm:text-sm">
-          Giám sát trạng thái dịch vụ, hạ tầng API và quản trị bộ nhớ đệm Redis
+          Kiểm tra trạng thái kết nối máy chủ và đồng bộ dữ liệu tức thì lên trang chủ cửa hàng
         </p>
       </div>
 

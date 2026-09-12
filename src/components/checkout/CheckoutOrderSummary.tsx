@@ -8,6 +8,8 @@ type CheckoutOrderSummaryProps = {
   isSubmitting: boolean;
   onPlaceOrder: () => void;
   disabled: boolean;
+  isAuthenticated?: boolean;
+  onRequireAuth?: () => void;
 };
 
 export const CheckoutOrderSummary = ({
@@ -15,6 +17,8 @@ export const CheckoutOrderSummary = ({
   isSubmitting,
   onPlaceOrder,
   disabled,
+  isAuthenticated = true,
+  onRequireAuth,
 }: CheckoutOrderSummaryProps) => (
   <div className="sticky top-24 rounded-2xl border border-border bg-card p-6 shadow-md">
     <h2 className="font-heading text-base font-bold text-foreground">Tổng Hóa Đơn</h2>
@@ -36,24 +40,35 @@ export const CheckoutOrderSummary = ({
       </span>
     </div>
 
-    <button
-      type="button"
-      disabled={disabled || isSubmitting}
-      onClick={onPlaceOrder}
-      className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3.5 text-xs font-bold text-white shadow-lg transition-all hover:opacity-90 active:scale-98 disabled:cursor-not-allowed disabled:opacity-50"
-    >
-      {isSubmitting ? (
-        <>
-          <Icon name="clock" size="sm" className="animate-spin" />
-          <span>Đang Xử Lý Đặt Hàng...</span>
-        </>
-      ) : (
-        <>
-          <span>Xác Nhận &amp; Đặt Hàng</span>
-          <Icon name="arrow-right" size="sm" />
-        </>
-      )}
-    </button>
+    {isAuthenticated ? (
+      <button
+        type="button"
+        disabled={disabled || isSubmitting}
+        onClick={onPlaceOrder}
+        className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3.5 text-xs font-bold text-white shadow-lg transition-all hover:opacity-90 active:scale-98 disabled:cursor-not-allowed disabled:opacity-50"
+      >
+        {isSubmitting ? (
+          <>
+            <Icon name="clock" size="sm" className="animate-spin" />
+            <span>Đang Xử Lý Đặt Hàng...</span>
+          </>
+        ) : (
+          <>
+            <span>Xác Nhận &amp; Đặt Hàng</span>
+            <Icon name="arrow-right" size="sm" />
+          </>
+        )}
+      </button>
+    ) : (
+      <button
+        type="button"
+        onClick={onRequireAuth}
+        className="mt-6 flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-primary py-3.5 text-xs font-bold text-white shadow-lg transition-all hover:opacity-90 active:scale-98"
+      >
+        <Icon name="lock" size="sm" />
+        <span>Đăng Nhập Để Tiếp Tục</span>
+      </button>
+    )}
 
     <div className="mt-6 space-y-2 border-t border-border pt-4">
       <div className="flex items-center gap-2 text-xs text-muted-foreground">
