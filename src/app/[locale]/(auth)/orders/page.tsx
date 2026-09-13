@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { AccountOrdersTab } from '@/components/account/AccountOrdersTab';
 
 export const metadata: Metadata = {
-  title: 'Đơn Hàng Của Tôi — Hải Sản Phan Thiết',
+  title: 'Đơn Hàng Của Tôi',
   description: 'Theo dõi tiến trình vận chuyển và lịch sử đơn hàng của bạn',
 };
 

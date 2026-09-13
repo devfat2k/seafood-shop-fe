@@ -19,7 +19,7 @@ export async function generateMetadata(props: ProductDetailPageProps): Promise<M
     const product = await getProduct(id);
     if (product?.name) {
       return {
-        title: `${product.name} — Hải Sản Phan Thiết Tươi Sống`,
+        title: product.name,
         description: product.description ?? t('meta_description'),
       };
     }
@@ -28,7 +28,7 @@ export async function generateMetadata(props: ProductDetailPageProps): Promise<M
   }
 
   return {
-    title: 'Chi Tiết Sản Phẩm — Hải Sản Phan Thiết',
+    title: 'Chi Tiết Sản Phẩm',
     description: t('meta_description'),
   };
 }

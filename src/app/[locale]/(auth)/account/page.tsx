@@ -14,7 +14,7 @@ export async function generateMetadata(props: AccountPageProps): Promise<Metadat
   });
 
   return {
-    title: 'Tài Khoản & Đơn Hàng Của Tôi — Hải Sản Phan Thiết',
+    title: 'Tài Khoản Của Tôi',
     description: t('meta_description'),
   };
 }

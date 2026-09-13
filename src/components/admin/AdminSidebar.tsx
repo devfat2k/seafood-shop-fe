@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Icon } from '@/components/common/Icon';
@@ -63,18 +64,34 @@ export function AdminSidebar({ isCollapsed, onToggleCollapse }: AdminSidebarProp
     >
       <div className="flex h-16 items-center justify-between border-b border-border px-4">
         {isCollapsed ? (
-          <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-white shadow-sm">
-            <Icon name="fish" size="sm" />
+          <div className="relative mx-auto flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border/80 bg-card shadow-xs">
+            <Image
+              src="/assets/images/logo.png"
+              alt="Hải Sản Phan Thiết"
+              width={36}
+              height={36}
+              priority
+              className="h-full w-full object-cover"
+            />
           </div>
         ) : (
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-white shadow-sm">
-              <Icon name="fish" size="sm" />
+            <div className="relative flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border/80 bg-card shadow-xs">
+              <Image
+                src="/assets/images/logo.png"
+                alt="Hải Sản Phan Thiết"
+                width={36}
+                height={36}
+                priority
+                className="h-full w-full object-cover"
+              />
             </div>
             <div className="flex flex-col">
-              <span className="font-heading text-base font-bold text-foreground">Seafood Shop</span>
+              <span className="font-heading text-base font-bold text-foreground">
+                Hải Sản Phan Thiết
+              </span>
               <span className="text-[11px] font-bold tracking-wider text-primary uppercase">
-                Admin Portal
+                Quản Trị Hệ Thống
               </span>
             </div>
           </div>

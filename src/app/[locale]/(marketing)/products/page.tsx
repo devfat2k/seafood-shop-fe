@@ -66,7 +66,7 @@ export async function generateMetadata(props: ProductsPageProps): Promise<Metada
   });
 
   return {
-    title: 'Danh Sách Hải Sản Tươi Ngon — Hải Sản Phan Thiết',
+    title: 'Danh Sách Hải Sản Tươi Ngon',
     description: t('meta_description'),
   };
 }

@@ -26,8 +26,20 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Hệ Thống Quản Trị — Seafood Shop Admin',
-  description: 'Giao diện quản lý toàn diện cửa hàng hải sản tươi sống',
+  title: {
+    default: 'Hệ Thống Quản Trị — Hải Sản Phan Thiết',
+    template: '%s | Quản Trị Hải Sản Phan Thiết',
+  },
+  description: 'Giao diện quản lý toàn diện cửa hàng hải sản tươi sống Phan Thiết',
+  icons: {
+    icon: [
+      { url: '/favicon.ico?v=2' },
+      { url: '/favicon-32x32.png?v=2', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon-16x16.png?v=2', sizes: '16x16', type: 'image/png' },
+    ],
+    apple: [{ url: '/apple-touch-icon.png?v=2', sizes: '180x180', type: 'image/png' }],
+    shortcut: ['/favicon.ico?v=2'],
+  },
   robots: {
     index: false,
     follow: false,
@@ -46,6 +58,11 @@ export default function AdminRootLayout({ children }: { children: React.ReactNod
       className={`${beVietnamPro.variable} ${fraunces.variable} ${jetbrainsMono.variable}`}
       suppressHydrationWarning
     >
+      <head>
+        <link rel="icon" href="/favicon.ico?v=2" sizes="any" />
+        <link rel="icon" href="/favicon-32x32.png?v=2" type="image/png" sizes="32x32" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2" />
+      </head>
       <body className="min-h-screen bg-background font-sans text-foreground antialiased selection:bg-primary/20 selection:text-primary">
         <Providers>
           {children}

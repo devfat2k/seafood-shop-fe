@@ -1,6 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -48,8 +49,15 @@ export default function AdminLoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-muted/40 p-4 sm:p-6">
       <div className="w-full max-w-md rounded-2xl border border-border bg-card p-6 shadow-xl sm:p-8">
         <div className="mb-6 flex flex-col items-center text-center">
-          <div className="mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary text-white shadow-md">
-            <Icon name="fish" size="xl" />
+          <div className="relative mb-3 flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-border/80 bg-card shadow-md">
+            <Image
+              src="/assets/images/logo.png"
+              alt="Hải Sản Phan Thiết Logo"
+              width={64}
+              height={64}
+              priority
+              className="h-full w-full object-cover"
+            />
           </div>
           <h1 className="font-heading text-xl font-bold text-foreground sm:text-2xl">
             Quản Trị Hệ Thống
