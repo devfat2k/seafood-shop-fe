@@ -24,12 +24,9 @@ export function useMyOrdersQuery(
   size = 10,
   initialData?: PageResponse<OrderResponse> | null,
 ) {
-  const hasToken = typeof window !== 'undefined' && Boolean(localStorage.getItem('accessToken'));
-
   return useQuery<PageResponse<OrderResponse> | null>({
     queryKey: orderQueryKeys.myOrders(page, size),
     queryFn: async () => await getMyOrders(page, size),
-    enabled: hasToken,
     initialData,
     staleTime: 30 * 1000,
   });

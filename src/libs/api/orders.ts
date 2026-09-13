@@ -18,6 +18,10 @@ export async function getMyOrders(
   page = 0,
   size = 10,
 ): Promise<PageResponse<OrderResponse> | null> {
+  const token = typeof window === 'undefined' ? null : localStorage.getItem('accessToken');
+  if (!token) {
+    return null;
+  }
   try {
     const res = await api.get<ApiResponse<PageResponse<unknown>>>(
       `/orders/my-orders?page=${page}&size=${size}`,
@@ -30,6 +34,10 @@ export async function getMyOrders(
 }
 
 export async function getOrderDetail(id: number | string): Promise<OrderResponse | null> {
+  const token = typeof window === 'undefined' ? null : localStorage.getItem('accessToken');
+  if (!token) {
+    return null;
+  }
   try {
     const res = await api.get<ApiResponse<unknown>>(`/orders/${id}`);
     return res.data?.data ? normalizeOrder(res.data.data) : null;
@@ -45,6 +53,10 @@ export async function getMyOrdersByStatus(
   page = 0,
   size = 10,
 ): Promise<PageResponse<OrderResponse> | null> {
+  const token = typeof window === 'undefined' ? null : localStorage.getItem('accessToken');
+  if (!token) {
+    return null;
+  }
   try {
     const res = await api.get<ApiResponse<PageResponse<unknown>>>(
       `/orders/me/${userId}?status=${status}&page=${page}&size=${size}`,

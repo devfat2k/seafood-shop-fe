@@ -27,12 +27,9 @@ export const userQueryKeys = {
 };
 
 export function useAddressesQuery(initialData?: UserAddress[]) {
-  const hasToken = typeof window !== 'undefined' && Boolean(localStorage.getItem('accessToken'));
-
   return useQuery<UserAddress[]>({
     queryKey: userQueryKeys.addresses(),
     queryFn: getUserAddresses,
-    enabled: hasToken,
     initialData,
     staleTime: 60 * 1000,
   });

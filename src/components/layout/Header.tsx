@@ -86,6 +86,9 @@ export function Header() {
         onClose={() => {
           setIsAuthModalOpen(false);
         }}
+        onLoginSuccess={() => {
+          setIsAuthModalOpen(false);
+        }}
       />
     </>
   );

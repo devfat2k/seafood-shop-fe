@@ -27,6 +27,7 @@ export type AddressRequest = z.infer<typeof addressRequestSchema>;
 
 export type UserProfile = {
   id: number;
+  userId?: number;
   fullName: string;
   email: string;
   phoneNumber: string;
