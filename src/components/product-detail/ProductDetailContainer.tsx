@@ -115,8 +115,8 @@ export function ProductDetailContainer({ productId, initialProduct }: ProductDet
           productName={product.name}
         />
 
-        <div className="mt-6 grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-12">
-          <div className="lg:col-span-6">
+        <div className="mt-6 grid grid-cols-1 items-start gap-8 lg:grid-cols-12 lg:gap-12">
+          <div className="lg:sticky lg:top-24 lg:col-span-6">
             <ProductGallery images={galleryImages} productName={product.name} />
           </div>
 

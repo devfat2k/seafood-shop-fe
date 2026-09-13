@@ -73,10 +73,10 @@ export const CheckoutItemsSummary = ({ items, note, onNoteChange }: CheckoutItem
         onChange={(e) => {
           onNoteChange(e.target.value);
         }}
-        placeholder="Ví dụ: Giao trước 11h trưa để làm tiệc, gọi trước khi giao 15 phút..."
+        placeholder="Ghi chú đơn hàng (tuỳ chọn)..."
         rows={2}
         maxLength={500}
-        className="mt-1.5 w-full rounded-xl border border-border bg-background p-3 text-xs text-foreground placeholder:text-muted-foreground focus:border-secondary focus:ring-2 focus:ring-secondary/20 focus:outline-none"
+        className="mt-1.5 w-full rounded-xl border border-border bg-background p-3 text-xs text-foreground placeholder:font-normal placeholder:text-muted-foreground/45 focus:border-secondary focus:ring-2 focus:ring-secondary/20 focus:outline-none"
       />
     </div>
   </div>

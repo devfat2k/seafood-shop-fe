@@ -1,6 +1,7 @@
 'use client';
 
 import type { UseFormReturn } from 'react-hook-form';
+import { Textarea } from '@/components/ui/textarea';
 import type { AdminProductFormValues } from '@/validations/admin';
 
 type ProductDescTabProps = {
@@ -18,11 +19,11 @@ export const ProductDescTab = ({ form }: ProductDescTabProps) => {
       <label htmlFor="product-desc-input" className="text-xs font-semibold text-foreground">
         Mô tả sản phẩm chi tiết *
       </label>
-      <textarea
+      <Textarea
         id="product-desc-input"
         rows={6}
-        placeholder="Mô tả độ tươi ngon, chất lượng thịt, cách sơ chế và hướng dẫn chế biến món ăn ngon..."
-        className="mt-1 flex w-full rounded-md border border-input bg-transparent px-3 py-2 text-xs shadow-xs focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
+        placeholder="Nhập mô tả sản phẩm..."
+        className="mt-1 text-xs"
         {...register('description')}
       />
       {errors.description && (

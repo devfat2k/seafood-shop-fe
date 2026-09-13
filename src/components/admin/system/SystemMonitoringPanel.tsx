@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import { toast } from 'sonner';
+import { ConfirmDialog } from '@/components/common/ConfirmDialog';
 import { Icon } from '@/components/common/Icon';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -11,6 +12,7 @@ import { CACHE_PARTITIONS, SYSTEM_SERVICES } from './constants';
 
 export function SystemMonitoringPanel() {
   const evictMutation = useEvictCacheMutation();
+  const [confirmOpen, setConfirmOpen] = React.useState(false);
   const [lastEvicted, setLastEvicted] = React.useState<string | null>(null);
 
   const handleEvictCache = async () => {
@@ -18,6 +20,7 @@ export function SystemMonitoringPanel() {
       await evictMutation.mutateAsync();
       const now = new Date();
       setLastEvicted(now.toLocaleTimeString('vi-VN'));
+      setConfirmOpen(false);
       toast.success('Đã đồng bộ toàn bộ dữ liệu mới nhất lên trang chủ cửa hàng!');
     } catch (error) {
       toast.error(error instanceof Error ? error.message : 'Đồng bộ dữ liệu thất bại');
@@ -43,7 +46,7 @@ export function SystemMonitoringPanel() {
               size="sm"
               disabled={evictMutation.isPending}
               onClick={() => {
-                void handleEvictCache();
+                setConfirmOpen(true);
               }}
               className="shrink-0 gap-2"
             >
@@ -129,6 +132,17 @@ export function SystemMonitoringPanel() {
           </CardContent>
         </Card>
       </div>
+
+      <ConfirmDialog
+        open={confirmOpen}
+        onOpenChange={setConfirmOpen}
+        title="Xác nhận đồng bộ hệ thống"
+        description="Thao tác này sẽ làm mới cache toàn bộ danh mục, sản phẩm và trang chủ trên toàn hệ thống để khách hàng thấy ngay dữ liệu mới nhất. Bạn có muốn tiếp tục?"
+        confirmText="Đồng bộ ngay"
+        variant="default"
+        isLoading={evictMutation.isPending}
+        onConfirm={handleEvictCache}
+      />
     </div>
   );
 }

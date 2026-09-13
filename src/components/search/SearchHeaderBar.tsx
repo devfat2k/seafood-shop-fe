@@ -37,8 +37,8 @@ export function SearchHeaderBar(props: SearchHeaderBarProps) {
             onChange={(e) => {
               setQuery(e.target.value);
             }}
-            placeholder="Nhập tên hải sản (Tôm hùm, Cua Cà Mau, Cá thu...)"
-            className="w-full rounded-2xl border border-border bg-card py-3.5 pr-10 pl-11 text-sm text-foreground shadow-xs transition-all placeholder:text-muted-foreground focus:border-secondary focus:ring-2 focus:ring-secondary/20 focus:outline-hidden sm:py-4 sm:text-base"
+            placeholder="Tìm kiếm hải sản..."
+            className="w-full rounded-2xl border border-border bg-card py-3.5 pr-10 pl-11 text-sm text-foreground shadow-xs transition-all placeholder:font-normal placeholder:text-muted-foreground/45 focus:border-secondary focus:ring-2 focus:ring-secondary/20 focus:outline-hidden sm:py-4 sm:text-base"
           />
           {query && (
             <button

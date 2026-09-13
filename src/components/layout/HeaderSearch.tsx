@@ -73,8 +73,8 @@ export function HeaderSearch({ isMobileOverlayOpen, onCloseMobileOverlay }: Head
             setSearchQuery(e.target.value);
             setIsDropdownOpen(true);
           }}
-          placeholder="Tìm cua, tôm, mực, cá..."
-          className="w-full rounded-full border border-border bg-background py-2 pr-4 pl-10 text-xs text-foreground transition-all focus:border-secondary focus:ring-2 focus:ring-secondary/20 focus:outline-none"
+          placeholder="Tìm kiếm hải sản..."
+          className="w-full rounded-full border border-border bg-background py-2 pr-4 pl-10 text-xs text-foreground transition-all placeholder:font-normal placeholder:text-muted-foreground/45 focus:border-secondary focus:ring-2 focus:ring-secondary/20 focus:outline-none"
         />
         <button
           type="submit"
@@ -107,7 +107,7 @@ export function HeaderSearch({ isMobileOverlayOpen, onCloseMobileOverlay }: Head
                 setSearchQuery(e.target.value);
               }}
               placeholder="Tìm kiếm hải sản..."
-              className="w-full rounded-full border border-border bg-background py-2.5 pr-4 pl-10 text-sm text-foreground focus:border-secondary focus:outline-none"
+              className="w-full rounded-full border border-border bg-background py-2.5 pr-4 pl-10 text-sm text-foreground placeholder:font-normal placeholder:text-muted-foreground/45 focus:border-secondary focus:outline-none"
             />
             <Icon
               name="search"

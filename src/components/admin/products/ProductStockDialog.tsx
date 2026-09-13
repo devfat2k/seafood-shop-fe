@@ -115,7 +115,7 @@ export function ProductStockDialog({ open, onOpenChange, product }: ProductStock
             <Input
               id="stock-qty-input"
               type="number"
-              placeholder="10"
+              placeholder="Nhập số lượng"
               className="mt-1 text-xs"
               {...register('quantity', { valueAsNumber: true })}
             />

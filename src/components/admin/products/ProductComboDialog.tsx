@@ -81,7 +81,7 @@ export function ProductComboDialog({ open, onOpenChange, product }: ProductCombo
             </label>
             <Input
               id="combo-cat-input"
-              placeholder="VD: COMBO TIỆC GIA ĐÌNH"
+              placeholder="Tiêu đề nhóm combo"
               className="mt-1 text-xs"
               {...register('comboCategory')}
             />
@@ -115,7 +115,7 @@ export function ProductComboDialog({ open, onOpenChange, product }: ProductCombo
               </label>
               <Input
                 id="combo-tag-input"
-                placeholder="VD: TIẾT KIỆM 20%"
+                placeholder="Nhãn khuyến mãi"
                 className="mt-1 text-xs"
                 {...register('comboTag')}
               />
@@ -129,7 +129,7 @@ export function ProductComboDialog({ open, onOpenChange, product }: ProductCombo
               </label>
               <Input
                 id="combo-cta-input"
-                placeholder="Đặt Set Ngay"
+                placeholder="Tên nút bấm"
                 className="mt-1 text-xs"
                 {...register('comboCtaText')}
               />
@@ -142,7 +142,7 @@ export function ProductComboDialog({ open, onOpenChange, product }: ProductCombo
               <Input
                 id="combo-sort-input"
                 type="number"
-                placeholder="1"
+                placeholder="Thứ tự hiển thị"
                 className="mt-1 text-xs"
                 {...register('comboSortOrder', { valueAsNumber: true })}
               />
@@ -155,7 +155,7 @@ export function ProductComboDialog({ open, onOpenChange, product }: ProductCombo
             </label>
             <Input
               id="combo-href-input"
-              placeholder="/combos/set-hoang-gia"
+              placeholder="Đường dẫn liên kết"
               className="mt-1 text-xs"
               {...register('comboHref')}
             />

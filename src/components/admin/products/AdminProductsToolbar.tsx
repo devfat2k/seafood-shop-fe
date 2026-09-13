@@ -35,7 +35,7 @@ export function AdminProductsToolbar({
             <Icon name="search" size="xs" />
           </div>
           <Input
-            placeholder="Tìm kiếm theo tên sản phẩm..."
+            placeholder="Tìm kiếm sản phẩm..."
             value={searchTerm}
             onChange={(e) => {
               onSearchChange(e.target.value);

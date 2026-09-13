@@ -138,7 +138,7 @@ export function BannerFormDialog({ open, onOpenChange, bannerToEdit }: BannerFor
             </label>
             <Input
               id="banner-title-input"
-              placeholder="VD: Đại Tiệc Hải Sản Hoàng Gia"
+              placeholder="Tiêu đề banner"
               className="mt-1 text-xs"
               {...register('title')}
             />
@@ -153,7 +153,7 @@ export function BannerFormDialog({ open, onOpenChange, bannerToEdit }: BannerFor
             </label>
             <Input
               id="banner-sub-input"
-              placeholder="VD: Giảm ngay 20% cho đơn hàng đầu tiên hôm nay"
+              placeholder="Phụ đề giới thiệu"
               className="mt-1 text-xs"
               {...register('subtitle')}
             />
@@ -166,7 +166,7 @@ export function BannerFormDialog({ open, onOpenChange, bannerToEdit }: BannerFor
               </label>
               <Input
                 id="banner-cta-input"
-                placeholder="Mua Ngay"
+                placeholder="Chữ trên nút bấm"
                 className="mt-1 text-xs"
                 {...register('ctaText')}
               />
@@ -178,7 +178,7 @@ export function BannerFormDialog({ open, onOpenChange, bannerToEdit }: BannerFor
               </label>
               <Input
                 id="banner-link-input"
-                placeholder="/products"
+                placeholder="Đường dẫn liên kết"
                 className="mt-1 text-xs"
                 {...register('ctaLink')}
               />
@@ -193,7 +193,7 @@ export function BannerFormDialog({ open, onOpenChange, bannerToEdit }: BannerFor
               <Input
                 id="banner-sort-input"
                 type="number"
-                placeholder="1"
+                placeholder="Thứ tự hiển thị"
                 className="mt-1 text-xs"
                 {...register('sortOrder', { valueAsNumber: true })}
               />

@@ -1,6 +1,8 @@
 'use client';
 
 import { Icon } from '@/components/common/Icon';
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 import { Link } from '@/libs/I18nNavigation';
 import { ProductCardImage } from './card/ProductCardImage';
 import { ProductCardPrice } from './card/ProductCardPrice';
@@ -84,34 +86,38 @@ export const ProductCardList = <T extends ProductCardItem>(props: ProductCardPro
 
           <div className="flex items-center gap-2">
             {onQuickView && (
-              <button
-                type="button"
+              <Button
+                variant="outline"
+                size="default"
                 onClick={() => {
                   onQuickView(product);
                 }}
-                className="flex items-center gap-1.5 rounded-xl border border-border/80 bg-card px-3 py-2 text-xs font-semibold text-foreground transition-all hover:bg-muted active:scale-95"
+                className="h-8 shrink-0 rounded-lg px-3 text-xs font-semibold whitespace-nowrap transition-all duration-200"
               >
                 <Icon name="eye" size="xs" />
                 <span>Xem nhanh</span>
-              </button>
+              </Button>
             )}
 
             {onAddToCart && (
-              <button
-                type="button"
+              <Button
+                size="default"
                 onClick={() => {
                   onAddToCart(product);
                 }}
                 disabled={!isInStock}
-                className={`flex items-center gap-1.5 rounded-xl px-4 py-2 text-xs font-bold text-white shadow-xs transition-all ${
+                className={cn(
+                  'h-8 shrink-0 rounded-lg px-3 text-xs font-semibold whitespace-nowrap transition-all duration-200',
                   isInStock
-                    ? 'cursor-pointer bg-primary hover:scale-105 hover:bg-primary/90 active:scale-95'
-                    : 'cursor-not-allowed bg-muted text-muted-foreground/60 opacity-60'
-                }`}
+                    ? 'bg-primary text-white shadow-xs shadow-primary/20 hover:bg-primary/90 hover:scale-[1.02] active:scale-95'
+                    : 'cursor-not-allowed border-border/60 bg-muted text-muted-foreground/60 opacity-70 hover:bg-muted',
+                )}
+                aria-label={isInStock ? `Thêm ${name} vào giỏ hàng` : 'Tạm hết hàng'}
+                title={isInStock ? 'Thêm vào giỏ' : 'Tạm hết hàng'}
               >
                 <Icon name="shopping-bag" size="xs" />
                 <span>{isInStock ? 'Thêm vào giỏ' : 'Tạm hết'}</span>
-              </button>
+              </Button>
             )}
           </div>
         </div>

@@ -67,9 +67,9 @@ export function AuthLoginForm({
             id="login-email"
             type="email"
             autoComplete="email"
-            placeholder="name@example.com"
+            placeholder="Địa chỉ email"
             {...register('email')}
-            className="w-full rounded-xl border border-border bg-background py-2.5 pr-4 pl-10 text-xs text-foreground transition-colors placeholder:text-muted-foreground/70 focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none"
+            className="w-full rounded-xl border border-border bg-background py-2.5 pr-4 pl-10 text-xs text-foreground transition-colors placeholder:font-normal placeholder:text-muted-foreground/45 focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none"
           />
           <Icon
             name="mail"
@@ -100,9 +100,9 @@ export function AuthLoginForm({
             id="login-password"
             type={showPassword ? 'text' : 'password'}
             autoComplete="current-password"
-            placeholder="Nhập mật khẩu của bạn"
+            placeholder="Mật khẩu"
             {...register('password')}
-            className="w-full rounded-xl border border-border bg-background py-2.5 pr-10 pl-10 text-xs text-foreground transition-colors placeholder:text-muted-foreground/70 focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none"
+            className="w-full rounded-xl border border-border bg-background py-2.5 pr-10 pl-10 text-xs text-foreground transition-colors placeholder:font-normal placeholder:text-muted-foreground/45 focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none"
           />
           <Icon
             name="lock"

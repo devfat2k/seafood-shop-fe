@@ -27,7 +27,7 @@ export function ProductGallery({ images = [], productName }: ProductGalleryProps
 
   return (
     <div className="space-y-4">
-      <div className="group relative aspect-4/3 w-full overflow-hidden rounded-2xl border border-border bg-card shadow-xs sm:aspect-square">
+      <div className="group relative aspect-4/3 w-full overflow-hidden rounded-2xl border border-border bg-card shadow-xs sm:aspect-4/5 lg:aspect-4/5 lg:min-h-[680px]">
         {currentImage ? (
           <button
             type="button"

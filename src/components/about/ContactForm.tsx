@@ -52,8 +52,8 @@ export function ContactForm() {
               id="contact-fullName"
               type="text"
               {...register('fullName')}
-              placeholder="Nguyễn Văn A"
-              className="mt-1.5 w-full rounded-xl border border-border bg-background px-3.5 py-2.5 text-xs text-foreground placeholder:text-muted-foreground focus:border-secondary focus:ring-2 focus:ring-secondary/20 focus:outline-none"
+              placeholder="Họ và tên"
+              className="mt-1.5 w-full rounded-xl border border-border bg-background px-3.5 py-2.5 text-xs text-foreground placeholder:font-normal placeholder:text-muted-foreground/45 focus:border-secondary focus:ring-2 focus:ring-secondary/20 focus:outline-none"
             />
             {errors.fullName && (
               <p className="mt-1 text-[11px] text-destructive">{errors.fullName.message}</p>
@@ -68,8 +68,8 @@ export function ContactForm() {
               id="contact-phone"
               type="tel"
               {...register('phone')}
-              placeholder="0912345678"
-              className="mt-1.5 w-full rounded-xl border border-border bg-background px-3.5 py-2.5 text-xs text-foreground placeholder:text-muted-foreground focus:border-secondary focus:ring-2 focus:ring-secondary/20 focus:outline-none"
+              placeholder="Số điện thoại"
+              className="mt-1.5 w-full rounded-xl border border-border bg-background px-3.5 py-2.5 text-xs text-foreground placeholder:font-normal placeholder:text-muted-foreground/45 focus:border-secondary focus:ring-2 focus:ring-secondary/20 focus:outline-none"
             />
             {errors.phone && (
               <p className="mt-1 text-[11px] text-destructive">{errors.phone.message}</p>
@@ -86,8 +86,8 @@ export function ContactForm() {
               id="contact-email"
               type="email"
               {...register('email')}
-              placeholder="email@example.com"
-              className="mt-1.5 w-full rounded-xl border border-border bg-background px-3.5 py-2.5 text-xs text-foreground placeholder:text-muted-foreground focus:border-secondary focus:ring-2 focus:ring-secondary/20 focus:outline-none"
+              placeholder="Địa chỉ email"
+              className="mt-1.5 w-full rounded-xl border border-border bg-background px-3.5 py-2.5 text-xs text-foreground placeholder:font-normal placeholder:text-muted-foreground/45 focus:border-secondary focus:ring-2 focus:ring-secondary/20 focus:outline-none"
             />
             {errors.email && (
               <p className="mt-1 text-[11px] text-destructive">{errors.email.message}</p>
@@ -121,8 +121,8 @@ export function ContactForm() {
             id="contact-message"
             rows={4}
             {...register('message')}
-            placeholder="Nhập nội dung cần tư vấn, loại hải sản bạn quan tâm hoặc số lượng cần đặt..."
-            className="mt-1.5 w-full rounded-xl border border-border bg-background px-3.5 py-2.5 text-xs text-foreground placeholder:text-muted-foreground focus:border-secondary focus:ring-2 focus:ring-secondary/20 focus:outline-none"
+            placeholder="Nội dung tin nhắn..."
+            className="mt-1.5 w-full rounded-xl border border-border bg-background px-3.5 py-2.5 text-xs text-foreground placeholder:font-normal placeholder:text-muted-foreground/45 focus:border-secondary focus:ring-2 focus:ring-secondary/20 focus:outline-none"
           />
           {errors.message && (
             <p className="mt-1 text-[11px] text-destructive">{errors.message.message}</p>

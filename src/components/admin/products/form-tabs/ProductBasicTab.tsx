@@ -30,7 +30,7 @@ export const ProductBasicTab = ({ form, categories }: ProductBasicTabProps) => {
           </label>
           <Input
             id="product-name-input"
-            placeholder="VD: Cua Gạch Cà Mau Tuyển Chọn"
+            placeholder="Nhập tên sản phẩm"
             className="mt-1 text-xs"
             {...register('name')}
           />
@@ -74,7 +74,7 @@ export const ProductBasicTab = ({ form, categories }: ProductBasicTabProps) => {
           <Input
             id="product-price-input"
             type="number"
-            placeholder="VD: 480000"
+            placeholder="Nhập giá bán"
             className="mt-1 text-xs"
             {...register('price', {
               setValueAs: (v: string) =>
@@ -103,7 +103,7 @@ export const ProductBasicTab = ({ form, categories }: ProductBasicTabProps) => {
           <Input
             id="product-original-price"
             type="number"
-            placeholder="VD: 550000"
+            placeholder="Nhập giá gốc"
             className="mt-1 text-xs"
             {...register('originalPrice', {
               setValueAs: (v: string) =>
@@ -120,7 +120,7 @@ export const ProductBasicTab = ({ form, categories }: ProductBasicTabProps) => {
             id="product-stock-input"
             type="number"
             min={0}
-            placeholder="VD: 50"
+            placeholder="Nhập số lượng"
             className="mt-1 text-xs"
             {...register('stock', {
               setValueAs: (v: string) =>

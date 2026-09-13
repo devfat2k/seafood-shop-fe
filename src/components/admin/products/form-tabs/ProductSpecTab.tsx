@@ -39,7 +39,7 @@ export const ProductSpecTab = ({ form }: ProductSpecTabProps) => {
           </label>
           <Input
             id="product-unit-input"
-            placeholder="VD: kg, con, khay, phần..."
+            placeholder="Đơn vị tính"
             className="mt-1 text-xs"
             {...register('unit')}
           />
@@ -51,7 +51,7 @@ export const ProductSpecTab = ({ form }: ProductSpecTabProps) => {
           </label>
           <Input
             id="product-spec-input"
-            placeholder="VD: Size 2-3 con/kg"
+            placeholder="Quy cách size"
             className="mt-1 text-xs"
             {...register('spec')}
           />
@@ -63,7 +63,7 @@ export const ProductSpecTab = ({ form }: ProductSpecTabProps) => {
           </label>
           <Input
             id="product-origin-input"
-            placeholder="VD: Cà Mau, Phú Yên..."
+            placeholder="Xuất xứ"
             className="mt-1 text-xs"
             {...register('origin')}
           />
@@ -87,7 +87,7 @@ export const ProductSpecTab = ({ form }: ProductSpecTabProps) => {
                 handleAddWeight();
               }
             }}
-            placeholder="Nhập mức kg (VD: 1kg, 2kg, 5kg) rồi ấn Thêm"
+            placeholder="Nhập mức cân nặng rồi ấn Thêm"
             className="text-xs"
           />
           <button

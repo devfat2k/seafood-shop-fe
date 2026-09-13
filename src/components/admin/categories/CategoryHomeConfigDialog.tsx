@@ -122,7 +122,7 @@ export function CategoryHomeConfigDialog({
               </label>
               <Input
                 id="cat-badge-input"
-                placeholder="VD: BÁN CHẠY #1"
+                placeholder="Tiêu đề phụ / badge"
                 className="mt-1 text-xs"
                 {...register('badge')}
               />
@@ -184,7 +184,7 @@ export function CategoryHomeConfigDialog({
               </label>
               <Input
                 id="cat-icon-input"
-                placeholder="fish, crab, shrimp..."
+                placeholder="Tên icon (fish, crab...)"
                 className="mt-1 text-xs"
                 {...register('iconName')}
               />
@@ -199,7 +199,7 @@ export function CategoryHomeConfigDialog({
               <Input
                 id="cat-sort-input"
                 type="number"
-                placeholder="1"
+                placeholder="Thứ tự hiển thị"
                 className="mt-1 text-xs"
                 {...register('homeSortOrder', { valueAsNumber: true })}
               />
