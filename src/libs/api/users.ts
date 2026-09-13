@@ -9,9 +9,22 @@ import type {
 } from '@/types/user';
 
 export async function getUserProfile(): Promise<UserProfile | null> {
+  const token = typeof window === 'undefined' ? null : localStorage.getItem('accessToken');
+  if (!token) {
+    return null;
+  }
   try {
     const res = await api.get<ApiResponse<UserProfile>>('/users/me');
-    return res.data?.data ?? null;
+    if (res.data?.success && res.data.data) {
+      const userData = res.data.data;
+      const resolvedId = userData.id ?? userData.userId ?? 0;
+      return {
+        ...userData,
+        id: resolvedId,
+        userId: resolvedId,
+      };
+    }
+    return null;
   } catch (error) {
     console.error('Failed to get user profile:', error);
     return null;
@@ -38,6 +51,10 @@ export async function changePassword(data: ChangePasswordRequest): Promise<ApiRe
 }
 
 export async function getUserAddresses(): Promise<UserAddress[]> {
+  const token = typeof window === 'undefined' ? null : localStorage.getItem('accessToken');
+  if (!token) {
+    return [];
+  }
   try {
     const res = await api.get<ApiResponse<UserAddress[]>>('/addresses/me');
     return res.data?.data ?? [];

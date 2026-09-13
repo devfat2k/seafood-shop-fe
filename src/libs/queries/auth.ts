@@ -10,7 +10,7 @@ import {
   resetPassword,
   verifyOtp,
 } from '@/libs/api/auth';
-import { api } from '@/libs/ApiClient';
+import { ApiError, api } from '@/libs/ApiClient';
 import type { ApiResponse } from '@/types/api';
 import type {
   AuthResponse,
@@ -30,7 +30,7 @@ export const authQueryKeys = {
   me: () => ['auth', 'me'] as const,
 };
 
-async function fetchCurrentUser(): Promise<UserProfile | null> {
+export async function fetchCurrentUser(): Promise<UserProfile | null> {
   const token = typeof window === 'undefined' ? null : localStorage.getItem('accessToken');
   if (!token) {
     return null;
@@ -39,21 +39,28 @@ async function fetchCurrentUser(): Promise<UserProfile | null> {
   try {
     const res = await api.get<ApiResponse<UserProfile>>('/users/me');
     if (res.data?.success && res.data.data) {
-      return res.data.data;
+      const userData = res.data.data;
+      const resolvedId = userData.id ?? userData.userId ?? 0;
+      return {
+        ...userData,
+        id: resolvedId,
+        userId: resolvedId,
+      };
     }
     return null;
-  } catch {
+  } catch (error) {
+    if (typeof window !== 'undefined' && error instanceof ApiError && error.status === 401) {
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+    }
     return null;
   }
 }
 
 export function useCurrentUserQuery() {
-  const hasToken = typeof window !== 'undefined' && Boolean(localStorage.getItem('accessToken'));
-
   return useQuery<UserProfile | null>({
     queryKey: authQueryKeys.me(),
     queryFn: fetchCurrentUser,
-    enabled: hasToken,
     staleTime: 5 * 60 * 1000,
     retry: false,
   });
@@ -70,9 +77,14 @@ export function useLoginMutation() {
       }
       return res;
     },
-    onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: authQueryKeys.all });
-      void queryClient.invalidateQueries({ queryKey: ['users'] });
+    onSuccess: async () => {
+      const profile = await fetchCurrentUser();
+      if (profile) {
+        queryClient.setQueryData(authQueryKeys.me(), profile);
+      }
+      await queryClient.invalidateQueries({ queryKey: authQueryKeys.all });
+      await queryClient.invalidateQueries({ queryKey: ['users'] });
+      await queryClient.invalidateQueries({ queryKey: ['orders'] });
     },
   });
 }
@@ -100,10 +112,15 @@ export function useVerifyOtpMutation() {
       }
       return res;
     },
-    onSuccess: (res) => {
+    onSuccess: async (res) => {
       if (res.data?.accessToken) {
-        void queryClient.invalidateQueries({ queryKey: authQueryKeys.all });
-        void queryClient.invalidateQueries({ queryKey: ['users'] });
+        const profile = await fetchCurrentUser();
+        if (profile) {
+          queryClient.setQueryData(authQueryKeys.me(), profile);
+        }
+        await queryClient.invalidateQueries({ queryKey: authQueryKeys.all });
+        await queryClient.invalidateQueries({ queryKey: ['users'] });
+        await queryClient.invalidateQueries({ queryKey: ['orders'] });
       }
     },
   });
@@ -152,8 +169,10 @@ export function useLogoutMutation() {
     mutationFn: async () => await logoutUser(),
     onSettled: () => {
       queryClient.setQueryData(authQueryKeys.me(), null);
+      queryClient.setQueryData(['users', 'addresses'], []);
       void queryClient.invalidateQueries({ queryKey: authQueryKeys.all });
       void queryClient.invalidateQueries({ queryKey: ['users'] });
+      void queryClient.invalidateQueries({ queryKey: ['orders'] });
     },
   });
 }
