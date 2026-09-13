@@ -89,8 +89,8 @@ export function AddressFormDialog({
                 id="addr-recipientName"
                 type="text"
                 {...register('recipientName')}
-                placeholder="Nguyễn Văn A"
-                className="mt-1.5 w-full rounded-xl border border-border bg-background px-3 py-2 text-xs text-foreground placeholder:text-muted-foreground focus:border-secondary focus:ring-2 focus:ring-secondary/20 focus:outline-none"
+                placeholder="Họ và tên"
+                className="mt-1.5 w-full rounded-xl border border-border bg-background px-3 py-2 text-xs text-foreground placeholder:font-normal placeholder:text-muted-foreground/45 focus:border-secondary focus:ring-2 focus:ring-secondary/20 focus:outline-none"
               />
               {errors.recipientName && (
                 <p className="mt-1 text-[11px] text-destructive">{errors.recipientName.message}</p>
@@ -105,8 +105,8 @@ export function AddressFormDialog({
                 id="addr-phone"
                 type="tel"
                 {...register('phone')}
-                placeholder="0912345678"
-                className="mt-1.5 w-full rounded-xl border border-border bg-background px-3 py-2 text-xs text-foreground placeholder:text-muted-foreground focus:border-secondary focus:ring-2 focus:ring-secondary/20 focus:outline-none"
+                placeholder="Số điện thoại"
+                className="mt-1.5 w-full rounded-xl border border-border bg-background px-3 py-2 text-xs text-foreground placeholder:font-normal placeholder:text-muted-foreground/45 focus:border-secondary focus:ring-2 focus:ring-secondary/20 focus:outline-none"
               />
               {errors.phone && (
                 <p className="mt-1 text-[11px] text-destructive">{errors.phone.message}</p>
@@ -126,8 +126,8 @@ export function AddressFormDialog({
                 id="addr-province"
                 type="text"
                 {...register('province')}
-                placeholder="TP. Hồ Chí Minh"
-                className="mt-1.5 w-full rounded-xl border border-border bg-background px-3 py-2 text-xs text-foreground placeholder:text-muted-foreground focus:border-secondary focus:outline-none"
+                placeholder="Tỉnh / Thành phố"
+                className="mt-1.5 w-full rounded-xl border border-border bg-background px-3 py-2 text-xs text-foreground placeholder:font-normal placeholder:text-muted-foreground/45 focus:border-secondary focus:outline-none"
               />
               {errors.province && (
                 <p className="mt-1 text-[11px] text-destructive">{errors.province.message}</p>
@@ -145,8 +145,8 @@ export function AddressFormDialog({
                 id="addr-district"
                 type="text"
                 {...register('district')}
-                placeholder="Quận 1"
-                className="mt-1.5 w-full rounded-xl border border-border bg-background px-3 py-2 text-xs text-foreground placeholder:text-muted-foreground focus:border-secondary focus:outline-none"
+                placeholder="Quận / Huyện"
+                className="mt-1.5 w-full rounded-xl border border-border bg-background px-3 py-2 text-xs text-foreground placeholder:font-normal placeholder:text-muted-foreground/45 focus:border-secondary focus:outline-none"
               />
               {errors.district && (
                 <p className="mt-1 text-[11px] text-destructive">{errors.district.message}</p>
@@ -161,8 +161,8 @@ export function AddressFormDialog({
                 id="addr-ward"
                 type="text"
                 {...register('ward')}
-                placeholder="P. Bến Nghé"
-                className="mt-1.5 w-full rounded-xl border border-border bg-background px-3 py-2 text-xs text-foreground placeholder:text-muted-foreground focus:border-secondary focus:outline-none"
+                placeholder="Phường / Xã"
+                className="mt-1.5 w-full rounded-xl border border-border bg-background px-3 py-2 text-xs text-foreground placeholder:font-normal placeholder:text-muted-foreground/45 focus:border-secondary focus:outline-none"
               />
               {errors.ward && (
                 <p className="mt-1 text-[11px] text-destructive">{errors.ward.message}</p>
@@ -178,8 +178,8 @@ export function AddressFormDialog({
               id="addr-detail"
               type="text"
               {...register('addressDetail')}
-              placeholder="123 Đường Lê Lợi"
-              className="mt-1.5 w-full rounded-xl border border-border bg-background px-3 py-2 text-xs text-foreground placeholder:text-muted-foreground focus:border-secondary focus:ring-2 focus:ring-secondary/20 focus:outline-none"
+              placeholder="Địa chỉ chi tiết"
+              className="mt-1.5 w-full rounded-xl border border-border bg-background px-3 py-2 text-xs text-foreground placeholder:font-normal placeholder:text-muted-foreground/45 focus:border-secondary focus:ring-2 focus:ring-secondary/20 focus:outline-none"
             />
             {errors.addressDetail && (
               <p className="mt-1 text-[11px] text-destructive">{errors.addressDetail.message}</p>

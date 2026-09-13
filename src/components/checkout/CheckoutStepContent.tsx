@@ -60,9 +60,9 @@ export function CheckoutStepContent({
             onChange={(e) => {
               onNoteChange(e.target.value);
             }}
-            placeholder="Ví dụ: Giao trước 11h30 trưa, đóng thùng oxy, gọi trước 15 phút..."
+            placeholder="Ghi chú đơn hàng (tuỳ chọn)..."
             rows={2}
-            className="mt-2 w-full rounded-xl border border-border bg-background p-3 text-xs text-foreground placeholder:text-muted-foreground focus:border-secondary focus:ring-1 focus:ring-secondary focus:outline-none"
+            className="mt-2 w-full rounded-xl border border-border bg-background p-3 text-xs text-foreground placeholder:font-normal placeholder:text-muted-foreground/45 focus:border-secondary focus:ring-1 focus:ring-secondary focus:outline-none"
           />
         </div>
 

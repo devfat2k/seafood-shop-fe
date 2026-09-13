@@ -14,6 +14,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import {
   useCreateCategoryMutation,
   useUpdateCategoryMutation,
@@ -115,7 +116,7 @@ export function CategoryFormDialog({
             </label>
             <Input
               id="cat-name-input"
-              placeholder="VD: Tôm & Cua Hoàng Gia"
+              placeholder="Nhập tên danh mục"
               className="mt-1 text-xs sm:text-sm"
               {...register('name')}
             />
@@ -126,11 +127,11 @@ export function CategoryFormDialog({
             <label htmlFor="cat-desc-input" className="text-xs font-semibold text-foreground">
               Mô tả danh mục
             </label>
-            <textarea
+            <Textarea
               id="cat-desc-input"
               rows={4}
-              placeholder="Các loại tôm cua hải sản tươi sống cao cấp tuyển chọn..."
-              className="mt-1 flex w-full rounded-md border border-input bg-transparent px-3 py-2 text-xs shadow-xs focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none sm:text-sm"
+              placeholder="Nhập mô tả danh mục..."
+              className="mt-1 text-xs sm:text-sm"
               {...register('description')}
             />
           </div>

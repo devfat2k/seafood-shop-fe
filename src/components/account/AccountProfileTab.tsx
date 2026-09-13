@@ -68,9 +68,9 @@ export function AccountProfileTab(props: AccountProfileTabProps) {
                 <input
                   id="profile-fullname"
                   type="text"
-                  placeholder="Nhập họ và tên đầy đủ"
+                  placeholder="Họ và tên"
                   {...register('fullName')}
-                  className="w-full rounded-xl border border-border bg-background py-2.5 pr-4 pl-10 text-xs text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none"
+                  className="w-full rounded-xl border border-border bg-background py-2.5 pr-4 pl-10 text-xs text-foreground placeholder:font-normal placeholder:text-muted-foreground/45 focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none"
                 />
                 <Icon
                   name="user"
@@ -93,9 +93,9 @@ export function AccountProfileTab(props: AccountProfileTabProps) {
                 <input
                   id="profile-phone"
                   type="tel"
-                  placeholder="0912345678"
+                  placeholder="Số điện thoại"
                   {...register('phoneNumber')}
-                  className="w-full rounded-xl border border-border bg-background py-2.5 pr-4 pl-10 text-xs text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none"
+                  className="w-full rounded-xl border border-border bg-background py-2.5 pr-4 pl-10 text-xs text-foreground placeholder:font-normal placeholder:text-muted-foreground/45 focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none"
                 />
                 <Icon
                   name="phone"

@@ -1,7 +1,9 @@
 'use client';
 
 import { usePathname, useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { toast } from 'sonner';
+import { ConfirmDialog } from '@/components/common/ConfirmDialog';
 import { Icon } from '@/components/common/Icon';
 import { Button } from '@/components/ui/button';
 import {
@@ -39,6 +41,9 @@ export function AdminTopBar({ isCollapsed, onToggleCollapse }: AdminTopBarProps)
   const logoutMutation = useAdminLogoutMutation();
   const evictCacheMutation = useEvictCacheMutation();
 
+  const [logoutConfirmOpen, setLogoutConfirmOpen] = useState(false);
+  const [evictConfirmOpen, setEvictConfirmOpen] = useState(false);
+
   const breadcrumb = PATH_BREADCRUMBS[pathname] ?? {
     parent: 'Khu Vực Quản Trị',
     title: 'Bảng Điều Khiển',
@@ -47,6 +52,7 @@ export function AdminTopBar({ isCollapsed, onToggleCollapse }: AdminTopBarProps)
   const handleEvictCache = async () => {
     try {
       await evictCacheMutation.mutateAsync();
+      setEvictConfirmOpen(false);
       toast.success('Đã đồng bộ hiển thị lên trang chủ thành công!');
     } catch (error) {
       toast.error(error instanceof Error ? error.message : 'Không thể đồng bộ dữ liệu');
@@ -56,9 +62,11 @@ export function AdminTopBar({ isCollapsed, onToggleCollapse }: AdminTopBarProps)
   const handleLogout = async () => {
     try {
       await logoutMutation.mutateAsync();
+      setLogoutConfirmOpen(false);
       toast.success('Đã đăng xuất phiên quản trị');
       router.replace('/admin/login');
     } catch {
+      setLogoutConfirmOpen(false);
       router.replace('/admin/login');
     }
   };
@@ -93,7 +101,7 @@ export function AdminTopBar({ isCollapsed, onToggleCollapse }: AdminTopBarProps)
           size="sm"
           variant="outline"
           onClick={() => {
-            void handleEvictCache();
+            setEvictConfirmOpen(true);
           }}
           disabled={evictCacheMutation.isPending}
           className="h-9 gap-1.5 rounded-xl border-border bg-background px-3 text-xs font-semibold text-foreground shadow-xs hover:bg-muted"
@@ -145,7 +153,7 @@ export function AdminTopBar({ isCollapsed, onToggleCollapse }: AdminTopBarProps)
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 onClick={() => {
-                  void handleLogout();
+                  setLogoutConfirmOpen(true);
                 }}
                 disabled={logoutMutation.isPending}
                 className="cursor-pointer gap-2 text-xs text-destructive focus:bg-destructive/10 focus:text-destructive"
@@ -157,6 +165,27 @@ export function AdminTopBar({ isCollapsed, onToggleCollapse }: AdminTopBarProps)
           </DropdownMenu>
         </div>
       </div>
+
+      <ConfirmDialog
+        open={logoutConfirmOpen}
+        onOpenChange={setLogoutConfirmOpen}
+        title="Xác nhận đăng xuất quản trị"
+        description="Bạn có chắc chắn muốn đăng xuất khỏi phiên làm việc quản trị này không?"
+        confirmText="Đăng xuất"
+        isLoading={logoutMutation.isPending}
+        onConfirm={handleLogout}
+      />
+
+      <ConfirmDialog
+        open={evictConfirmOpen}
+        onOpenChange={setEvictConfirmOpen}
+        title="Xác nhận đồng bộ hệ thống"
+        description="Thao tác này sẽ làm mới cache toàn bộ danh mục, sản phẩm và trang chủ trên toàn hệ thống để khách hàng thấy ngay thay đổi. Bạn có muốn tiếp tục?"
+        confirmText="Đồng bộ ngay"
+        variant="default"
+        isLoading={evictCacheMutation.isPending}
+        onConfirm={handleEvictCache}
+      />
     </header>
   );
 }

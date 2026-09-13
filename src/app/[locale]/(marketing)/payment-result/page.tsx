@@ -4,6 +4,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
 import { Suspense, useEffect } from 'react';
 import { PaymentFailedState } from '@/components/checkout/payment-result/PaymentFailedState';
+import { PaymentResultSkeleton } from '@/components/checkout/payment-result/PaymentResultSkeleton';
 import { PaymentSuccessState } from '@/components/checkout/payment-result/PaymentSuccessState';
 import { adminDashboardKeys } from '@/libs/queries/admin/dashboard';
 import { adminOrderKeys } from '@/libs/queries/admin/orders';
@@ -83,11 +84,7 @@ function PaymentResultContent() {
 
 export default function PaymentResultPage() {
   return (
-    <Suspense
-      fallback={
-        <div className="min-h-[80vh] bg-background py-12 text-center text-xs">Đang tải...</div>
-      }
-    >
+    <Suspense fallback={<PaymentResultSkeleton />}>
       <PaymentResultContent />
     </Suspense>
   );

@@ -81,7 +81,7 @@ export function ProductActionButtons({
           className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-primary py-3.5 text-xs font-black text-white shadow-lg shadow-primary/25 transition-all hover:bg-primary/90 active:scale-98 disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm"
         >
           <Icon name="zap" size="sm" />
-          <span>Mua Ngay (Giao 2H)</span>
+          <span>Mua Ngay</span>
         </button>
       </div>
     </div>

@@ -1,6 +1,8 @@
 'use client';
 
 import { Icon } from '@/components/common/Icon';
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 import { Link } from '@/libs/I18nNavigation';
 import { ProductCardImage } from './card/ProductCardImage';
 import { ProductCardPrice } from './card/ProductCardPrice';
@@ -58,27 +60,32 @@ export const ProductCardGrid = <T extends ProductCardItem>(props: ProductCardPro
         </div>
       </div>
 
-      <div className="mt-4 flex items-end justify-between px-1 pt-1">
+      <div className="mt-4 flex items-end justify-between gap-2 px-1 pt-1">
         <ProductCardPrice price={price} originalPrice={originalPrice} unit={unit} />
 
         {onAddToCart && (
-          <button
-            type="button"
+          <Button
+            size="default"
             onClick={() => {
               onAddToCart(product);
             }}
             disabled={!isInStock}
-            className={`flex h-10 items-center justify-center gap-1.5 rounded-xl px-3 text-xs font-bold transition-all duration-200 ${
+            className={cn(
+              'group/buy-btn h-8 shrink-0 rounded-lg text-xs font-semibold whitespace-nowrap transition-all duration-300 ease-out',
               isInStock
-                ? 'cursor-pointer bg-primary text-white shadow-md shadow-primary/25 hover:scale-105 hover:bg-primary/90 active:scale-95'
-                : 'cursor-not-allowed bg-muted text-muted-foreground/60 opacity-60'
-            }`}
+                ? 'w-8 gap-0 px-0 bg-primary text-white shadow-xs shadow-primary/20 hover:w-auto hover:gap-1.5 hover:bg-primary/90 hover:px-2.5 hover:shadow-sm active:scale-95 xl:w-auto xl:gap-1.5 xl:px-2.5'
+                : 'w-8 px-0 cursor-not-allowed border-border/60 bg-muted text-muted-foreground/50 opacity-70 hover:bg-muted',
+            )}
             aria-label={isInStock ? `Thêm ${name} vào giỏ hàng` : 'Tạm hết hàng'}
             title={isInStock ? 'Thêm vào giỏ' : 'Tạm hết hàng'}
           >
-            <Icon name="shopping-bag" size="xs" />
-            <span className="hidden sm:inline">{isInStock ? 'Chọn mua' : 'Tạm hết'}</span>
-          </button>
+            <Icon name="shopping-bag" size="xs" className="shrink-0" />
+            {isInStock ? (
+              <span className="max-w-0 overflow-hidden text-xs font-semibold whitespace-nowrap opacity-0 transition-all duration-300 ease-out group-hover/buy-btn:max-w-12 group-hover/buy-btn:opacity-100 xl:max-w-12 xl:opacity-100">
+                Mua
+              </span>
+            ) : null}
+          </Button>
         )}
       </div>
     </div>

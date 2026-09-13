@@ -14,6 +14,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import {
   useCreateDailyArrivalMutation,
   useUpdateDailyArrivalMutation,
@@ -175,7 +176,7 @@ export function DailyArrivalFormDialog({
               </label>
               <Input
                 id="arrival-badge-input"
-                placeholder="CHUYẾN ĐÊM HÔM NAY"
+                placeholder="Tiêu đề phụ / badge"
                 className="mt-1 text-xs"
                 {...register('badge')}
               />
@@ -188,7 +189,7 @@ export function DailyArrivalFormDialog({
             </label>
             <Input
               id="arrival-title-input"
-              placeholder="VD: Tôm Hùm Bông Phú Yên Tuyển Chọn"
+              placeholder="Tiêu đề cập bến"
               className="mt-1 text-xs"
               {...register('title')}
             />
@@ -201,11 +202,11 @@ export function DailyArrivalFormDialog({
             <label htmlFor="arrival-desc-input" className="text-xs font-semibold text-foreground">
               Mô tả độ tươi / thời gian cập bến
             </label>
-            <textarea
+            <Textarea
               id="arrival-desc-input"
               rows={2}
-              placeholder="Vừa cập bến lúc 4h sáng, sống khỏe 100%..."
-              className="mt-1 flex w-full rounded-md border border-input bg-transparent px-3 py-2 text-xs shadow-xs focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
+              placeholder="Ghi chú cập bến..."
+              className="mt-1 text-xs"
               {...register('description')}
             />
           </div>

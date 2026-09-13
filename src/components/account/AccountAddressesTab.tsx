@@ -5,6 +5,7 @@ import { toast } from 'sonner';
 import { AddressCard } from '@/components/account/AddressCard';
 import { AddressesSkeleton } from '@/components/account/AddressesSkeleton';
 import { AddressFormDialog } from '@/components/account/AddressFormDialog';
+import { ConfirmDialog } from '@/components/common/ConfirmDialog';
 import { Icon } from '@/components/common/Icon';
 import {
   useAddressesQuery,
@@ -17,6 +18,7 @@ import type { AddressFormValues } from '@/validations/user';
 
 export function AccountAddressesTab() {
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+  const [deleteTargetId, setDeleteTargetId] = useState<number | string | null>(null);
 
   const { data: addresses = [], isLoading, isError, refetch } = useAddressesQuery();
   const createAddressMutation = useCreateAddressMutation();
@@ -33,10 +35,18 @@ export function AccountAddressesTab() {
     }
   };
 
-  const handleDelete = async (id: number | string) => {
+  const handleDelete = (id: number | string) => {
+    setDeleteTargetId(id);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (deleteTargetId === null) {
+      return;
+    }
     try {
-      await deleteAddressMutation.mutateAsync(id);
+      await deleteAddressMutation.mutateAsync(deleteTargetId);
       toast.success('Đã xóa địa chỉ thành công!');
+      setDeleteTargetId(null);
     } catch (error: unknown) {
       const msg = error instanceof Error ? error.message : 'Xóa địa chỉ thất bại';
       toast.error(msg);
@@ -159,6 +169,20 @@ export function AccountAddressesTab() {
         }}
         onSubmit={handleAddSubmit}
         isPending={createAddressMutation.isPending}
+      />
+
+      <ConfirmDialog
+        open={deleteTargetId !== null}
+        onOpenChange={(open) => {
+          if (!open) {
+            setDeleteTargetId(null);
+          }
+        }}
+        title="Xóa địa chỉ giao hàng"
+        description="Bạn có chắc chắn muốn xóa địa chỉ này khỏi sổ địa chỉ? Thao tác này không thể hoàn tác."
+        confirmText="Xóa địa chỉ"
+        isLoading={deleteAddressMutation.isPending}
+        onConfirm={handleConfirmDelete}
       />
     </div>
   );

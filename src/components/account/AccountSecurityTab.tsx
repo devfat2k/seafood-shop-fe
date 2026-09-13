@@ -71,9 +71,9 @@ export function AccountSecurityTab() {
               <input
                 id="sec-old-pass"
                 type={showOldPass ? 'text' : 'password'}
-                placeholder="••••••••"
+                placeholder="Mật khẩu hiện tại"
                 {...register('oldPassword')}
-                className="w-full rounded-xl border border-border bg-background py-2.5 pr-10 pl-10 text-xs text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none"
+                className="w-full rounded-xl border border-border bg-background py-2.5 pr-10 pl-10 text-xs text-foreground placeholder:font-normal placeholder:text-muted-foreground/45 focus:border-primary focus:outline-none"
               />
               <Icon name="lock" size="sm" className="absolute top-3 left-3 text-muted-foreground" />
               <button
@@ -102,9 +102,9 @@ export function AccountSecurityTab() {
               <input
                 id="sec-new-pass"
                 type={showNewPass ? 'text' : 'password'}
-                placeholder="Tối thiểu 8 ký tự"
+                placeholder="Mật khẩu mới"
                 {...register('newPassword')}
-                className="w-full rounded-xl border border-border bg-background py-2.5 pr-10 pl-10 text-xs text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none"
+                className="w-full rounded-xl border border-border bg-background py-2.5 pr-10 pl-10 text-xs text-foreground placeholder:font-normal placeholder:text-muted-foreground/45 focus:border-primary focus:outline-none"
               />
               <Icon name="lock" size="sm" className="absolute top-3 left-3 text-muted-foreground" />
               <button

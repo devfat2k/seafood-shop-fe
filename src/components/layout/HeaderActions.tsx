@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { ConfirmDialog } from '@/components/common/ConfirmDialog';
 import { Icon } from '@/components/common/Icon';
 import { Link } from '@/libs/I18nNavigation';
 import { useCurrentUserQuery, useLogoutMutation } from '@/libs/queries/auth';
@@ -8,7 +9,7 @@ import { useCartStore } from '@/libs/stores/cart';
 import { hasAdminRole } from '@/utils/role';
 
 type HeaderActionsProps = {
-  isCatalogOrSearchPage: boolean;
+  isCatalogOrSearchPage?: boolean;
   onOpenMobileSearch: () => void;
   onOpenAuthModal: () => void;
 };
@@ -22,6 +23,7 @@ export function HeaderActions({
   const logoutMutation = useLogoutMutation();
   const { totalCount, openCart } = useCartStore();
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [logoutConfirmOpen, setLogoutConfirmOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -32,9 +34,9 @@ export function HeaderActions({
   const isLoggedIn = Boolean(user);
   const isAdmin = hasAdminRole(user?.roles);
 
-  const handleLogout = async () => {
-    setIsUserMenuOpen(false);
+  const handleConfirmLogout = async () => {
     await logoutMutation.mutateAsync();
+    setLogoutConfirmOpen(false);
   };
 
   return (
@@ -133,7 +135,8 @@ export function HeaderActions({
                 <button
                   type="button"
                   onClick={() => {
-                    void handleLogout();
+                    setIsUserMenuOpen(false);
+                    setLogoutConfirmOpen(true);
                   }}
                   className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium text-destructive hover:bg-destructive/10"
                 >
@@ -162,6 +165,16 @@ export function HeaderActions({
           </button>
         </div>
       )}
+
+      <ConfirmDialog
+        open={logoutConfirmOpen}
+        onOpenChange={setLogoutConfirmOpen}
+        title="Xác nhận đăng xuất"
+        description="Bạn có chắc chắn muốn đăng xuất khỏi tài khoản không?"
+        confirmText="Đăng xuất"
+        isLoading={logoutMutation.isPending}
+        onConfirm={handleConfirmLogout}
+      />
     </div>
   );
 }

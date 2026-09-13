@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 import { AdminOrdersTable } from '@/components/admin/orders/AdminOrdersTable';
 import { AdminOrdersToolbar, getStatusBadge } from '@/components/admin/orders/AdminOrdersToolbar';
+import { ConfirmDialog } from '@/components/common/ConfirmDialog';
 import { Icon } from '@/components/common/Icon';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -14,6 +15,10 @@ import type { AdminOrderStatus } from '@/types/admin';
 export default function AdminOrdersPage() {
   const [page, setPage] = useState(0);
   const [statusFilter, setStatusFilter] = useState<AdminOrderStatus>();
+  const [pendingStatusChange, setPendingStatusChange] = useState<{
+    id: number;
+    status: AdminOrderStatus;
+  } | null>(null);
 
   const { data, isLoading, isError, refetch } = useAdminOrdersQuery({
     page,
@@ -24,10 +29,15 @@ export default function AdminOrdersPage() {
 
   const updateStatusMutation = useUpdateOrderStatusMutation();
 
-  const handleUpdateStatus = async (id: number, status: AdminOrderStatus) => {
+  const handleConfirmStatusChange = async () => {
+    if (!pendingStatusChange) {
+      return;
+    }
+    const { id, status } = pendingStatusChange;
     try {
       await updateStatusMutation.mutateAsync({ id, data: { status } });
       toast.success(`Đã cập nhật trạng thái → ${getStatusBadge(status).label}`);
+      setPendingStatusChange(null);
     } catch (error) {
       toast.error(error instanceof Error ? error.message : 'Cập nhật trạng thái thất bại');
     }
@@ -112,11 +122,32 @@ export default function AdminOrdersPage() {
               isLastPage={data.last}
               isUpdating={updateStatusMutation.isPending}
               onPageChange={setPage}
-              onUpdateStatus={(id, status) => void handleUpdateStatus(id, status)}
+              onUpdateStatus={(id, status) => {
+                setPendingStatusChange({ id, status });
+              }}
             />
           )}
         </CardContent>
       </Card>
+
+      <ConfirmDialog
+        open={pendingStatusChange !== null}
+        onOpenChange={(open) => {
+          if (!open) {
+            setPendingStatusChange(null);
+          }
+        }}
+        title="Xác nhận cập nhật trạng thái đơn hàng"
+        description={
+          pendingStatusChange
+            ? `Bạn có chắc chắn muốn chuyển đơn hàng #${pendingStatusChange.id} sang trạng thái "${getStatusBadge(pendingStatusChange.status).label}"? Thao tác này sẽ cập nhật tiến trình đơn hàng của khách.`
+            : ''
+        }
+        confirmText="Cập nhật trạng thái"
+        variant={pendingStatusChange?.status === 'CANCELLED' ? 'destructive' : 'default'}
+        isLoading={updateStatusMutation.isPending}
+        onConfirm={handleConfirmStatusChange}
+      />
     </div>
   );
 }

@@ -39,8 +39,8 @@ export function ForgotPasswordNewPasswordStep({
             id="fp-newPassword"
             type={showNewPass ? 'text' : 'password'}
             {...register('newPassword')}
-            placeholder="Nhập mật khẩu mới (từ 8 ký tự)"
-            className="w-full rounded-xl border border-border bg-background py-2.5 pr-10 pl-10 text-xs text-foreground transition-colors placeholder:text-muted-foreground/70 focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none"
+            placeholder="Mật khẩu mới"
+            className="w-full rounded-xl border border-border bg-background py-2.5 pr-10 pl-10 text-xs text-foreground transition-colors placeholder:font-normal placeholder:text-muted-foreground/45 focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none"
           />
           <Icon
             name="lock"
@@ -74,8 +74,8 @@ export function ForgotPasswordNewPasswordStep({
             id="fp-confirmPassword"
             type={showConfirmPass ? 'text' : 'password'}
             {...register('confirmPassword')}
-            placeholder="Nhập lại mật khẩu mới"
-            className="w-full rounded-xl border border-border bg-background py-2.5 pr-10 pl-10 text-xs text-foreground transition-colors placeholder:text-muted-foreground/70 focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none"
+            placeholder="Xác nhận lại mật khẩu"
+            className="w-full rounded-xl border border-border bg-background py-2.5 pr-10 pl-10 text-xs text-foreground transition-colors placeholder:font-normal placeholder:text-muted-foreground/45 focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none"
           />
           <Icon
             name="lock"

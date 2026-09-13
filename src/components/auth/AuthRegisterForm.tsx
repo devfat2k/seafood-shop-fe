@@ -54,9 +54,9 @@ export function AuthRegisterForm({ onRegisterSuccess }: AuthRegisterFormProps) {
           <input
             id="reg-fullname"
             type="text"
-            placeholder="Nguyễn Văn A"
+            placeholder="Họ và tên"
             {...register('fullName')}
-            className="w-full rounded-xl border border-border bg-background py-2.5 pr-4 pl-10 text-xs text-foreground transition-colors placeholder:text-muted-foreground/70 focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none"
+            className="w-full rounded-xl border border-border bg-background py-2.5 pr-4 pl-10 text-xs text-foreground transition-colors placeholder:font-normal placeholder:text-muted-foreground/45 focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none"
           />
           <Icon
             name="user"
@@ -77,9 +77,9 @@ export function AuthRegisterForm({ onRegisterSuccess }: AuthRegisterFormProps) {
           <input
             id="reg-email"
             type="email"
-            placeholder="name@example.com"
+            placeholder="Địa chỉ email"
             {...register('email')}
-            className="w-full rounded-xl border border-border bg-background py-2.5 pr-4 pl-10 text-xs text-foreground transition-colors placeholder:text-muted-foreground/70 focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none"
+            className="w-full rounded-xl border border-border bg-background py-2.5 pr-4 pl-10 text-xs text-foreground transition-colors placeholder:font-normal placeholder:text-muted-foreground/45 focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none"
           />
           <Icon
             name="mail"
@@ -100,9 +100,9 @@ export function AuthRegisterForm({ onRegisterSuccess }: AuthRegisterFormProps) {
           <input
             id="reg-phone"
             type="tel"
-            placeholder="0912345678"
+            placeholder="Số điện thoại"
             {...register('phoneNumber')}
-            className="w-full rounded-xl border border-border bg-background py-2.5 pr-4 pl-10 text-xs text-foreground transition-colors placeholder:text-muted-foreground/70 focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none"
+            className="w-full rounded-xl border border-border bg-background py-2.5 pr-4 pl-10 text-xs text-foreground transition-colors placeholder:font-normal placeholder:text-muted-foreground/45 focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none"
           />
           <Icon
             name="phone"
@@ -125,9 +125,9 @@ export function AuthRegisterForm({ onRegisterSuccess }: AuthRegisterFormProps) {
           <input
             id="reg-password"
             type={showPassword ? 'text' : 'password'}
-            placeholder="Tối thiểu 8 ký tự"
+            placeholder="Mật khẩu"
             {...register('password')}
-            className="w-full rounded-xl border border-border bg-background py-2.5 pr-10 pl-10 text-xs text-foreground transition-colors placeholder:text-muted-foreground/70 focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none"
+            className="w-full rounded-xl border border-border bg-background py-2.5 pr-10 pl-10 text-xs text-foreground transition-colors placeholder:font-normal placeholder:text-muted-foreground/45 focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none"
           />
           <Icon
             name="lock"

@@ -2,8 +2,9 @@
 
 import Image from 'next/image';
 import type { ChangeEvent } from 'react';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { toast } from 'sonner';
+import { ConfirmDialog } from '@/components/common/ConfirmDialog';
 import { Icon } from '@/components/common/Icon';
 import { useLogoutMutation } from '@/libs/queries/auth';
 import { useUploadAvatarMutation } from '@/libs/queries/users';
@@ -20,6 +21,7 @@ type AccountSidebarProps = {
 
 export function AccountSidebar(props: AccountSidebarProps) {
   const { profile, activeTab, onSelectTab, onLogout } = props;
+  const [logoutConfirmOpen, setLogoutConfirmOpen] = useState(false);
   const logoutMutation = useLogoutMutation();
   const uploadAvatarMutation = useUploadAvatarMutation();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -57,7 +59,8 @@ export function AccountSidebar(props: AccountSidebarProps) {
     }
   };
 
-  const handleLogout = () => {
+  const handleConfirmLogout = () => {
+    setLogoutConfirmOpen(false);
     if (onLogout) {
       onLogout();
     } else {
@@ -144,7 +147,9 @@ export function AccountSidebar(props: AccountSidebarProps) {
 
           <button
             type="button"
-            onClick={handleLogout}
+            onClick={() => {
+              setLogoutConfirmOpen(true);
+            }}
             className="flex w-full items-center gap-3 rounded-xl px-3.5 py-3 text-xs font-bold text-destructive transition-colors hover:bg-destructive/10"
           >
             <Icon name="log-out" size="sm" className="text-destructive" />
@@ -152,6 +157,16 @@ export function AccountSidebar(props: AccountSidebarProps) {
           </button>
         </nav>
       </div>
+
+      <ConfirmDialog
+        open={logoutConfirmOpen}
+        onOpenChange={setLogoutConfirmOpen}
+        title="Xác nhận đăng xuất"
+        description="Bạn có chắc chắn muốn đăng xuất khỏi tài khoản không?"
+        confirmText="Đăng xuất"
+        isLoading={logoutMutation.isPending}
+        onConfirm={handleConfirmLogout}
+      />
     </aside>
   );
 }

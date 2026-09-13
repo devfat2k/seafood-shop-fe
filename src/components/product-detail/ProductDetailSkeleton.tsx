@@ -9,9 +9,9 @@ export function ProductDetailSkeleton() {
     >
       <div className="mb-6 flex h-5 w-64 animate-pulse rounded bg-muted" />
 
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-12">
+      <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-12 lg:gap-12">
         <div className="space-y-4 lg:col-span-6">
-          <div className="aspect-square w-full animate-pulse rounded-2xl bg-muted" />
+          <div className="aspect-4/3 w-full animate-pulse rounded-2xl bg-muted sm:aspect-4/5 lg:aspect-4/5 lg:min-h-[680px]" />
           <div className="flex gap-3">
             {Array.from({ length: 4 }).map((_, i) => (
               <div key={i} className="h-20 w-20 animate-pulse rounded-xl bg-muted" />
