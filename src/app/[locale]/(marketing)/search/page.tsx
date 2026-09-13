@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 import { SearchContainer } from '@/components/search/SearchContainer';
 
 export const metadata: Metadata = {
-  title: 'Tìm Kiếm Hải Sản Tươi Sống — Hải Sản Phan Thiết',
+  title: 'Tìm Kiếm Hải Sản Tươi Sống',
   description:
     'Tìm kiếm sản phẩm hải sản tươi sống đánh bắt tự nhiên từ vùng biển Phan Thiết. Đơn hàng giao tốc độ 2H tại TP.HCM.',
 };

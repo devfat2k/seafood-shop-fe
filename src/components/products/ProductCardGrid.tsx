@@ -10,7 +10,7 @@ import type { ProductCardItem, ProductCardProps } from './productCardTypes';
 
 export const ProductCardGrid = <T extends ProductCardItem>(props: ProductCardProps<T>) => {
   const { product, onAddToCart, onQuickView } = props;
-  const { id, name, price, originalPrice, unit, image, category, origin, rating, badges, inStock } =
+  const { id, name, price, originalPrice, unit, image, category, origin, rating, inStock } =
     product;
 
   const isInStock = inStock !== false;
@@ -20,8 +20,6 @@ export const ProductCardGrid = <T extends ProductCardItem>(props: ProductCardPro
 
   const displayRating = typeof rating === 'number' && rating > 0 ? rating : 4.9;
   const metaCategory = category || 'Hải sản tươi sống';
-  const cardBadge = isInStock ? (badges?.find((b) => b !== 'TẠM HẾT') ?? 'TƯƠI SỐNG') : 'TẠM HẾT';
-
   return (
     <div className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-border/70 bg-card p-4 shadow-[0_4px_16px_-4px_rgba(11,74,92,0.06)] transition-all duration-300 hover:-translate-y-1.5 hover:border-secondary/40 hover:shadow-[0_20px_40px_-10px_rgba(11,74,92,0.14)]">
       <div>
@@ -29,7 +27,6 @@ export const ProductCardGrid = <T extends ProductCardItem>(props: ProductCardPro
           id={id}
           name={name}
           image={image}
-          badge={cardBadge}
           origin={origin}
           discountPercent={discountPercent}
           onQuickView={

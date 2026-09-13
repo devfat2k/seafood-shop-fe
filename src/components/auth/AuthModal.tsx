@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useState } from 'react';
 import { AuthLoginForm } from '@/components/auth/AuthLoginForm';
 import { AuthRegisterForm } from '@/components/auth/AuthRegisterForm';
@@ -71,8 +72,15 @@ export function AuthModal(props: AuthModalProps) {
           </button>
 
           <div className="text-center">
-            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-primary/10 text-primary">
-              <Icon name="lock" size="lg" />
+            <div className="relative mx-auto mb-2 flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full border border-border/80 bg-card shadow-xs">
+              <Image
+                src="/assets/images/logo.png"
+                alt="Hải Sản Phan Thiết Logo"
+                width={64}
+                height={64}
+                priority
+                className="h-full w-full object-cover"
+              />
             </div>
 
             <h2 className="mt-4 font-heading text-2xl font-bold text-foreground">

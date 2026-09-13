@@ -1,7 +1,7 @@
 import { SystemMonitoringPanel } from '@/components/admin/system/SystemMonitoringPanel';
 
 export const metadata = {
-  title: 'Đồng Bộ & Trạng Thái Hệ Thống | Seafood Shop Admin',
+  title: 'Đồng Bộ & Giám Sát Hệ Thống',
 };
 
 export default function AdminSystemPage() {

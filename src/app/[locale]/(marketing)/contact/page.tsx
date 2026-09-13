@@ -7,7 +7,7 @@ type ContactPageProps = {
 };
 
 export const metadata: Metadata = {
-  title: 'Liên Hệ & Hỗ Trợ Khách Hàng | Hải Sản Phan Thiết',
+  title: 'Liên Hệ & Hỗ Trợ Khách Hàng',
   description: 'Liên hệ hotline 1900 6868, địa chỉ kho TP.HCM và cảng cá Phan Thiết. Hỗ trợ 24/7.',
 };
 
